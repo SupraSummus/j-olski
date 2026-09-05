@@ -29,8 +29,8 @@ def jednostki(text: str) -> list[Jednostka]:
 # --------------------------------------------------------------------------- #
 
 USAGE = """
-  python3 -m harness.python olski/ --into prose/            a package
-  python3 -m harness.python olski/werdykt.py --into prose/  one module
+  python3 -m harness.python olski/ --into prose/                   a package
+  python3 -m harness.python olski/werdykt/zdanie.py --into prose/  one module
 """
 
 

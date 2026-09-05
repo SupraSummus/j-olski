@@ -250,7 +250,7 @@ Powód przekładu zeszedł przez to do samego znaczka:
 reguła językowa obejmuje wydruk narzędzia,
 a nie słowo, po którym pomiar nazywa swoją kolumnę.
 Do rozstrzygnięcia jest przy tym `Result.status` w `olski/parse/podsumowanie.py`
-obok `Verdict.status` w `olski/werdykt.py`:
+obok `Verdict.status` w `olski/werdykt/zdanie.py`:
 nazwy właściwości zostają angielskie przy polskich wartościach,
 czyli daje to mieszaninę, której nazwy symboli nie mają
 (`DEKLARACJA` w `olski/subset/deklaracja.py`).

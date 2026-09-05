@@ -43,7 +43,7 @@ Dwie warstwy powtarzają się w obu torach.
 | składnia | `olski/grammar.py`, `olski/parse/` | krawędzie grafu | `Node`, po jednym na czytanie |
 | znaczenie | `abstrahuj` w `olski/skład/rozbiór.py` | `Node` | `Odczyt`, czyli drzewa `Zdanie` wraz z powodami |
 | tekst | `olski/rozstrzyganie.py`, `olski/odniesienia.py` | wybory wraz z `Sąsiedztwo`, zaimki wraz ze zdaniem obok | `Rozstrzygnięcie` albo wybór z powrotem, `Odniesienie` przy zaimku |
-| werdykt | `Verdict` w `olski/werdykt.py` | `Result` | status, role i to, co zostało otwarte |
+| werdykt | `Verdict` w `olski/werdykt/zdanie.py` | `Result` | status, role i to, co zostało otwarte |
 
 Nazwy trzeciej i czwartej warstwy nie są nazwami mechanizmu, a poziomu,
 na którym pytanie o wieloznaczność przestaje mieć tę samą odpowiedź.

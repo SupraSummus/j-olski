@@ -253,7 +253,7 @@ co po drodze odpadło, a powód powstaje tam, gdzie kandydat odpada:
 zgłoszeniem, gdy brakuje kategorii, komunikatem morfologii, gdy brakuje formy,
 odmową ramy, gdy leksykon nie daje czasownikowi pozycji, którą kandydat zajął,
 i napisem, który wyszedł, gdy wyszedł inny.
-Pyta o to samo, co `explain` w `olski/werdykt.py` po tamtej stronie,
+Pyta o to samo, co `explain` w `olski/werdykt/zdanie.py` po tamtej stronie,
 i jest potrzebne z tego samego powodu:
 lista wylicza przyczyny, a nie mówi, na którą trafiło to jedno zdanie.
 Rozdziela ona przy tym dwie pustki, których nazwać inaczej nie ma czym,

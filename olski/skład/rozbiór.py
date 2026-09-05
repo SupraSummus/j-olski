@@ -974,7 +974,7 @@ def rozbierz(zdanie: str, kontekst: Kontekst = TERAZ) -> Odczyt:
 
     Wieloznaczność napisu wychodzi tędy jako kilka drzew i nic jej nie odsiewa,
     bo pytanie jest tu o to, co autor mógł napisać, a nie o werdykt:
-    werdykt wydaje ``olski/werdykt.py`` i wydaje go czytelnikowi tekstu.
+    werdykt wydaje ``olski/werdykt/`` i wydaje go czytelnikowi tekstu.
     Drzewo powtórzone przez dwa czytania stoi raz,
     bo dwa razy to samo nie jest dwiema odpowiedziami.
 

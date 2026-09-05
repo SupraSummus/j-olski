@@ -65,7 +65,7 @@ def test_kod_jeden_dostaje_znalezisko_a_wieloznaczność_i_odrzucenie_nie(capsys
 
     Zdanie wieloznaczne dostaje wiersz z odczytaniami i kod zero,
     bo wieloznaczność jest odpowiedzią, a nie znaleziskiem
-    (`ZNALEZISKA` w `olski/werdykt.py`); zdanie poza gramatyką nie dostaje ani
+    (`ZNALEZISKA` w `olski/werdykt/tekst.py`); zdanie poza gramatyką nie dostaje ani
     wiersza, ani kodu.
     """
     assert olski.check.main(["-c", "Program otwierający się psuje."]) == 0

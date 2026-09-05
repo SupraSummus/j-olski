@@ -36,7 +36,7 @@ Komunikat werdyktu jest napisem wpisanym w kod, a repozytorium ma tor,
 który polskie zdanie składa z drzewa,
 więc werdykt mógłby być pierwszym konsumentem tego toru:
 formę po liczebniku liczyłaby wtedy morfologia,
-a nie tabela na trzy przedziały w `_odczytań` w `olski/werdykt.py`.
+a nie tabela na trzy przedziały w `_odczytań` w `olski/werdykt/zdanie.py`.
 Wpis stoi zaparkowany za wpisem o pozycjach, których skład nie ma,
 bo liczebnik jest jedną z nich,
 a bez liczebnika nie wyjdzie z drzewa ani jeden wiersz tego werdyktu.
@@ -46,7 +46,7 @@ a drzewo składu nie ma pozycji na napis, którego się nie odmienia.
 Skład zgłasza przy tym `BrakFormy` oraz `PozaRamą` nad drzewem,
 którego nie umie zrealizować, a werdykt wypisuje się nad każdym zdaniem,
 więc komunikat z drzewa dokłada gałąź na wypadek, którego napis nie ma.
-Do przeczytania jest `explain` w `olski/werdykt.py`,
+Do przeczytania jest `explain` w `olski/werdykt/zdanie.py`,
 bo część jego wierszy jest polskim zdaniem, a część listą par i liczbą,
 czyli rozstrzygnąć trzeba i to, ile z tego wydruku skład bierze.
 

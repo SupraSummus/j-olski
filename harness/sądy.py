@@ -204,7 +204,7 @@ def _klasa(sąd: Sąd, pada: bool, czytane: bool) -> str:
 def kształt(verdict: Verdict) -> str:
     """Czym różnią się czytania zdania wieloznacznego, tak jak nazywa to werdykt.
 
-    Trzy składniki idą za trzema wierszami ``explain`` w ``olski/werdykt.py``:
+    Trzy składniki idą za trzema wierszami ``explain`` w ``olski/werdykt/zdanie.py``:
     przyłączenie nierozstrzygnięte, rola obsadzona inaczej i konstytuent o kilku
     czytaniach, ten ostatni z każdej rozbieżności, którą werdykt wypisuje, a nie
     tylko z tych, którym różnią się streszczenia. Rola wyrażenia przyimkowego nie

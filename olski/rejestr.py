@@ -67,7 +67,7 @@ def pozycje(kwalifikatory: Iterable[str]) -> tuple[str, ...]:
 
     Nazwy, a nie liczba, bo pyta o nie i las, który po nich porządkuje czytania,
     i rachunek, który pod czytaniem wypisuje, za co ono płaci
-    (``Verdict.rachunki`` w ``olski/werdykt.py``). Cenę ma na własność cennik,
+    (``Verdict.rachunki`` w ``olski/werdykt/zdanie.py``). Cenę ma na własność cennik,
     a to, które kwalifikatory odsyłają, ten plik.
     """
     return (cennik.FORMA_SPOZA_REJESTRU,) if poza_rejestrem(kwalifikatory) else ()

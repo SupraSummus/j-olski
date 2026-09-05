@@ -299,7 +299,7 @@ def test_niejasne_odniesienie_liczy_się_do_znalezisk_a_wieloznaczność_nie():
     """Usterka, którą to łapie: znalezisko policzone przez wydruk, a wydruki są dwa.
 
     Do kodu wyjścia idzie zaimek, a wieloznaczność zostaje w swoim liczniku
-    (`ZNALEZISKA` w `olski/werdykt.py`), więc pytamy o obie liczby naraz.
+    (`ZNALEZISKA` w `olski/werdykt/tekst.py`), więc pytamy o obie liczby naraz.
     """
     podsumowanie = Podsumowanie.ze_zdań(nad_tekstem("Maki rosną w garnkach. Są one czerwone."))
     assert podsumowanie.niejasnych_odniesień == 1

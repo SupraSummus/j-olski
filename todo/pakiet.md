@@ -1,17 +1,17 @@
 # Pakiet, instalacja i testy
 
-Trzy warstwy toru gramatycznego mają własny pakiet
-(`olski/parse/`, `olski/subset/`, `olski/skład/`),
+Cztery warstwy toru gramatycznego mają własny pakiet
+(`olski/parse/`, `olski/subset/`, `olski/skład/`, `olski/werdykt/`),
 a dwie leżą luzem w `olski/`:
 morfologia w czterech modułach, które wylicza tabela w
 [`docs/architecture.md`](../docs/architecture.md#pięć-warstw-toru-gramatycznego),
-oraz to, co nad parserem, czyli `olski/werdykt.py`, `olski/rozstrzyganie.py`,
+oraz to, co nad parserem, czyli `olski/rozstrzyganie.py`,
 `olski/odniesienia.py`, `olski/pokrycie.py` i `olski/check.py`.
 Obok nich leżą moduły, którym tabela nie przypisuje żadnej warstwy,
 a `olski/lematy.py` mówi w docstringu, że pyta o niego więcej niż jedna.
 Usterką to nie jest, bo granica warstwy jest tam granicą modułu albo pakietu,
 a import między pakietami idzie w jedną stronę.
-Ruchem jest osobny pakiet dla morfologii, na wzór tamtych trzech,
+Ruchem jest osobny pakiet dla morfologii, na wzór tamtych czterech,
 a nie przebieg po całym wierzchu.
 Podejmuje go dopiero sesja, która tej warstwie dopisuje moduł
 albo i tak przemianowuje jej ścieżki.

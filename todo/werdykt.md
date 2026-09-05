@@ -21,7 +21,7 @@ Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
 bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
 
 Grupa imienna rozbieżna zostaje bez listy czytań, bo streszczenie nie ma w niej czego nazwać.
-`Verdict.rozbieżne` w `olski/werdykt.py` wypuszcza konstytuent,
+`Verdict.rozbieżne` w `olski/werdykt/zdanie.py` wypuszcza konstytuent,
 którego streszczenia naprawdę się różnią, czyli zdanie podrzędne, a grupy imiennej nie:
 `describe` w `olski/parse/streszczenie.py` szuka ról zdania, a grupa imienna żadnej nie nosi,
 więc oba jej kształty streszczają się pustym słownikiem.
@@ -136,7 +136,7 @@ zabrakło podmiotu, a nie to, w którym zabrano czytanie
 ([`docs/warstwa-leksykalna.md`](../docs/warstwa-leksykalna.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony)).
 Kierunek `wpuszczane` umie przez to napisać ten, kto już wie, co napisać.
 Ruchem jest wiersz wykazu morfologii o czytaniu zdjętym przez wykluczenie.
-Do przeczytania jest przedtem `Verdict.morfologia` w `olski/werdykt.py`,
+Do przeczytania jest przedtem `Verdict.morfologia` w `olski/werdykt/zdanie.py`,
 bo wykaz ten wypisuje czytania, które do rozbioru weszły,
 a odpowiedzi trzeba tu o czytanie, którego w nim nie ma.
 
@@ -158,7 +158,7 @@ Napisów `"podmiot"` jest w kodzie 112, z czego większość stoi w testach
 i część z nich pyta o wydruk, czyli ma zostać po staremu;
 każde wystąpienie żąda więc osądu, po której stronie granicy stoi, a nie zamiany.
 Drugą rzeczą jest to, że przekład przestaje być miejscowy:
-dzisiaj `_po_szkolnemu` w `olski/werdykt.py` rusza samo zdanie z łącznikiem,
+dzisiaj `_po_szkolnemu` w `olski/werdykt/zdanie.py` rusza samo zdanie z łącznikiem,
 a nad nazwą `subj` musiałby przekładać każde streszczenie, bo każde ją niesie.
 Trzecią jest `dopełnienie`, które przychodzi z `np(acc)` tą samą drogą:
 przemianowanie samego podmiotu zostawia je słowem szkolnym o zakresie GFJP,
@@ -264,7 +264,7 @@ a przebieg ten trzeba puścić z warunkiem zdjętym i z zawężonym,
 bo różnica między nimi jest całą mierzoną rzeczą.
 
 Werdykt nie niesie segmentów, więc nad jednym napisem segmentacja idzie drugi raz.
-`dalsze_zatrzymania` w `olski/werdykt.py` woła `morphology` nad `Verdict.text` ponownie,
+`dalsze_zatrzymania` w `olski/werdykt/zdanie.py` woła `morphology` nad `Verdict.text` ponownie,
 a pod `--morfologia` woła ją tam jeszcze `_morfologia_zdania`;
 obie tłumaczą się z tego własnym zdaniem wskazującym na `werdykt`.
 `werdykt` mówi jednak tylko, czemu segmenty przychodzą do niego argumentem,
@@ -274,7 +274,7 @@ Ruchem jest pole na segmenty w `Verdict`, a obok niego krawędź zatrzymania
 w miejsce samej jej formy: odpadają wtedy oba wołania
 oraz `na_czym_stanęło` liczone drugi raz.
 Ceną jest pamięć, bo werdyktów trzyma się tyle, ile dokument ma zdań
-(`nad_tekstem` w tym samym pliku), a segment niesie każde odczytanie swojej formy;
+(`nad_tekstem` w `olski/werdykt/tekst.py`), a segment niesie każde odczytanie swojej formy;
 tym samym argumentem `werdykt` porzuca las.
 Czasu ruch ten nie kupuje prawie wcale,
 bo segmentacja jednego zdania waży drobny ułamek jego rozbioru,
@@ -284,7 +284,7 @@ bo cena jest tu jedynym argumentem, a nikt jej nie zmierzył.
 
 Kropka bez odstępu za nią jest naprawą jednego znaku i jako jedyna nie ma kształtu.
 Napis niedomknięty i zdanie cytujące spoza rejestru dostają poprawkę
-poświadczoną rozbiorem (`Naprawa` w `olski/werdykt.py`),
+poświadczoną rozbiorem (`Naprawa` w `olski/werdykt/odrzucone.py`),
 a `niska.Cena` wychodzi zatrzymaniem na formie,
 która z pomyłką autora nie ma nic wspólnego.
 Poza tę klasę wypadła przez rachubę zdań:

@@ -91,7 +91,7 @@ def describe(node: Node, deklaracja: Deklaracja) -> tuple[dict[str, str], ...]:
     (:func:`_streszcz`), więc dwa czytania różne miejscem drugiego okolicznika
     tej samej roli wychodzą stąd jednym napisem.
     Streszczeń wychodzi przez to nie więcej niż czytań, bo powtórzone na listę
-    nie wchodzi (``Verdict.readings`` w ``olski/werdykt.py``);
+    nie wchodzi (``Verdict.readings`` w ``olski/werdykt/zdanie.py``);
     zdanie, którego to nie rozstrzyga, rozstrzyga :meth:`Decyzje.przyłączenia`,
     gdzie wpisów jest tyle, ile nierozstrzygniętych wyborów.
 
@@ -155,7 +155,7 @@ def streszczone(
 
     Odsiew ze :func:`streszczenia` jest tu jeden na oba pytania, bo werdykt pyta
     o jedno i drugie: o same streszczenia i o to, czym forma stoi pod każdym z
-    nich (``Verdict.morfologia`` w ``olski/werdykt.py``). Napisany dwa razy
+    nich (``Verdict.morfologia`` w ``olski/werdykt/zdanie.py``). Napisany dwa razy
     rozjechałby się po cichu i wtedy morfologia opisywałaby inne streszczenie
     niż to, które nad nią wypisano.
 
@@ -181,7 +181,7 @@ def w_zakresie(
 
     Rolę przypisuje zakresowi jej początek, a nie cała rozpiętość, i mówi to
     :func:`_streszcz`. Pytają o to dwa podsumowania — streszczenie oraz wiersz
-    żądania (``olski/werdykt.py``) — więc kryterium jest jedno: oba mówią o tym
+    żądania (``olski/werdykt/wykazy.py``) — więc kryterium jest jedno: oba mówią o tym
     samym zdaniu składowym i wiersz jednego ma stać obok wiersza drugiego.
     """
     return [

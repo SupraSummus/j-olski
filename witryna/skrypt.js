@@ -90,7 +90,7 @@ const MIĘDZY_ODCZYTANIAMI = " | ";
 
 //  Podpis nazywa dwie różne rzeczy: pod zdaniem z odczytaniem odczytania
 //  odsiane tym odczytaniem, a pod zdaniem bez niego wszystkie, jakie forma ma
-//  (`Verdict.morfologia` w `olski/werdykt.py`). Pyta więc o czytania zdania,
+//  (`Verdict.morfologia` w `olski/werdykt/zdanie.py`). Pyta więc o czytania zdania,
 //  a nie o długość samej listy wpisów.
 function podpisMorfologii(dane) {
   if (!dane.czytania.length) return "lematy i znaczniki form";

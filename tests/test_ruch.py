@@ -184,7 +184,7 @@ def test_napis_bez_znaku_kończącego_nie_wchodzi_do_mianownika_przebiegu_nad_pr
 
     Liczy się tu sam brak znaku, a nie werdykt: napisów bez znaku są dwa rodzaje,
     bo jeden z nich olski po domknięciu czyta, a oba stoją poza mianownikiem
-    (`Verdict.punktowane` w `olski/werdykt.py`).
+    (`Verdict.punktowane` w `olski/werdykt/zdanie.py`).
     """
     raport = nad_prozą(płaski.PRZYSŁÓWEK_SONDA, PROZA)
     assert raport.pominięte == {"fragment, a nie zdanie": 2}

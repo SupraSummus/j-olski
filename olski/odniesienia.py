@@ -1,7 +1,7 @@
 """Zaimek, który wskazuje na dwie rzeczy naraz.
 
 Wieloznaczność, którą liczy werdykt, kończy się na kropce:
-mówi ona, ile kształtów ma jedno zdanie (``olski/werdykt.py``).
+mówi ona, ile kształtów ma jedno zdanie (``olski/werdykt/zdanie.py``).
 Zaimek trzeciej osoby wychodzi poza tę granicę,
 bo rzecz, na którą wskazuje, nazwało zdanie wcześniejsze,
 a rozbiór zdania z zaimkiem o tamtym zdaniu nic nie wie.
