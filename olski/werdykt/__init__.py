@@ -42,6 +42,7 @@ from __future__ import annotations
 from olski.werdykt.odrzucone import Naprawa, zatrzymania
 from olski.werdykt.tekst import (
     ODNIESIENIE,
+    ODNIESIENIE_W_ZDANIU,
     POPRAWKA,
     WIELOZNACZNE,
     ZGŁOSZENIA,
@@ -70,6 +71,7 @@ __all__ = [
     "NIEDOMKNIĘTE",
     "niespełnione_żądania",
     "ODNIESIENIE",
+    "ODNIESIENIE_W_ZDANIU",
     "OdczytaniaFormy",
     "Podsumowanie",
     "POPRAWKA",

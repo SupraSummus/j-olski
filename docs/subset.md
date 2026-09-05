@@ -545,8 +545,10 @@ bo gramatyka wypisuje wszystkie czytania, jakie zdanie ma.
 Zaimek melduje się rzadko: ta sama komenda puszczona na prozę tego repozytorium
 zgłasza go raz na kilkadziesiąt zdań czytanych,
 bo rzeczy podaje samo zdanie obok, a zaimek rozstrzygnięty na miejscu milczy.
-Sądu czytelnika nad tym znaleziskiem baza sądów jeszcze nie ma,
-więc znaleziskiem jest ono na kredyt tej częstości.
+Sądu czytelnika nad zgłoszeniem, które ta reguła wydaje, baza sądów jeszcze nie ma,
+więc znaleziskiem jest ono na kredyt tej częstości;
+sądy, które w bazie stoją, są o rozszerzeniu tej reguły
+([niżej](#rzeczy-z-tego-samego-zdania-czekają-za-flagą)).
 
 Kandydatów ubywa przy tym tam, gdzie gramatyka zdania obok nie wyprowadza,
 i ubywa ich wyłącznie w jedną stronę:
@@ -568,6 +570,50 @@ które `CLAUDE.md` wylicza jako usterkę.
 Zgłasza je osobna warstwa i osobnym kształtem, bo nie ma tam czego wyliczać:
 zdanie podjęte przez ten zaimek rzeczą nie jest, więc kandydatów nie ma
 ([linter.md](linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
+
+## Rzeczy z tego samego zdania czekają za flagą
+
+Cięcie na kropce nie jest cięciem, które robi czytelnik.
+`Pies gonił kota, a on uciekł.` stawia go przed tym samym wyborem
+co para zdań wyżej, a rzeczy stoją tam w składowym obok, nie w zdaniu obok.
+Zaimek dzierżawczy sięga jeszcze bliżej, bo podejmuje rzecz nazwaną w swoim składowym:
+`Jan poprosił Piotra o jego samochód.` nie odsyła do żadnego zdania wcześniejszego,
+a wybór między Janem a Piotrem zostawia czytelnikowi.
+
+Rozszerzenie, które te dwa zdania zgłasza, stoi za flagą
+(`w_zdaniu` w `olski/odniesienia.py`).
+Kawałkiem jest w nim zdanie składowe: najpierw własne, w części przed zaimkiem,
+potem składowe stojące przed nim, jedno po drugim wstecz, a na końcu zdanie obok;
+rozstrzyga pierwszy z nich, który nazywa cokolwiek zgodnego z zaimkiem.
+Reguła dzisiejsza jest tym samym przebiegiem, w którym kawałek własnego zdania
+rozstrzyga milczeniem zamiast listą rzeczy.
+
+Za flagą rozszerzenie zostaje dlatego, że sądy czytelnika go nie awansowały.
+Nad prozą NKJP wydaje ono trafienia, których reguła dzisiejsza nie ma;
+czterdzieści z nich przeczytano i trafne są trzy
+(`próba/nkjp-sądy.txt`, a wypisuje je `harness/sądy.py --nowe`).
+Trafienia te noszą własną nazwę — `niejasne odniesienie w zdaniu` —
+więc baza ocenia dwie reguły osobno i nie miesza ich w jednej liczbie,
+a kod wyjścia nazwy spod flagi nie widzi.
+Fałszywe są w większości jednym z czterech kształtów,
+i to one nazywają, co trzeba zawęzić przed następnym podejściem:
+kandydatem bywa druga głowa tej samej grupy — `radny Mitkiewicz`, `lewą nogą` —
+czyli jedna rzecz policzona dwa razy;
+bywa nim spójnik albo przyimek, który morfologia czyta też jako rzeczownik — `Kiedy`, `Od`;
+bywa nim podmiot własnego składowego, którego zaimek dzierżawczy wyklucza,
+bo o podmiocie mówi się `swój`;
+a bywa nim rzecz, której nikt nie podejmuje, bo zdanie orzeka o niej co innego —
+`nad ich szczebiotem` po `W gałęziach nawołują ptaki`.
+Trzy pierwsze kształty zdejmuje zawężenie, a czwarty, którym jest ich większość,
+nie schodzi żadnym, bo rozstrzyga o nim znaczenie, a nie zgodność.
+Trzy trafne mówią, po co to rozszerzenie wraca:
+`Na centralnie umieszczonym bolcu osadzamy krążek i dopiero wtedy naklejamy na nim
+gotową etykietę.` nie mówi, na czym etykieta staje.
+
+Sonda oceniająca puszcza flagę zawsze, i to jest jedyne miejsce, które ją włącza:
+baza sądów jest tym, co rozstrzyga o awansie,
+więc reguła czekająca na awans musi mieć czym trafienia wydać
+([linter.md](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
 
 ## What the grammar covers
 

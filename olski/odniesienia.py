@@ -3,7 +3,7 @@
 Wieloznaczność, którą liczy werdykt, kończy się na kropce:
 mówi ona, ile kształtów ma jedno zdanie (``olski/werdykt/zdanie.py``).
 Zaimek trzeciej osoby wychodzi poza tę granicę,
-bo rzecz, na którą wskazuje, nazwało zdanie wcześniejsze,
+bo rzecz, na którą wskazuje, nazywa czasem dopiero zdanie wcześniejsze,
 a rozbiór zdania z zaimkiem o tamtym zdaniu nic nie wie.
 Werdykt nad `Są one czerwone.` jest przez to ten sam po `Widzimy pole maków.`
 i po `Maki rosną w garnkach.`,
@@ -16,7 +16,8 @@ Zaimek dostaje zgłoszenie wtedy, gdy zdanie obok nazywa dwie rzeczy albo więce
 a każda z nich zgadza się z nim liczbą i rodzajem.
 Co to znalezisko mówi autorowi i jakie zaimki bierze, trzyma
 docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem.
-Tutaj stoją trzy warunki, których z kodu nie widać, i cena każdego z nich.
+Tutaj stoją trzy warunki, których z kodu nie widać, cena każdego z nich
+oraz rozszerzenie, które czeka za flagą.
 
 **Rzecz nazywa najszersza grupa imienna, a nie każdy rzeczownik pod nią.**
 `duże pole maków` nazywa pole, a `maków` jest w nim określeniem.
@@ -28,33 +29,46 @@ Tu widać, czego ta warstwa żąda od rozbioru:
 morfologia mówi, że `pole` i `maków` są rzeczownikami,
 a która z tych dwóch form jest głową grupy, mówi dopiero drzewo.
 
-**Granicą jest zdanie obok, a nie akapit.**
+**Rzeczy podaje pierwszy kawałek tekstu przed zaimkiem, który cokolwiek nazywa.**
+Kawałkiem jest zdanie składowe: najpierw własne, w części stojącej przed zaimkiem,
+potem składowe stojące przed nim w tym samym zdaniu, jedno po drugim wstecz,
+a na końcu zdanie obok.
+Kawałek własnego zdania rozstrzyga milczeniem, a nie listą rzeczy,
+i to jest wstrzymanie się nad zaimkiem rozstrzygniętym na miejscu:
+`Pierwsze ma jedno odczytanie, więc autor nie ma w nim czego wybierać.`
+nie odsyła czytelnika do zdania obok, bo `autor` stoi przed `nim` i zgadza się z nim,
+a sięganie dalej byłoby zgadywaniem, którego czytelnik nie wykonuje.
+Wstrzymanie się jest tu odpowiedzią pełnoprawną
+(docs/linter.md#abstention-is-allowed) i płaci się je milczeniem:
+wśród zdjętych zgłoszeń jest `Olski go nie czyta i o jego polszczyźnie milczy.`,
+gdzie kandydatem miejscowym jest sam podmiot zdania,
+a rzecz podejmowana stoi w zdaniu obok.
+Zawężenia, po którym `Olski` przestaje być kandydatem, nikt nie napisał.
+
+**Granicą sięgania wstecz jest zdanie obok, a nie akapit.**
 Bierzemy ją stamtąd, skąd bierze ją druga strona:
 ``olski/skład/opowieść.py`` opuszcza podmiot tylko wtedy,
 gdy o rzeczy była mowa w zdaniu obok.
 Kandydaci z całego akapitu byliby przez to szersi niż to,
 co druga strona uznaje za rzecz podaną czytelnikowi.
 
-**Zaimek rozstrzygnięty we własnym zdaniu zgłoszenia nie dostaje.**
-`Pierwsze ma jedno odczytanie, więc autor nie ma w nim czego wybierać.`
-nie odsyła czytelnika do zdania obok,
-bo `Pierwsze` stoi przed `nim` i zgadza się z nim;
-sięganie dalej byłoby zgadywaniem, którego czytelnik nie wykonuje.
-Wstrzymanie się jest tu odpowiedzią pełnoprawną
-(docs/linter.md#abstention-is-allowed) i płaci się je milczeniem:
-nad prozą tego repozytorium zdejmuje ono więcej zgłoszeń, niż zostawia,
-a wśród zdjętych jest `Olski go nie czyta i o jego polszczyźnie milczy.`,
-gdzie kandydatem miejscowym jest sam podmiot zdania,
-a rzecz podejmowana stoi w zdaniu obok.
-Warunek zostaje mimo to, bo zdejmuje w większości trafienia chybione,
-a chybione kosztuje więcej:
-autor przepisuje przez nie zdanie bez powodu (docs/roadmap.md#cele).
-Zawężenia, po którym `Olski` przestaje być kandydatem, nikt nie napisał.
-
 Wszystkie trzy warunki mylą się w jedną stronę: zdejmują kandydatów,
 a nie dokładają ich, i tak samo myli się zdanie obok,
 którego gramatyka nie wyprowadza wcale.
 Na tej asymetrii stoi decyzja o zaimku bez ani jednego kandydata.
+
+**Za flagą ``w_zdaniu`` kawałek własnego zdania wydaje rzeczy zamiast milczeć.**
+Zaimek dostaje wtedy zgłoszenie i tam, gdzie dwie rzeczy nazywa składowe obok —
+`Pies gonił kota, a on uciekł.` —
+i tam, gdzie nazywa je własne składowe zaimka dzierżawczego —
+`Jan poprosił Piotra o jego samochód.`
+Rozszerzenie stoi za flagą, bo sądy czytelnika go nie awansowały:
+przeczytane trafienia nad NKJP są w większości fałszywe
+(docs/subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą).
+Zgłoszenie spod flagi nosi własną nazwę
+(:data:`olski.werdykt.ODNIESIENIE_W_ZDANIU`), więc baza sądów ocenia dwie reguły
+osobno, a kod wyjścia tej nazwy nie liczy;
+przebieg, który tych trafień żąda, jest sondą oceniającą (``harness/sądy.py``).
 """
 
 from __future__ import annotations
@@ -64,7 +78,7 @@ from dataclasses import dataclass, field
 
 from olski.document import Document
 from olski.morph import Reading, zgadza
-from olski.parse import Leaf, Node, Result, Tree, liście
+from olski.parse import Leaf, Node, Result, Tree, liście, zakresy
 from olski.subset import DEKLARACJA
 
 #: Część mowy zaimka trzeciej osoby: `on`, `ona`, `ono`, `oni`, `one`
@@ -86,24 +100,29 @@ ZGODNE = ("number", "gender")
 
 @dataclass(frozen=True)
 class Odniesienie:
-    """Zaimek wraz z rzeczami, na które w zdaniu obok może wskazywać.
+    """Zaimek wraz z rzeczami, na które może wskazywać.
 
     Rzeczy nazwane są formą, tak jak :class:`olski.parse.Przyłączenie` nazywa
-    gospodarzy: autor ma je odszukać w zdaniu obok, a stoją tam właśnie w tej formie.
+    gospodarzy: autor ma je odszukać w tekście, a stoją tam właśnie w tej formie.
     """
 
     #: Zaimek tak, jak stoi w zdaniu.
     zaimek: str
-    #: Formy rzeczy, które się z nim zgadzają, ustawione tak jak w zdaniu obok.
+    #: Formy rzeczy, które się z nim zgadzają, ustawione tak jak w kawałku,
+    #: z którego wyszły.
     rzeczy: tuple[str, ...]
+    #: Czy rzeczy stoją w zdaniu zaimka, czy w zdaniu obok. Rozdziela to dwie
+    #: reguły, bo pierwszą z nich wydaje samo rozszerzenie za flagą, a baza sądów
+    #: ocenia je osobno (:data:`olski.werdykt.ODNIESIENIE_W_ZDANIU`).
+    w_zdaniu: bool
 
 
 @dataclass
 class _Rzecz:
-    """Rzecz nazwana w zdaniu obok: forma, którą się ją wypisuje, i czym ona jest.
+    """Rzecz nazwana w kawałku tekstu: forma, którą się ją wypisuje, i czym ona jest.
 
     Lematy zbierają się dlatego, że jedna rzecz nazwana dwa razy jest jedną rzeczą:
-    `Maki` i `maków` w jednym zdaniu nie stawiają czytelnika przed wyborem,
+    `Maki` i `maków` w jednym kawałku nie stawiają czytelnika przed wyborem,
     a policzone osobno dałyby zgłoszenie nad każdym zdaniem,
     które o czymś mówi dwa razy.
     """
@@ -113,7 +132,9 @@ class _Rzecz:
     odczytania: list[Reading] = field(default_factory=list)
 
 
-def niejasne_odniesienia(text: str, wyniki: Sequence[Result]) -> list[tuple[Odniesienie, ...]]:
+def niejasne_odniesienia(
+    text: str, wyniki: Sequence[Result], w_zdaniu: bool = False
+) -> list[tuple[Odniesienie, ...]]:
     """Zgłoszenia o zaimkach, po jednej krotce na zdanie i w kolejności zdań.
 
     Tekstem, a nie samym podziałem, bo tak bierze go druga warstwa tekstowa
@@ -121,52 +142,103 @@ def niejasne_odniesienia(text: str, wyniki: Sequence[Result]) -> list[tuple[Odni
     Zdanie obok wskazuje ostatni z numerów, które podaje
     :attr:`olski.document.Document.wcześniejsze`.
 
+    ``w_zdaniu`` jest flagą rozszerzenia, którego sądy czytelnika nie awansowały;
+    co za nią stoi i czemu domyślnie milczy, trzyma docstring modułu.
+
     Rozbiór, a nie werdykt nad nim: i zaimki, i kandydatów wyjmuje się z czytań,
     a werdykt czyta stąd (:func:`olski.werdykt.nad_tekstem`), więc import
     w tamtą stronę zamykałby krąg.
     """
     return [
-        _zgłoszenia(wynik, wyniki[poprzednie[-1]] if poprzednie else None)
+        _zgłoszenia(wynik, wyniki[poprzednie[-1]] if poprzednie else None, w_zdaniu)
         for wynik, poprzednie in zip(wyniki, Document(text).wcześniejsze, strict=True)
     ]
 
 
-def _zgłoszenia(wynik: Result, obok: Result | None) -> tuple[Odniesienie, ...]:
+def _zgłoszenia(wynik: Result, obok: Result | None, w_zdaniu: bool) -> tuple[Odniesienie, ...]:
     """Zgłoszenia o zaimkach jednego zdania; pusta krotka jest milczeniem.
 
     Zdanie bez zaimka wychodzi stąd po jednym przejściu po liściach, bo takich
-    zdań jest większość, a obie listy niżej kosztują przejście po drzewie.
+    zdań jest większość, a listy niżej kosztują przejście po drzewie.
     """
     zaimki = _zaimki(wynik.readings)
-    if obok is None or not zaimki:
+    if not zaimki:
         return ()
-    rzeczy = _rzeczy(obok.readings)
     własne = list(_głowy(wynik.readings))
-    zgłoszenia = []
-    for zaimek in zaimki:
-        odczytania = [r for r in zaimek.odczytania if r.tag.pos == ZAIMEK]
-        if any(
-            głowa.span[1] <= zaimek.span[0] and zgadza(odczytania, _imienne(głowa), ZGODNE)
-            for głowa in własne
-        ):
-            continue
-        zgodne = [rzecz for rzecz in rzeczy if zgadza(odczytania, rzecz.odczytania, ZGODNE)]
-        if len(zgodne) > 1:
-            zgłoszenia.append(
-                Odniesienie(zaimek.segment.form, tuple(rzecz.forma for rzecz in zgodne))
-            )
-    return tuple(zgłoszenia)
+    granice = _granice(wynik.readings)
+    obce = _rzeczy(_głowy(obok.readings)) if obok is not None else []
+    zgłoszenia = (_odniesienie(zaimek, własne, granice, obce, w_zdaniu) for zaimek in zaimki)
+    return tuple(zgłoszenie for zgłoszenie in zgłoszenia if zgłoszenie is not None)
 
 
-def _rzeczy(czytania: Sequence[Node]) -> list[_Rzecz]:
-    """Rzeczy nazwane w tych czytaniach, każda raz i w kolejności zdania.
+def _odniesienie(
+    zaimek: Leaf,
+    własne: Sequence[Leaf],
+    granice: Sequence[int],
+    obce: Sequence[_Rzecz],
+    w_zdaniu: bool,
+) -> Odniesienie | None:
+    """Zgłoszenie o tym zaimku, albo nic, gdy rzecz jest jedna albo nie ma żadnej.
 
-    Czytań jest kilka tam, gdzie zdanie obok jest wieloznaczne,
-    i wtedy głowa grupy imiennej bywa w każdym z nich inna;
+    Rzeczy podaje pierwszy kawałek przed zaimkiem, który nazywa cokolwiek zgodnego;
+    kawałki idą od najbliższego, a zdanie obok jest ostatnim z nich.
+    Kawałek własnego zdania rozstrzyga milczeniem albo listą rzeczy,
+    i tym jednym różni się rozszerzenie od reguły dzisiejszej;
+    czemu rozstrzyga pierwszy, a nie ich suma, trzyma docstring modułu.
+    """
+    odczytania = [r for r in zaimek.odczytania if r.tag.pos == ZAIMEK]
+    for zakres in _kawałki(granice, zaimek.span[0]):
+        rzeczy = _rzeczy(g for g in własne if zakres[0] <= g.span[0] < zakres[1])
+        if zgodne := _zgodne(odczytania, rzeczy):
+            return _zgłoszenie(zaimek, zgodne, w_zdaniu=True) if w_zdaniu else None
+    return _zgłoszenie(zaimek, _zgodne(odczytania, obce), w_zdaniu=False)
+
+
+def _zgodne(odczytania: Sequence[Reading], rzeczy: Iterable[_Rzecz]) -> list[_Rzecz]:
+    """Te z rzeczy, które zgadzają się z zaimkiem liczbą i rodzajem."""
+    return [rzecz for rzecz in rzeczy if zgadza(odczytania, rzecz.odczytania, ZGODNE)]
+
+
+def _zgłoszenie(zaimek: Leaf, zgodne: Sequence[_Rzecz], w_zdaniu: bool) -> Odniesienie | None:
+    """Zgłoszenie o wyborze, albo nic: rzecz jedna wyboru czytelnikowi nie stawia."""
+    if len(zgodne) < 2:
+        return None
+    return Odniesienie(zaimek.segment.form, tuple(rzecz.forma for rzecz in zgodne), w_zdaniu)
+
+
+def _granice(czytania: Sequence[Node]) -> list[int]:
+    """Początki zdań składowych tego zdania, w porządku zdania.
+
+    Te same, którymi werdykt dzieli zdanie na streszczenia
+    (:func:`olski.parse.zakresy`). Zdanie wieloznaczne bywa podzielone w każdym
+    czytaniu inaczej, więc granice idą ze wszystkich naraz i kawałek jest przez
+    to najmniejszy, jaki którekolwiek czytanie wyznacza; kandydatów ubywa przez
+    to tak samo jak przy trzech warunkach wyżej.
+    """
+    return sorted(
+        {zakres[0] for czytanie in czytania for zakres in zakresy(czytanie, DEKLARACJA.składowe)}
+    )
+
+
+def _kawałki(granice: Sequence[int], początek: int) -> list[tuple[int, int]]:
+    """Kawałki zdania stojące przed tym miejscem, od najbliższego.
+
+    Ostatnią granicą jest samo to miejsce, bo rzecz nazwana za zaimkiem nie jest
+    rzeczą, którą on podejmuje.
+    """
+    cięcia = [*(granica for granica in granice if granica <= początek), początek]
+    return [(cięcia[i], cięcia[i + 1]) for i in reversed(range(len(cięcia) - 1))]
+
+
+def _rzeczy(głowy: Iterable[Leaf]) -> list[_Rzecz]:
+    """Rzeczy nazwane przez te głowy, każda raz i w kolejności zdania.
+
+    Głów jest kilka nad jedną formą tam, gdzie zdanie jest wieloznaczne,
+    i wtedy głowa grupy imiennej bywa w każdym czytaniu inna;
     bierzemy je wszystkie, bo czytelnik też ma je wszystkie do wyboru.
     """
     rzeczy: list[_Rzecz] = []
-    for głowa in _głowy(czytania):
+    for głowa in głowy:
         odczytania = _imienne(głowa)
         lematy = {odczytanie.lemma for odczytanie in odczytania}
         for rzecz in rzeczy:

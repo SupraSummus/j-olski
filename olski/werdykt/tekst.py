@@ -22,7 +22,14 @@ from olski.werdykt.zdanie import Verdict, werdykt
 WIELOZNACZNE = "wieloznaczne"
 POPRAWKA = "poprawka jednego znaku"
 ODNIESIENIE = "niejasne odniesienie"
-ZGŁOSZENIA = (WIELOZNACZNE, POPRAWKA, ODNIESIENIE)
+
+#: Nazwa zgłoszenia spod flagi ``w_zdaniu`` (``olski/odniesienia.py``): rzeczy
+#: stoją w zdaniu zaimka, a nie w zdaniu obok. Nazwa jest osobna, bo baza sądów
+#: ocenia dwie reguły i mieszać ich nie wolno: tamtej sądów jeszcze nie ma,
+#: a ta czeka na awans. Podsumowanie tego zgłoszenia nie liczy i kod wyjścia go
+#: nie widzi (:data:`ZNALEZISKA`), więc flaga nie rusza ani jednej liczby.
+ODNIESIENIE_W_ZDANIU = "niejasne odniesienie w zdaniu"
+ZGŁOSZENIA = (WIELOZNACZNE, POPRAWKA, ODNIESIENIE, ODNIESIENIE_W_ZDANIU)
 
 #: Te zgłoszenia, które są znaleziskiem, czyli mówią autorowi, co poprawić.
 #: Wieloznaczności tu nie ma, bo baza sądów nie potwierdziła ani jednego jej
@@ -67,7 +74,8 @@ class Zdanie:
         obecne = {
             WIELOZNACZNE: bool(self.werdykt.result.ambiguous),
             POPRAWKA: self.werdykt.naprawa is not None,
-            ODNIESIENIE: bool(self.odniesienia),
+            ODNIESIENIE: any(not o.w_zdaniu for o in self.odniesienia),
+            ODNIESIENIE_W_ZDANIU: any(o.w_zdaniu for o in self.odniesienia),
         }
         return tuple(nazwa for nazwa in ZGŁOSZENIA if obecne[nazwa])
 
@@ -77,7 +85,7 @@ class Zdanie:
         return tuple(nazwa for nazwa in self.zgłoszenia if nazwa in ZNALEZISKA)
 
 
-def nad_tekstem(text: str) -> list[Zdanie]:
+def nad_tekstem(text: str, w_zdaniu: bool = False) -> list[Zdanie]:
     """Co narzędzie ma do powiedzenia o tekście: wpis na zdanie, w kolejności zdań.
 
     Wejście jest jedno na oba wyjścia — wiersz poleceń (``olski/check.py``)
@@ -85,6 +93,9 @@ def nad_tekstem(text: str) -> list[Zdanie]:
     środkiem: pierwsze drukuje wiersze, drugie składa JSON. Znalezisko dopisane
     czwarte dochodzi przez to w jednym miejscu i w jednym się liczy
     (:meth:`Podsumowanie.ze_zdań`).
+
+    ``w_zdaniu`` przepuszcza flagę do warstwy zaimkowej i pyta o nią sonda
+    oceniająca, a nie wydruk (``olski/odniesienia.py``).
 
     Sąsiedztwa liczą się zawsze, choć wiersz poleceń pyta o warstwę
     rozstrzygającą dopiero pod flagą: obok rozbioru nie kosztują nic, bo tną
@@ -97,7 +108,7 @@ def nad_tekstem(text: str) -> list[Zdanie]:
         for verdict, sąsiedztwo, odniesienia in zip(
             werdykty,
             sąsiedztwa(text),
-            niejasne_odniesienia(text, [verdict.result for verdict in werdykty]),
+            niejasne_odniesienia(text, [verdict.result for verdict in werdykty], w_zdaniu),
             strict=True,
         )
     ]
