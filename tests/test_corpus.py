@@ -20,7 +20,16 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness.corpus import FULL, Sentence, constituents, parse_forest, pliki, read
-from harness.pomiar import Outcome, main, measure, przebieg, scal, zmierz_zdanie
+from harness.pomiar import (
+    Outcome,
+    main,
+    measure,
+    przebieg,
+    przenumerowane,
+    scal,
+    zmierz_zdanie,
+)
+from olski.morph import Segment
 from olski.parse import parse
 from olski.pokrycie import NO_STRUCTURE, render
 from olski.subset import GRAMMAR
@@ -604,3 +613,47 @@ def test_an_accepted_sentence_with_no_gold_role_is_counted_not_dropped(tmp_path)
     assert sum(report.agreements.values()) == 1
     assert report.unjudged == 1
     assert "no gold role to compare" in render(report, "Składnica")
+
+
+def _wzorcowe(text: str, tokeny: tuple[str, ...], od: int = 10) -> Sentence:
+    """Zdanie banku drzew o tych terminalach, numerowanych od podanego węzła.
+
+    Numeracja nie zaczyna się od zera, bo o to właśnie idzie w
+    :func:`przenumerowane`: wynik ma nosić numery terminali drzewa, a nie te,
+    które Morfeusz nadał własnemu grafowi.
+    """
+    segmenty = tuple(
+        Segment(start=od + numer, end=od + numer + 1, form=forma, readings=())
+        for numer, forma in enumerate(tokeny)
+    )
+    return Sentence(sent_id="t/1-s", text=text, verdict=FULL, segments=segmenty)
+
+
+def test_morfologia_żywa_nosi_numery_terminali_drzewa_a_odczytania_swoje():
+    #  Pod złotą morfologią forma ma jedno odczytanie i nie ma kwalifikatora, bo
+    #  anotator wybrał; pod żywą wraca ich kilka, i to one wyceniają pozycję
+    #  morfologii w cenniku. Rozpiętości mają przy tym dalej znaczyć to, co
+    #  znaczą w drzewie wzorcowym, inaczej złota rola nie nazywa w tym lesie
+    #  żadnej pozycji.
+    zdanie = _wzorcowe(
+        "Program zapisuje ustawienia.", ("Program", "zapisuje", "ustawienia", ".")
+    )
+    żywe = przenumerowane(zdanie)
+    assert [segment.form for segment in żywe] == list(zdanie.tokens)
+    assert [(segment.start, segment.end) for segment in żywe] == [
+        (segment.start, segment.end) for segment in zdanie.segments
+    ]
+    assert max(len(segment.readings) for segment in żywe) > 1
+
+
+def test_zdanie_segmentowane_inaczej_niż_drzewo_nie_dostaje_morfologii_żywej():
+    #  Złożenie przymiotnikowe skleja trzy krawędzie w jedną
+    #  (``złożenie`` w ``olski/segmentacja.py``), a bank drzew pisze je trzema
+    #  terminalami. Rozpiętości nie ma wtedy jak przemianować, bo nie ma ich po
+    #  jednej stronie tyle, co po drugiej, a złota rola sięgająca do węzła, który
+    #  zniknął, wypisywałaby przepadnięcie złotego czytania tam, gdzie ono nawet
+    #  nie było pytane.
+    zdanie = _wzorcowe(
+        "Kokarda biało-amarantowa.", ("Kokarda", "biało", "-", "amarantowa", ".")
+    )
+    assert przenumerowane(zdanie) is None

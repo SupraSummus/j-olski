@@ -6,30 +6,44 @@ do gospodarza przeczytanego ręką, i odpowiada nad wpisami, których zdanie ols
 Reszta zdań tego rejestru jest za długa, więc mianownik powiększa gramatyka,
 a nie następne losowanie
 ([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Wpisów ubywa jeszcze jedną drogą i tę wolno odwrócić bez gramatyki.
-Fraza wzorca jest poprawiana ręką, więc wychodzi krótsza od konstytuentu,
-który bierze gramatyka — `na kategorie` wobec `na kategorie nadanych uprawnień` —
-a sonda dopasowuje po całej frazie i wpisy takie wypisuje w klasie `inny konstytuent`.
-Ruchem jest najwęższy z konstytuentów zawierających frazę,
-bo gospodarza wybiera on i tak dla całego przyłączenia.
-Do przeczytania są wpisy tej klasy w obu próbach:
-gospodarz konstytuentu szerszego bywa tym, którego wskazał czytający,
-a bywa gospodarzem czegoś, o co czytający nie pytał,
-i od tego zależy, czy ruch dokłada wpisy, czy dokłada trafienia pozorne.
 
-Kosztu morfologii nie widzi ani jeden pomiar nad bankiem drzew.
-`harness/czytania.py` mierzy złote czytanie morfologią złotą, czyli czytaniem
-wziętym z drzewa wzorcowego, a `_segment` w `harness/corpus.py` buduje je bez
-kwalifikatorów, więc koszt ten wychodzi nad Składnicą zerem przy każdej formie
-i cały wydruk jest ten sam co bez niego, co do wiersza.
-Zielony przebieg nie mówi tam przez to nic — dokładnie tak, jak nie mówi nic
-przebieg bez Morfeusza ([`CLAUDE.md`](../CLAUDE.md#checks)).
-Ruchem jest `--morphology` w `harness/czytania.py`, którą ma już `harness/pomiar.py`,
-a decyzją, którą to wymusza, jak dopasować drzewo wzorcowe do morfologii żywej:
-pod nią parser numeruje pozycje znakami, a nie terminalami drzewa
-(`Raport` w `harness/pomiar.py`), więc rola z drzewa nie trafia w rozpiętość lasu.
-Na czym wycena tego kosztu stoi bez tej liczby, mówi
-[`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
+`harness/czytania.py` liczy klasy wieloznaczności morfologią złotą i tylko nią.
+Klasy te opisują wybór, przed którym staje czytelnik, a on odczytań wybranych
+nie dostaje, więc rozbicie spod morfologii żywej mówi o rejestrze więcej niż to,
+które ten przebieg drukuje
+([`docs/disambiguation.md`](../docs/disambiguation.md#czym-różnią-się-czytania-które-olski-odrzuca)).
+Ruchem jest flaga taka, jaką ma `harness/skala.py`, a przyrząd pod nią już stoi:
+`przenumerowane` w `harness/pomiar.py` numeruje odczytania Morfeusza terminalami
+drzewa i mówi, kiedy się to nie udaje.
+Do rozstrzygnięcia jest mianownik: pod żywą wypada kilkaset zdań, których olski
+dzieli inaczej, więc tabela klas liczyłaby się nad inną populacją niż dziś,
+a obie wersje tabeli stoją w tym samym dokumencie.
+
+`--morphology live` w `harness/pomiar.py` zdejmuje porównanie ról, zamiast
+przenumerować rozpiętości.
+Rozpiętości spod tej flagi nie są rozpiętościami drzewa, więc `Outcome.comparable`
+wychodzi tam fałszem dla każdego zdania i cały przebieg nad żywą morfologią milczy
+o tym, czy olski czyta role tak samo jak anotator.
+`przenumerowane` w tym samym module odpowiada dziś na to pytanie dla tych zdań,
+które olski dzieli tak samo jak bank drzew, czyli dla większości,
+więc obie drogi są dwoma odczytami jednej decyzji i jedna z nich jest lepsza.
+Ruchem jest `comparable` liczone na zdanie zamiast na przebieg.
+Ceną jest wydruk: wiersze zgodności ról wychodzą wtedy pod żywą niepuste,
+a mianownik pod nimi jest węższy od mianownika pokrycia, więc wydruk ma to powiedzieć.
+Do przeczytania jest przedtem
+[`docs/corpus.md`](../docs/corpus.md#what-morphological-ambiguity-costs),
+bo to ta sekcja jest właścicielem tego, co przebieg nad żywą morfologią mówi.
+
+Zdanie o tym, że cena niesie sam znak, stoi na pomiarze spod morfologii złotej.
+Pozycja podniesiona ponad dzisiejszą cenę nie ruszała tam ani jednego zdania,
+bo ciała jednej pozycji lasu różnią się zwykle jedną pozycją cennika
+([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+Pod morfologią żywą czytań jest więcej i płacą kilkoma pozycjami naraz,
+więc suma bierze na zdaniu więcej wartości
+i wysokość ma tam czym rozstrzygać, a nie wiadomo, czy rozstrzyga.
+Ruchem jest ten sam wariant zadany pod `--morfologia żywa` w `harness/skala.py`.
+Do przeczytania jest przedtem czas przebiegu: wariant spychający złote czytanie
+w dół każe wyliczać cały las, więc kosztuje wielokrotnie więcej niż cennik dzisiejszy.
 
 Wiersz zdań bez struktury nad całością ma nad Składnicą przeszło tysiąc zdań
 i przeczytana jest z nich garść.

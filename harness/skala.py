@@ -15,11 +15,16 @@ porządkiem dzisiejszym.
 **Rozstęp sum** mówi, co znaczy różnica: przy jakim rozstępie między najtańszą
 sumą a następną najtańsze czytanie bywa złotym.
 
+Morfologia rozstrzyga, którą rodzinę cennika ten przebieg w ogóle widzi.
+Pod złotą pozycja morfologii jest zerem przy każdej formie, bo odczytanie wzięte
+z drzewa kwalifikatora nie niesie, więc wycenia ją dopiero żywa.
+
 Wywód, z którego ta sonda wynika, trzyma
 docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
 
     python3 -m harness.skala Składnica-frazowa-180723/
     python3 -m harness.skala Składnica-frazowa-180723/ --cena okolicznik=0
+    python3 -m harness.skala Składnica-frazowa-180723/ --morfologia żywa
 """
 
 from __future__ import annotations
@@ -33,11 +38,21 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from harness.corpus import pliki, read
-from harness.pomiar import po_kawałkach
+from harness.pomiar import po_kawałkach, przenumerowane
 from olski import cennik
 from olski.parse import las, podsumuj
 from olski.subset import build
 from olski.werdykt.wykazy import koszty_drzewa
+
+#: Odczytania wzięte z drzewa wzorcowego, po jednym na formę.
+ZŁOTA = "złota"
+
+#: Odczytania z Morfeusza, ponumerowane terminalami tego drzewa
+#: (``przenumerowane`` w ``harness/pomiar.py``).
+ŻYWA = "żywa"
+
+#: Nazwy morfologii w kolejności wydruku pomocy.
+MORFOLOGIE = (ZŁOTA, ŻYWA)
 
 #: Role, którymi rozpoznaje się złote czytanie. Ta sama lista, którą mierzy
 #: ``harness/pomiar.py``, bo rozejście się tych dwóch zrobiłoby dwie miary o
@@ -138,14 +153,20 @@ class Raport:
     za_duże: int = 0
     #: Zdania wieloznaczne, w których złote czytanie przepadło.
     bez_złotego: int = 0
+    #: Zdania, które morfologia żywa dzieli inaczej niż drzewo wzorcowe
+    #: (:func:`harness.pomiar.przenumerowane`). Pod morfologią złotą zero.
+    inna_segmentacja: int = 0
 
     def dołóż(self, inny: Raport) -> None:
         self.zdania.extend(inny.zdania)
         self.za_duże += inny.za_duże
         self.bez_złotego += inny.bez_złotego
+        self.inna_segmentacja += inny.inna_segmentacja
 
 
-def zmierz(ścieżki: Sequence[Path], wariant: tuple[tuple[str, int], ...]) -> Raport:
+def zmierz(
+    ścieżki: Sequence[Path], wariant: tuple[tuple[str, int], ...], morfologia: str = ZŁOTA
+) -> Raport:
     """Przeczytaj te lasy i zmierz w nich złote czytanie pod tym wariantem.
 
     Przecena obejmuje cały przebieg, a nie samo budowanie gramatyki, bo cenę
@@ -161,7 +182,10 @@ def zmierz(ścieżki: Sequence[Path], wariant: tuple[tuple[str, int], ...]) -> R
             zdanie = read(ścieżka)
             if not zdanie.annotated or not zdanie.całe or not zdanie.roles:
                 continue
-            segmenty = list(zdanie.segments)
+            segmenty = list(zdanie.segments) if morfologia == ZŁOTA else przenumerowane(zdanie)
+            if segmenty is None:
+                raport.inna_segmentacja += 1
+                continue
             if not segmenty:
                 continue
             zbudowany = las(gramatyka_wariantu, segmenty)
@@ -182,10 +206,16 @@ def zmierz(ścieżki: Sequence[Path], wariant: tuple[tuple[str, int], ...]) -> R
     return raport
 
 
-def przebieg(ścieżki: Sequence[Path], jobs: int, wariant: tuple[tuple[str, int], ...]) -> Raport:
+def przebieg(
+    ścieżki: Sequence[Path],
+    jobs: int,
+    wariant: tuple[tuple[str, int], ...],
+    morfologia: str = ZŁOTA,
+) -> Raport:
     """Zmierz wszystkie lasy na tylu procesach, ile podano, i złóż jeden raport."""
     scalony = Raport()
-    for kawałek in po_kawałkach(ścieżki, jobs, functools.partial(zmierz, wariant=wariant)):
+    praca = functools.partial(zmierz, wariant=wariant, morfologia=morfologia)
+    for kawałek in po_kawałkach(ścieżki, jobs, praca):
         scalony.dołóż(kawałek)
     return scalony
 
@@ -217,6 +247,7 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
         f"zdań wieloznacznych ze złotym czytaniem: {len(zdania)}",
         f"  wypadło za granicą {GRANICA} czytań: {raport.za_duże}",
         f"  złote czytanie przepadło: {raport.bez_złotego}",
+        f"  segmentacja rozeszła się z terminalami: {raport.inna_segmentacja}",
         "",
         f"złote czytanie pierwsze, porządek dzisiejszy: {dziś}",
         f"złote czytanie pierwsze, porządek po sumie:   {pod_sumą}",
@@ -253,13 +284,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         metavar="POZYCJA=LICZBA",
         help="przecena pozycji cennika na czas przebiegu; wolno podać kilka razy",
     )
+    parser.add_argument(
+        "--morfologia",
+        choices=MORFOLOGIE,
+        default=ZŁOTA,
+        help="odczytania anotatora albo Morfeusza; pozycję morfologii wycenia tylko żywa",
+    )
     parser.add_argument("--jobs", type=int, default=1, help="ile procesów liczy")
     args = parser.parse_args(argv)
     if args.jobs < 1:
         parser.error("--jobs takes at least one process")
     wariant = tuple(args.cena)
     przecena = ", ".join(f"{nazwa} = {wartość}" for nazwa, wartość in wariant)
-    print(wydruk(przebieg(pliki(args.root), args.jobs, wariant), przecena or "cennik dzisiejszy"))
+    raport = przebieg(pliki(args.root), args.jobs, wariant, args.morfologia)
+    nagłówek = f"{przecena or 'cennik dzisiejszy'}, morfologia {args.morfologia}"
+    print(wydruk(raport, nagłówek))
     return 0
 
 

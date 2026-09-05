@@ -53,11 +53,10 @@ TRAFNA = "trafna"
 #: nie wybrał.
 POMYŁKA = "pomyłka"
 
-#: Zdanie jest czytane, a fraza z wzorca konstytuentem tego czytania nie jest:
-#: czytanie bierze konstytuent dłuższy albo krótszy, więc gospodarza nie ma z
-#: czym porównać. Ręka poprawia we wzorcu i frazę, i gospodarza
-#: (``harness/wybory.py``), a fraza poprawiona bywa krótsza od tej, którą
-#: wypisuje morfologia.
+#: Zdanie jest czytane, a żadne przyłączenie tego czytania nie zaczyna się frazą
+#: z wzorca: czytanie bierze pod tym przyimkiem konstytuent krótszy od niej albo
+#: nie czyta tam przyimka wcale, więc gospodarza nie ma z czym porównać.
+#: Konstytuent dłuższy do tej klasy nie wchodzi (:func:`_gospodarz_frazy`).
 INNY_KONSTYTUENT = "inny konstytuent"
 
 #: Zdania olski nie czyta, więc czytania pierwszego nie ma.
@@ -127,20 +126,33 @@ def _czytanie_pierwsze(napis: str) -> Node | None:
 
 
 def _gospodarz_frazy(drzewo: Node, fraza: str) -> str | None:
-    """Gospodarz konstytuenta o tych formach; ``None``, gdy takiego w drzewie nie ma.
+    """Gospodarz najwęższego rozstrzyganego konstytuenta, który się tą frazą zaczyna.
 
-    Dopasowanie idzie po całej frazie, więc fraza wzorca stojąca w środku
-    konstytuenta wychodzi stąd bez odpowiedzi: gospodarz konstytuenta szerszego
-    odpowiada na inne pytanie niż to, które zadał czytający, i porównany z
-    wzorcem wydawałby pomyłki tam, gdzie czytanie przyłącza dobrze.
-    Konstytuent bierze się najszerszy z pasujących, bo pod przyłączeniem idzie
-    łańcuch węzłów o jednej córce i tej samej rozpiętości.
+    ``None``, gdy takiego w drzewie nie ma, czyli gdy czytanie bierze pod tym
+    przyimkiem konstytuent krótszy od frazy wzorca.
+
+    Zaczyna się, a nie jest jej równy: budowniczy proponuje frazę przyimkiem wraz
+    z trzema formami za nim, a ręka skraca ją z prawej strony
+    (``harness/wybory.py``), więc bywa krótsza od konstytuenta, który gramatyka
+    nad nią buduje — ``na kategorie`` wobec ``na kategorie nadanych uprawnień``.
+    Lewą krawędzią jest w obu ten sam przyimek, czyli to samo przyłączenie.
+
+    Rozstrzyganego i najwęższego, bo tym kryterium wybiera modyfikator werdykt
+    (``_nazwane_przyłączenia`` w ``olski/parse/decyzje.py``). Bez niego frazę
+    ``w pliku`` zawiera też ``ustawienia w pliku``, a jego gospodarz odpowiada
+    o przyłączeniu dopełnienia, o które nikt tu nie pytał.
     """
-    szukana = _ściśnięta(fraza)
-    for węzeł in _węzły(drzewo):
-        if _ściśnięta(sklej_formy(węzeł.forms())) == szukana:
-            return gospodarz(drzewo, węzeł, DEKLARACJA.gospodarze)
-    return None
+    szukana = _ściśnięta(fraza).split()
+    kandydaci = [
+        węzeł
+        for węzeł in _węzły(drzewo)
+        if węzeł.label == DEKLARACJA.rozstrzygany
+        and _ściśnięta(sklej_formy(węzeł.forms())).split()[: len(szukana)] == szukana
+    ]
+    if not kandydaci:
+        return None
+    najwęższy = min(kandydaci, key=lambda węzeł: węzeł.span[1] - węzeł.span[0])
+    return gospodarz(drzewo, najwęższy, DEKLARACJA.gospodarze)
 
 
 def _węzły(drzewo: Node) -> Iterator[Node]:
