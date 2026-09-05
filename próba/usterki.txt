@@ -300,29 +300,3 @@ zdanie: Program można zamówić w sklepie internetowym: store.britannica.com (d
 usterka: podmiot domyślny wtrącenia pasuje do programu i do sklepu, a stoi zaraz po adresie sklepu
 zgłoszenie: niejasny podmiot domyślny
 poprawka: Program zamówiony w sklepie internetowym store.britannica.com dociera do Polski po kilku tygodniach.
-
-# Trzy zdania niżej znalazł nad NKJP wykrywacz zaimka niezwrotnego, a nie
-# wycinek przeczytany w całości, więc jego trafienie w nie jest obiegiem
-# zamkniętym i o tej regule rozstrzyga baza sądów, a nie one:
-# docs/linter.md#wykrywacz-zaimka-niezwrotnego-został-za-flagą-bo-trafienie-od-chybienia-dzieli-znaczenie-słowa
-
-# NKJP 1.2, typ_lit/GraczykTropem/txt_3-div.txt
-
-zdanie: Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby bezpieczeństwa.
-usterka: o stosunku kandydata mówi się „swojego”, więc „jego” odsyła poza zdanie, a nikogo poza nim nie ma
-zgłoszenie: zaimek niezwrotny
-poprawka: Kandydat sam natychmiast przystąpił do omawiania swojego stosunku do służby bezpieczeństwa.
-
-# NKJP 1.2, typ_publ/130-5-000000469/txt_1-div.txt
-
-zdanie: Piosenkarka była niemiło zaskoczona reakcją fanów na jej potwornie szczupłą figurę, którą zaprezentowała podczas koncertu z okazji urodzin Michaela Jacksona.
-usterka: figura jest piosenkarki, a o rzeczy podmiotu mówi się „swoją”
-zgłoszenie: zaimek niezwrotny
-poprawka: Piosenkarka była niemiło zaskoczona reakcją fanów na swoją potwornie szczupłą figurę, którą zaprezentowała podczas koncertu z okazji urodzin Michaela Jacksona.
-
-# NKJP 1.2, typ_publ/120-2-900032/txt_1-div.txt
-
-zdanie: Spotkanie w urzędzie wywarło na wszystkich jego uczestnikach niesamowite wrażenie.
-usterka: uczestnicy są spotkania, a o rzeczy podmiotu mówi się „swoich”
-zgłoszenie: zaimek niezwrotny
-poprawka: Spotkanie w urzędzie wywarło na wszystkich swoich uczestnikach niesamowite wrażenie.

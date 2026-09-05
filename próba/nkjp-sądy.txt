@@ -1182,3 +1182,245 @@ znalezisko: zaimek niezwrotny
 werdykt: 4 odczytania, różne w rolach: dopełnienie, orzeczenie, orzecznik, podmiot; „przez jego nieznajomość angielskiego” → „jest”, „ograniczony”
 sąd: fałszywe
 powód: `jego` podejmuje faceta ze zdania obok, a kontakt angielskiego nie zna
+
+plik: typ_lit/200-2-000174/txt_6-div.txt
+zdanie: Doron zdołał umknąć, czerwony ślad wykwitł na jego policzku, popiół oblepił wargi.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jego` podejmuje Dorona ze składowego obok, a ślad policzka nie ma; kandydatem Doron nie jest, bo słownik tej formy nie zna
+
+plik: typ_net_nieinterakt/620-3-010000170/txt_1-div.txt
+kontekst: Laches - wódz ateński, syn Melanoposa.
+kontekst: W roku 427 wraz z Charojadesem dowodził flotą, wysłaną na pomoc Leontynom sycylijskim.
+zdanie: Prześladowany przez Kleona, po jego śmierci znowu zajmował ważne stanowiska.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w roli: podmiot; „przez Kleona, po jego śmierci” → „Prześladowany”, „zajmował”
+sąd: fałszywe
+powód: `jego` podejmuje Kleona nazwanego w tym samym zdaniu, a podmiotem jest domyślny Laches z kontekstu
+
+plik: typ_publ/130-5-000000384/txt_1-div.txt
+zdanie: Trzynastolatek był członkiem grupy przestępczej, w której działali oskarżeni o jego późniejsze zabójstwo.
+znalezisko: zaimek niezwrotny
+werdykt: 8 odczytań, różne w roli: orzecznik; „o jego późniejsze zabójstwo” → „był”, „członkiem”, „działali”, „oskarżeni”; „działali oskarżeni” ma 2 odczytania
+sąd: fałszywe
+powód: zaimek stoi w zdaniu względnym o podmiocie `oskarżeni`, więc `swoje` powiedziałoby o ich zabójstwie, a nie o zabójstwie trzynastolatka
+
+plik: typ_urzed/610-1-000156/txt_1-div.txt
+kontekst: 3.
+zdanie: Banki przekazują ponadto na żądanie NBP dane niezbędne do oceny ich sytuacji finansowej i ryzyka sektora bankowego.
+znalezisko: zaimek niezwrotny
+werdykt: 21 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot; „do oceny ich sytuacji finansowej” → „przekazują”, „dane”
+sąd: fałszywe
+powód: sytuacja jest wprawdzie banków, ale zaimek stoi pod `oceny`, więc `swojej` podjęłoby wykonawcę oceny, czyli NBP
+
+plik: typ_publ/130-5-000001728/txt_1-div.txt
+kontekst: Opłata za przejazd samochodem obwodnicą wiodącą przez działkę Trzcińskiego wynosi 2 złote za dzień.
+zdanie: Zdesperowany Trzciński wyjaśniał zdziwionym kierowcom, że od wielu lat nie otrzymuje rekompensaty od samorządu za wybudowanie obwodnicy na jego ziemi i dlatego zaczął sam pobierać opłaty.
+znalezisko: zaimek niezwrotny
+werdykt: 77 odczytań, różne w roli: okolicznik_przysłówkowy; „od samorządu” → „wyjaśniał”, „otrzymuje”, „rekompensaty”; „za wybudowanie obwodnicy” → „wyjaśniał”, „otrzymuje”, „rekompensaty”, „od”, „samorządu”; „na jego ziemi” → „wyjaśniał”, „otrzymuje”, „rekompensaty”, „od”, „wybudowanie”, „obwodnicy”
+sąd: fałszywe
+powód: ziemia jest Trzcińskiego, ale zaimek stoi pod `wybudowanie`, którego wykonawcą jest samorząd, więc `swojej` podjęłoby jego
+
+plik: typ_lit/200-1-000028/txt_10-div.txt
+kontekst: Kiedyś woń taka kojarzyła się z przygotowaniami do Wigilii.
+kontekst: Z tarciem skórki, niezbędnej do pieczenia świątecznego ciasta.
+kontekst: Jednak nie znajdował się w kuchni babci Zosi.
+zdanie: Zapach dochodził od strony dojrzewających sadów pomarańczowych, spływających po stokach wzgórz prawie do samego ganku jego nowego domu.
+znalezisko: zaimek niezwrotny
+werdykt: 39 odczytań, różne w roli: dopełnienie; „po stokach” → „dochodził”, „od”, „strony”, „sadów”; „nowego domu” ma 2 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje chłopca, o którym mówi akapit, a zapach domu nie ma
+
+plik: typ_lit/200-2-000103/txt_10-div.txt
+kontekst: - Tak tylko dłoń po niej zsuwam - powiedziałem.
+zdanie: I coś ścisnęło mnie w piersiach od tych jego słów.
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania; „od tych jego słów” → „ścisnęło”, „piersiach”; „od tych jego słów” ma 2 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje rozmówcę ze zdania obok, a `coś` słów nie ma
+
+plik: typ_publ/KOT/txt_79-div.txt
+kontekst: Na amerykańskim rynku akcesoriów dla zwierząt czekają klientów jeszcze inne niespodzianki.
+kontekst: Możemy nabyć na przykład urządzenie do zdalnej opieki nad naszymi ulubieńcami.
+kontekst: Jeśli mamy komputer z odpowiednim programem, z każdego miejsca na ziemi możemy wydzielać kotu karmę, spowodować samooczyszczenie się kuwet i podglądać na ekranie, co akurat robi nasz kot.
+zdanie: Jednak nawet najwymyślniejsze urządzenie nie zastąpi nam przyjemności przebywania z kotem i dotyku jego miękkiego futerka.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: cząstka_zdania, podmiot; „z kotem” → „przyjemności”, „przebywania”
+sąd: fałszywe
+powód: `jego` podejmuje kota nazwanego w tym samym zdaniu, a urządzenie futerka nie ma
+
+plik: typ_publ/130-3-900001/txt_313-div.txt
+zdanie: Czy ekonomiści liczą, że Balcerowicz będzie korzystał z ich rad?
+znalezisko: zaimek niezwrotny
+werdykt: 3 odczytania; „z ich” → „liczą”, „korzystał”
+sąd: fałszywe
+powód: zaimek stoi w zdaniu podrzędnym o podmiocie `Balcerowicz`, więc `swoich` powiedziałoby o jego radach, a nie o radach ekonomistów
+
+plik: typ_publ/120-4-900010/txt_3-div.txt
+kontekst: 1.12 o godz. 10.00 w Urzędzie Miejskim w Tucholi odbędzie się szkolenie z zakresu przedsiębiorczości „I Pan, i Pani może być przedsiębiorcą”.
+zdanie: Będzie mowa o istocie przedsiębiorczości, jej roli i znaczeniu oraz zostanie zaprezentowany film.
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w roli: podmiot; „o istocie przedsiębiorczości, jej roli i znaczeniu” → „Będzie”, „mowa”
+sąd: fałszywe
+powód: `jej` podejmuje przedsiębiorczość stojącą z nim w jednym wyliczeniu, a `mowa` roli nie ma
+
+plik: typ_fakt/310-2-000000217/txt_2-div.txt
+zdanie: To był pierwszy samochód w jego życiu.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w roli: podmiot; „w jego życiu” → „był”, „samochód”
+sąd: fałszywe
+powód: `jego` podejmuje osobę, o której mówi tekst, a samochód życia nie ma
+
+plik: typ_publ/SuperExpress/txt_138-div.txt
+zdanie: Kawalerka na pierwszym piętrze, którą kupili jej rodzice, miała dać jej wolność i swobodę.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w roli: dopełnienie
+sąd: fałszywe
+powód: `jej` podejmuje dziewczynę, o której mówi tekst, a kawalerka rodziców nie ma
+
+plik: typ_publ/120-2-000009/txt_113-div.txt
+zdanie: Kofeina zawarta w ziarnie kawy pobudza już kilkanaście minut po jej wypiciu.
+znalezisko: zaimek niezwrotny
+werdykt: 16 odczytań, różne w rolach: cząstka_zdania, dopełnienie, podmiot; „w ziarnie kawy” → „Kofeina”, „pobudza”; „po jej” → „pobudza”, „minut”
+sąd: fałszywe
+powód: `jej` podejmuje kawę, bo kofeiny się nie pije; kawa stoi pod głową grupy `w ziarnie kawy`, więc kandydatem nie jest
+
+plik: typ_inf-por/330-2-000016/txt_34-div.txt
+kontekst: - Mała ostrożnie zagląda w wizjer.
+zdanie: Na korytarzu stoi kobieta o wyglądzie jej matki.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: dopełnienie, podmiot; „o wyglądzie” → „stoi”, „kobieta”
+sąd: fałszywe
+powód: `jej` podejmuje Małą ze zdania obok, a kandydatem ona nie jest, bo `Mała` czyta się przymiotnikiem
+
+plik: typ_publ/120-2-000008/txt_44-div.txt
+zdanie: Na szczęście jego córki nie musiały walczyć ze złym nastawieniem dyrektora szkoły, szefa ich taty.
+znalezisko: zaimek niezwrotny
+werdykt: 30 odczytań, różne w rolach: okolicznik_narzędnikowy, podmiot; „ze złym” → „musiały”, „walczyć”
+sąd: trafne
+powód: tata jest córek, więc polszczyzna żąda tu `swojego`, a `ich` odsyła poza zdanie, gdzie nikogo nie ma
+
+plik: typ_qmow/712-1-900004/txt_33-div.txt
+zdanie: Komisje wnoszą o ich przyjęcie.
+znalezisko: zaimek niezwrotny
+werdykt: 3 odczytania, różne w rolach: dopełnienie, podmiot, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: `ich` podejmuje rzecz nazwaną wcześniej w tekście, a komisje przyjęcia nie mają, tylko o nie wnoszą
+
+plik: typ_lit/030-2-000000015/txt_5-div.txt
+zdanie: Łuk nagięty jego dłonią bolesną miotał upierzone strzały w piękne białe piersi morskiej mewy.
+znalezisko: zaimek niezwrotny
+werdykt: 20 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot; „w piękne białe” → „miotał”, „strzały”; „piersi morskiej mewy” ma 2 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje łucznika, o którym mówi tekst, a łuk dłoni nie ma
+
+plik: typ_publ/120-4-900010/txt_30-div.txt
+zdanie: Energia gazowa wpłynęła na wzrost atrakcyjności Tucholi dla jej mieszkańców, handlowców i przemysłowców.
+znalezisko: zaimek niezwrotny
+werdykt: 20 odczytań; „dla jej mieszkańców” → „wpłynęła”, „wzrost”, „atrakcyjności”, „Tucholi”
+sąd: fałszywe
+powód: `jej` podejmuje Tucholę stojącą pod głową grupy `wzrost atrakcyjności Tucholi`, a energia mieszkańców nie ma
+
+plik: typ_net_nieinterakt/620-3-010000170/txt_1-div.txt
+kontekst: Laches - wódz ateński, syn Melanoposa.
+kontekst: W roku 427 wraz z Charojadesem dowodził flotą, wysłaną na pomoc Leontynom sycylijskim.
+kontekst: Prześladowany przez Kleona, po jego śmierci znowu zajmował ważne stanowiska.
+kontekst: Wraz z Nikiaszem w roku 421 p.n.e.
+kontekst: brał udział w układach pokojowych.
+kontekst: W roku 418 został wysłany na pomoc Argiwom, zginął pod Mantyneją.
+zdanie: Jeden z dialogów Platona otrzymał nazwę od jego imienia.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: dopełnienie, podmiot; „z dialogów Platona” → „Jeden”, „otrzymał”; „od jego imienia” → „otrzymał”, „nazwę”
+sąd: fałszywe
+powód: `jego` podejmuje Lachesa, o którym mówi cały akapit, a dialog imienia nie ma
+
+plik: typ_publ/120-2-900001004/txt_11-div.txt
+kontekst: Uchala bano się jak ognia.
+kontekst: Miał potężne pięści i nimi właśnie zdobył wśród rówieśników autorytet.
+zdanie: Nikt nigdy nie podważał jego przywództwa, polecenia wodza traktowano jak rozkazy, od których nie ma odwołania.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jego` podejmuje Uchala z kontekstu, a `Nikt` nikogo nie nazywa
+
+plik: typ_urzed/610-1-000267/txt_1-div.txt
+kontekst: 4.
+zdanie: Osoba z misją dobrej woli pomaga stronom, których konflikt dotyczy, w jego rozwiązaniu.
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w roli: podmiot; „z misją dobrej woli” → „Osoba”, „pomaga”; „których konflikt dotyczy” ma 2 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje konflikt nazwany w zdaniu względnym obok, a osoba rozwiązania nie ma, tylko w nim pomaga
+
+plik: typ_nd/320-1-000035/txt_1-div.txt
+kontekst: Niedobór immunoglobulin klasy IgG jest tym większy im krótszy jest czas trwania ciąży, ponieważ przechodzą one przez łożysko w końcowej fazie życia płodowego.
+kontekst: Niedobór ten jest uważany za jedną z przyczyn większej zapadalności wcześniaków na poważne zakażenia, przede wszystkim posocznice.
+zdanie: Jednak próby profilaktycznego uzupełniania IgG nie dały wyników przekonywujących do ich rutynowego stosowania.
+znalezisko: zaimek niezwrotny
+werdykt: 14 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot; „do ich rutynowego stosowania” → „dały”, „wyników”, „przekonywujących”
+sąd: fałszywe
+powód: `ich` podejmuje uzupełnianie IgG, a próby stosowania nie mają, tylko je badają
+
+plik: typ_lit/200-2-000000211/txt_5-div.txt
+kontekst: Niespodziewana, nagła choroba zaściankowego Casanowy zmieniła sytuację.
+zdanie: Lęk o jego życie wyparł urazy.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w roli: podmiot; „o jego życie” → „Lęk”, „wyparł”
+sąd: fałszywe
+powód: `jego` podejmuje Casanowę ze zdania obok, a lęk życia nie ma; kandydatem Casanowa nie jest, bo słownik tej formy nie zna
+
+plik: typ_lit/GraczykTropem/txt_3-div.txt
+zdanie: Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby bezpieczeństwa.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: okolicznik_przysłówkowy, podmiot; „do służby bezpieczeństwa” → „przystąpił”, „omawiania”, „stosunku”
+sąd: trafne
+powód: o stosunku kandydata mówi się `swojego`, a poza kandydatem to zdanie nikogo nie nazywa
+
+plik: typ_lit/200-4-000000316/txt_11-div.txt
+zdanie: Kulesza oczywiście nie wstał na jego powitanie.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jego` podejmuje wchodzącego, o którym mówi akapit, a `swoje powitanie` znaczyłoby, że Kulesza wita sam siebie
+
+plik: typ_publ/120-2-900129/txt_4-div.txt
+kontekst: Joanna Pawelec od pięćdziesięciu lat mieszka w pożydowskim domu "bliźniaku" przy ulicy Szkolnej w Oleszycach.
+kontekst: Od trzydziestu jest właścicielką mieszkania w tym budynku.
+kontekst: Rok temu okazało się, że mieszka w lokalu należącym do sąsiadki.
+zdanie: Sąsiadka urzęduje zaś w jej kuchni i dwóch pokojach.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jej` podejmuje Joannę Pawelec z akapitu, a sąsiadka we własnej kuchni by nie urzędowała
+
+plik: typ_publ/130-3-900006/txt_21-div.txt
+kontekst: Prokuratura ma też kilka filmów nagranych amatorskimi kamerami.
+zdanie: Prokuratorzy zwracają się z prośbą do wszystkich osób, którzy mają takie nagrania o udostępnienie ich śledczym.
+znalezisko: zaimek niezwrotny
+werdykt: 32 odczytania, różne w rolach: dopełnienie, okolicznik_narzędnikowy; „do wszystkich osób, którzy mają takie nagrania” → „zwracają”, „prośbą”; „o udostępnienie” → „zwracają”, „mają”, „nagrania”
+sąd: fałszywe
+powód: `ich` podejmuje nagrania nazwane w zdaniu względnym obok, a prokuratorzy proszą o udostępnienie ich śledczym, więc `swoich` nie ma tu kogo podjąć
+
+plik: typ_publ/120-4-900011/txt_9-div.txt
+zdanie: Mieszkańcy ulicy Śląskiej są oburzeni okaleczeniem kilkudziesięciu drzew na ich osiedlu.
+znalezisko: zaimek niezwrotny
+werdykt: 12 odczytań, różne w rolach: okolicznik_narzędnikowy, orzecznik; „na ich osiedlu” → „są”, „okaleczeniem”, „drzew”; „ulicy Śląskiej” ma 2 odczytania
+sąd: trafne
+powód: osiedle jest mieszkańców, więc polszczyzna żąda tu `swoim`, a `ich` odsyła poza zdanie, gdzie nikogo nie ma
+
+plik: typ_publ/130-3-910001/txt_234-div.txt
+kontekst: Mostostal-Export kupił biłgorajskiego producenta łańcuchów na początku lat 90.
+kontekst: Przy pomocy inwestora firma uniezależniła się od dostawców drutu.
+zdanie: Potentat sprezentował jej bowiem piec do jego wytwarzania.
+znalezisko: zaimek niezwrotny
+werdykt: 5 odczytań; „do jego” → „sprezentował”, „piec”
+sąd: fałszywe
+powód: `jego` podejmuje drut z kontekstu, a potentat wytwarzania nie ma, tylko piec do niego daje
+
+plik: typ_publ/130-3-900001/txt_324-div.txt
+kontekst: Tym świadkom, którzy powiedzą całą prawdę, przestępstwo ujdzie zupełnie bezkarnie.
+zdanie: Świadkowie, którzy - wbrew umowie - będą kłamali, zostaną oskarżeni tak samo jak ich wydani wspólnicy.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w roli: okolicznik_przysłówkowy
+sąd: fałszywe
+powód: `ich` stoi w członie porównania o własnym podmiocie `wspólnicy`, więc `swoi` orzekałby o nich samych
