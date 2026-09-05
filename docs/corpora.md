@@ -583,6 +583,10 @@ wieloznaczność przestała nim być, kiedy żaden sąd jej nie potwierdził
 ([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 Poprawka jednego znaku i zaimek wskazujący na dwie rzeczy oceniają się tak samo,
 a nowe zgłoszenie pierwszy przebieg po jego dopisaniu wypisze jako nowe.
+Przebieg pyta przy tym o zgłoszenia stojące za flagą,
+bo reguła czekająca na awans nie miałaby inaczej czym trafienia wydać,
+a awansują ją sądy z tej bazy
+([subset.md](subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą)).
 `trafne` znaczy, że czytelnik poprawiłby to, co znalezisko wskazuje;
 przy wieloznaczności ma dwa rozumienia, które mówią o świecie co innego,
 a zdanie wraz ze swoim akapitem nie mówi, które.

@@ -5,19 +5,25 @@ sądem nietrywialnym jest tu każde milczenie: co liczy się za jedną rzecz, do
 sięga sąsiedztwo i kiedy zaimek jest rozstrzygnięty na miejscu
 (``olski/odniesienia.py``). Każdy z tych warunków, zdjęty osobno, zamienia jedno
 z tych zdań w zgłoszenie, i to jest jedyny powód, dla którego one tu stoją.
+
+Rozszerzenie stojące za flagą ``w_zdaniu`` szuka rzeczy także w zdaniu zaimka,
+więc jego zdania stoją tu parami: pod flagą zgłoszenie, a bez niej milczenie.
+Zgłoszenie to nosi własną nazwę, bo to ona trzyma regułę czekającą na awans
+poza kodem wyjścia, i jeden z tych sądów jest właśnie o niej.
 """
 
 import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.werdykt import nad_tekstem
+from olski.werdykt import ODNIESIENIE_W_ZDANIU, nad_tekstem
 
 
-def zgłoszenia(tekst: str) -> list[tuple[tuple[str, tuple[str, ...]], ...]]:
+def zgłoszenia(tekst: str, w_zdaniu: bool = False) -> list[tuple[tuple[str, tuple[str, ...]], ...]]:
     """Zgłoszenia nad tekstem jako pary (zaimek, rzeczy), po jednej krotce na zdanie."""
     return [
-        tuple((o.zaimek, o.rzeczy) for o in zdanie.odniesienia) for zdanie in nad_tekstem(tekst)
+        tuple((o.zaimek, o.rzeczy) for o in zdanie.odniesienia)
+        for zdanie in nad_tekstem(tekst, w_zdaniu)
     ]
 
 
@@ -56,6 +62,44 @@ def test_zaimek_rozstrzygnięty_we_własnym_zdaniu_zgłoszenia_nie_dostaje():
     #  stąd jako wybór, którego on nie rozważa.
     tekst = "Maki rosną w garnkach. Ogrodnik sadzi kwiaty i podlewa je."
     assert zgłoszenia(tekst)[1] == ()
+
+
+def test_rzeczy_z_poprzedniego_składowego_wychodzą_dopiero_pod_flagą():
+    #  Zaimek stoi w drugim składowym i nie ma przed sobą w nim nic, więc rzeczy
+    #  podaje składowe pierwsze. Bez flagi zdanie milczy, choć nazywa i psa,
+    #  i kota, a oba zgadzają się z `on`.
+    tekst = "Pies gonił kota, a on uciekł."
+    assert zgłoszenia(tekst, w_zdaniu=True)[0] == (("on", ("Pies", "kota")),)
+    assert zgłoszenia(tekst)[0] == ()
+
+
+def test_rzeczy_dla_zaimka_dzierżawczego_wychodzą_z_jego_własnego_składowego():
+    #  `jego` nie odsyła do zdania obok, tylko do jednej z dwóch grup, które
+    #  stoją przed nim w tym samym składowym. Zdanie jest jednym składowym, więc
+    #  bez rzeczy z niego samego kandydatów nie ma tu wcale.
+    tekst = "Jan poprosił Piotra o jego samochód."
+    assert zgłoszenia(tekst, w_zdaniu=True)[0] == (("jego", ("Jan", "Piotra")),)
+    assert zgłoszenia(tekst)[0] == ()
+
+
+def test_pod_flagą_rzeczy_podaje_kawałek_najbliższy_a_nie_każdy_przed_zaimkiem():
+    #  Kawałek bliższy niż zdanie obok nazywa jedną rzecz zgodną z `je`, czyli
+    #  `kwiaty`, więc czytelnik dalej nie sięga. Kawałki zsumowane dołożyłyby
+    #  do niej maki i garnki, czyli wybór, którego on nie rozważa.
+    tekst = "Maki rosną w garnkach. Sadzimy kwiaty i podlewamy je."
+    assert zgłoszenia(tekst, w_zdaniu=True)[1] == ()
+
+
+def test_zgłoszenie_spod_flagi_nie_jest_znaleziskiem():
+    """Flaga nie rusza kodu wyjścia, bo jej zgłoszenie nosi własną nazwę.
+
+    Reguła za flagą czeka na awans, więc do liczby, po którą pyta ``olski-check``,
+    wchodzić jej nie wolno; bez osobnej nazwy wchodziłaby tam razem z regułą
+    awansowaną wcześniej.
+    """
+    zdanie = nad_tekstem("Pies gonił kota, a on uciekł.", w_zdaniu=True)[0]
+    assert zdanie.zgłoszenia == (ODNIESIENIE_W_ZDANIU,)
+    assert zdanie.znaleziska == ()
 
 
 def test_zdanie_pierwsze_w_akapicie_nie_ma_sąsiada_i_zgłoszenia_nie_dostaje():

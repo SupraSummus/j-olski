@@ -248,6 +248,19 @@ a liczebnik w podmiocie bierze rzecz z dopełniacza obok siebie,
 więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
 Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.
 
+Jedna grupa imienna o dwóch czytaniach wydaje warstwie zaimkowej dwie rzeczy.
+`Radny Mitkiewicz przyszedł na zebranie. On mówił długo.` dostaje zgłoszenie
+`„On” wskazuje na „Radny” albo „Mitkiewicz”`, choć to jedna osoba:
+przydawka i apozycja są dwoma czytaniami tej samej grupy, a każde z nich ma inną głowę,
+więc `_głowy` w `olski/odniesienia.py` wydaje obie, a `_rzeczy` scala tylko wspólny lemat.
+Wpis jest o regule dzisiejszej, a nie o rozszerzeniu za flagą,
+bo zdanie obok wydaje takie pary tak samo.
+Ruchem jest scalenie głów, których grupy zachodzą na siebie:
+`_głowy` zna rozpiętość każdej grupy, więc dwie głowy z jednej rozpiętości
+są jedną rzeczą tak samo jak dwie formy o jednym lemacie.
+Do przeczytania są sądy `fałszywe` w `próba/nkjp-sądy.txt`, które ten kształt nazywają —
+`radny Mitkiewicz`, `lewą nogą`, `innych ludzi` — bo mówią, ile zgłoszeń to zdejmuje.
+
 Kandydat miejscowy wycisza zaimek także tam, gdzie polszczyzna go z nim nie łączy.
 `olski/odniesienia.py` milczy nad zaimkiem, przed którym w tym samym zdaniu stoi
 rzecz zgodna z nim liczbą i rodzajem, i jest to warunek bez składni:
@@ -258,10 +271,12 @@ Ruchem jest ten warunek zawężony do kandydatów spoza ramy zaimka:
 role zdania składowego werdykt już nazywa (`Obsada` w `olski/parse/podsumowanie.py`),
 a zaimek jest liściem o znanej rozpiętości, więc zdanie składowe obu wskazuje
 `zakresy` w `olski/parse/streszczenie.py`.
-Do przeczytania jest, ile zdań to odsłania: nad README zdanie jest dziś jedno,
-więc ruch opłaca się dopiero wtedy, gdy przebieg nad rejestrem pokaże ich więcej,
-a przebieg ten trzeba puścić z warunkiem zdjętym i z zawężonym,
-bo różnica między nimi jest całą mierzoną rzeczą.
+Warunek zdjęty ma już swój przebieg: flaga `w_zdaniu` każe kawałkowi własnego zdania
+wydać rzeczy zamiast wyciszać, a jej trafienia nad NKJP przeczytano i oceniono
+([`docs/subset.md`](../docs/subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą)).
+Do zmierzenia zostaje przez to sam wariant zawężony,
+bo różnica między nim a tamtym jest całą mierzoną rzeczą,
+a kandydat z ramy zaimka jest jednym z kształtów, które te sądy nazywają.
 
 Werdykt nie niesie segmentów, więc nad jednym napisem segmentacja idzie drugi raz.
 `dalsze_zatrzymania` w `olski/werdykt/zdanie.py` woła `morphology` nad `Verdict.text` ponownie,

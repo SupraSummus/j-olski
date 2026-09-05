@@ -12,6 +12,12 @@ Jednostką jest znalezisko nad zdaniem, nazwane słowem z
 tu bez zmiany w tym module. Baza ocenia zgłoszenia, a nie same znaleziska,
 bo to ona rozstrzyga, które zgłoszenie znaleziskiem zostaje. Zdanie o dwu znaleziskach stoi w bazie dwa razy.
 
+Sonda pyta przy tym o zgłoszenia wraz z tymi, których wydruk domyślny nie ma:
+``w_zdaniu`` niżej włącza rozszerzenie warstwy zaimkowej stojące za flagą
+(``olski/odniesienia.py``). Bez tego reguła czekająca na awans nie miałaby jak go
+dostać, bo awansują ją sądy z tej bazy, a wpisy do niej wypisuje ten przebieg.
+Zgłoszenie spod flagi ma własną nazwę, więc obie reguły liczą się tu osobno.
+
 Klas jest pięć, bo mówią o dwu rzeczach naraz: :data:`POTWIERDZONE` i
 :data:`NAD_CZYSTYM` o regule, :data:`PRZEOCZONE` i :data:`ZDJĘTE` o gramatyce,
 która od czasu sądu znalezisko zabrała — pierwsze jest stratą, drugie zakupem,
@@ -176,7 +182,7 @@ def werdykt_wpisu(sąd: Sąd) -> Zdanie:
     droga do niego rozeszłaby się z nią po cichu. Akapit idzie przed zdaniem, bo
     znalezisko odniesieniowe czyta zdanie obok, a wpis je niesie.
     """
-    zdania = nad_tekstem(" ".join((*sąd.kontekst, sąd.zdanie)))
+    zdania = nad_tekstem(" ".join((*sąd.kontekst, sąd.zdanie)), w_zdaniu=True)
     if not zdania or zdania[-1].werdykt.text != sąd.zdanie:
         raise ValueError(f"wpis, którego napis nie jest zdaniem swojego akapitu: {sąd.zdanie}")
     return zdania[-1]
@@ -317,7 +323,7 @@ def _znaleziska_pliku(para: tuple[Path, Path]) -> list[Znalezisko]:
             znalezisko=nazwa,
             werdykt=zdanie.werdykt.explain(),
         )
-        for zdanie in nad_tekstem(path.read_text(encoding="utf-8"))
+        for zdanie in nad_tekstem(path.read_text(encoding="utf-8"), w_zdaniu=True)
         for nazwa in zdanie.zgłoszenia
     ]
 
