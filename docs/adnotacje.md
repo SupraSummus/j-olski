@@ -23,7 +23,7 @@ Nazwa zgłoszenia jest słownikiem olskiego i widać to na tej bazie.
 Wpis nazywa swoje pole `znalezisko` i wpisuje w nie `wieloznaczne`,
 a wieloznaczność znaleziskiem być przestała
 ([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)):
-`ZNALEZISKA` w `olski/werdykt.py` niosą dwie nazwy i tej wśród nich nie ma.
+`ZNALEZISKA` w `olski/werdykt/tekst.py` niosą dwie nazwy i tej wśród nich nie ma.
 Wpisy zostały prawdziwe, a nazwa ich pola prawdą być przestała,
 i nie zgłosił tego żaden check, bo czytnik pyta o `ZGŁOSZENIA`, a nie o nią.
 

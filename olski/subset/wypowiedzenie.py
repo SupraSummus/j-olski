@@ -2,7 +2,7 @@
 
 Symbol startowy gramatyki jest tutaj, a pod nim zdanie wraz ze znakiem kończącym,
 bo znak ten należy do wypowiedzenia, a nie do zdania,
-które i bez niego się wyprowadza (``olski/werdykt.py`` orzeka o niedomknięciu).
+które i bez niego się wyprowadza (``olski/werdykt/zdanie.py`` orzeka o niedomknięciu).
 """
 
 from __future__ import annotations

@@ -2,7 +2,7 @@
 
 Wykaz morfologii ma jedno zadanie: pokazać odczytanie formy, z którego bierze
 się odczytanie zdania niewidoczne w streszczeniu
-(``Verdict.morfologia`` w ``olski/werdykt.py``).
+(``Verdict.morfologia`` w ``olski/werdykt/zdanie.py``).
 Testy stoją więc na zdaniach, które o to zadanie pytają, a nie na kształcie
 wydruku: wiersze wklejone do dokumentów pilnuje ``tests/test_wydruki.py``.
 """

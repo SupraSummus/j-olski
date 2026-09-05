@@ -369,7 +369,7 @@ def _werdykty(sonda: Sonda, zdanie: str, segmenty: list[Segment]) -> dict[str, V
 
     def wynik(wariant: str) -> Verdict:
         #  Sonda czyta z werdyktu sam status, a zatrzymanie jest najdroższym
-        #  z podsumowań (``werdykt`` w ``olski/werdykt.py``), więc o nie nie pyta.
+        #  z podsumowań (``werdykt`` w ``olski/werdykt/zdanie.py``), więc o nie nie pyta.
         return werdykt(zdanie, segmenty, gramatyka(sonda, wariant), zatrzymanie=False)
 
     return _bez_zbędnych(sonda, wynik)
@@ -423,7 +423,7 @@ def nad_prozą(sonda: Sonda, tekst: str, przykłady: int = PRZYKŁADY) -> Raport
     proza nie niesie, a fragment nie jest zdaniem i do mianownika nie wchodzi.
 
     Zdanie idzie tu przez warianty, a nie wariant przez cały tekst, bo segmenty
-    zależą od napisu, a nie od gramatyki (``werdykt`` w ``olski/werdykt.py``):
+    zależą od napisu, a nie od gramatyki (``werdykt`` w ``olski/werdykt/zdanie.py``):
     inaczej ten sam tekst segmentuje się tyle razy, ile jest wariantów, i tyle
     samo razy rozbiera się zdanie, które olski odrzucił.
     """

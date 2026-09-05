@@ -429,7 +429,7 @@ którego nie stawia żadna gramatyka: `subj` jest pozycją schematu,
 składnia tradycyjna orzeka odwrotnie,
 a analiza dająca argument podmiotowy za kopulą opisuje zdania specyfikacyjne,
 nie takie, które orzekają kategorię.
-Przekład wykonuje `olski/werdykt.py`, czyli warstwa za pomiarem,
+Przekład wykonuje `olski/werdykt/zdanie.py`, czyli warstwa za pomiarem,
 więc liczby wyżej biorą się sprzed niego i żadna z nich się nie rusza;
 sąd, który on wykonuje, wypisuje `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`.
 Struktura zostaje ta, którą wybrał pomiar, i pilnuje jej `tests/test_orzeczenie.py`,

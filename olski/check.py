@@ -98,7 +98,7 @@ def _czytania(verdict: Verdict) -> Iterator[str]:
 
     Za streszczeniami zdania idą streszczenia konstytuentu, którego
     wieloznaczność streszczenie zdania zostawia nienazwaną
-    (``Verdict.rozbieżne`` w ``olski/werdykt.py``).
+    (``Verdict.rozbieżne`` w ``olski/werdykt/zdanie.py``).
     """
     for streszczenie in verdict.readings:
         yield from czytanie(streszczenie)
@@ -147,7 +147,7 @@ def _wiersz_osoby(wiersz: Żądanie) -> str:
     alternatywa z nią nie jest żądaniem osoby
     (:func:`olski.żądania.żąda_osoby`), więc tutaj taka klasa nie dochodzi.
     Lematy idą alfabetycznie, bo stoją w zbiorze
-    (:func:`olski.werdykt._zwinięte`), a wydruk kolejności ze zbioru nie bierze.
+    (:func:`olski.werdykt.wykazy._zwinięte`), a wydruk kolejności ze zbioru nie bierze.
     """
     lematy = ALBO.join(f"„{lemat}”" for lemat in sorted(wiersz.lematy))
     return (
@@ -160,7 +160,7 @@ def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> It
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
     Każda flaga, która ten wykaz drukuje, bierze tę samą listę streszczeń
-    (``Verdict.readings`` w ``olski/werdykt.py``), więc numer znaczy w nich to
+    (``Verdict.readings`` w ``olski/werdykt/zdanie.py``), więc numer znaczy w nich to
     samo, a wypisany osobno w każdej rozjechałby się po cichu.
     Numeru nie ma tam, gdzie wpis jest jeden: nie ma go od czego odróżnić,
     a nad zdaniem odrzuconym nie byłby numerem odczytania

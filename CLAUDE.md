@@ -850,7 +850,7 @@ produkcje wraz z deklaracją wypisuje `harness/odcisk.py`.
 
 **Blok wydruku stoi w dokumencie pod komendą, która go odtwarza.**
 Rusza go to, co werdykt drukuje obok swoich liczb —
-wiersz dopisany w `explain` w `olski/werdykt.py`
+wiersz dopisany w `explain` w `olski/werdykt/zdanie.py`
 albo pole dopisane w `Deklaracja` w `olski/parse/podsumowanie.py` —
 a także rachunek czytania: rusza go i cena przestawiona w `olski/cennik.py`,
 i pozycja cennika dopisana do produkcji;

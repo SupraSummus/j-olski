@@ -8,7 +8,7 @@ docs/walencja.md#żądanie-pozycji-jest-osobnym-plikiem-a-nie-kolumną-leksykonu
 
 Moduł ten czyta sam plik i odpowiada na pytanie o jedno słowo w jednej pozycji.
 Które słowo w zdaniu jest czasownikiem i którą pozycję obsadza które wypełnienie,
-rozstrzyga warstwa nad czytaniem (``Verdict.żądania`` w ``olski/werdykt.py``);
+rozstrzyga warstwa nad czytaniem (``Verdict.żądania`` w ``olski/werdykt/zdanie.py``);
 tam też stoi wiersz, którym werdykt to nazywa.
 Podział jest ten sam co przy leksykonie walencyjnym: plik czyta moduł, który nie
 ogląda ani gramatyki, ani rozbioru, więc czyta się go bez analizatora morfologicznego

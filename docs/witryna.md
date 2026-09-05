@@ -67,7 +67,7 @@ Dwa żądania naraz idą do różnych workerów
 
 ## Werdykt idzie w tych słowach, w których drukuje go `olski-check`
 
-Fraza werdyktu należy do kodu: `Verdict.explain` w `olski/werdykt.py`.
+Fraza werdyktu należy do kodu: `Verdict.explain` w `olski/werdykt/zdanie.py`.
 Witryna nie tłumaczy jej i nie pisze drugiej.
 Przez API idzie więc to samo zdanie, które drukuje komenda:
 `jedno odczytanie` albo `brak odczytania: analiza staje na „i”`.
@@ -101,7 +101,7 @@ Statusów jest pięć: `valid`, `ambiguous`, `rejected`, `unclosed` i `fragment`
 Znaczek jest wyborem strony, a nie drugim wydrukiem komendy:
 komenda statusu nie drukuje, bo dzieli on zdania po liczbie odczytań,
 a nie po tym, czy narzędzie ma o zdaniu co powiedzieć
-(`Verdict.status` w `olski/werdykt.py`).
+(`Verdict.status` w `olski/werdykt/zdanie.py`).
 Cenę przekładu statusu trzyma wpis o statusie werdyktu
 w `todo/dokumenty.md`.
 
@@ -260,7 +260,7 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
 ```
 
 Lista pod kluczem `czytania` niesie różne streszczenia.
-Każde streszczenie stoi tam raz (`Verdict.readings` w `olski/werdykt.py`).
+Każde streszczenie stoi tam raz (`Verdict.readings` w `olski/werdykt/zdanie.py`).
 Pole `liczba_czytań` wychodzi z lasu i mówi, ile czytań zdanie ma.
 Lista i liczba nie wynikają z siebie nawzajem.
 O granicy wyliczania z `MAX_READINGS` w `olski/parse/las.py`
@@ -278,7 +278,7 @@ Strona daje każdemu konstytuentowi własny spis pod tym samym zwojem.
 Pod `morfologia` idzie wpis na każde streszczenie z `czytania`.
 W nim stoją formy wraz z odczytaniami, które dopuszcza to odczytanie zdania.
 `lubi` pod orzeczeniem ma tam samo `lubić`, a nie wszystko, co Morfeusz w tej formie czyta.
-`Verdict.morfologia` w `olski/werdykt.py` mówi, po co jest ta odpowiedź.
+`Verdict.morfologia` w `olski/werdykt/zdanie.py` mówi, po co jest ta odpowiedź.
 Zdanie bez odczytania dostaje pod tym kluczem jeden wpis.
 Wpis ten wylicza wszystko, co olski czyta w formach,
 bo odsiewa je dopiero odczytanie zdania.

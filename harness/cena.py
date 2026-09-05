@@ -36,7 +36,7 @@ from olski.wejście import proza
 from olski.werdykt import werdykt
 
 #: Streszczenie jednego czytania: wpis na każde zdanie składowe, tak jak wydaje
-#: je ``Verdict.readings`` w ``olski/werdykt.py``.
+#: je ``Verdict.readings`` w ``olski/werdykt/zdanie.py``.
 Czytanie = tuple[dict[str, str], ...]
 
 #: Ile zdań pokazać pod każdą pozycją. Pozycja bez przykładu jest liczbą, o

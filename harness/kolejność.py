@@ -116,7 +116,7 @@ def _czytanie_pierwsze(napis: str) -> Node | None:
     """Drzewo czytania pierwszego tego zdania; ``None``, gdy olski go nie czyta.
 
     Pierwsze z lasu, czyli to, którego streszczenie stoi u góry wydruku
-    (``Verdict.readings`` w ``olski/werdykt.py`` grupuje po streszczeniu i
+    (``Verdict.readings`` w ``olski/werdykt/zdanie.py`` grupuje po streszczeniu i
     kolejności pierwszego wystąpienia nie rusza).
 
     O zatrzymanie się nie pyta, bo tej sondzie nie mówi ono nic, a kosztuje

@@ -99,7 +99,7 @@ ORZECZNIK_ŁĄCZNIKA = "orzecznik_łącznika"
 #: znaczy pozycję schematu, czyli to, co bank drzew woła `subj` i co stawia
 #: także tam, gdzie podmiotu nie ma; wywód i liczby trzyma
 #: docs/konstrukcje-gramatyczne/orzeczenie.md#łącznik-to-orzeka-sam-albo-przy-kopuli-a-podmiot-stoi-za-nim.
-#: Przekład wykonuje `olski/werdykt.py`, czyli warstwa za pomiarem, więc żadnej
+#: Przekład wykonuje `olski/werdykt/zdanie.py`, czyli warstwa za pomiarem, więc żadnej
 #: liczby nad bankiem drzew nie rusza i ruszyć nie może.
 NAZWY_SZKOLNE = {
     "podmiot": "orzecznik",

@@ -13,7 +13,7 @@ i jest to ta sama decyzja, co przekład wydruku, więc oba wpisy podnosi się ra
 
 Kod wyjścia `olski-check` nie widzi zdania z zapomnianą kropką.
 Napisu niedomkniętego nie liczy do mianownika nikt, żeby nagłówek nie psuł pomiaru
-(`Verdict.punktowane` w `olski/werdykt.py`),
+(`Verdict.punktowane` w `olski/werdykt/zdanie.py`),
 więc przebieg nad tekstem z jedną zapomnianą kropką kończy się zerem.
 Nad prozą pisaną ręką jest to usterka do zgłoszenia,
 a nad `docs/` wraz z nagłówkami — nie,
@@ -147,7 +147,7 @@ Kosztem jest wydruk, z którego jeden dokument wycina formy poleceniem:
 [`docs/ustawy.md`](../docs/ustawy.md#gdzie-stają-analizy-w-tym-rejestrze)
 bierze wszystko, co stoi za frazą `no production takes` do średnika,
 więc drugi komunikat rozsypuje tamto polecenie, jeżeli nie da się go wyciąć tak samo.
-Do przeczytania jest `explain` w `olski/werdykt.py`
+Do przeczytania jest `explain` w `olski/werdykt/zdanie.py`
 obok `bez_licencji` w `olski/segmentacja.py`:
 formy przychodzą tam jedną krotką, więc rozdzielenie ich żąda drugiego pola
 w `Verdict`, a nie samego drugiego napisu.
@@ -264,7 +264,7 @@ Pierwsze psuje przypadek prozy wyekstrahowanej poza projekt, bo tam plik
 nie leży w projekcie, a leksykon jest ten sam;
 drugie nie naprawia nic, tylko pokazuje, i to wystarcza,
 bo błąd jest w tym, że rozjazdu nie widać.
-Do przeczytania jest `Podsumowanie` w `olski/werdykt.py`,
+Do przeczytania jest `Podsumowanie` w `olski/werdykt/tekst.py`,
 bo wiersz o konfiguracji stanąłby obok liczby zdań,
 a `tests/test_wydruki.py` puszcza każdy blok tego wydruku w dokumentach.
 

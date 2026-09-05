@@ -4,7 +4,7 @@
 a :class:`Result` wraz z :class:`Przyłączenie` i :class:`Rozbieżność` odpowiedzią.
 Liczy te odpowiedzi las (``olski/parse/las.py``);
 typy są od niego osobno, bo czyta je warstwa, która lasu nie ogląda
-(``olski/werdykt.py``).
+(``olski/werdykt/``).
 """
 
 from __future__ import annotations

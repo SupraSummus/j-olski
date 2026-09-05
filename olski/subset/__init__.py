@@ -4,7 +4,7 @@ Wykluczenia są dwojakie, bo produkcja rozstrzyga o zdaniu, a nie o formie.
 Produkcje mówią, jakie zdanie się wyprowadza,
 a czytanie odbiera formie warstwa morfologiczna (``olski/segmentacja.py``),
 zanim produkcja to czytanie zobaczy.
-Co gramatyka orzeka o jednym zdaniu, mówi ``olski/werdykt.py``.
+Co gramatyka orzeka o jednym zdaniu, mówi ``olski/werdykt/``.
 
 Gramatyka buduje się przy imporcie (:data:`GRAMMAR`),
 więc kto pyta o sam lemat, sięga po ``olski/lematy.py``.

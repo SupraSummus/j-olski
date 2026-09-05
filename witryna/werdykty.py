@@ -1,6 +1,6 @@
 """Werdykt olskiego jako dane, czyli to, co witryna oddaje przeglądarce.
 
-Frazę werdyktu ma na własność kod (``Verdict.explain`` w ``olski/werdykt.py``),
+Frazę werdyktu ma na własność kod (``Verdict.explain`` w ``olski/werdykt/zdanie.py``),
 więc ten moduł jej nie tłumaczy i drugiej nie pisze:
 przez API idzie ta sama fraza, którą drukuje ``olski-check``.
 Po polsku jest przez to i werdykt, i strona wokół niego —
@@ -69,7 +69,7 @@ def _zdanie(zdanie: Zdanie) -> dict[str, Any]:
         #  listy tego nie widać, bo skraca ją także samo powtórzenie napisu.
         "czytania": verdict.readings,
         #  Czym każde czytanie jest nacechowane, wpis na wpis z ``czytania``
-        #  (``Verdict.rachunki`` w ``olski/werdykt.py``). Pozycje policzone, a nie
+        #  (``Verdict.rachunki`` w ``olski/werdykt/zdanie.py``). Pozycje policzone, a nie
         #  jedna suma na czytanie: kolejność rozstrzyga koszt czytany od góry
         #  drzewa, więc suma czytałaby się na miejsce w kolejce, którym nie jest.
         "koszty": [
@@ -89,7 +89,7 @@ def _zdanie(zdanie: Zdanie) -> dict[str, Any]:
         ],
         "dalsze_zatrzymania": list(dalsze_zatrzymania(verdict)),
         #  Czym formy stoją w każdym odczytaniu, wpis na wpis z ``czytania``
-        #  wyżej (``Verdict.morfologia`` w ``olski/werdykt.py``). Zdanie bez
+        #  wyżej (``Verdict.morfologia`` w ``olski/werdykt/zdanie.py``). Zdanie bez
         #  odczytania dostaje jeden wpis i mówi w nim, co olski w formach czyta,
         #  a rozstrzyga to werdykt, bo wydruk komendy pokazuje to samo.
         "morfologia": [

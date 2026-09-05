@@ -3,7 +3,7 @@
 Wpis należy tutaj wtedy, gdy o ten sam napis pyta gramatyka oraz warstwa poza nią:
 terminal bierze lemat, a warunek gdzie indziej porównuje ten sam napis
 z czytaniem formy albo z lematem gospodarza
-(``olski/segmentacja.py``, ``olski/werdykt.py``, ``olski/rozstrzyganie.py``).
+(``olski/segmentacja.py``, ``olski/werdykt/``, ``olski/rozstrzyganie.py``).
 Kopia druga rozjeżdża się po cichu, bo napisu z napisem nie porównuje żaden test.
 Obok takiego lematu wpisujemy ten, który mu się przeciwstawia,
 choćby pytała o niego jedna warstwa:
@@ -31,14 +31,14 @@ PRZYIMEK_ROZDZIELAJĄCY = "a"
 #: cudzysłów innym znakiem, niż go zamyka.
 #: Pyta o nie terminal (``olski/subset/słowa.py``), warunek, którym cudzysłów
 #: licencjonuje napis przytoczony (``olski/segmentacja.py``),
-#: oraz poprawka, którą werdykt daje zdaniu cytującemu innymi (``olski/werdykt.py``).
+#: oraz poprawka, którą werdykt daje zdaniu cytującemu innymi (``olski/werdykt/odrzucone.py``).
 ZNAK_CUDZYSŁOWU_OTWIERAJĄCY = "„"
 ZNAK_CUDZYSŁOWU_ZAMYKAJĄCY = "”"
 
 #: Znaki, którymi cytuje się poza tym rejestrem: cudzysłów maszynowy, pojedynczy,
 #: angielski i ostrokątny. Gramatyka bierze samą parę wyżej, a zdanie cytujące
 #: którymkolwiek z tych znaków werdykt przecytowuje nią i pyta o nie gramatykę
-#: drugi raz (``_cudzysłów`` w ``olski/werdykt.py``).
+#: drugi raz (``_cudzysłów`` w ``olski/werdykt/odrzucone.py``).
 ZAMIENNIKI_CUDZYSŁOWU = ('"', "'", "‘", "’", "‚", "“", "«", "»")
 
 #: Cząstka przecząca jako lemat, bo pyta o nią terminal, którym olski przeczy,

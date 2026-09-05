@@ -121,7 +121,7 @@ def podsumuj(
     czego budowanie nie robi wcale.
     Nad zdaniem, które ma czytanie, oddaje koniec zdania bez przejścia.
     Czyta tę odpowiedź odrzucenie mówiące, gdzie stanęło
-    (``explain`` w ``olski/werdykt.py``) oraz ranking blokerów (``olski/pokrycie.py``);
+    (``explain`` w ``olski/werdykt/zdanie.py``) oraz ranking blokerów (``olski/pokrycie.py``);
     przebieg, który liczy same werdykty, nie czyta jej wcale.
     Kto nie pyta, dostaje w ``Result.furthest`` stan „nikt nie pytał”.
 

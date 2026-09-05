@@ -148,7 +148,7 @@ class Node:
 
         Liściem, a nie samą formą, bo pytający pytają o dwie różne rzeczy o tym
         samym słowie: streszczenie o formę (:meth:`forma_głowy`), a wiersz żądania
-        o odczytania, którymi ono w tym kształcie stoi (``olski/werdykt.py``).
+        o odczytania, którymi ono w tym kształcie stoi (``olski/werdykt/wykazy.py``).
         """
         return self.children[self.głowa].liść_głowy()
 

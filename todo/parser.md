@@ -58,7 +58,7 @@ puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 Zatrzymanie kosztuje nad zdaniem odrzuconym więcej niż zbudowanie tablicy,
 bo `najdalszy` w `olski/parse/las.py` przechodzi tablicę drugi raz
 i unifikuje przy tym przebyte ciała, czego samo jej budowanie nie robi wcale.
-Pomija je ten, kto go nie czyta (`werdykt` w `olski/werdykt.py`),
+Pomija je ten, kto go nie czyta (`werdykt` w `olski/werdykt/zdanie.py`),
 więc do potanienia zostaje samo drugie przejście.
 Kolejka w `_przed_formą` dostaje przy ożywieniu symbolu wszystkie jego produkcje,
 a tablica ma stan dla mniejszości z nich,
