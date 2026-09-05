@@ -46,16 +46,6 @@
 # Wyboru zdań nikt nie losował, więc rozkładu rejestru ten plik nie mierzy;
 # mierzy go baza sądów.
 
-zdanie: Idąc do pracy, zgubiono klucze.
-usterka: orzeczenie bezosobowe podmiotu nie ma, a imiesłów bierze podmiot stamtąd
-zgłoszenie: imiesłów bez podmiotu
-poprawka: Idąc do pracy, zgubiłem klucze.
-
-zdanie: Czytając raport, znaleziono błąd.
-usterka: orzeczenie bezosobowe podmiotu nie ma, a imiesłów bierze podmiot stamtąd
-zgłoszenie: imiesłów bez podmiotu
-poprawka: Czytając raport, znalazłem błąd.
-
 zdanie: Zespół programistów spotkali się rano.
 usterka: orzeczenie stoi w liczbie mnogiej, a podmiot w pojedynczej
 zgłoszenie: niezgodność podmiotu z orzeczeniem
@@ -279,14 +269,6 @@ zdanie: W średniowieczu połączona była systemem rur drewnianych, dostarczaj�
 usterka: „połączona” żąda tego, z czym łączy, a zdanie nazywa tylko rury
 zgłoszenie: orzeczenie bez żądanego dopełnienia
 poprawka: W średniowieczu była połączona z miastem systemem rur drewnianych, dostarczających wodę mieszkańcom Głogówka.
-
-# NKJP 1.2, typ_publ/120-2-900117/txt_5-div.txt
-
-kontekst: Pamiętam sytuację jak po raz pierwszy miałem poprowadzić główne wydanie Wiadomości.
-zdanie: Jednak zasiadając w studio i patrząc w kamerę można dostać niesamowitej blokady psychicznej.
-usterka: „można” podmiotu nie ma, a imiesłów bierze podmiot stamtąd
-zgłoszenie: imiesłów bez podmiotu
-poprawka: Jednak zasiadając w studio i patrząc w kamerę, dostałem niesamowitej blokady psychicznej.
 
 # NKJP 1.2, typ_publ/130-5-000001647/txt_1-div.txt
 

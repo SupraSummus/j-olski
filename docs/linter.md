@@ -202,6 +202,66 @@ Reguła ta żąda rozbioru i wraca z nim.
 Liczb tu nie ma, bo rusza je przeredagowanie akapitu;
 kto chce dzisiejszych, pisze predykat na nowo i puszcza go.
 
+## Reguła o imiesłowie bez podmiotu myliła się w każdym trafieniu
+
+Krok czwarty wycofał tę regułę i warto powiedzieć, na czym się to rozstrzygnęło.
+Zgłaszała ona imiesłów przysłówkowy stojący w jednym zdaniu składowym
+z orzeczeniem, które podmiotu nie ma —
+`Idąc do pracy, zgubiono klucze.` —
+bo imiesłów podmiotu nie niesie i pożycza go od zdania, które określa,
+a orzeczenie bezosobowe pożyczyć nie ma czego.
+Warunek ten czyta się z drzewa, więc reguła weszła do kodu za własną flagą.
+W kodzie jej nie ma.
+
+Wycofały ją sądy nad całym podkorpusem milionowym NKJP.
+Konstrukcja jest w tym rejestrze rzadka,
+więc trafienia przeczytano co do jednego:
+trzynaście sądów, ani jednego potwierdzenia.
+Wszystkie trzynaście są jednym kształtem, którego czytelnik nie poprawia:
+wykonawca domyślny imiesłowu jest w nich wykonawcą domyślnym orzeczenia,
+więc nikt, kogo zdanie miało nazwać, z niego nie wypadł.
+W `Fabrykę zaplombowano, konfiskując także podejrzane materiały.`
+plombuje i konfiskuje ta sama policja, której zdanie nie nazywa,
+a `Warto o tym pamiętać, wychowując dzieci.` mówi dwa razy o tym samym czytelniku.
+Orzeczeniem jest przy tym w ośmiu z nich predykatyw — `można`, `trzeba`, `warto` —
+a w pięciu forma nieosobowa na `-no` albo `-to`.
+
+**Żadne z czterech zawężeń nie oddziela tych sądów od zdań korpusu usterek.**
+Populacją reguły jest trzynaście zdań i nic poza nimi:
+przebieg nad prozą całego podkorpusu nie wypisał ani jednego trafienia więcej,
+a zawężenie trafienia tylko zabiera.
+Każde zawężenie da się przez to przyłożyć do sądów już przeczytanych.
+
+- **Zdjęcie predykatywu**, czyli reguła pytająca o samą formę nieosobową,
+  zabiera osiem trafień fałszywych i pięć zostawia.
+- **Żądanie dopełnienia rzeczownikowego przy tej formie** nie zabiera nic:
+  mają je i te pięć zdań (`Fabrykę`, `serwery`, `Domy`, `strategii`, `system`),
+  i oba zdania korpusu usterek (`klucze`, `błąd`).
+  O konkretności tego rzeczownika olski nie orzeka wcale.
+- **Żądanie osoby od czasownika imiesłowu** (`olski/żądania.txt`)
+  zostawia trzy trafienia fałszywe i milknie nad całym korpusem usterek:
+  warstwa semantyczna Walentego nie ma wierszy ani dla `iść`, ani dla `czytać`.
+- **Forma nieosobowa wraz z imiesłowem stojącym przed nią**
+  zabiera wszystkie trzynaście i trafia w oba zdania korpusu usterek,
+  a mimo to nie wchodzi, bo oddziela szyk, a nie usterkę.
+  `Zgubiono klucze, idąc do pracy.` ma tę samą usterkę,
+  a reguła tak zawężona milczy nad tym zdaniem;
+  `Konfiskując także podejrzane materiały, zaplombowano fabrykę.`
+  czyta się tak samo dobrze jak zdanie źródłowe, a ona je zgłasza.
+  Przestawienie odwraca werdykt i nie odwraca sądu czytelnika,
+  więc podział ten oddziela zdania wymyślone pod korpus,
+  pisane szykiem podręcznikowym, od zdań z cudzej prozy.
+
+Zawężenia nie ma dlatego, że kształtem jest warunek, a nie zgłoszenie.
+Czy autor wykonawcę ukrył, czy nazwać go nie miał po co,
+orzeka wykonawca domyślny obu orzeczeń,
+a jego z drzewa nie widać i nie widać go też z żadnego słowa zdania.
+Ta sama granica zabrała z korpusu usterek trzy wpisy, które regułę zamawiały
+([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)),
+a dwa z nich napisano pod ten korpus ręką i one właśnie regułę uwiarygodniły.
+Po to nagłówek `próba/usterki.txt` żąda zdań cudzych:
+zdanie wymyślone pod ten plik mierzy autora, a nie usterkę, którą ktoś popełnia.
+
 ## Gdzie na tych osiach wypada reguła o zaimku
 
 Pierwsza reguła wydana po zamknięciu pakietu zgłasza zaimek,

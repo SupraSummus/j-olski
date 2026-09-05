@@ -29,7 +29,7 @@ i mówi o tym [jego sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
 
 Sprawdzacz polskiego tekstu dla autora, który pisze po polsku
 i chce znaleźć w tekście usterki głębsze niż literówka i błąd składni:
-zaimek, którego nie da się rozwiązać, imiesłów bez podmiotu,
+zaimek, którego nie da się rozwiązać,
 orzeczenie, które nie nazywa wykonawcy.
 Autorem bywa człowiek, a bywa agent AI,
 i dla tego drugiego narzędzie jest sposobem na dobrą polszczyznę,

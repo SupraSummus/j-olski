@@ -356,14 +356,3 @@ liczbę przydawki — ten wpis nie obejmuje, bo ich poprawki w korpusie są dzi�
 i świadka nie ma czym postawić;
 ile poprawek korpusu olski czyta, mówi `python3 -m harness.usterki`,
 a wpis o tych parach pisze się dopiero wtedy, gdy ich poprawki wchodzą.
-
-Wykrywacz imiesłowu bez podmiotu trafia nad cudzym tekstem w zdania, których nikt nie poprawia:
-trafienia nad NKJP przeczytano co do jednego i żadnego czytelnik nie potwierdził
-([`docs/subset.md`](../docs/subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
-Ruchem oczywistym jest zawężenie po głowie roli i ono nie wystarcza:
-zdjęcie predykatywu zabiera większość trafień fałszywych, resztę zostawia,
-a przy tym przeczy wpisowi korpusu usterek, który nazywa usterką `można`.
-Do rozstrzygnięcia jest, czy tożsamość wykonawcy domyślnego obu orzeczeń
-da się orzec z czegokolwiek, co to repozytorium ma;
-jeżeli nie, ruchem jest zdjęcie reguły z kodu,
-a dwa wpisy korpusu usterek wracają wtedy do ciszy.
