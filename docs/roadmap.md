@@ -363,6 +363,15 @@ a wpis, którego odpowiedzią jest znaczenie słowa, a nie kształt zdania,
 schodzi do wariantu, w którym usterka jest kształtem, albo z korpusu wypada
 ([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
 
+Zdania korpusu bierze się z wycinka cudzej prozy przeczytanego w całości,
+a nie z prozy przeszukanej pod usterkę.
+Wycinek wybrany ręką niesie usterkę, którą wybierający umiał nazwać,
+czyli zwykle taką, o której olski już mówi.
+Wyznacza go więc `python3 -m harness.wycinek --następny`,
+a przeczytany wpisuje się do `próba/przeczytane.txt`.
+Wpisuje się tam także wycinek, w którym usterki nie było ani jednej,
+bo bez niego rejestr mówiłby, ile ktoś znalazł, a nie ile przeczytał.
+
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
 Wzorce, których w prozie nie chcemy — zdanie echo, wzmacniacz bez treści,
 peryfrazę, czasownik domowy — wylicza
