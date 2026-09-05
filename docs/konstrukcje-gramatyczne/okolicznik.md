@@ -171,9 +171,9 @@ gdzie `pomagając linterowi` się wyprowadza.
 Polszczyzna żąda przy tym od tego imiesłowu tożsamości podmiotu,
 a nie zgodności form, więc gramatyka nie ma tego czym złamać:
 `pcon` nie niesie ani liczby, ani rodzaju, ani osoby.
-O jednym złamaniu tej tożsamości mówi za to warstwa nad lasem:
-imiesłów stojący przy orzeczeniu bezosobowym nie ma podmiotu skąd wziąć
-([subset.md](../subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
+Złamania tej tożsamości nie zgłasza też żadna warstwa nad lasem:
+warunek na nie czyta się z drzewa, a samo zgłoszenie już nie
+([linter.md](../linter.md#reguła-o-imiesłowie-bez-podmiotu-myliła-się-w-każdym-trafieniu)).
 
 Ciała są dwa na każdą pozycję, bo zakup imiesłowu samego —
 `Program zapisuje ustawienia, milcząc.` — jest osobną liczbą.

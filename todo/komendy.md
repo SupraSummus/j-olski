@@ -354,7 +354,8 @@ Wydruk `olski-check` stawia po jednym wierszu na flagę (`olski/check.py`),
 a `zgłoszenia` w `harness/usterki.py` zbiera z tego nazwy dla korpusu usterek.
 Deklaracją jest `ZGŁOSZENIA` w `olski/werdykt/tekst.py`,
 a wykrywacz dopisany przez nią drugiej listy nie kosztuje:
-tak weszło `imiesłów bez podmiotu` i sonda usterek policzyła je bez zmiany w sobie.
+sonda usterek liczy jego zgłoszenie bez zmiany w sobie,
+i tak liczy `niejasne odniesienie w zdaniu`, które czeka za flagą.
 Poza tą deklaracją zostają dwa zgłoszenia — chwyt rejestru spod `--chwyty`
 oraz rzecz w pozycji osoby spod `--osoby` —
 i ich nazwy `harness/usterki.py` wypisuje ręką,

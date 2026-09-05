@@ -16,7 +16,6 @@ from dataclasses import dataclass
 from olski import cennik
 from olski.document import SENTENCE_CLOSE
 from olski.grammar import Grammar
-from olski.imiesłowy import Imiesłów, imiesłowy_bez_podmiotu
 from olski.morph import Segment
 from olski.osoby import OSOBY_PROJEKTU, Osoby
 from olski.parse import (
@@ -181,9 +180,6 @@ class Verdict:
         (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
         Zaimek wskazujący na dwie rzeczy naraz pada obok werdyktu,
         bo rzeczy nazywa zdanie obok (``olski/odniesienia.py``), więc tutaj go nie ma.
-        Imiesłów bez podmiotu widać za to z jednego zdania, a tutaj go nie ma
-        z innego powodu: czeka on za flagą na sądy czytelnika
-        (:attr:`imiesłowy`).
         Warunek stoi tu raz, bo pyta o niego wydruk nad każdym zdaniem osobno;
         :class:`olski.werdykt.tekst.Podsumowanie` liczy każde z tych zgłoszeń
         nad tekstem i liczy je osobno.
@@ -298,18 +294,6 @@ class Verdict:
             _żądania_streszczenia(drzewa)
             for _streszczenie, drzewa in streszczone(self.result.readings, DEKLARACJA)
         ]
-
-    @property
-    def imiesłowy(self) -> tuple[Imiesłów, ...]:
-        """Imiesłowy przysłówkowe, którym zdanie podmiotu nie daje (``olski/imiesłowy.py``).
-
-        **Krotka jest o zdaniu, a nie o odczytaniu**, i tym różni się ten wykaz
-        od :attr:`żądania`, a jest nim z tego samego powodu, z którego wiersz o
-        żądaniu osoby jest o zdaniu (:func:`niespełnione_żądania`): parę
-        powtórzoną w odczytaniach warstwa zwija do jednej, więc wykaz na
-        odczytanie kazałby przeczytać kopie jednego wiersza.
-        """
-        return imiesłowy_bez_podmiotu(self.result.readings)
 
     @property
     def rozbieżne(self) -> list[Rozbieżność]:
