@@ -600,7 +600,7 @@ Baza jest tego warta dlatego, że sąd żyje dłużej niż liczba pod nim.
 Liczbę unieważnia następne przeliczenie i nikt nie widzi, kiedy to się stało,
 a sądu czytelnika nad zdaniem raz przeczytanym
 nie unieważnia ani produkcja dopisana potem, ani nowsze wydanie korpusu;
-warunek na każdy cel gramatyki opiera się już na tej różnicy
+liczba główna pierwszego celu gramatyki opiera się już na tej różnicy
 ([roadmap.md](roadmap.md#cele)).
 Produkcja rusza natomiast to, czy znalezisko dalej pada,
 i sonda liczy to osobno: znalezisko fałszywe, które zeszło, jest zakupem,
@@ -623,14 +623,31 @@ Wieloznaczność, którą ma czytelnik, a werdykt jej nie melduje,
 nie ma w tej bazie ani jednego wpisu i mieć nie może,
 bo wpis powstaje ze znaleziska
 ([disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje)).
-Oceniający jest przy tym jeden i widzi werdykt, zanim oceni,
-więc powód czyni sąd sprawdzalnym przez drugą osobę, a drugiej oceny nie zastępuje.
-Sądy wydała sesja agenta, a nie rodzimy czytelnik,
-więc baza mierzy rozumienie modelu.
-Rozumienie czytelnika ma nad wyborem, który jest odczytaniem formy,
-bo o nim mówi anotator korpusu
-([adnotacje.md](adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)),
-a nad przyłączeniem dopiero od pierwszej oceny, którą wyda człowiek.
+Oceniający widzi przy tym werdykt, zanim oceni,
+więc ocenia zdanie wraz z odpowiedzią, a nie samo zdanie.
+
+**Sąd sesji agenta z zapisanym powodem jest sądem czytelnika.**
+Sądy tej bazy wydała sesja agenta i jest to decyzja, a nie brak,
+bo od sądu żąda się jednej rzeczy: powodu, który nazywa odpadające czytanie
+i który druga osoba sprawdzi nad samym zdaniem.
+Sąd bez powodu jest zdaniem, którego nikt nie sprawdzi, czyj by nie był,
+więc dzieli tu powód, a nie gatunek oceniającego.
+Za decyzją stoi zgodność, którą da się przeliczyć.
+Złote znaczniki NKJP rozstrzygają same około jednego wpisu tej bazy na pięć,
+a odczytanie, które w takim wpisie zostaje, jest tym, które nazywa powód
+([adnotacje.md](adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)).
+Anotator jest rodzimym czytelnikiem, więc te wpisy mają drugą ocenę
+i potwierdza ona powód, na którym sąd stanął.
+Samego sądu nie potwierdza: anotator mówi, które czytanie jest jego,
+a nie to, czy poprawiłby zdanie.
+
+Odwróci tę decyzję pierwszy wpis, w którym złoto zostawia czytanie inne,
+niż nazywa powód.
+Które wpisy złoto rozstrzyga, wypisuje `python3 -m harness.znaczniki nkjp/ --sądy`,
+a czytanie, które w takim wpisie zostaje, czyta się obok powodu.
+Wąskością zostaje przy tym jeden oceniający, a nie to, kto nim jest:
+poza wpisami rozstrzygniętymi przez złoto drugiej oceny nie ma żadnej,
+więc żadna stopa z tej bazy nie ma błędu pomiaru.
 
 **Sąd wydaje się nad tekstem czytanym jako informatywny,
 choćby tekst informatywny nie był.**

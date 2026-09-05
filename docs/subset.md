@@ -449,39 +449,42 @@ a cel nad tym korpusem przestaje mówić, co by go osiągnęło
 ([roadmap.md](roadmap.md#cele)).
 Rozstrzyga to jedno pytanie: co wykrywacz musiałby wiedzieć nad tym zdaniem?
 Odpowiedź „kształt tego zdania” wpis w korpusie zostawia,
-a odpowiedź „znaczenie tego słowa” zabiera go stamtąd.
+a odpowiedzi „znaczenie tego słowa” i „która z dwóch form jest zła”
+zabierają go stamtąd.
 
-**Zgłoszenie o zdaniu, którego polszczyzna nie ma, poświadcza naprawa, a nie produkcja.**
-`Zespół programistów spotkali się rano.` jest zdaniem z usterką,
-a gramatyka pilnująca zgodności takiego zdania nie wyprowadza.
-Produkcja, która by je wpuściła, zdejmuje zgodność wszystkim zdaniom naraz,
+**Sam błąd gramatyczny wpisem nie jest, bo pary niezgodnej nic nie nazywa.**
+Chodzi o zdanie, w którym jedna forma nie zgadza się z sąsiednią
+albo stoi w przypadku, którego czasownik nie żąda:
+`Zespół programistów spotkali się rano.`
+Gramatyka pilnująca zgodności takiego zdania nie wyprowadza,
+a produkcja, która by je wpuściła, zdejmuje zgodność wszystkim zdaniom naraz,
 czyli zabiera dokładnie ten warunek, o który wpis prosi,
 i łamie obietnicę, że każde zdanie olskiego jest zdaniem polskim
 ([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
-Odczytanie, które takiemu zdaniu ta gramatyka daje,
-jest czytaniem, którego polszczyzna nie ma, i zabiera je kierunek
-([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
-Samo odrzucenie zgłoszenia nie zastępuje, bo mówi tylko,
-[dokąd analiza doszła](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka).
-Zostaje naprawa, i to jej wpisy o niezgodności żądają:
-zgłoszenie o parze, która się nie zgadza, poświadcza odczytanie napisu,
-w którym orzeczenie dostało formę, której żąda podmiot.
-
-**Zgłoszenie jest jedno, choćby naprawa nie była.**
-Naprawą jest tu całe orzeczenie, a nie jedno słowo:
-`Lista błędów i ostrzeżeń zostały zapisane.` naprawia `została zapisana`,
-czyli obie formy naraz, bo obie mają tę samą liczbę i ten sam rodzaj.
-Formę tę rozstrzyga podmiot, więc przy jednym podmiocie naprawa jest jedna,
-a przy dwóch kandydatach na podmiot są dwie
-i każda nazywa tę samą parę, która się nie zgadza.
-Ruszyć wolno przy tym samo orzeczenie:
-to zdanie naprawia także `Listy` w miejsce `Lista`,
-ale zdanie z `Listy` mówi co innego, bo list jest w nim kilka.
-Werdykt nazywa przy tym parę, a nie napis do przepisania,
-więc druga naprawa nie dokłada autorowi wyboru.
-Tym ta klasa różni się od naprawy całego słowa, gdzie każdy kandydat
-mówi co innego i wybór między nimi zostaje przy autorze
+Zostaje odrzucenie i naprawa.
+Odrzucenie pary nie nazywa: mówi,
+[dokąd analiza doszła](#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka),
+a nad zdaniem zepsutym jedną formą staje na tej właśnie formie
+rzadziej niż raz na pięćdziesiąt zdań
 ([wyżej](#naprawa-całego-słowa-nie-jest-jednoznaczna)).
+Naprawa formy zakłada zaś to, czego szuka:
+żeby ułożyć orzeczenie w liczbie i rodzaju podmiotu,
+trzeba wiedzieć, który człon jest podmiotem,
+a mówi to dopiero rozbiór, którego to zdanie nie ma.
+Bez tej wiedzy kandydatem jest każda forma każdego lematu zdania,
+czyli naprawa całego słowa, którą tamta sekcja zmierzyła:
+prawie nigdy nie jest jedna, więc znaleziskiem nie jest.
+
+Wpis żądający mimo to takiego zgłoszenia ciągnie kolejkę w stronę
+rozbioru dopuszczającego niezgodność, czyli rozbioru rozmytego,
+a olski obiecuje usterkę głębszą niż błąd składni
+([roadmap.md](roadmap.md#co-jest-budowane)).
+Wpisy takie wyszły z korpusu z tego powodu, a nie dlatego,
+że ich zgłoszenie byłoby nietrafne.
+Odwróci ten ruch rozbiór, który przy niezgodności cech nazywa parę,
+na której unifikacja stanęła.
+Wtedy odpowiedź na pytanie „która forma jest zła” stoi w samym zdaniu,
+a nie w przeszukanym zbiorze napisów, i wpisy o niezgodności wracają.
 
 **Usterka, o której orzeka znaczenie słowa, zostaje poza korpusem.**
 `Idąc do pracy, padał deszcz.` olski wyprowadza
