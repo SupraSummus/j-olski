@@ -600,7 +600,7 @@ Baza jest tego warta dlatego, że sąd żyje dłużej niż liczba pod nim.
 Liczbę unieważnia następne przeliczenie i nikt nie widzi, kiedy to się stało,
 a sądu czytelnika nad zdaniem raz przeczytanym
 nie unieważnia ani produkcja dopisana potem, ani nowsze wydanie korpusu;
-warunek na każdy cel gramatyki opiera się już na tej różnicy
+liczba główna pierwszego celu gramatyki opiera się już na tej różnicy
 ([roadmap.md](roadmap.md#cele)).
 Produkcja rusza natomiast to, czy znalezisko dalej pada,
 i sonda liczy to osobno: znalezisko fałszywe, które zeszło, jest zakupem,

@@ -329,38 +329,78 @@ Trzecia zasada przychodzi z wycofanego pakietu ([niżej](#wycofany-jest-pakiet-r
 gdzie etap, na który nikt nie czeka, okazał się zaległością, a nie planem:
 cel, którego nikt nie podnosi, kasuje się razem z pracą, którą niósł.
 
-Pierwszy cel pyta o cały korpus usterek.
+Pierwszy cel pyta o cudzy tekst i o cały korpus usterek.
 Dwa następne pyta się o jedno zdanie, a dwa ostatnie o tekst.
 Podział ten idzie za [jednostką umowy](#podzbiór-jest-umową-a-nie-zasięgiem)
 i mówi, ile każdy cel potrzebuje zobaczyć, a nie który jest ważniejszy.
 
-**Każde zgłoszenie z korpusu usterek jest wykryte, a wpis czysty nie ma szumu.**
+**Zgłoszenie pada tam, gdzie czytelnik by poprawił.**
+Autor przychodzi z prozą, której nie pisał pod tę gramatykę,
+a każde zgłoszenie fałszywe kosztuje go zdanie przepisane bez powodu.
+Liczbą główną tego celu jest przez to trafność zgłoszeń nad bazą sądów:
+nad każdym zdaniem, które olski zgłosił, czytelnik mówi,
+czy poprawiłby to, co zgłoszenie wskazuje,
+a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie poprawiłby.
+Liczy się ją osobno dla każdego zgłoszenia, a ile ocen wystarcza,
+mówi reguła trzech
+([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)).
+Sądy stoją nad NKJP w `próba/nkjp-sądy.txt`,
+a nad korpusem audytowym ([audit-corpus.md](audit-corpus.md#the-list))
+w garści zdań przeczytanej ręką.
+Rejestr jest przypięty, a sąd czytelnika nad zdaniem raz przeczytanym
+nie starzeje się, więc dopisanie produkcji każe doczytać zdania nowo zgłoszone,
+a nie przeczytać rejestr od nowa.
+
+Ta liczba rozstrzyga, które zgłoszenie znaleziskiem zostaje.
+Zdanie prawdziwie wieloznaczne i zdanie, którego drugie czytanie
+czytelnik odrzuca bez namysłu, dostają ten sam wiersz o odczytaniach:
+`Koszt samej szynki przewyższa koszt szynki z dodatkami.`
+oraz `Operator ustala priorytet.` wychodzą oba
+jako `różne w rolach: dopełnienie, podmiot`.
+Drugie jest zwykłym zdaniem SVO o podmiocie osobowym i rzeczowym dopełnieniu,
+a czytania OVS polszczyzna naprawdę ma,
+więc zdjąć go nie wolno i zostawia je
+[kierunek](#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
+Zdjęta została natomiast wieloznaczność ze znalezisk,
+bo baza nie potwierdziła ani jednego jej zgłoszenia
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Ta sama liczba trzyma za flagą regułę o rzeczach z tego samego zdania
+([subset.md](subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą))
+i regułę o imiesłowie przy orzeczeniu bezosobowym
+([subset.md](subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
+
+Liczbą drugą jest wykrycie nad korpusem usterek.
 `próba/usterki.txt` wylicza zdania z usterką, którą czytelnik by poprawił,
 wraz z poprawką, nad którą zgłoszenie ma milczeć,
 i zdania czyste, nad którymi ma milczeć wszystko, co autor ma poprawić.
-Wiersz o odczytaniach nie jest tam szumem, bo poprawiać nad nim nie ma czego
-([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
-Widać to na `Operator ustala priorytet.`, które stoi w korpusie wpisem czystym:
-czytelnik ma nad nim jedno czytanie, a olski dwa, i tak ma zostać
-([wyżej](#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
-Sprawdza go `python3 -m harness.usterki`,
-a cel jest osiągnięty, gdy każdy wpis wychodzi wykryty albo czysty.
-Ten sam przebieg ustawia kolejkę roboty
+Wiersz o odczytaniach nie jest tam szumem, bo poprawiać nad nim nie ma czego,
+i to o nim mówi `Operator ustala priorytet.` wyżej.
+Sprawdza to `python3 -m harness.usterki`,
+a liczba jest pełna, gdy każdy wpis wychodzi wykryty albo czysty.
+Drugą jest dlatego, że wykrywacz pisze się pod wpis tego korpusu
+i w ten wpis trafia z założenia.
+Czy ma trafiać nad cudzym tekstem, mówi dopiero baza sądów,
+a ona potwierdza rzadko: ze 103 sądów trafne są 4.
+Wykrywacz imiesłowu bez podmiotu zgłasza dwa zdania korpusu,
+a z trzynastu zdań, które zgłosił nad NKJP, czytelnik nie potwierdził żadnego
+([subset.md](subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
+Sumy z tych dwóch liczb nie ma: wykrycie bez trafności awansuje regułę,
+która strzela nad polszczyzną autora.
+Przebieg nad korpusem ustawia za to kolejkę roboty
 ([niżej](#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)):
 wpis nieczytany żąda produkcji, licencji formy albo naprawy,
 wpis w ciszy żąda wykrywacza,
 a szum żąda zawężenia tego, co już pada.
-Cel mierzy zdolność, a nie udział,
+Liczba ta mierzy zdolność, a nie udział,
 bo zdania korpusu nikt nie przepisuje pod gramatykę:
 przepisać wolno poprawkę, a zdanie z usterką ma zostać usterką.
 Korpus rośnie zdaniem, które autor chciał zgłoszone, a olski przemilczał,
 i nie rośnie zdaniem dopisanym pod wykrywacz, który już stoi.
 Nie rośnie też zdaniem, którego zgłoszenia nie poświadcza ani odczytanie,
-ani naprawa: takiego wpisu nie zamyka żadna robota,
+ani naprawa, bo takiego wpisu nie zamyka żadna robota,
 więc cel przestaje przy nim mówić, co by go osiągnęło.
-Poznać go po jednym pytaniu — co wykrywacz musiałby wiedzieć nad tym zdaniem —
-a wpis, którego odpowiedzią jest znaczenie słowa, a nie kształt zdania,
-schodzi do wariantu, w którym usterka jest kształtem, albo z korpusu wypada
+Nie rośnie i zdaniem z samym błędem gramatycznym,
+bo pary, która się nie zgadza, nie nazywa dziś ani odrzucenie, ani naprawa
 ([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
 
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
@@ -497,29 +537,9 @@ Czego zgodność nie rozstrzygnie, cel nie obiecuje:
 przy dwóch kandydatach zgodnych wybiera znaczenie,
 a olski melduje obu i oddaje wybór autorowi.
 
-**Warunek na każdy cel z tej listy: zgłoszenia czyta się wszystkie.**
-Autor przychodzi z prozą, której nie pisał pod tę gramatykę,
-a każde zgłoszenie fałszywe kosztuje go zdanie przepisane bez powodu.
-Zdanie prawdziwie wieloznaczne i zdanie, którego drugie czytanie
-czytelnik odrzuca bez namysłu, dostają ten sam wiersz o odczytaniach:
-`Koszt samej szynki przewyższa koszt szynki z dodatkami.`
-oraz `Operator ustala priorytet.` wychodzą oba
-jako `różne w rolach: dopełnienie, podmiot`.
-Drugie jest zwykłym zdaniem SVO o podmiocie osobowym i rzeczowym dopełnieniu,
-a czytania OVS polszczyzna naprawdę ma,
-więc zdjąć go nie wolno i zostawia je
-[kierunek](#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
-Ten warunek zdjął wieloznaczność ze znalezisk:
-baza sądów nad NKJP nie potwierdziła ani jednego jej zgłoszenia
-([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
-Sprawdza go garść zdań przeczytana ręką,
-nad korpusem audytowym ([audit-corpus.md](audit-corpus.md#the-list))
-i nad NKJP ([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)):
-nad każdym zgłoszonym zdaniem czytelnik mówi, czy poprawiłby to, co zgłoszenie wskazuje,
-a warunek jest spełniony, gdy zgłoszenie pada tylko tam, gdzie poprawiłby.
-Rejestr jest przypięty, a sąd czytelnika nad zdaniem raz przeczytanym
-nie starzeje się, więc dopisanie produkcji każe doczytać zdania nowo zgłoszone,
-a nie przeczytać rejestr od nowa.
+Pozostałe cele stoją pod pierwszym, a nie obok niego:
+zgłoszenie, którego czytelnik nie potwierdza, jest kosztem autora,
+choćby wypadło z celu o zaimku albo o żądaniu pozycji.
 
 Czego na tej liście nie ma.
 Kierunku, bo prowadzi on tor, zamiast stać na jego końcu,
