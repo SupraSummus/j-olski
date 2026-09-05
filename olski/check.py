@@ -216,9 +216,9 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
     a kto pyta o czytania, pyta o każde zdanie czytane.
     """
     verdict = zdanie.werdykt
-    if verdict.znalezisko or (args.zatrzymania and not verdict.czytane):
+    if verdict.zgłoszenie or (args.zatrzymania and not verdict.czytane):
         yield verdict.explain()
-    #  Zaraz za werdyktem, bo jest znaleziskiem tak samo jak on, a nie odpowiedzią
+    #  Zaraz za werdyktem, bo jest zgłoszeniem tak samo jak on, a nie odpowiedzią
     #  warstwy obok (:func:`_rozstrzygnięcia`); flagi go nie chowają z tego samego
     #  powodu, dla którego nie chowają wieloznaczności.
     yield from _odniesienia(zdanie.odniesienia)
@@ -250,7 +250,8 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="olski-check",
-        description="Sprawdź zdania polskiego tekstu: zgłoś wieloznaczne, "
+        description="Sprawdź zdania polskiego tekstu: zgłoś znaleziska, "
+        "wypisz odczytania zdań wieloznacznych, "
         "a o zdaniach, których olski nie czyta, milcz do flagi.",
     )
     parser.add_argument("paths", nargs="*", help="pliki polskiego tekstu albo dokumenty")
@@ -331,8 +332,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     podsumowanie = Podsumowanie.ze_zdań(wszystkie)
     print(podsumowanie.explain())
-    #  Kod wyjścia niesie znaleziska, a nie milczenie
-    #  (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
+    #  Kod wyjścia niesie znaleziska, a nie milczenie ani wieloznaczność
+    #  (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
     return 0 if podsumowanie.znalezisk == 0 else 1
 
 

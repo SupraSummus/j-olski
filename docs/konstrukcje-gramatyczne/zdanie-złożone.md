@@ -114,7 +114,7 @@ Kolejka blokerów nazwy jej nie podsuwa,
 bo zdanie z takim dwukropkiem staje dopiero na swoim końcu
 i wpada do wiersza zdań bez struktury nad całością,
 czyli do tego jednego, który konstrukcji nie nazywa
-([roadmap.md](../roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst)).
+([roadmap.md](../roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
 Jedno zdanie tej prozy przechodzi przy tym z przyjętego na wieloznaczne,
 i jest to zysk, a nie cena:
 `Rozdziela tę tradycję jedno pytanie: co autor podaje na wejściu.`

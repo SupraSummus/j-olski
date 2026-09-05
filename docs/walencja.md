@@ -692,7 +692,7 @@ której olski nie nazywa; żądanie samych klas osobowych rozstrzyga bez niego
 deklaracja projektu ([niżej](#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
 Wiersz idzie przez to pod flagą, a nie w samym werdykcie:
 nie jest znaleziskiem, tylko materiałem do przeczytania
-([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 
 Adresatem tego wiersza jest reguła o frazie urzędowej bez wykonawcy,
 a nie ta o czasowniku domowym.

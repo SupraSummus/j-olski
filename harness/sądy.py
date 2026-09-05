@@ -8,8 +8,9 @@ dopisanie do gramatyki, a sąd nie. Po co ta baza jest i co jest w niej sądem,
 mówi docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają.
 
 Jednostką jest znalezisko nad zdaniem, nazwane słowem z
-:data:`olski.werdykt.ZNALEZISKA`, więc znalezisko dopisane do olskiego wchodzi
-tu bez zmiany w tym module. Zdanie o dwu znaleziskach stoi w bazie dwa razy.
+:data:`olski.werdykt.ZGŁOSZENIA`, więc zgłoszenie dopisane do olskiego wchodzi
+tu bez zmiany w tym module. Baza ocenia zgłoszenia, a nie same znaleziska,
+bo to ona rozstrzyga, które zgłoszenie znaleziskiem zostaje. Zdanie o dwu znaleziskach stoi w bazie dwa razy.
 
 Klas jest pięć, bo mówią o dwu rzeczach naraz: :data:`POTWIERDZONE` i
 :data:`NAD_CZYSTYM` o regule, :data:`PRZEOCZONE` i :data:`ZDJĘTE` o gramatyce,
@@ -40,7 +41,7 @@ from pathlib import Path
 from harness import pliki_prozy
 from harness.wybory import wpisy
 from olski.subset.deklaracja import WYRAŻENIE_PRZYIMKOWE
-from olski.werdykt import WIELOZNACZNE, ZNALEZISKA, Verdict, Zdanie, nad_tekstem
+from olski.werdykt import WIELOZNACZNE, ZGŁOSZENIA, Verdict, Zdanie, nad_tekstem
 
 #: Baza sądów, czyli jedyne miejsce, w którym ktoś ocenił znalezisko olskiego.
 SĄDY = Path(__file__).parent.parent / "próba" / "nkjp-sądy.txt"
@@ -100,7 +101,7 @@ class Sąd:
     #: Zdania tego akapitu stojące przed zdaniem, w kolejności.
     kontekst: tuple[str, ...]
     zdanie: str
-    #: Nazwa znaleziska z :data:`olski.werdykt.ZNALEZISKA`.
+    #: Nazwa zgłoszenia z :data:`olski.werdykt.ZGŁOSZENIA`.
     znalezisko: str
     #: Wiersz, który ``olski-check`` wypisał nad tym zdaniem w chwili oceny.
     werdykt: str
@@ -146,9 +147,9 @@ def czytaj(path: Path = SĄDY) -> list[Sąd]:
     sądy = []
     for pola in wpisy(path, KLUCZE, ("zdanie", "znalezisko", "werdykt", "sąd")):
         znalezisko = pola["znalezisko"][0]
-        if znalezisko not in ZNALEZISKA:
+        if znalezisko not in ZGŁOSZENIA:
             raise ValueError(
-                f"{path}: znalezisko {znalezisko!r} nie jest jednym z {', '.join(ZNALEZISKA)}"
+                f"{path}: znalezisko {znalezisko!r} nie jest jednym z {', '.join(ZGŁOSZENIA)}"
             )
         sąd = pola["sąd"][0] or PUSTY
         if sąd not in WARTOŚCI_SĄDU:
@@ -186,7 +187,7 @@ def zestaw(sąd: Sąd) -> Zestawienie:
     zdanie = werdykt_wpisu(sąd)
     return Zestawienie(
         sąd=sąd,
-        klasa=_klasa(sąd, sąd.znalezisko in zdanie.znaleziska, zdanie.werdykt.czytane),
+        klasa=_klasa(sąd, sąd.znalezisko in zdanie.zgłoszenia, zdanie.werdykt.czytane),
         dzisiejsze=zdanie.werdykt.explain(),
         kształt=kształt(zdanie.werdykt) if sąd.znalezisko == WIELOZNACZNE else "",
     )
@@ -242,7 +243,7 @@ def wydruk(zestawienia: Sequence[Zestawienie], czekające: int = 0) -> str:
     wiersze = [f"{len(zestawienia)} sądów o znaleziskach"]
     if czekające:
         wiersze[0] += f", a {czekające} wpisów czeka na sąd i nie wchodzi do liczb"
-    for nazwa in ZNALEZISKA:
+    for nazwa in ZGŁOSZENIA:
         swoje = [z for z in zestawienia if z.sąd.znalezisko == nazwa]
         if not swoje:
             continue
@@ -317,7 +318,7 @@ def _znaleziska_pliku(para: tuple[Path, Path]) -> list[Znalezisko]:
             werdykt=zdanie.werdykt.explain(),
         )
         for zdanie in nad_tekstem(path.read_text(encoding="utf-8"))
-        for nazwa in zdanie.znaleziska
+        for nazwa in zdanie.zgłoszenia
     ]
 
 

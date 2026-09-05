@@ -8,21 +8,44 @@ and what olski takes for a word is in
 [warstwa-leksykalna.md](warstwa-leksykalna.md).
 For the theory behind the track, see [design-notes.md](design-notes.md).
 
-## Wieloznaczność jest znaleziskiem, a nie definicją olskiego
+## Wieloznaczność jest odpowiedzią, a nie znaleziskiem
 
 Zdanie jest olskie, gdy gramatyka je wyprowadza.
 Narzędzie nad tą gramatyką sprawdza zdania polskiego tekstu
-i zgłasza autorowi znaleziska.
-Wieloznaczność jest jednym z nich:
+i wydaje autorowi dwa rodzaje wierszy.
+Znalezisko mówi, co w zdaniu poprawić,
+i ma padać tam, gdzie poprawiłby też czytelnik.
+Znaleziska są dwa: poprawka jednego znaku
+([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka))
+i zaimek, który wskazuje na dwie rzeczy naraz
+([niżej](#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem)).
+One wchodzą do kodu wyjścia `olski-check` i do liczby znalezisk w podsumowaniu.
+Odpowiedź mówi, co olski o zdaniu wie, i o nic nie prosi.
+Wieloznaczność jest odpowiedzią:
 zdanie o kilku odczytaniach różnego kształtu
 ([niżej](#co-się-liczy-jako-jedno-odczytanie))
-dostaje werdykt z tymi odczytaniami, a wybór zostaje przy autorze.
-Narzędzie odczytań nie rozstrzyga, i jest to decyzja, a nie brak:
-konwencja, że pierwsza grupa imienna jest podmiotem,
-czytałaby się jednoznacznie tylko temu, kto tę konwencję zna,
-a olski ma się czytać jak zwyczajna polszczyzna każdemu, kto mówi po polsku.
+dostaje wiersz z tymi odczytaniami, podsumowanie liczy je osobno,
+a kod wyjścia i liczba znalezisk ich nie widzą.
 
-Zdanie, które to rozstrzygnęło:
+Rozstrzygnęła to baza sądów (`próba/nkjp-sądy.txt`, `harness/sądy.py`).
+Każde zgłoszenie wieloznaczności ocenione nad podkorpusem NKJP
+czytelnik uznał za fałszywe,
+a nad korpusem audytowym zgłoszenie to pada nad prawie każdym zdaniem
+z pozycją przyłączeniową
+([open-questions.md](open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)).
+Reguła, która strzela nad większością zdań i nie trafia w żadne,
+znaleziskiem nie jest, i ten sam powód zamknął pakiet reguł
+([linter.md](linter.md#co-zamknęło-pakiet-reguł)).
+Baza jest mała, a do zdjęcia mała wystarcza:
+zgłoszenie wraca do znalezisk dopiero z sądem, który je potwierdza,
+a takiego nie ma ani jednego.
+Wraca przy tym kształtem, a nie całością,
+bo baza dzieli sądy po tym, czym czytania się różnią:
+rola dwóch grup o zlanych przypadkach jest pierwszym kandydatem,
+a przyłączenie wyrażenia przyimkowego ostatnim.
+
+Wieloznaczność zostaje w wydruku, bo mówi o zdaniu prawdę.
+Zdanie, które pokazuje, o jaką prawdę chodzi:
 
 ```text
 Koszt samej szynki przewyższa koszt szynki z dodatkami.
@@ -42,8 +65,15 @@ Chałka przewyższa zwykłą bułkę.
 
 `chałka` jest mianownikiem i niczym innym, `bułkę` biernikiem i niczym innym,
 więc OVS nie ma gdzie się wyprowadzić.
-Znalezisko nad pierwszym zdaniem mówi o tym zdaniu prawdę,
-a nad drugim nie pada, i tego od znaleziska się żąda.
+Narzędzie odczytań nie rozstrzyga, i jest to decyzja, a nie brak:
+konwencja, że pierwsza grupa imienna jest podmiotem,
+czytałaby się jednoznacznie tylko temu, kto tę konwencję zna,
+a olski ma się czytać jak zwyczajna polszczyzna każdemu, kto mówi po polsku.
+Cena tej decyzji jest zmierzona i mówi,
+że ten sam wiersz dostaje `Operator ustala priorytet.`,
+czyli zwykłe zdanie SVO, którego drugiego czytania czytelnik nie ma.
+Dlatego wiersz jest odpowiedzią na pytanie, ile czytań zdanie ma,
+a autor czyta go, kiedy o to pyta.
 
 Zdanie, którego gramatyka nie wyprowadza, znaleziskiem nie jest,
 dopóki nie dzieli go od czytania jeden znak
@@ -55,33 +85,31 @@ Nad prozą, której większości ten podzbiór nie bierze,
 jest to zwykły przypadek, a nie sąd o zdaniu.
 Czym milczenie z braku pokrycia różni się od wstrzymania się, wywodzi
 [linter.md](linter.md#abstention-is-allowed).
-Z tego samego powodu wydruk, podsumowanie i kod wyjścia `olski-check`
-stoją na znalezisku: zdanie bez znaleziska nie dostaje ani wiersza,
+Z tego samego powodu wydruk stoi na zgłoszeniu:
+zdanie bez odpowiedzi i bez znaleziska nie dostaje ani wiersza,
 a milczenie liczy się osobno.
 
-Znalezisko ma mówić o zdaniu, a nie o gramatyce.
+Odpowiedź ma mówić o zdaniu, a nie o gramatyce.
 Odczytanie, którego polszczyzna nie ma, zdejmuje się więc z gramatyki,
 a odczytanie, które polszczyzna ma, zostaje w werdykcie,
 choćby zdanie wychodziło przez nie wieloznaczne
 ([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
-Jedno wykluczenie ogranicza zasięg znaleziska.
+Jedno wykluczenie ogranicza zasięg tej odpowiedzi.
 Fraza musi być ciągłym odcinkiem tekstu,
 więc zdanie, którego drugie odczytanie potrzebuje frazy nieciągłej,
-wychodzi z jednym odczytaniem i bez znaleziska,
+wychodzi z jednym odczytaniem,
 a werdykt nie mówi nic o odczytaniu, którego nie umiał wyprowadzić.
 Ile to zdań i co kosztowałoby wpuszczenie ich, mierzy
 [design-notes.md](design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
 
-Jest to odwrócenie i stoi tu po to, żeby nikt go nie przywrócił przez przeoczenie.
-Olskie było zdanie o dokładnie jednym odczytaniu, a zdanie o dwóch olski odrzucał.
+Odwrócenia są tu dwa i stoją po to, żeby nikt ich nie przywrócił przez przeoczenie.
+Najpierw olskie było zdanie o dokładnie jednym odczytaniu, a zdanie o dwóch olski odrzucał.
 Ta jedna własność ustawiała wiersz podsumowania, kod wyjścia i pierwsze zdania README,
 więc zdanie wieloznaczne w polszczyźnie wychodziło odrzucone
 za wieloznaczność, którą naprawdę ma
-([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)).
-Drugim znaleziskiem jest poprawka jednego znaku
-([niżej](#poprawkę-jednego-znaku-poświadcza-gramatyka)),
-a trzecim zaimek, który wskazuje na dwie rzeczy naraz
-([niżej](#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+([open-questions.md](open-questions.md#odpowiedź-o-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)).
+Potem wieloznaczność była znaleziskiem obok poprawki jednego znaku i zaimka,
+i to ustawiało kod wyjścia tak, że zgłaszał co drugie czytane zdanie cudzej prozy.
 Wielkiej litery na początku zdania nie zgłasza nic,
 a ruch trzyma `todo/`.
 
@@ -255,8 +283,8 @@ i wtedy werdykt mówi nie tylko, dokąd analiza doszła, ale i co poprawić
 Autor cytuje cudzysłowem maszynowym tam, gdzie ten rejestr pisze `„ ”`,
 albo nie stawia kropki na końcu zdania.
 Olski takiego zdania nie czyta, a dzieli je od czytania jeden znak,
-i taka poprawka jest drugim znaleziskiem obok wieloznaczności
-([wyżej](#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+i taka poprawka jest pierwszym z dwu znalezisk
+([wyżej](#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 
 ```sh
 python3 -m olski.check -c 'Przepisem "Zasad techniki prawodawczej" jest ustawa.
@@ -403,9 +431,9 @@ albo rejestr, w którym usterka jest częsta.
 Ten drugi warunek jest ten sam, który sekcja wyżej stawia poprawce znaku,
 i mierzy się go na tym samym korpusie audytowym.
 
-## Zaimek wskazujący na dwie rzeczy jest trzecim znaleziskiem
+## Zaimek wskazujący na dwie rzeczy jest drugim znaleziskiem
 
-Dwa pierwsze znaleziska mieszczą się w jednym zdaniu, a trzecie nie mieści się.
+Poprawka jednego znaku mieści się w jednym zdaniu, a to znalezisko nie mieści się.
 `Są one czerwone.` dostaje ten sam werdykt po `Widzimy pole maków.`
 i po `Maki rosną w garnkach.`,
 choć po pierwszym z nich czytelnik ma jedną rzecz do wyboru, a po drugim dwie.
@@ -427,15 +455,17 @@ zdań: 2; wieloznaczne: 0; bez odczytania: 0; niejasne odniesienia: 1
 Zgłoszenie mówi o zdaniu prawdę sprawdzalną bez zaglądania czytelnikowi w głowę:
 te dwie rzeczy naprawdę stoją w zdaniu obok i naprawdę zgadzają się z zaimkiem.
 Czy czytelnik waha się nad nimi, mówi ono tak samo mało,
-jak mówi o tym znalezisko wieloznaczności
-([open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)),
+jak mówi o tym odpowiedź o wieloznaczności
+([open-questions.md](open-questions.md#odpowiedź-o-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)),
 i jest to ta sama cena wzięta drugi raz.
-Rozdziela je częstość.
+Rozdziela je częstość, i dlatego to jest znaleziskiem, a tamta nie.
 Wieloznaczność melduje się nad prawie każdym zdaniem z pozycją przyłączeniową (tamże),
 bo gramatyka wypisuje wszystkie czytania, jakie zdanie ma.
 Zaimek melduje się rzadko: ta sama komenda puszczona na prozę tego repozytorium
 zgłasza go raz na kilkadziesiąt zdań czytanych,
 bo rzeczy podaje samo zdanie obok, a zaimek rozstrzygnięty na miejscu milczy.
+Sądu czytelnika nad tym znaleziskiem baza sądów jeszcze nie ma,
+więc znaleziskiem jest ono na kredyt tej częstości.
 
 Kandydatów ubywa przy tym tam, gdzie gramatyka zdania obok nie wyprowadza,
 i ubywa ich wyłącznie w jedną stronę:

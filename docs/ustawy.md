@@ -563,7 +563,7 @@ Prawie wszystkie są wieloznaczne w polszczyźnie i olski melduje to słusznie.
 Zdanie o gospodarce finansowej wychodzi trzema czytaniami,
 bo dopełniacz `gminy` ma gdzie stać poza pozycją dopełnienia,
 a kiedy tam stoi, `zarząd` jest i mianownikiem, i biernikiem, czyli tym synkretyzmem,
-który [olski zgłasza jako wieloznaczność](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
+który [olski zgłasza jako wieloznaczność](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
 Jedno czytanie miało ono nie dlatego, że jest jednoznaczne,
 tylko dlatego, że gramatyka nie miała gdzie tego dopełniacza postawić.
 

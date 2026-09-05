@@ -106,45 +106,65 @@ Wszystkie cztery osie nazywaliśmy przedtem słowem „linter”.
 Dlatego wycofanie pakietu wyglądało jak wycofanie celu.
 Gdzie linter wypadnie na tych osiach, rozstrzygnie reguła, którą ktoś napisze.
 
-## Kolejna reguła zaczyna się od pomiaru, a nie od pomysłu
+## Kolejna reguła zaczyna się od zdania z usterką, a kalibracja przychodzi przed awansem
 
 Katalog zasad dobrego pisania jest długi, a każda z nich brzmi rozsądnie,
 dopóki się jej nie zmierzy — i to jest ta sama pułapka,
 w którą wpadł [wycofany pakiet](#co-zamknęło-pakiet-reguł).
-Kolejność jest więc taka, i pomiar stoi w niej przed pisaniem.
+Pułapka druga stoi po przeciwnej stronie:
+reguła, która ma być zmierzona przed napisaniem, nie powstaje,
+bo pomiar kosztuje więcej niż ona.
+Kolejność jest więc taka, i pomiar stoi w niej przed awansem, a nie przed pisaniem.
 
-1. **Wypisz kilka kandydatek, a nie jedną.**
-   Bierz je z prostej polszczyzny, z katalogów angielskich,
-   z `CLAUDE.md` i z tego, co wyłapuje przegląd zmian.
-2. **Zapytaj o każdą, czego żąda od maszynerii.**
+1. **Zacznij od zdania w korpusie usterek.**
+   Reguła ma zdanie, w którym czytelnik usterkę by poprawił,
+   i poprawkę, nad którą ma milczeć (`próba/usterki.txt`).
+   Reguła bez takiego zdania jest pomysłem, a nie kandydatką.
+2. **Zapytaj, czego żąda od maszynerii.**
    Regułę, która rozstrzyga się na rozbiorze, warto pisać tutaj
    ([niżej](#suffixes-buy-more-than-expected));
-   regułę, której wystarczy znacznik, można pisać wszędzie.
-3. **Puść każdą sondą nad prozą tego repozytorium.**
-   Predykat pisze się na jeden przebieg i do drzewa nie wchodzi,
-   tak jak przy sondzie różnicowej.
-4. **Przeczytaj trafienia, a nie samą ich liczbę.**
+   regułę, której wystarczy znacznik, można pisać wszędzie,
+   a pisze się ją tu wtedy, gdy stoi na niej zdanie z korpusu.
+3. **Napisz wykrywacz za flagą.**
+   Wchodzi do kodu, gdy trafia w swoje zdania korpusu i milczy nad ich poprawkami
+   (`python3 -m harness.usterki`).
+   Sondy nad rejestrem przed tym krokiem nie ma,
+   bo wykrywacz za flagą kosztuje jedną funkcję i jeden test.
+4. **Przeczytaj trafienia nad cudzym tekstem, a nie samą ich liczbę.**
+   Wypisuje je baza sądów (`harness/sądy.py`), a czyta czytelnik,
+   i mówi o każdym, czy poprawiłby to, co zgłoszenie wskazuje.
    Reguła, która trafia często, a każde trafienie jest chybione,
-   jest gorsza od reguły, która milczy.
-5. **Ustaw wybraną na [czterech osiach](#cztery-osie-każdej-reguły).**
-   Kiedy wyjdzie z tego próg, reguła wraca do kolejki, dopóki nie ma korpusu.
+   jest gorsza od reguły, która milczy, i schodzi z kodu.
+5. **Awansuj do znalezisk po sądach.**
+   Zgłoszenie wchodzi do wydruku domyślnego i do kodu wyjścia,
+   gdy sądy je potwierdzają, a ile ich trzeba, mówi
+   [reguła trzech](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają).
+   Brak sądów wstrzymuje awans, a nie krok trzeci.
+   Reguła, z której wychodzi próg, zostaje za flagą, dopóki nie ma korpusu.
 6. **Zawężaj ją tak, żeby myliła się w jedną stronę.**
    Zawężenie, które zdejmuje trafienia, może zgłoszenie schować;
    takie, które je dokłada, umie zgłoszenie wymyślić,
    a wymyślone kosztuje zaufanie do wszystkich pozostałych reguł.
+   Co zawęzić, mówi szum nad poprawką w korpusie usterek.
 
-Sześć kandydatek odpadło na kroku czwartym i wracać nie mają.
+Sześć kandydatek przeczytano nad prozą tego repozytorium
+i żadna z nich nie ma stąd zamkniętej drogi:
+ta proza jest pisana rejestrem, który katalog chwytów nazywa usterką,
+więc trafienia nad nią mówią o niej, a nie o tekście autora.
+Kandydatka wraca, gdy jej zdanie stanie w korpusie usterek.
+Co przeczytanie pokazało, zostaje, bo mówi o kształcie każdej z nich.
 Odległość podmiotu od orzeczenia trafia nad README kilka razy,
 a za każdym razem stoi między nimi zwykły okolicznik albo szyk odwrócony.
-Zdanie podrzędne zagnieżdżone w podrzędnym trafia nad tą prozą raz
-i nie ma czego robić.
+Zdanie podrzędne zagnieżdżone w podrzędnym trafia nad tą prozą raz.
 Czasownik domowy trafia nie rzadziej niż w co czwarte zdanie tej prozy,
-więc wskazuje dokument, a nie zdanie w nim.
+więc wskazuje dokument, a nie zdanie w nim, i jest stopą, a nie werdyktem.
 Nominalizacja w pozycji imiennej trafia w większość zdań,
 bo rzeczownik odczasownikowy jest w tym rejestrze zwykłym terminem:
 `przeliczenie` i `zatrzymanie` nazywają tu rzeczy, których inaczej nie ma jak nazwać.
 Wzmacniacz bez treści nie trafia w tej prozie ani raz poza `słowo kluczowe`,
-czyli poza kolokacją, która wzmacniaczem nie jest.
+czyli poza kolokacją, która wzmacniaczem nie jest,
+a nie trafia dlatego, że katalog chwytów go zakazuje i ktoś tę prozę pod niego przepisał;
+o tekście autora to zero nie mówi nic.
 
 Jedno twierdzenie na zdanie odpadło dwoma predykatami, a nie jednym,
 i warto powiedzieć, na czym stanął każdy.
@@ -169,7 +189,7 @@ kto chce dzisiejszych, pisze predykat na nowo i puszcza go.
 
 Pierwsza reguła wydana po zamknięciu pakietu zgłasza zaimek,
 który zgadza się z dwiema rzeczami nazwanymi w zdaniu obok
-([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem)).
 Na każdej z [czterech osi](#cztery-osie-każdej-reguły)
 wypada inaczej niż reguły wycofanego pakietu,
 i to jest powód, dla którego weszła.
@@ -201,7 +221,7 @@ Reguła o zaimku wskazującym na dwie rzeczy jest znaleziskiem,
 czyli mówi o polszczyźnie zdania.
 Druga reguła wydana po zamknięciu pakietu mówi o rejestrze, w którym je napisano,
 i jest pierwszym wzorcem z katalogu chwytów,
-który wytrzymał [pomiar](#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
+który wytrzymał [pomiar](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem).
 `To` otwierające zdanie, które nie ma przy sobie rzeczownika,
 podejmuje całe zdanie obok, a naprawą jest rzeczownik wstawiony w jego miejsce.
 Wykrywa go `olski/chwyty.py`, a wypisuje flaga `--chwyty`.
@@ -268,7 +288,7 @@ kilkanaście w dokumentach, w modułach i w testach —
 a nad prozą przepisaną reguła milczy.
 Zwrot ten jest tanią częścią reguły o jednym twierdzeniu na zdanie,
 a co odrzuciło resztę tamtej reguły,
-mówi [krok czwarty](#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
+mówi [krok czwarty](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem).
 
 ```sh
 python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md todo/*.md

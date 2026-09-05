@@ -99,7 +99,7 @@ def bloker(segments: Sequence[Segment], result: Result) -> str | None:
     Licensing orders those readings and does not filter them, because a form
     nothing licenses is what this queue is *for*: the compound future stops
     analyses under ``bedzie``, and that row is how the construction gets named
-    (roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst).
+    (roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów).
     Between the readings left standing
     the row stays arbitrary, and picking one keeps the ranking readable.
 

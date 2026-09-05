@@ -92,7 +92,7 @@ Apozycję z przecinkiem niesie 217 zdań Składnicy z 13035 mających drzewo wzo
 (`python3 -m harness.kształty`), i jest to największy zakup w tej sekcji.
 Apozycja bez przecinka wychodzi z tego przebiegu osobno, w 1274 zdaniach,
 bo jest konstrukcją inną i stoi już wśród zawyżeń
-[pomiaru wieloznaczności](../docs/open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
+[pomiaru wieloznaczności](../docs/open-questions.md#odpowiedź-o-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 jako `podpis CERTYFIKAT`; ten wpis mówi o pierwszej z tych dwóch liczb.
 Kształtem żadnej z nich nie policzyć, i tu wpis się mylił.
 Monografia Świgry mówi, że apozycji nie rozdziela od koordynacji etykieta

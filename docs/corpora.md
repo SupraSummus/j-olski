@@ -8,7 +8,7 @@ what Polish is obtainable, and what each body of it can and cannot support.
 The track it was written for is gone,
 and the survey outlives it because the grammar is measured over Polish too:
 the audit corpus it argues for is where
-[the register's own ambiguity](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
+[the register's own ambiguity](open-questions.md#odpowiedź-o-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 is counted,
 and [a base of hand-read findings](#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
 takes its text from here as well.
@@ -569,12 +569,15 @@ Wypisuje je `harness/sądy.py` i on też zestawia sądy z dzisiejszym werdyktem.
 Ceną jest pobranie podkorpusu i przebieg gramatyki nad jego prozą,
 bo które zdanie ma znalezisko, mówi dopiero rozbiór.
 
-**Sąd jest o znalezisku, więc znalezisko dopisane do olskiego wchodzi bez zmiany bazy.**
-Wpis nazywa znalezisko słowem olskiego, tym samym, którym liczy je `olski-check`,
+**Sąd jest o zgłoszeniu, więc zgłoszenie dopisane do olskiego wchodzi bez zmiany bazy.**
+Wpis nazywa zgłoszenie słowem olskiego, tym samym, którym liczy je `olski-check`,
 a nie osobnym słownikiem tej bazy.
-Wieloznaczność nie jest przez to niczym szczególnym:
-poprawka jednego znaku i zaimek wskazujący na dwie rzeczy oceniają się tak samo,
-a czwarte znalezisko pierwszy przebieg po jego dopisaniu wypisze jako nowe.
+Baza ocenia każde zgłoszenie, a nie same znaleziska,
+bo to ona rozstrzyga, które zgłoszenie znaleziskiem zostaje:
+wieloznaczność przestała nim być, kiedy żaden sąd jej nie potwierdził
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Poprawka jednego znaku i zaimek wskazujący na dwie rzeczy oceniają się tak samo,
+a nowe zgłoszenie pierwszy przebieg po jego dopisaniu wypisze jako nowe.
 `trafne` znaczy, że czytelnik poprawiłby to, co znalezisko wskazuje;
 przy wieloznaczności ma dwa rozumienia, które mówią o świecie co innego,
 a zdanie wraz ze swoim akapitem nie mówi, które.

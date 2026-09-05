@@ -699,6 +699,13 @@ or in a document's own `Not yet decided`.
 the pointer does not run the other way
 ([one direction](#dokument-i-kod-nie-wskazują-na-claudemd-ani-na-todo)).
 
+Zdanie z usterką, którą czytelnik by poprawił, a olski o niej milczy,
+nie jest wpisem na żadnej z tych list, tylko wpisem korpusu usterek (`próba/usterki.txt`),
+wraz z poprawką i z nazwą zgłoszenia, które ma paść.
+Ten korpus ustawia kolejkę toru gramatycznego, a nie kolejka blokerów
+([`docs/roadmap.md`](docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)),
+więc produkcję i wykrywacz dopisuje się dla zdania, które w nim stoi.
+
 Alternatywy odrzuconej nie zamyka nikt, więc nie jest wpisem na żadnej z tych list.
 Jest [wywodem o stanie dzisiejszym](#documents-describe-the-present-git-owns-the-past)
 i należy do dokumentu, który jest właścicielem tematu,
@@ -900,6 +907,40 @@ wedle którego leksemu odmienia się słowo, którego słownik nie ma,
 oraz których lematów ten projekt używa, a których nie używa wcale
 ([`docs/warstwa-leksykalna.md`](docs/warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
 Ten plik nie ma generatora; przebiegiem wychodzą z niego formy, a nie wpisy.
+
+## Wykrywacz wchodzi za flagą, a kalibracja przychodzi przed awansem
+
+Pomiar w tym repozytorium bywał droższy od ruchu, który miał rozstrzygnąć,
+i wtedy ruch czekał, a nikt za to czekanie nie płacił widocznie.
+Trzy zdania niżej mówią, kiedy mierzyć, a kiedy robić.
+
+**Wykrywacz zaczyna się od zdania w korpusie usterek i wchodzi do kodu za flagą.**
+Zdanie z usterką i jego poprawka stoją w `próba/usterki.txt`,
+a wykrywacz, który trafia w to zdanie i milczy nad poprawką,
+wchodzi do kodu pod własną flagą od razu (`python3 -m harness.usterki`).
+Sondy nad rejestrem przed napisaniem nie żąda,
+bo cena wykrywacza za flagą jest jedna funkcja i jeden test,
+a cena reguły w wydruku domyślnym jest zdanie autora przepisane bez powodu.
+Kalibracji żąda dopiero awans: do wydruku domyślnego i do kodu wyjścia
+zgłoszenie wchodzi po sądach czytelnika nad cudzym tekstem
+([`docs/linter.md`](docs/linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
+
+**Decyzję wstrzymuje brak dowodu, a nie mały dowód.**
+Kilkadziesiąt sądów bez ani jednego potwierdzenia zdejmuje zgłoszenie ze znalezisk,
+a kilkadziesiąt potwierdzeń bez ani jednego fałszywego je awansuje;
+ile ich trzeba, mówi
+[reguła trzech](docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają).
+Wpis, który czeka na „większą bazę”, nazywa liczbę, po której przestanie czekać,
+albo rozstrzyga się na tej, którą ma.
+
+**Stopa nad prozą repozytorium nie odrzuca reguły o tekście autora.**
+Populacją reguły jest tekst, którego autor nie pisał pod tę gramatykę.
+Proza tego repozytorium jest pisana rejestrem, który
+[katalog chwytów](#katalog-chwytów-rejestru) nazywa usterką,
+więc reguła trafiająca tu w co czwarte zdanie mówi o tej prozie,
+a reguła, która tu nie trafia wcale, mówi tylko, że ktoś tę prozę pod nią przepisał.
+O regule rozstrzyga przeczytanie jej trafień nad cudzym tekstem
+i zdanie z korpusu usterek, którego nie widzi.
 
 ## Code
 

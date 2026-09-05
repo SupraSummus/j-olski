@@ -158,8 +158,9 @@ and one row for the sentence that stopped on no token at all.
 The counts move with every production admitted, so the run owns them,
 and what this document owns is which rows lead and what stands in them.
 How much the ranking settles about what gets built next is another document's:
-[roadmap.md](roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst)
-takes it as a sieve rather than as an order of work.
+[roadmap.md](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)
+takes it as a sieve rather than as an order of work,
+and puts the order with the defect corpus instead.
 
 Punctuation leads it by a wide margin,
 accounting for more than a fifth of the rejections
@@ -368,7 +369,7 @@ The ambiguous ones are almost all one of two classes:
 a prepositional phrase either the noun or the verb could host,
 and a nominative read as an accusative,
 which are the two classes
-[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
+[open-questions.md](open-questions.md#odpowiedź-o-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik)
 counts over a whole register;
 `--readings` is what shows them, as readings olski has and a reader does not.
 A sentence carrying both at once, once in each of its clauses,
@@ -1131,7 +1132,7 @@ so the live column holds its readings minus the exclusion above,
 and the gold column holds an annotator's answer rather than a program's.
 How much of the gold column a tagger recovers is a third figure neither run has,
 and it is the one that says how often
-[the ambiguity finding](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)
+[the ambiguity finding](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)
 fires outside a treebank.
 [Concraft](prior-art.md#polish-language-resources) is the candidate for taking it.
 

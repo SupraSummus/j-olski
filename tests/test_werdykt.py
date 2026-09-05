@@ -28,6 +28,7 @@ from olski.segmentacja import morphology
 from olski.werdykt import (
     FRAGMENT,
     NIEDOMKNIĘTE,
+    WIELOZNACZNE,
     Naprawa,
     Podsumowanie,
     check,
@@ -104,7 +105,7 @@ def test_domknięcie_wieloznaczne_też_jest_niedomknięciem_a_nie_fragmentem():
 
 
 # --------------------------------------------------------------------------- #
-# Poprawka jednego znaku, czyli drugie ze znalezisk
+# Poprawka jednego znaku, czyli pierwsze ze znalezisk
 # --------------------------------------------------------------------------- #
 
 
@@ -121,7 +122,7 @@ def test_zdanie_cytujące_spoza_rejestru_jest_znaleziskiem_i_zostaje_odrzucone(z
     """Poprawka mówi autorowi, co zrobić, a status mówi, że gramatyka tego nie bierze."""
     naprawialne = verdict(zdanie)
     assert naprawialne.status == "rejected"
-    assert naprawialne.znalezisko
+    assert naprawialne.zgłoszenie
     assert naprawialne.naprawa == Naprawa("cudzysłów „ i ” w miejsce tego, którym zdanie cytuje", 1)
 
 
@@ -294,14 +295,24 @@ def test_podsumowanie_nie_liczy_fragmentu_ani_w_liczniku_ani_w_mianowniku():
     assert (podsumowanie.wieloznaczne, podsumowanie.fragmentów) == (0, 1)
 
 
-def test_niejasne_odniesienie_liczy_się_tam_gdzie_dwa_pozostałe_znaleziska():
+def test_niejasne_odniesienie_liczy_się_do_znalezisk_a_wieloznaczność_nie():
     """Usterka, którą to łapie: znalezisko policzone przez wydruk, a wydruki są dwa.
 
-    Liczba idzie do kodu wyjścia razem z wieloznacznością, więc pytamy o obie.
+    Do kodu wyjścia idzie zaimek, a wieloznaczność zostaje w swoim liczniku
+    (`ZNALEZISKA` w `olski/werdykt.py`), więc pytamy o obie liczby naraz.
     """
     podsumowanie = Podsumowanie.ze_zdań(nad_tekstem("Maki rosną w garnkach. Są one czerwone."))
     assert podsumowanie.niejasnych_odniesień == 1
-    assert podsumowanie.znalezisk == podsumowanie.wieloznaczne + 1
+    assert podsumowanie.znalezisk == 1
+
+
+def test_zdanie_wieloznaczne_ma_zgłoszenie_a_nie_znalezisko():
+    """Wiersz o odczytaniach pada, a kod wyjścia i licznik znalezisk go nie liczą."""
+    (zdanie,) = nad_tekstem("Program otwierający się psuje.")
+    assert zdanie.zgłoszenia == (WIELOZNACZNE,)
+    assert zdanie.znaleziska == ()
+    podsumowanie = Podsumowanie.ze_zdań([zdanie])
+    assert (podsumowanie.wieloznaczne, podsumowanie.znalezisk) == (1, 0)
 
 
 def _żądania(werdykt):

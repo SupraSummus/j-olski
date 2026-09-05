@@ -27,7 +27,7 @@ Zdejmuje, bo odrzuca czytania sprzeczne z akapitem.
 Wnosi, bo zaimek wskazuje na rzecz nazwaną w zdaniu obok,
 więc wybór między dwiema takimi rzeczami powstaje dopiero na tym poziomie,
 a rozbiór zdania z zaimkiem nie ma go z czego zobaczyć
-([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem)).
 Werdykt nie wnosi wieloznaczności i nie zdejmuje jej,
 bo jest wypowiedzią o czterech warstwach pod nim.
 

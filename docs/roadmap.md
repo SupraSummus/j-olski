@@ -27,17 +27,32 @@ i mówi o tym [jego sekcja](#kryterium-wyjścia-toru-składu-to-znów-readme).
 
 ## Co jest budowane
 
+Sprawdzacz polskiego tekstu dla autora, który pisze po polsku
+i chce znaleźć w tekście usterki głębsze niż literówka i błąd składni:
+zaimek, którego nie da się rozwiązać, imiesłów bez podmiotu,
+orzeczenie, które nie nazywa wykonawcy.
+Autorem bywa człowiek, a bywa agent AI,
+i dla tego drugiego narzędzie jest sposobem na dobrą polszczyznę,
+choćby kosztowało go więcej pracy nad zdaniem.
+Werdykt jest deterministyczny i wyjaśnialny,
+bo autor ma wiedzieć, czemu zdanie dostało zgłoszenie, i ma móc to dostroić.
+Dlatego pod spodem jest gramatyka pisana ręką, a nie model,
+którego parametrów nikt nie przeczyta.
+Jakich zgłoszeń autor potrzebuje, wylicza korpus usterek
+([niżej](#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
+
 Tor gramatyczny:
 parser zaprojektowanego podzbioru polszczyzny,
 który zwraca wszystkie odczytania zdania i zostawia wybór autorowi,
 oraz narzędzie nad nim, które sprawdza polski tekst i zgłasza znaleziska.
-Wieloznaczność jest znaleziskiem:
-werdykt mówi, że zdanie wyprowadza się na kilka sposobów, i na jakie.
+Wieloznaczność jest odpowiedzią, a nie znaleziskiem:
+werdykt mówi, że zdanie wyprowadza się na kilka sposobów, i na jakie,
+a kodu wyjścia tym nie rusza.
 Zdanie, którego gramatyka nie wyprowadza, jest znaleziskiem tylko wtedy,
 gdy dzieli je od czytania jeden znak;
 poza tym werdykt mówi o nim tyle, dokąd analiza doszła.
-[subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)
-jest właścicielem tej decyzji,
+[subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)
+jest właścicielem obu tych decyzji,
 a [swigra.md](swigra.md#what-it-leaves-open) opisuje puste pole, które zastał przegląd:
 najbliższy istniejący parser polszczyzny rozstrzyga tam, gdzie olski zgłasza.
 Maszyneria jest tym wszystkim, co [parsowanie.md](parsowanie.md)
@@ -74,12 +89,14 @@ Linter stylu dla polskiej dokumentacji technicznej stał obok, na torze opcjonal
 Jego pakiet reguł jest wycofany, o czym [niżej](#wycofany-jest-pakiet-reguł).
 Sam linter został celem.
 [Lista celów](#cele) nazywa go wykrywaczem wzorców prozy.
-Trzy odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczenie:
+Cztery odwrócenia prowadzą do tego stanu i żadne nie ma wracać przez przeoczenie:
 linter stał tu najpierw jako cel, a gramatyka jako tor obok niego,
 potem gramatyka stała jako cel, a linter jako tor,
-a na końcu narzędzie nad gramatyką zgłasza znaleziska,
-wśród których wieloznaczność jest jednym, a nie definicją olskiego
-([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+potem narzędzie nad gramatyką zgłaszało znaleziska,
+wśród których wieloznaczność była jednym, a nie definicją olskiego,
+a na końcu wieloznaczność przestała być znaleziskiem,
+bo baza sądów nie potwierdziła ani jednego jej zgłoszenia
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 
 ## Podzbiór jest umową, a nie zasięgiem
 
@@ -105,9 +122,9 @@ Czy zdanie dostanie zgłoszenie, rozstrzyga zdanie przed nim.
 i wieloznacznym po `Maki rosną w garnkach.`,
 bo `one` zgadza się tam z dwiema grupami imiennymi naraz,
 a przed pierwszym zdaniem tekstu nie ma czym rozwiązać `one` w ogóle.
-Zgłoszenie to olski wydaje i jest ono trzecim z jego znalezisk;
+Zgłoszenie to olski wydaje i jest ono drugim z jego znalezisk;
 zaimki, które bierze, i granicę sąsiedztwa trzyma
-[subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem).
+[subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem).
 Rachunek prowadzi zgodność, a nie znaczenie:
 `one` niesie liczbę mnogą i rodzaj niemęskoosobowy,
 więc kandydatów wylicza morfologia, a wybór między dwoma zostaje przy autorze,
@@ -312,9 +329,26 @@ Trzecia zasada przychodzi z wycofanego pakietu ([niżej](#wycofany-jest-pakiet-r
 gdzie etap, na który nikt nie czeka, okazał się zaległością, a nie planem:
 cel, którego nikt nie podnosi, kasuje się razem z pracą, którą niósł.
 
-Dwa pierwsze cele pyta się o jedno zdanie, a dwa następne o tekst.
+Pierwszy cel pyta o cały korpus usterek.
+Dwa następne pyta się o jedno zdanie, a dwa ostatnie o tekst.
 Podział ten idzie za [jednostką umowy](#podzbiór-jest-umową-a-nie-zasięgiem)
 i mówi, ile każdy cel potrzebuje zobaczyć, a nie który jest ważniejszy.
+
+**Każde zgłoszenie z korpusu usterek jest wykryte, a wpis czysty nie ma szumu.**
+`próba/usterki.txt` wylicza zdania z usterką, którą czytelnik by poprawił,
+wraz z poprawką, nad którą zgłoszenie ma milczeć,
+i zdania czyste, nad którymi ma milczeć wszystko.
+Sprawdza go `python3 -m harness.usterki`,
+a cel jest osiągnięty, gdy każdy wpis wychodzi wykryty albo czysty.
+Ten sam przebieg ustawia kolejkę roboty
+([niżej](#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)):
+wpis nieczytany żąda produkcji, wpis w ciszy żąda wykrywacza,
+a szum żąda zawężenia tego, co już pada.
+Cel mierzy zdolność, a nie udział,
+bo zdania korpusu nikt nie przepisuje pod gramatykę:
+przepisać wolno poprawkę, a zdanie z usterką ma zostać usterką.
+Korpus rośnie zdaniem, które autor chciał zgłoszone, a olski przemilczał,
+i nie rośnie zdaniem dopisanym pod wykrywacz, który już stoi.
 
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
 Wzorce, których w prozie nie chcemy — zdanie echo, wzmacniacz bez treści,
@@ -333,7 +367,7 @@ więc trafienia czyta się wszystkie, zamiast progować ich stopę.
 Tę różnicę rozkłada na osie
 [linter.md](linter.md#cztery-osie-każdej-reguły),
 a jak dobrać i wycenić następną regułę, mówi
-[ten sam plik](linter.md#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu).
+[ten sam plik](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem).
 Milczenie kosztuje przy tym zero:
 zdanie, którego olski nie wyprowadza, zostaje przy przeglądzie,
 czyli przy tym, co je dziś sprawdza,
@@ -431,8 +465,8 @@ dokąd analiza doszła
 ile grup imiennych w zdaniu obok zgadza się z `one` liczbą i rodzajem
 ([wyżej](#podzbiór-jest-umową-a-nie-zasięgiem)).
 Kilku jest zgłoszeniem wraz z ich listą, a jeden jest ciszą,
-i to zgłoszenie olski wydaje: jest ono trzecim z jego znalezisk
-([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem)).
+i to zgłoszenie olski wydaje: jest ono drugim z jego znalezisk
+([subset.md](subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem)).
 Zera kandydatów nie zgłasza, choć odesłanie bez antecedensu jest usterką,
 bo zdanie obok, którego gramatyka nie wyprowadza, kandydata nie podaje żadnego,
 więc zero znaczy tam co innego niż w tekście przeczytanym w całości (tamże).
@@ -454,23 +488,22 @@ a olski melduje obu i oddaje wybór autorowi.
 Autor przychodzi z prozą, której nie pisał pod tę gramatykę,
 a każde zgłoszenie fałszywe kosztuje go zdanie przepisane bez powodu.
 Zdanie prawdziwie wieloznaczne i zdanie, którego drugie czytanie
-czytelnik odrzuca bez namysłu, dostają dziś znalezisko tej samej nazwy:
+czytelnik odrzuca bez namysłu, dostają ten sam wiersz o odczytaniach:
 `Koszt samej szynki przewyższa koszt szynki z dodatkami.`
 oraz `Operator ustala priorytet.` wychodzą oba
 jako `różne w rolach: dopełnienie, podmiot`.
-Pierwsze z nich rozstrzygnęło, że wieloznaczność jest znaleziskiem
-([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
-a drugie jest zwykłym zdaniem SVO o podmiocie osobowym i rzeczowym dopełnieniu.
-Czytania OVS polszczyzna naprawdę ma,
+Drugie jest zwykłym zdaniem SVO o podmiocie osobowym i rzeczowym dopełnieniu,
+a czytania OVS polszczyzna naprawdę ma,
 więc zdjąć go nie wolno i zostawia je
 [kierunek](#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
-Czy dzisiejszy werdykt autorowi mimo to wystarcza, zostaje pytaniem otwartym
-i prowadzi je
-[open-questions.md](open-questions.md#znalezisko-wieloznaczności-nie-mówi-czy-ma-ją-też-czytelnik).
-Sprawdza ten warunek garść zdań korpusu audytowego przeczytana ręką
-([audit-corpus.md](audit-corpus.md#the-list)):
-nad każdym zgłoszonym zdaniem czytelnik mówi, ile czytań ma sam,
-a warunek jest spełniony, gdy zgłoszenie pada tylko tam, gdzie ma ich dwa.
+Ten warunek zdjął wieloznaczność ze znalezisk:
+baza sądów nad NKJP nie potwierdziła ani jednego jej zgłoszenia
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Sprawdza go garść zdań przeczytana ręką,
+nad korpusem audytowym ([audit-corpus.md](audit-corpus.md#the-list))
+i nad NKJP ([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)):
+nad każdym zgłoszonym zdaniem czytelnik mówi, czy poprawiłby to, co zgłoszenie wskazuje,
+a warunek jest spełniony, gdy zgłoszenie pada tylko tam, gdzie poprawiłby.
 Rejestr jest przypięty, a sąd czytelnika nad zdaniem raz przeczytanym
 nie starzeje się, więc dopisanie produkcji każe doczytać zdania nowo zgłoszone,
 a nie przeczytać rejestr od nowa.
@@ -493,9 +526,23 @@ a jednoznaczność jest [znaleziskiem](#co-jest-budowane), czyli wyjściem narz�
 Liczbę nad rejestrem przypiętym zachowujemy jako pomiar,
 i są jej właścicielami [ustawy.md](ustawy.md) oraz [corpus.md](corpus.md).
 
-## Kolejka blokerów odsiewa, a kolejność dopisań ustala tekst
+## Kolejkę ustawia korpus usterek, a nie kolejka blokerów
 
-Kolejka blokerów nazywa kandydatów i tyle o niej wiadomo z pomiaru.
+Co robić następne, mówi przebieg `python3 -m harness.usterki`
+nad `próba/usterki.txt`, a nie liczba pokrycia.
+Wpis nieczytany nazywa zdanie, którego gramatyka nie wyprowadza,
+a którego autor potrzebuje przeczytanego, bo stoi w nim usterka do zgłoszenia;
+produkcja, która je wpuszcza, ma pierwszeństwo przed produkcją,
+która kupuje kilkadziesiąt zdań banku drzew bez ani jednej usterki.
+Wpis w ciszy nazywa wykrywacz do napisania.
+Szum nazywa zgłoszenie, które pada obok usterki, a nie na nią, i żąda zawężenia.
+Pokrycie zostaje skutkiem, tak jak mówi
+[kierunek](#kierunek-werdykt-ma-mówić-prawdę-o-tekście):
+zdanie z usterką bywa długie, więc produkcja, która je wpuszcza,
+wpuszcza razem z nim zdania bez usterki.
+
+Kolejka blokerów nad bankiem drzew zostaje pomiarem i przestaje być planem.
+Kolejka ta nazywa kandydatów i tyle o niej wiadomo z pomiaru.
 Wiersz nazywa część mowy, na której analiza stanęła
 ([corpus.md](corpus.md#where-the-analyses-stop)),
 więc liczy czasem kilka konstrukcji naraz,
@@ -514,17 +561,18 @@ Wiersz mówi z grubsza, ile pozycja obiecuje w tym rejestrze,
 i nie mówi, że jest następna, ani wtedy, gdy stoi na czele.
 
 Listę tego, [czego olski nie bierze](subset.md#what-it-does-not-cover-yet),
-zapełniają przez to trzy źródła, a kolejka jest tylko jednym z nich.
+zapełniają przez to cztery źródła, a kolejka blokerów jest tylko jednym z nich.
+Pierwszym jest korpus usterek, o czym wyżej.
 Drugim jest przebieg nad prozą, która ten rejestr pisze:
 człon bez czasownika wtrącony w środek zdania
 oraz nazwa postawiona przy rzeczowniku bez spójnika
 weszły na nią jako zdania odrzucone, a nie jako wiersz częstości.
-Trzecim jest tor składu: wysunięty narzędnik jest na tej liście dlatego,
+Czwartym jest tor składu: wysunięty narzędnik jest na tej liście dlatego,
 że legenda o bazyliszku go wypisuje, a gramatyka go nie bierze
 ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
-Wszystkie trzy pozycje są kształtem, a nie formą,
-więc kolejka nie widzi ich w ogóle, i tym różnią się te dwa źródła od pierwszego:
-pokazują pozycje, których ono nie stawia.
+Wszystkie te pozycje są kształtem, a nie formą,
+więc kolejka blokerów nie widzi ich w ogóle, i tym różnią się tamte źródła od niej:
+pokazują pozycje, których ona nie stawia.
 
 Kolejność dopisań ustala tekst, który ma się wyprowadzić,
 a rozstrzyga o niej to, komu wolno się ruszyć.
@@ -818,11 +866,18 @@ Plan tego toru stał tutaj i git go trzyma,
 bo etap, na który nikt nie czeka, nie jest planem, tylko zaległością.
 Wraca za to jedna rzecz, którą ten plan ustalił i która wycofanie przeżywa:
 
-**Reguła jest tania do wymyślenia i bezwartościowa bez kalibracji.**
-Pomiar buduje się przed zestawem reguł, a nie po nim.
-Zdanie to stało tutaj jako pierwsza zasada tamtego toru
+**Reguła jest tania do wymyślenia i bez kalibracji nie wchodzi do wydruku domyślnego.**
+Zdanie to stało tutaj jako pierwsza zasada tamtego toru,
+w brzmieniu „bezwartościowa bez kalibracji”,
 i to ono go zamknęło, kiedy pomiar wreszcie przyszedł,
 bo kalibracji nie doczekała się ani jedna reguła.
+Brzmienie dzisiejsze jest słabsze i jest tak celowo:
+tamto żądało pomiaru przed napisaniem reguły i przez to reguły nie powstawały,
+a to żąda go przed awansem do znalezisk i pozwala wykrywaczowi stać za flagą,
+dopóki sądy czytelnika go nie potwierdzą albo nie zdejmą
+([linter.md](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
+Tak samo wieloznaczność zeszła ze znalezisk na kilkudziesięciu sądach,
+zamiast czekać na setki.
 
 Tor gramatyczny czyta z tego tyle, ile mówi kształt werdyktu:
 „to zdanie ma dwa czytania, oto one” jest wypowiedzią o zdaniu,

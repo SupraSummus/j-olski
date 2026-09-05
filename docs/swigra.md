@@ -484,7 +484,7 @@ Kolejności ich dopisania nie ustala ani ona,
 ani ta sama kolejka policzona nad własnym dokumentem
 ([corpus.md](corpus.md#the-same-queue-over-prose)),
 tylko tekst, który ma się wyprowadzić
-([roadmap.md](roadmap.md#kolejka-blokerów-odsiewa-a-kolejność-dopisań-ustala-tekst)).
+([roadmap.md](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
 
 Kanał, którego nie ma jak sprawdzić, został tu nazwany właśnie dlatego.
 Prozę i kod tego repozytorium pisze sesja modelu językowego,

@@ -7,8 +7,8 @@ The parser answers these questions:
 2. If it has exactly one, that is the reading.
 3. If it has more than one, the readings and the summaries beside them
    say what the sentence leaves open.
-   Why that is a finding for the author and not a rejection
-   is docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego.
+   Why that is an answer for the author and not a rejection
+   is docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem.
 
 Distinct readings, not derivations. Two derivations that describe the same
 structure are one reading. The distinction is not pedantic: it is the

@@ -15,7 +15,7 @@ a ta warstwa jest tym kawałkiem umowy, którego rozbiór jednego zdania nie obe
 Zaimek dostaje zgłoszenie wtedy, gdy zdanie obok nazywa dwie rzeczy albo więcej,
 a każda z nich zgadza się z nim liczbą i rodzajem.
 Co to znalezisko mówi autorowi i jakie zaimki bierze, trzyma
-docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem.
+docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem.
 Tutaj stoją trzy warunki, których z kodu nie widać, i cena każdego z nich.
 
 **Rzecz nazywa najszersza grupa imienna, a nie każdy rzeczownik pod nią.**
@@ -70,7 +70,7 @@ from olski.subset import DEKLARACJA
 #: Część mowy zaimka trzeciej osoby: `on`, `ona`, `ono`, `oni`, `one`
 #: wraz z każdą formą przypadkową — `go`, `jej`, `nim`, `nich` i resztą.
 #: Czemu zaimka wskazującego tu nie ma, mówi
-#: docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem.
+#: docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem.
 ZAIMEK = "ppron3"
 
 #: Części mowy, którymi tekst nazywa rzecz. Zaimka wśród nich nie ma i nie jest to
