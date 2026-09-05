@@ -80,6 +80,7 @@ BIERZE_ZDANIE = "bierze_zdanie"
 BIERZE_CELOWNIK = "bierze_celownik"
 BIERZE_DOPEŁNIACZ = "bierze_dopełniacz"
 BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU = "bierze_celownik_przy_wypełnieniu"
+BIERZE_BIERNIK_PRZY_ZDANIU = "bierze_biernik_przy_zdaniu"
 
 #: Klasy słowa, którymi plik rozdziela wpisy o jednym lemacie. Stoją tu z tego
 #: samego powodu co zdania wyżej, a rozdzielają dlatego, że jeden lemat bywa
@@ -192,6 +193,13 @@ Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU = _lematy(BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZA
 Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE = _lematy(
     BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU, CZASOWNIK_ZWROTNY
 )
+
+#: Lematy, przy których dopełnienie w bierniku stoi obok zdania podrzędnego,
+#: osobno dla obu klas czasownika. Strona zwrotna wychodzi z tego wydania
+#: Walentego pusta, a stoi tu policzona, bo licząca ją funkcja jest ta sama i
+#: wpis dopisany przez nowe wydanie wejdzie bez zmiany w kodzie.
+Z_BIERNIKIEM_PRZY_ZDANIU = _lematy(BIERZE_BIERNIK_PRZY_ZDANIU, CZASOWNIK)
+Z_BIERNIKIEM_PRZY_ZDANIU_ZWROTNE = _lematy(BIERZE_BIERNIK_PRZY_ZDANIU, CZASOWNIK_ZWROTNY)
 
 #: Zbiory różnią się zdaniem, a nie klasą słowa, i po to stoją tu oba naraz:
 #: pierwszy mówi, że przy formie z cząstką ``się`` bezokolicznik stoi, a drugi,

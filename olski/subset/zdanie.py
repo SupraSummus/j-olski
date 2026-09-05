@@ -33,6 +33,7 @@ from olski.subset.podrzędne import _zamykane
 from olski.subset.rama import (
     BEZ_DRUGIEJ,
     DOKŁADANE_PRZYPADKI,
+    DRUGA_BIERNIK,
     DRUGA_CELOWNIK,
     RAMA_BEZOSOBOWA,
     _bez_orzecznika,
@@ -722,6 +723,30 @@ def _wypełnienia(
         ):
             grammar.rule(PARA_WYPEŁNIEŃ, ciało, druga=DRUGA_CELOWNIK)
 
+    # Druga para: zdanie podrzędne obok dopełnienia w bierniku. `Kierownik
+    # poinformował pracownika, że wniosek został odrzucony.`
+    #
+    # Obie córki zajmują tu pozycję ramy, a przy celowniku wyżej zajmuje ją jedna z
+    # dwóch, i dlatego zdanie leksykonu jest tu węższe: nazywa sąsiada, a nie
+    # przemilcza go (``bierze_biernik_przy_zdaniu`` w ``harness/walenty.py``).
+    # Licencję niesie ta sama cecha co przy celowniku (:data:`DRUGA_BIERNIK`),
+    # a szyk jest jeden, bo zdanie podrzędne niesie swój przecinek i staje za tym,
+    # co zdanie nadrzędne mówi bez niego.
+    #
+    # Negację ogłasza ta produkcja, bo niesie ją tu córka, która głową nie jest:
+    # dopełniacz negacji wchodzi w miejsce biernika, a zdanie podrzędne o negacji
+    # milczy, więc bez tego ogłoszenia `Nie poinformował firmę, że wniosek został
+    # odrzucony.` się wyprowadza.
+    grammar.rule(
+        PARA_WYPEŁNIEŃ,
+        [
+            nt("dopełnienie", valency="acc", negacja=V("z"), czoło=BEZ_CZOŁA),
+            Głowa(nt("zdanie_podrzędne", valency=V("w"))),
+        ],
+        druga=DRUGA_BIERNIK,
+        negacja=V("z"),
+    )
+
     para = nt(PARA_WYPEŁNIEŃ, valency=V("w"), negacja=V("z"), druga=V("d"))
     for ciało in (
         [para],
@@ -880,7 +905,7 @@ def _orzeczenie(grammar: Grammar, okoliczniki: Sym) -> None:
             #  wartości :data:`BEZ_DRUGIEJ` przechodziłoby milczeniem i tylko nim.
             #  Czasownik ogłasza tę samą klasę wartością, bo cechę tę niesie
             #  każde jego ciało i milczeniem nie odróżniłby jednej klasy od drugiej.
-            żądana = NIE_NIESIE if druga == BEZ_DRUGIEJ else druga
+            żądana = NIE_NIESIE if druga == frozenset({BEZ_DRUGIEJ}) else druga
             grammar.rule(
                 "fraza_bezokolicznikowa",
                 [

@@ -33,6 +33,11 @@ Domyślność jest ta sama co przy bezokoliczniku, bo rama domyślna takiej pozy
 nie ma, a bez tego zdania nic nie odróżnia ``wiedzieć`` od ``zamykać``: oba biorą
 biernik, a zdanie podrzędne bierze jeden z nich.
 
+Zdania o parze są dwa i mówią, że dwie pozycje stoją w jednym schemacie obok
+siebie: celownik obok wypełnienia oraz dopełnienie w bierniku obok zdania z
+``że``. Koniunkcja dwóch zdań o pozycjach osobnych mówiłaby co innego, i o tym,
+co, mówi :func:`_para`.
+
 Cząstkę ``się`` zapisuje Walenty dwoma sposobami i oba czyta :func:`po_klasach`,
 bo mówią one o jednym słowie: lemat z cząstką oraz pozycja zwrotna w schemacie
 lematu bez niej (:data:`POZYCJA_ZWROTNA`). Klasa słowa bierze się przez to ze
@@ -86,6 +91,7 @@ from pathlib import Path
 from olski.walencja import (
     BIERZE_BEZOKOLICZNIK,
     BIERZE_BEZOKOLICZNIK_PODMIOTU,
+    BIERZE_BIERNIK_PRZY_ZDANIU,
     BIERZE_CELOWNIK,
     BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU,
     BIERZE_DOPEŁNIACZ,
@@ -296,15 +302,41 @@ def _ramowe(schematy_lematu: Sequence[str]) -> list[str]:
     ]
 
 
-def bierze_celownik_przy_wypełnieniu(schematy_lematu: Sequence[str]) -> bool:
-    """Czy któryś schemat ramowy stawia celownik obok drugiego wypełnienia.
+def _para(
+    schematy_lematu: Sequence[str], pierwsze: Sequence[str], drugie: Sequence[str]
+) -> bool:
+    """Czy któryś schemat ramowy stawia te dwa kształty obok siebie.
 
     Pytanie idzie o jeden schemat naraz, a nie o dwa zdania leksykonu policzone
-    osobno, i to jest cała różnica między tym zdaniem a koniunkcją tamtych dwóch.
-    Lemat, który celownik bierze w jednym schemacie, a biernik w drugim, pary nie
-    ma, a koniunkcja by mu ją dała, więc para wzięta osobno wpuszczałaby zdanie,
-    którego polszczyzna nie ma, i łamała obietnicę podzbioru, o której mówi
-    :func:`bierze_ramą`.
+    osobno, i to jest cała różnica między zdaniem o parze a koniunkcją tamtych
+    dwóch. Lemat, który celownik bierze w jednym schemacie, a biernik w drugim,
+    pary nie ma, a koniunkcja by mu ją dała, więc para wzięta osobno wpuszczałaby
+    zdanie, którego polszczyzna nie ma, i łamała obietnicę podzbioru, o której
+    mówi :func:`bierze_ramą`.
+
+    Pozycja trafiona pierwszym kształtem za sąsiada się już nie liczy, bo jedna
+    pozycja Walentego bywa wyborem kształtów: `dziwić się` ma
+    ``{np(dat);cp(int);cp(że)}``, czyli celownik albo pytanie, a nie celownik obok
+    pytania. Kolejność argumentów rozstrzyga więc o tym, która strona pozycję
+    niejednoznaczną zabiera, i dlatego pierwsze stoi dopełnienie, a drugie sąsiad,
+    obok którego ono stoi.
+    """
+    for schemat in _ramowe(schematy_lematu):
+        stoi_pierwsze = stoi_drugie = False
+        for etykieta, żądanie in pozycje(schemat):
+            if PODMIOT in etykieta:
+                continue
+            if any(kształt in żądanie for kształt in pierwsze):
+                stoi_pierwsze = True
+            elif any(kształt in żądanie for kształt in drugie):
+                stoi_drugie = True
+        if stoi_pierwsze and stoi_drugie:
+            return True
+    return False
+
+
+def bierze_celownik_przy_wypełnieniu(schematy_lematu: Sequence[str]) -> bool:
+    """Czy któryś schemat ramowy stawia celownik obok drugiego wypełnienia.
 
     Sąsiadem musi być wypełnienie, które olski ma pozycją ramy
     (:data:`WYPEŁNIENIA`), a nie dowolna druga pozycja schematu. Celownik obok
@@ -313,25 +345,24 @@ def bierze_celownik_przy_wypełnieniu(schematy_lematu: Sequence[str]) -> bool:
 
     Które wypełnienie przy nim stoi, to zdanie przemilcza, i jest to ta sama
     zgrubność, którą ma :data:`olski.subset.RAMA_DOMYŚLNA`.
-    Co każde z tych trzech zawężeń kosztuje w lematach, trzyma
-    docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+    Co te zawężenia kosztują w lematach, trzyma
+    docs/walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy.
     """
-    for schemat in _ramowe(schematy_lematu):
-        stoi_celownik = stoi_wypełnienie = False
-        for etykieta, żądanie in pozycje(schemat):
-            if PODMIOT in etykieta:
-                continue
-            #  Pozycja trafiona celownikiem za sąsiada się już nie liczy, bo
-            #  jedna pozycja Walentego bywa wyborem kształtów: `dziwić się` ma
-            #  `{np(dat);cp(int);cp(że)}`, czyli celownik albo pytanie, a nie
-            #  celownik obok pytania.
-            if any(kształt in żądanie for kształt in CELOWNIK):
-                stoi_celownik = True
-            elif any(kształt in żądanie for kształt in WYPEŁNIENIA):
-                stoi_wypełnienie = True
-        if stoi_celownik and stoi_wypełnienie:
-            return True
-    return False
+    return _para(schematy_lematu, CELOWNIK, WYPEŁNIENIA)
+
+
+def bierze_biernik_przy_zdaniu(schematy_lematu: Sequence[str]) -> bool:
+    """Czy któryś schemat ramowy stawia dopełnienie w bierniku obok zdania z ``że``.
+
+    Sąsiad jest tu nazwany, a nie przemilczany jak przy celowniku, bo biernik obok
+    bezokolicznika i biernik obok pytania zależnego są osobnymi pozycjami i cena
+    każdej z nich ma być osobną liczbą.
+
+    Ile lematów to zdanie niesie i czemu para potrzebuje własnego zdania, zamiast
+    wychodzić z biernika i ze zdania policzonych osobno, trzyma
+    docs/walencja.md#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy.
+    """
+    return _para(schematy_lematu, BIERNIK, (ZDANIE,))
 
 
 def bierze_bezokolicznik_podmiotu(schematy_lematu: Sequence[str]) -> bool:
@@ -405,6 +436,8 @@ def zdania(schematy_lematu: Sequence[str]) -> tuple[str, ...]:
         orzeczone.append(BIERZE_CELOWNIK)
     if bierze_celownik_przy_wypełnieniu(schematy_lematu):
         orzeczone.append(BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU)
+    if bierze_biernik_przy_zdaniu(schematy_lematu):
+        orzeczone.append(BIERZE_BIERNIK_PRZY_ZDANIU)
     if bierze_ramą(schematy_lematu, DOPEŁNIACZ):
         orzeczone.append(BIERZE_DOPEŁNIACZ)
     if bierze_ramą(schematy_lematu, (BEZOKOLICZNIK,)):
@@ -459,14 +492,17 @@ NAGŁÓWEK = f"""\
 # `{BIERZE_CELOWNIK}` i `{BIERZE_DOPEŁNIACZ}` mówią, że bierze dopełnienie w tym
 # przypadku. `{BIERZE_CELOWNIK_PRZY_WYPEŁNIENIU}` mówi, że jeden schemat stawia
 # ten celownik obok wypełnienia, czyli obok biernika, bezokolicznika, zdania
-# podrzędnego albo pytania zależnego. `{BIERZE_BEZOKOLICZNIK}` mówi, że przy tym
+# podrzędnego albo pytania zależnego.
+# `{BIERZE_BIERNIK_PRZY_ZDANIU}` mówi, że jeden schemat stawia dopełnienie
+# w bierniku obok zdania podrzędnego, i mówi to o tym jednym sąsiedzie.
+# `{BIERZE_BEZOKOLICZNIK}` mówi, że przy tym
 # czasowniku bezokolicznik stoi, a `{BIERZE_BEZOKOLICZNIK_PODMIOTU}` — że
 # wykonawcą tego bezokolicznika jest jego własny podmiot; drugie zdanie jest
 # węższe od pierwszego tak samo jak celownik przy wypełnieniu od celownika.
 # `{BIERZE_ZDANIE}` mówi, że bierze zdanie podrzędne wprowadzone przez `że`.
 # Milczenie o lemacie zostawia mu ramę domyślną, czyli biernik, brak dopełnienia
-# w przypadku innym, brak bezokolicznika i brak zdania podrzędnego. Zdania te są
-# o czasowniku, więc wiersz rzeczownika ma tę kolumnę pustą.
+# w przypadku innym, brak bezokolicznika, brak zdania podrzędnego i brak pary.
+# Zdania te są o czasowniku, więc wiersz rzeczownika ma tę kolumnę pustą.
 #
 # Kolumna przyimków jest zbiorem, a nie zdaniem prawda-fałsz, i pusta znaczy
 # w niej dwie rzeczy naraz: że rama tego słowa nie ma pozycji przyimkowej albo

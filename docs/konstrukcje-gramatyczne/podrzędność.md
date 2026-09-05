@@ -76,6 +76,10 @@ Wchodzi więc jako czwarta pozycja ramy domyślnej,
 a nie jako produkcja dopisana do każdego szyku zdania z osobna,
 i tak samo jak tamte trzy dochodzi do czasownika przez `wypełnienia`.
 Kosztuje to jedno słowo w `RAMA_DOMYŚLNA` i jedno ciało w `olski/subset/zdanie.py`.
+Obok dopełnienia w bierniku — `poinformował pracownika, że wniosek został odrzucony` —
+to zdanie stoi osobnym ciałem i licencji potrzebuje osobnej,
+bo pozycje ramy są tam zajęte dwie naraz
+([walencja.md](../walencja.md#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy)).
 
 Spójnikiem jest `że` i nic poza nim,
 choć Morfeusz daje klasę `comp` także formom `gdy`, `jeśli` i `aby`.
@@ -834,7 +838,7 @@ nieprawdziwe i nie daje im nic w zamian.
 - **Ciąg pytań zależnych pod jednym czasownikiem.**
   `Drzewo mówi, co jest tematem, a co jest nowe.`
   Drugie wypełnienie bierze przy czasowniku sam celownik
-  ([walencja.md](../walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+  ([walencja.md](../walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)),
   więc pozycję ramy zajmuje ciąg cały,
   a znakiem tego ciągu jest spójnik, a nie sam przecinek
   ([wyżej](#podrzędność-i-koordynacja-dzielą-przecinek-a-rozdziela-je-produkcja)).

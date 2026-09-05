@@ -26,6 +26,8 @@ from olski.walencja import (
     KOPULA,
     RAMA_KOPULI,
     Z_BEZOKOLICZNIKIEM_ZWROTNE,
+    Z_BIERNIKIEM_PRZY_ZDANIU,
+    Z_BIERNIKIEM_PRZY_ZDANIU_ZWROTNE,
     Z_CELOWNIKIEM,
     Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU,
     Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE,
@@ -111,19 +113,23 @@ def _dokładane(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
     return [(nazwa, zwrotni if zwrotne else zwykli) for nazwa, zwykli, zwrotni in DOKŁADANE]
 
 
-#: Druga pozycja ramy, czyli dopełnienie dokładane stojące obok wypełnienia:
-#: `Parser pokazuje autorowi oba czytania.` Wartość nazywa przypadek tego
-#: dopełnienia, a :data:`BEZ_DRUGIEJ` mówi, że lemat pary nie ma.
+#: Druga pozycja ramy, czyli dopełnienie stojące obok wypełnienia, które pozycję
+#: ramy zajmuje: `Parser pokazuje autorowi oba czytania.` Wartość nazywa przypadek
+#: tego dopełnienia, a :data:`BEZ_DRUGIEJ` mówi, że lemat pary nie ma.
 #:
 #: Cechą osobną, a nie pozycją ramy, bo rama jest zbiorem, którego unifikacja
 #: przecina, więc żądanie dwóch pozycji naraz wypisane w niej byłoby ich
-#: alternatywą: ta cecha licencjonuje celownik, a rama równolegle wypełnienie,
-#: obok którego on stoi.
+#: alternatywą: ta cecha licencjonuje dopełnienie, a rama równolegle wypełnienie,
+#: obok którego ono stoi.
 #:
-#: Wartość jest jedna, bo jeden przypadek ma tę parę zmierzoną: dopełniacz obok
-#: wypełnienia bierze u Walentego kilkadziesiąt lematów, a celownik kilka tysięcy;
-#: liczby trzyma docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia.
+#: Wartości są dwie i różni je nie tylko przypadek, lecz i sąsiad: celownik stoi
+#: przy każdym wypełnieniu, a biernik przy zdaniu podrzędnym i tylko przy nim.
+#: Dopełniacza nie nazywa żadna z nich.
+#: Liczby, które o tym rozstrzygnęły, trzymają
+#: docs/walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy oraz
+#: docs/walencja.md#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy.
 DRUGA_CELOWNIK = "dat"
+DRUGA_BIERNIK = "acc"
 
 
 #: Klasa bez pary, ogłaszana przez czasownik. Wypełnienie tej wartości nie
@@ -131,6 +137,23 @@ DRUGA_CELOWNIK = "dat"
 #: niego milczenia, a nie tej wartości (:data:`olski.grammar.NIE_NIESIE`;
 #: powód stoi przy tamtym żądaniu w ``olski/subset/zdanie.py``).
 BEZ_DRUGIEJ = "bez"
+
+
+#: Para ramy: nazwa wartości cechy `druga` wraz z lematami, którym leksykon tę
+#: parę daje, osobno dla formy bez cząstki ``się`` i z nią. Kształtem jak
+#: :data:`DOKŁADANE`, a różni je to, że para stoi w cesze obok ramy, a nie w ramie.
+#:
+#: Lemat stoi w każdej parze, którą leksykon mu daje, więc klasa niesie zbiór
+#: nazw, a nie jedną (:func:`_po_drugiej`).
+PARY = (
+    (DRUGA_CELOWNIK, Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU, Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE),
+    (DRUGA_BIERNIK, Z_BIERNIKIEM_PRZY_ZDANIU, Z_BIERNIKIEM_PRZY_ZDANIU_ZWROTNE),
+)
+
+
+def _pary(zwrotne: bool) -> list[tuple[str, frozenset[str]]]:
+    """Pary ramy wraz z lematami tej klasy słowa (:data:`PARY`)."""
+    return [(nazwa, zwrotni if zwrotne else zwykli) for nazwa, zwykli, zwrotni in PARY]
 
 
 def _rama(
@@ -152,6 +175,7 @@ def _klasy_walencyjne(
     domyślna: frozenset[str],
     bez_biernika: frozenset[str],
     dokładane: Sequence[tuple[str, frozenset]],
+    pary: Sequence[tuple[str, frozenset]],
     poza: frozenset[str] = frozenset(),
 ) -> dict[frozenset[str], frozenset[str]]:
     """Lematy leksykonu zebrane w klasy po ramie, którą leksykon każdemu z nich daje.
@@ -159,13 +183,19 @@ def _klasy_walencyjne(
     ``poza`` zabiera lematy, które mają ramę wypisaną ręcznie: klasy mają się nie
     zachodzić, a lemat wzięty dwiema byłby dwoma czytaniami tego samego kształtu.
 
+    Lematy pary wchodzą tu obok tych, którym leksykon ramę zmienia, choć klucza nie
+    ruszają: pary nie ma w ramie, tylko w cesze obok niej (:data:`PARY`), więc lemat
+    z parą i z ramą domyślną zostałby w klasie domyślnej, czyli w tej, która parze
+    odmawia. Tak stoi w leksykonie `poinformować`.
+
     Klucz sortowania jest wypisany, bo rama jest zbiorem, a ``<`` na zbiorach
     porównuje zawieraniem: ``sorted`` bez klucza oddaje kolejność wejścia i nie
     wywraca się przy tym. Kolejność klas ustala kolejność produkcji, a ta
     kolejność, w jakiej las wydaje czytania.
     """
+    wymienione = (lematy for _nazwa, lematy in (*dokładane, *pary))
     klasy: dict[frozenset[str], set[str]] = {}
-    for lemat in bez_biernika.union(*(lematy for _nazwa, lematy in dokładane)) - poza:
+    for lemat in bez_biernika.union(*wymienione) - poza:
         klasy.setdefault(_rama(lemat, domyślna, bez_biernika, dokładane), set()).add(lemat)
     return {
         rama: frozenset(lematy)
@@ -190,16 +220,22 @@ def _walencja() -> tuple[
     odjęcie kopuli od leksykonu robią po tej zmianie oba kierunki; podmiot dokłada
     ta produkcja, bo pozycji podmiotu tamten plik nie ma.
 
-    Zdania leksykonu są tu cztery — o bierniku, o celowniku, o dopełniaczu i o
-    bezokoliczniku — a plik mówi pięć. Bezokolicznik czyta sama strona zwrotna;
-    co zdejmuje go po drugiej i co zdejmuje piąte zdanie, mówi :data:`RAMA_DOMYŚLNA`.
+    Ramę zmieniają tu cztery zdania leksykonu — o bierniku, o celowniku, o
+    dopełniaczu i o bezokoliczniku — a plik mówi ich siedem. Bezokolicznik czyta
+    sama strona zwrotna; co zdejmuje go po drugiej i co zdejmuje zdanie o zdaniu
+    podrzędnym, mówi :data:`RAMA_DOMYŚLNA`. Dwa pozostałe mówią o parze, więc ramy
+    nie ruszają, a lematy wnoszą (:data:`PARY`).
     """
     return (
         {
-            **_klasy_walencyjne(RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), KOPULA),
+            **_klasy_walencyjne(
+                RAMA_DOMYŚLNA, BEZ_BIERNIKA, _dokładane(False), _pary(False), KOPULA
+            ),
             frozenset({"nom", *RAMA_KOPULI}): KOPULA,
         },
-        _klasy_walencyjne(RAMA_DOMYŚLNA_ZWROTNA, BEZ_BIERNIKA_ZWROTNE, _dokładane(True)),
+        _klasy_walencyjne(
+            RAMA_DOMYŚLNA_ZWROTNA, BEZ_BIERNIKA_ZWROTNE, _dokładane(True), _pary(True)
+        ),
     )
 
 
@@ -228,8 +264,10 @@ def _bez_orzecznika(rama: frozenset[str]) -> frozenset[str]:
 RAMA_BEZOSOBOWA = _bez_orzecznika(RAMA_DOMYŚLNA)
 
 
-def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str], str]]:
-    """Klasy walencyjne: warunek na lemat, rama i druga pozycja, którą warunek wpuszcza.
+def _klasy(
+    zwrotne: bool,
+) -> list[tuple[dict[str, frozenset[str]], frozenset[str], frozenset[str]]]:
+    """Klasy walencyjne: warunek na lemat, rama i pary, które warunek wpuszcza.
 
     Ostatnia jest klasa domyślna, i jest nią warunek ujemny na wszystkie lematy
     leksykonu naraz, bo klasy mają się nie zachodzić: forma wzięta dwiema klasami
@@ -256,29 +294,47 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str
     domyślna po niego nie sięga. Cenę i odrzuconą alternatywę trzyma
     docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika.
 
-    Klasa ramy dzieli się na dwie tam, gdzie leksykon daje części jej lematów
-    drugą pozycję (:data:`DRUGA_CELOWNIK`), a klasa domyślna drugiej pozycji nie
-    ma: zdanie o parze mówi o celowniku, więc lemat, który je niesie, stoi w
-    leksykonie i tej klasy nie dosięga.
+    Klasa ramy dzieli się dalej tam, gdzie leksykon daje części jej lematów parę
+    (:data:`PARY`), a klasa domyślna pary nie ma żadnej.
+    Lemat z parą wchodzi bowiem do klasy leksykonu (:func:`_klasy_walencyjne`),
+    a klasa domyślna pyta o formę, której lematu leksykon nie wymienia.
     """
     leksykon = WALENCJA_ZWROTNA if zwrotne else WALENCJA
-    z_parą = Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU_ZWROTNE if zwrotne else Z_CELOWNIKIEM_PRZY_WYPEŁNIENIU
     klasy = [
         ({"lemma": wybrane}, rama, druga)
         for rama, lematy in leksykon.items()
-        for druga, wybrane in _po_drugiej(lematy, z_parą)
-        if wybrane
+        for druga, wybrane in _po_drugiej(lematy, _pary(zwrotne))
     ]
     poza_domyślną = (KOPULA if zwrotne else frozenset()).union(*leksykon.values())
     domyślna = RAMA_DOMYŚLNA_ZWROTNA if zwrotne else RAMA_DOMYŚLNA
-    return [*klasy, ({"bez_lematu_formy": poza_domyślną}, domyślna, BEZ_DRUGIEJ)]
+    return [*klasy, ({"bez_lematu_formy": poza_domyślną}, domyślna, frozenset({BEZ_DRUGIEJ}))]
 
 
 def _po_drugiej(
-    lematy: frozenset[str], z_parą: frozenset[str]
-) -> list[tuple[str, frozenset[str]]]:
-    """Lematy klasy rozdzielone na te z drugą pozycją i te bez niej."""
-    return [(DRUGA_CELOWNIK, lematy & z_parą), (BEZ_DRUGIEJ, lematy - z_parą)]
+    lematy: frozenset[str], pary: Sequence[tuple[str, frozenset[str]]]
+) -> list[tuple[frozenset[str], frozenset[str]]]:
+    """Lematy klasy rozdzielone po tym, które pary leksykon każdemu z nich daje.
+
+    Zbiorem nazw, a nie jedną nazwą, bo par jest kilka i jeden lemat bierze dwie
+    naraz: `objaśnić` stawia celownik obok wypełnienia i biernik obok zdania
+    podrzędnego. Klasy mają się nie zachodzić, więc lemat z dwiema parami dostaje
+    klasę własną, a nie wpis w obu; unifikacja czyta tę cechę przecięciem, więc pod
+    zbiorem dwóch nazw przechodzi każda z nich, a żadna trzecia.
+
+    Lemat bez pary dostaje :data:`BEZ_DRUGIEJ`, czyli wartość, której nie wypuszcza
+    żadna para, i tym się jej odmawia.
+
+    Klucz sortowania jest wypisany z tego samego powodu, z którego wypisuje go
+    :func:`_klasy_walencyjne`: kolejność klas ustala kolejność produkcji.
+    """
+    grupy: dict[frozenset[str], set[str]] = {}
+    for lemat in lematy:
+        które = frozenset(nazwa for nazwa, z_parą in pary if lemat in z_parą)
+        grupy.setdefault(które or frozenset({BEZ_DRUGIEJ}), set()).add(lemat)
+    return [
+        (druga, frozenset(jej_lematy))
+        for druga, jej_lematy in sorted(grupy.items(), key=lambda para: sorted(para[0]))
+    ]
 
 
 def _formy_skończone(
