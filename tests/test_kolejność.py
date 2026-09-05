@@ -254,15 +254,15 @@ def test_wydruk_wychodzi_ten_sam_pod_dwoma_ziarnami_haszy(tmp_path):
 DWA_PRZYIMKI = "Program zapisuje ustawienia w pliku na dysku."
 
 
-def _wybór(fraza: str) -> Wybór:
-    """Wpis próby o tej frazie, z gospodarzem `pliku` we wzorcu."""
+def _wybór(fraza: str, wzorzec: str = "pliku") -> Wybór:
+    """Wpis próby o tej frazie i tym gospodarzu we wzorcu."""
     return Wybór(
         plik="próba",
         kontekst=(),
         zdanie=DWA_PRZYIMKI,
         fraza=fraza,
         gospodarze=("zapisuje", "ustawienia", "pliku"),
-        wzorzec="pliku",
+        wzorzec=wzorzec,
         powód="własność testu, a nie sąd o rejestrze",
     )
 
@@ -279,14 +279,28 @@ def test_sonda_kolejności_pyta_drzewo_tam_gdzie_streszczenie_o_pozycji_milczy()
     assert (sąd.klasa, sąd.gospodarz) == (TRAFNA, "pliku")
 
 
-def test_fraza_stojąca_w_środku_konstytuenta_nie_jest_pomyłką():
+def test_fraza_krótsza_od_konstytuentu_dostaje_jego_gospodarza():
     """`w pliku` konstytuentem tego czytania nie jest; jest nim `w pliku na dysku`.
 
-    Dopasowanie po części frazy dałoby tu gospodarza całego wyrażenia, czyli
-    `ustawienia`, i wobec wzorca `pliku` wypisałoby pomyłkę tam, gdzie czytanie
-    przyłącza dobrze. Wzorzec ma frazy poprawiane ręką, więc krótsza od tej,
-    którą bierze gramatyka, pada w nim nie raz (`harness/wybory.py`).
+    Przyłączenie jest w obu to samo, bo lewa krawędź jest ta sama i jest nią
+    przyimek, o który pytał czytający. Dopasowanie po całej frazie zostawiałoby
+    tu wpis bez odpowiedzi, a fraza krótsza od konstytuentu pada we wzorcu nie
+    raz: budowniczy proponuje przyimek wraz z trzema formami za nim, a ręka
+    skraca (`harness/wybory.py`).
     """
-    sąd = osądź(_wybór("w pliku"))
+    sąd = osądź(_wybór("w pliku", wzorzec="ustawienia"))
+    assert (sąd.klasa, sąd.gospodarz) == (TRAFNA, "ustawienia")
+
+
+def test_gospodarza_nie_dostaje_fraza_która_przyłączeniem_nie_jest():
+    """`ustawienia w pliku` stoi w tym czytaniu, a przyłączeniem nie jest.
+
+    Konstytuent zaczynający się tą frazą tu jest — całe dopełnienie — a jego
+    gospodarz odpowiada o przyłączeniu dopełnienia, o które nikt nie pytał.
+    Sonda pyta przez to o pozycje rozstrzygane, tym samym kryterium, którym
+    wybiera modyfikator werdykt (`_nazwane_przyłączenia` w
+    `olski/parse/decyzje.py`).
+    """
+    sąd = osądź(_wybór("ustawienia w pliku"))
     assert sąd.klasa == INNY_KONSTYTUENT
     assert not sąd.gospodarz

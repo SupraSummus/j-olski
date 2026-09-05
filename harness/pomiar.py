@@ -39,7 +39,7 @@ import functools
 import os
 import sys
 from collections.abc import Iterable, Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from harness.corpus import Sentence, pliki, read
@@ -309,6 +309,38 @@ def segments_for(sentence: Sentence, source: str) -> list[Segment]:
     if source == "gold":
         return list(sentence.segments)
     return morphology(sentence.text)
+
+
+def przenumerowane(sentence: Sentence) -> list[Segment] | None:
+    """Morfologia żywa tego zdania, ponumerowana terminalami drzewa wzorcowego.
+
+    ``None``, gdy segmentacja żywa rozeszła się z tamtymi terminalami: rozpiętość
+    złotej roli nie nazywa wtedy w tym grafie żadnej pozycji, więc pytanie o złote
+    czytanie nie ma jak paść. Nad Składnicą rozchodzi się to na złożeniu
+    przymiotnikowym, które olski skleja w jedną krawędź, a bank drzew pisze
+    trzema (``złożenie`` w ``olski/segmentacja.py``).
+
+    Numerowanie jest przemianowaniem, a nie przekładem rozpiętości: łańcuch o
+    tych samych formach ma te same granice, a numery węzłów rozchodzą się dopiero
+    tam, gdzie któraś krawędź powstała ze sklejenia (:class:`Segment`).
+    Przekład na przesunięcia w napisie nie kupiłby zdania więcej, bo zdanie o
+    segmentacji niejednoznacznej zostaje nieporównywalne i tak: złota rola nie
+    mówi, którą ścieżką grafu anotator szedł.
+
+    Pyta o to ten, kto mierzy czytanie wobec drzewa wzorcowego pod morfologią
+    żywą, czyli kolejność czytań (``harness/skala.py``).
+    """
+    żywe = morphology(sentence.text)
+    łańcuch = all(
+        krawędź.end == następna.start
+        for krawędź, następna in zip(żywe, żywe[1:], strict=False)
+    )
+    if not łańcuch or tuple(krawędź.form for krawędź in żywe) != sentence.tokens:
+        return None
+    return [
+        replace(krawędź, start=złoty.start, end=złoty.end)
+        for krawędź, złoty in zip(żywe, sentence.segments, strict=True)
+    ]
 
 
 def _ocalenie(

@@ -243,33 +243,40 @@ czyli tę, w której konkurencja zwykle pada,
 więc trafność brała z dopasowania do korpusu, a nie z deklaracji o polszczyźnie.
 
 **Suma kosztów całego drzewa zmierzona jest wobec dzisiejszej leksykografii
-i wypada od niej gorzej.**
+i pod morfologią żywą wypada od niej lepiej.**
 Kolejność czytań jest leksykograficzna, bo drzewa wychodzą wyliczaniem w głąb,
 a ciała porządkuje koszt pozycji:
 koszt przy korzeniu waży więcej niż każdy koszt pod nim, choćby ich było kilka.
 Porządek po sumie, z dzisiejszą kolejnością rozstrzygającą remisy,
-traci nad Składnicą kilkanaście zdań na tysiąc kilkaset,
-a miara płaska zbudowana z odległości przyłączenia traci wielokrotnie więcej,
-i to w obie strony, którymi ją mierzono.
-Trafność tej kolejności bierze się więc stąd,
-że decyzja przy korzeniu bije wszystko pod sobą,
-a nie stąd, że koszty składają się na wielkość.
+wygrywa pod morfologią żywą kilkanaście zdań na dwa i pół tysiąca,
+a pod złotą tyleż traci na tysiąc kilkaset.
+Zyskuje tam, gdzie czytanie płaci kilkoma pozycjami naraz:
+pod złotą suma bierze na zdaniu zwykle dwie wartości, a pod żywą kilka.
+Rozstrzyga przez to morfologia żywa, bo rejestrem olskiego jest tekst,
+któremu nikt odczytań nie wybrał,
+a złota mówi o samej gramatyce, wyjętej spod wieloznaczności analizatora
+([corpus.md](corpus.md#what-the-corpus-contains)).
+Miara płaska zbudowana z odległości przyłączenia traci wielokrotnie więcej,
+i to w obie strony, którymi ją mierzono nad morfologią złotą.
 
-**Kosztu morfologii ten pomiar nie widzi wcale i jest to brak w przyrządzie.**
-Bank drzew mierzy się morfologią złotą, czyli czytaniem wziętym z drzewa
-wzorcowego, a takie czytanie kwalifikatora nie niesie
-([corpus.md](corpus.md#what-the-corpus-contains)),
-więc nad Składnicą koszt ten jest zerem przy każdej formie i cały wydruk
-wychodzi ten sam co bez niego, co do wiersza.
-Co mierzy, widać przez to nad prozą tego repozytorium, a mierzy niewiele:
-przestawia pierwsze czytanie kilkunastu zdań na blisko siedem tysięcy,
-werdyktu nie ruszając w żadnym.
-Kilka z nich przestawia w stronę czytania trafnego —
+**Koszt morfologii wycenia ten sam pomiar, a widzi go tylko morfologia żywa.**
+Odczytanie wzięte z drzewa wzorcowego kwalifikatora nie niesie,
+więc pod złotą pozycja ta jest zerem przy każdej formie
+i cały wydruk wychodzi ten sam co bez niej, co do wiersza.
+Pod żywą sonda numeruje odczytania Morfeusza terminalami drzewa
+(`przenumerowane` w `harness/pomiar.py`),
+a kilkaset zdań wypada wtedy z mianownika,
+bo olski dzieli je na segmenty inaczej niż bank drzew na terminale.
+Nad tym, co zostaje, pozycja ta wypuszcza złote czytanie na pierwsze miejsce
+w kilkunastu zdaniach na dwa i pół tysiąca i żadnego werdyktu nie rusza.
+Dwa przebiegi nie mierzą przy tym jednego zbioru zdań:
+pod żywą dochodzą te, które wieloznaczne robią się dopiero z Morfeuszem,
+a wypadają te dzielone inaczej niż w drzewie.
+Co przestawia, widać na zdaniu prozy:
 `Wszystko jest podmiotem.` wychodziło pierwszym czytaniem z `Wszystko`
-w okoliczniku, bo przysłówek `wszystko` jest u Morfeusza regionalizmem —
-a większość przestawia w obrębie zdań, których gramatyka i tak nie czyta dobrze.
-To jedno zdanie trzyma `tests/test_kolejność.py`, bo nad Składnicą nie ma czego
-trzymać; co zrobić, żeby pomiar zobaczył resztę, mówi `todo/`.
+w okoliczniku, bo przysłówek `wszystko` jest u Morfeusza regionalizmem.
+To jedno zdanie trzyma `tests/test_kolejność.py`,
+bo suita banku drzew nie pobiera.
 
 **Koszt produkcji mierzy nad tą samą prozą osobna sonda, pozycja po pozycji**
 (`harness/cena.py`): wycenia jedną pozycję na zero i porównuje czytanie pierwsze

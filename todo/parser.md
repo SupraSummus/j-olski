@@ -7,10 +7,11 @@ rozróżnia większość zdań wieloznacznych, ale sumy nie wydaje
 bo kolejność jest leksykograficzna i suma czytałaby się na miejsce w kolejce, którym nie jest.
 Wystawienie liczby i przestawienie kolejności są przez to jedną zmianą, a nie dwiema
 ([`docs/disambiguation.md`](../docs/disambiguation.md#miara-porównywalna-nad-czytaniami)).
-Cena jest zmierzona: porządek po sumie traci nad Składnicą kilkanaście zdań na tysiąc kilkaset,
-co wypisuje `harness/skala.py`, więc do rozstrzygnięcia jest, czy zgodność liczby z kolejnością
-warta jest tych zdań, a nie ile ich jest.
-Przeszkodą po stronie kodu jest wyliczanie: minimum po sumie żąda kolejki nad lasem
+Cena jest zmierzona i pod morfologią żywą wychodzi ujemna, czyli porządek po sumie
+kupuje zdania, zamiast je tracić
+([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
+więc zostaje przeszkoda po stronie kodu.
+Jest nią wyliczanie: minimum po sumie żąda kolejki nad lasem
 zamiast przejścia w głąb i zdejmuje leniwość, na której stoi `numer_czytania`
 w `olski/parse/las.py`, bo ono przystaje dziś na pierwszym drzewie, które trafia.
 Kolejność czyta przy tym dwóch — wydruk przez `podsumuj` w `olski/parse/__init__.py`
