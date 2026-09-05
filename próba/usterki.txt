@@ -31,8 +31,20 @@
 # znaleziskiem, i poprawiać nad nią nie ma czego:
 # docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem
 #
-# Zdania są pisane ręką pod ten plik, a nie brane z korpusu, bo usterka ma tu
-# być jedna i nazwana; rozkład rejestru mierzy baza sądów, nie ten plik.
+# Zdanie wymyślone pod ten plik mierzy autora, a nie usterkę, którą ktoś popełnia,
+# więc zdania bierzemy z cudzego tekstu,
+# a komentarz nad grupą wpisów nazywa źródło.
+# Źródła są dwa: dokumentacja Microsoft Learn przełożona na polski maszynowo
+# (`ms.translationtype: MT` w nagłówku strony), czyli proza pisana przez model,
+# oraz podkorpus milionowy NKJP w wydaniu 1.2,
+# ten sam, z którego bierze zdania `próba/nkjp-sądy.txt`;
+# komentarz nazywa tam warstwę i sekcję.
+# Zdanie stoi tu w całości i tak, jak stoi w źródle,
+# a ze składu Markdown zostaje sam tekst.
+# Cudze zdanie niesie czasem kilka usterek, a wpis nazywa jedną.
+# Zdanie bez komentarza nad grupą jest pisane ręką pod ten plik.
+# Wyboru zdań nikt nie losował, więc rozkładu rejestru ten plik nie mierzy;
+# mierzy go baza sądów.
 
 zdanie: Idąc do pracy, zgubiono klucze.
 usterka: orzeczenie bezosobowe podmiotu nie ma, a imiesłów bierze podmiot stamtąd
@@ -158,3 +170,149 @@ zgłoszenie: żadne
 
 zdanie: Pies gonił kota, a kot uciekł.
 zgłoszenie: żadne
+
+# learn.microsoft.com/pl-pl/dotnet/standard/garbage-collection/fundamentals
+
+zdanie: Blok pamięci nie zawiera odwołań do niego i jest dostępny do alokacji.
+usterka: zaimek stoi w jednym zdaniu ze swoim rzeczownikiem, więc czyta się jako odwołanie bloku do siebie samego
+zgłoszenie: zaimek wskazujący rzeczownik tego samego zdania
+poprawka: Do bloku pamięci nic się nie odwołuje, więc jest on dostępny do alokacji.
+
+zdanie: Sterta można uznać za akumulację dwóch stert: sterta dużego obiektu i stertę małego obiektu.
+usterka: „uznać” żąda biernika, a rzecz uznawana stoi w mianowniku
+zgłoszenie: mianownik w pozycji dopełnienia
+poprawka: Stertę można uznać za akumulację dwóch stert: sterty dużych obiektów i sterty małych obiektów.
+
+zdanie: Nawet jeśli masz 2 GB wolnego miejsca, alokacja, która wymaga 2 GB, nie powiedzie się, chyba że wszystkie wolne miejsce znajduje się w jednym bloku adresowym.
+usterka: „wszystkie” stoi w liczbie mnogiej, a „miejsce” w pojedynczej
+zgłoszenie: przydawka niezgodna z rzeczownikiem
+poprawka: Nawet jeśli masz 2 GB wolnego miejsca, alokacja, która wymaga 2 GB, nie powiedzie się, chyba że całe wolne miejsce znajduje się w jednym bloku adresowym.
+
+zdanie: Ponieważ środowisko uruchomieniowe przydziela pamięć dla obiektu przez dodanie wartości do wskaźnika, jest niemal tak szybko, jak przydzielanie pamięci ze stosu.
+usterka: „jest szybko” orzeka przysłówkiem, a zdanie nie nazywa rzeczy, o której to orzeka
+zgłoszenie: przysłówek w miejscu orzecznika
+poprawka: Ponieważ środowisko uruchomieniowe przydziela pamięć dla obiektu przez dodanie wartości do wskaźnika, przydział ten jest niemal tak szybki jak przydział pamięci ze stosu.
+
+zdanie: Mimo że garbage collector może śledzić okres istnienia zarządzanego obiektu, który kapsułkuje niezarządzany zasób, nie ma specyficznej wiedzy na temat sposobu czyszczenia tego zasobu.
+usterka: „nie ma” czyta się jako orzeczenie odśmiecacza i jako zdanie o tym, że wiedzy nie ma nigdzie
+zgłoszenie: orzeczenie czytane osobowo i bezosobowo
+poprawka: Mimo że garbage collector może śledzić okres istnienia zarządzanego obiektu, który kapsułkuje niezarządzany zasób, sam nie wie, jak ten zasób wyczyścić.
+
+zdanie: Automatyczne zarządzanie pamięcią może wyeliminować typowe problemy, takie jak zapominanie o zwalnianiu obiektu i spowodowanie przecieku pamięci lub próba uzyskania dostępu do zwolnionej pamięci dla obiektu, który został już zwolniony.
+usterka: szereg spina „i” oraz „lub”, więc nie widać, czy problemy są dwa, czy trzy
+zgłoszenie: niejasny zakres spójnika
+poprawka: Automatyczne zarządzanie pamięcią może wyeliminować typowe problemy, takie jak przeciek pamięci po obiekcie, którego nikt nie zwolnił, oraz próba sięgnięcia po pamięć obiektu już zwolnionego.
+
+zdanie: Możesz użyć bezpiecznego uchwytu, aby opakować niezarządzany zasób lub zastąpić metodę Object.Finalize().
+usterka: „lub” czyta się i jako drugi cel użycia uchwytu, i jako drugi sposób na zasób, a wtedy uchwytu nie ma
+zgłoszenie: niejasny zakres spójnika
+poprawka: Możesz opakować niezarządzany zasób bezpiecznym uchwytem albo zastąpić metodę Object.Finalize().
+
+zdanie: Aplikacja nigdy nie powinna zakładać ani nie zależeć od określonego rozmiaru segmentu, ani nie powinna podejmować próby skonfigurowania ilości pamięci dostępnej dla alokacji segmentów.
+usterka: „zakładać” żąda biernika, „zależeć” żąda „od”, a stoi przy nich jedno wyrażenie
+zgłoszenie: dwa czasowniki przy jednym dopełnieniu
+poprawka: Aplikacja nigdy nie powinna zakładać określonego rozmiaru segmentu ani od niego zależeć, ani nie powinna podejmować próby skonfigurowania ilości pamięci dostępnej dla alokacji segmentów.
+
+zdanie: Po wykryciu każdego niedostępnego obiektu, moduł odśmiecania za pomocą funkcji kopiowania pamięci kompaktuje osiągalne obiekty wewnątrz pamięci, jednocześnie zwalniając bloki przestrzeni adresowej przydzielone niedostępnym obiektom.
+usterka: wtrącenie o funkcji kopiowania rozdziela podmiot i orzeczenie
+zgłoszenie: wtrącenie między podmiotem a orzeczeniem
+poprawka: Po wykryciu każdego niedostępnego obiektu moduł odśmiecania kompaktuje osiągalne obiekty za pomocą funkcji kopiowania pamięci, jednocześnie zwalniając bloki przestrzeni adresowej przydzielone niedostępnym obiektom.
+
+zdanie: Ilość zwolnionej pamięci z efemerycznej kolekcji śmieci jest ograniczona do rozmiaru segmentu efemerycznego.
+usterka: „z efemerycznej kolekcji śmieci” stoi przy pamięci, a mówi o zwalnianiu
+zgłoszenie: przydawka odsunięta od swojego rzeczownika
+poprawka: Ilość pamięci zwolnionej przez efemeryczną kolekcję śmieci jest ograniczona do rozmiaru segmentu efemerycznego.
+
+# learn.microsoft.com/pl-pl/windows-server/administration/windows-commands/robocopy
+
+zdanie: Te opcje ograniczania służą do określania maksymalnej przepustowości we/wy, którą narzędzie Robocopy umożliwia użycie w bajtach na sekundę.
+usterka: zaimek względny stoi w bierniku, a „użycie” żąda przy sobie dopełniacza
+zgłoszenie: zaimek względny w niezgodnym przypadku
+poprawka: Te opcje ograniczania służą do określania w bajtach na sekundę maksymalnej przepustowości we/wy, której narzędzie Robocopy może użyć.
+
+zdanie: Wyklucza dodatkowe pliki i katalogi obecne w miejscu docelowym, ale nie źródło.
+usterka: człon po „ale nie” zgubił przyimek i czyta się jako drugie dopełnienie „Wyklucza”
+zgłoszenie: człon współrzędny bez przyimka
+poprawka: Wyklucza dodatkowe pliki i katalogi obecne w miejscu docelowym, ale nie w źródle.
+
+zdanie: Naprawia zabezpieczenia plików we wszystkich plikach, nawet pominięte.
+usterka: „pominięte” zgadza się formą z zabezpieczeniami, a mówi o plikach
+zgłoszenie: przydawka odsunięta od swojego rzeczownika
+poprawka: Naprawia zabezpieczenia plików we wszystkich plikach, nawet pominiętych.
+
+zdanie: Pliki katalogu źródłowego nowsze niż miejsce docelowe są wykluczone z kopii.
+usterka: przed „niż” stoją pliki, a po nim miejsce
+zgłoszenie: niezgodne człony porównania
+poprawka: Pliki katalogu źródłowego nowsze niż pliki katalogu docelowego są wykluczone z kopii.
+
+zdanie: Użycie /LFSM żąda robocopy do działania w trybie małej ilości wolnego miejsca.
+usterka: „żądać” bierze dopełniacz rzeczy i „od” tego, kto ma ją dać, a tu stoi przy nim nazwa narzędzia i wyrażenie z „do”
+zgłoszenie: dopełnienie w przypadku, którego czasownik nie żąda
+poprawka: Użycie /LFSM żąda od robocopy działania w trybie małej ilości wolnego miejsca.
+
+# NKJP 1.2, typ_nd/320-3-000264/txt_1-div.txt
+
+zdanie: Współczesna geografia jest skierowana na badania nie tyle trwałości i całościowości wzorów kulturowych, ile procesów, transformacji, zmienności jaki one podlegają
+usterka: „podlegać” żąda celownika, a zaimek względny stoi w mianowniku
+zgłoszenie: zaimek względny w niezgodnym przypadku
+poprawka: Współczesna geografia jest skierowana na badania nie tyle trwałości i całościowości wzorów kulturowych, ile procesów, transformacji, zmienności, jakim one podlegają.
+
+# NKJP 1.2, typ_net_nieinterakt/620-3-010000038/txt_10-div.txt
+
+zdanie: Można się tylko domyślać, że decyzja ta spowodowana była problemami w stosunkach Rosji z Watykanem, a nie Polską, ale są to tylko domysły.
+usterka: człon po „a nie” zgubił przyimek i czyta się przy „Rosji”, a nie przy „z Watykanem”
+zgłoszenie: człon współrzędny bez przyimka
+poprawka: Można się tylko domyślać, że decyzja ta spowodowana była problemami w stosunkach Rosji z Watykanem, a nie z Polską, ale są to tylko domysły.
+
+# NKJP 1.2, typ_inf-por/330-2-000018/txt_13-div.txt
+
+kontekst: Jako piosenkarka stworzyła swoisty "mit".
+zdanie: Niezależnie od jej sukcesu, niezależnie, że nie brakowało jej partnerów z grona dobrze znanych osób, brak pewności siebie decydował - był dobrze ugruntowany od dzieciństwa.
+usterka: „decydował” żąda tego, o czym decydował, a zdanie tego nie nazywa
+zgłoszenie: orzeczenie bez żądanego dopełnienia
+poprawka: Niezależnie od jej sukcesu, niezależnie od tego, że nie brakowało jej partnerów z grona dobrze znanych osób, o wszystkim decydował brak pewności siebie, ugruntowany od dzieciństwa.
+
+# NKJP 1.2, typ_inf-por/330-2-000000027/txt_47-div.txt
+
+kontekst: Przy ul. Młyńskiej sześciopiętrowa wieża wodna Kopernika, z XVI w., wzniesiona z cegły.
+zdanie: W średniowieczu połączona była systemem rur drewnianych, dostarczających wodę mieszkańcom Głogówka.
+usterka: „połączona” żąda tego, z czym łączy, a zdanie nazywa tylko rury
+zgłoszenie: orzeczenie bez żądanego dopełnienia
+poprawka: W średniowieczu była połączona z miastem systemem rur drewnianych, dostarczających wodę mieszkańcom Głogówka.
+
+# NKJP 1.2, typ_publ/120-2-900117/txt_5-div.txt
+
+kontekst: Pamiętam sytuację jak po raz pierwszy miałem poprowadzić główne wydanie Wiadomości.
+zdanie: Jednak zasiadając w studio i patrząc w kamerę można dostać niesamowitej blokady psychicznej.
+usterka: „można” podmiotu nie ma, a imiesłów bierze podmiot stamtąd
+zgłoszenie: imiesłów bez podmiotu
+poprawka: Jednak zasiadając w studio i patrząc w kamerę, dostałem niesamowitej blokady psychicznej.
+
+# NKJP 1.2, typ_publ/130-5-000001647/txt_1-div.txt
+
+zdanie: Zostali zatrzymani przez policję na gorącym uczynku.
+usterka: zdanie otwiera notatkę, więc podmiot domyślny nie ma czego podjąć, a włamywaczy nazywa dopiero czwarte zdanie
+zgłoszenie: podmiot domyślny bez poprzednika
+poprawka: Policja zatrzymała włamywaczy na gorącym uczynku.
+
+# NKJP 1.2, typ_publ/120-2-000012/txt_62-div.txt
+
+zdanie: Rewindykacje ze strony kościołów: prawosławnego i ewangelicko-reformowanego rozpatrywane są zwykłym trybem administracyjnym.
+usterka: dwukropek otwiera wyliczenie w środku grupy podmiotu i nic go nie zamyka
+zgłoszenie: wyliczenie po dwukropku w środku zdania
+poprawka: Rewindykacje ze strony kościołów prawosławnego i ewangelicko-reformowanego rozpatrywane są zwykłym trybem administracyjnym.
+
+# NKJP 1.2, typ_publ/120-2-910000001/txt_29-div.txt
+
+kontekst: Jest to historia polskiego partyzanta, który w okresie drugiej wojny światowej przenika do dowództwa NKWD, by szpiegować na rzecz Brytyjczyków.
+zdanie: Dzięki jego wysiłkom radziecki program atomowy zostaje zahamowany, co powoduje, że Rosjanie w efekcie opanowują, zamiast całej Europy, tylko jej wschodnią część.
+usterka: wtrącenie stoi między „opanowują” a jego dopełnieniem
+zgłoszenie: wtrącenie między orzeczeniem a dopełnieniem
+poprawka: Dzięki jego wysiłkom radziecki program atomowy zostaje zahamowany, co powoduje, że Rosjanie opanowują tylko wschodnią część Europy, a nie całą.
+
+# NKJP 1.2, typ_inf-por/330-1-000003/txt_14-div.txt
+
+zdanie: Lepiej jadać pięć razy dziennie w małych porcjach niż raz dziennie a dużo.
+usterka: przed „niż” stoi jeden człon, a po nim dwa spięte przez „a”
+zgłoszenie: niezgodne człony porównania
+poprawka: Lepiej jadać pięć razy dziennie w małych porcjach niż raz dziennie w dużych.
