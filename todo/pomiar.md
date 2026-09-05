@@ -598,16 +598,16 @@ a czytelnik jest potrzebny nad klasą `pozostaje`
 ([`docs/adnotacje.md`](../docs/adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)).
 Do rozstrzygnięcia jest, czy `--nowe` woła tamtą sondę, czy bierze jej wydruk plikiem,
 bo tamta czyta archiwum, a ta samą prozę.
-Do rozstrzygnięcia jest też, kto ocenia.
-Dotychczasowe sądy wydała sesja agenta,
-a pytanie jest o czytelnika, więc pierwsza ocena przez człowieka
-mówi więcej niż następne czterdzieści przez model,
-i najtańszą drogą do niej jest wydruk `--nowe` oddany komuś,
-kto po polsku czyta, a gramatyki nie zna.
-Druga ocena tych samych wpisów przez inną osobę albo sesję jest ruchem następnym:
-zgodność dwóch ocen mówi, ile sąd jest własnością zdania, a ile oceniającego,
+Do zrobienia jest druga ocena tych samych wpisów, przez inną osobę albo sesję.
+Zgodność dwóch ocen mówi, ile sąd jest własnością zdania, a ile oceniającego,
 i bez niej żadna stopa z tej bazy nie ma błędu pomiaru;
 nad wyborem przypadka drugą oceną jest już anotator korpusu (tamże).
+Zgodność sądów sesji z jego odpowiedzią jest tym, na czym stanęła decyzja,
+że sąd sesji agenta z zapisanym powodem jest sądem czytelnika
+([`docs/corpora.md`](../docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)),
+więc kto ocenia drugi raz, jest obojętne.
+Człowieka wciąga najtaniej wydruk `--nowe` oddany komuś,
+kto po polsku czyta, a gramatyki nie zna.
 Format na drugi sąd w tym samym wpisie nie jest rozstrzygnięty
 i wchodzi razem z pierwszą taką oceną.
 Osobno stoi pytanie, czy `olski-check` ma brać bazę jako listę znalezisk ocenionych

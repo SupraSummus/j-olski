@@ -230,9 +230,12 @@ Korpus jest tam inny w rejestrze, w epoce i w etapie produkcji naraz
 ([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
 mówi, czemu ten korpus w ogóle wchodzi),
 więc wniosek nie jest już własnością jednej dokumentacji.
-Czytającą była przy tym znów jedna sesja, a nie rodzimy czytelnik,
-i tej połowy nie zdejmuje nic poza wpisami, które przeczyta człowiek
-([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)).
+Czytającą była przy tym znów sesja agenta,
+i to tej próbki nie osłabia: sąd sesji z zapisanym powodem jest sądem czytelnika
+([corpora.md](corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
+trzyma tę decyzję wraz z warunkiem, który ją odwraca).
+Wąskością zostaje jeden oceniający,
+bo drugiej oceny tych samych zdań nie ma.
 Które z czytań wziął rodzimy czytelnik, mówi natomiast anotator korpusu
 tam, gdzie czytania różnią się odczytaniem formy,
 a czy drugie było dla niego czytaniem, nie mówi i on
