@@ -326,7 +326,7 @@ Kropka bez odstępu za nią — `niska.Cena` — nie jest granicą zdania
 (`SENTENCE_END` w `olski/document.py`),
 więc po poprawce olski czyta nie to zdanie, tylko dwa,
 a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić.
-Wpis o niej trzyma `todo/gramatyka.md`.
+Wpis o niej trzyma `todo/werdykt.md`.
 
 ## Naprawa całego słowa nie jest jednoznaczna
 
@@ -954,6 +954,23 @@ a policzyć ją drugi raz można tylko wtedy, gdy wiadomo, co się liczy.
 Rusza tę liczbę każda produkcja dająca modyfikatorowi pozycję,
 a policzenie jej na nowo jest odliczeniem ręką według granicy wyżej,
 bo żaden przebieg jej nie drukuje.
+
+Zniesienie tej ceny jedną produkcją rekurencyjną nie stoi
+i mówi to sonda różnicowa (`harness/ruch.py`) nad wariantem,
+który zdejmuje cztery ciała `człon_imienny` niosące to wyrażenie
+i wpisuje `grupa_imienna → grupa_imienna wyrażenie_przyimkowe` w ich miejsce.
+Wariant ten odbiera jednoznaczność blisko stu zdaniom Składnicy, a oddaje ją dwóm;
+nad prozą tego repozytorium odbiera ją kilku, a oddaje jednemu.
+Przyczyną jest zasięg produkcji:
+cztery zdjęte ciała stoją przy głowie rzeczownikowej i odsłownikowej,
+a produkcja rekurencyjna przyłącza wyrażenie do każdego kształtu głowy naraz,
+w tym do zaimka.
+Czterdzieści przeczytanych zdań traci jednoznaczność właśnie na tym —
+`Nadziałem je na haczyk i zarzuciłem.`, `Kierują go na kursy dywersji.` —
+a jedno na grupie liczebnikowej.
+Odwraca to odrzucenie cecha odróżniająca głowę, która przyłączenie bierze,
+od zaimka, który go nie bierze:
+produkcja żąda wtedy tej cechy, zamiast brać wszystko.
 
 Dwa z tych zdań pokazują, po czym brakującą pozycję poznać,
 i nie jest to zdanie odrzucone.

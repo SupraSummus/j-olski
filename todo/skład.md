@@ -459,3 +459,20 @@ więc podział bez własnego wywodu byłby samym przestawieniem tekstu.
 Po konstrukcji tego pliku dzielić nie wolno
 ([`CLAUDE.md`](../CLAUDE.md#code)),
 a wyniesienie samych `linearyzuj` zabrałoby mechanizm ciału, które go niesie.
+
+Skład składa `Skutek.więc` w napis, który olski od tej pory wyprowadza,
+a obieg się na nim nie zamyka:
+`_członowie` w `olski/skład/rozbiór.py` czyta ciało `zdanie_składowe , zdanie`
+i nie czyta tego z przecinkiem oraz spójnikiem,
+więc `Program zapisuje ustawienia, więc linter sprawdza tekst.` wraca powodem,
+że zdanie złożone tego kształtu nie ma tu kategorii.
+Ruch nie jest dopisaniem czwartego kształtu do `_członowie`:
+`więc` niesie relację, a nie następstwo,
+i `SPÓJNIKI` w `olski/skład/spójniki.py` mówi o nim tyle samo, co o `bo`,
+więc to zdanie ma wrócić okolicznikiem w relacji `skutek`, a nie `Ciągiem`.
+Gramatyka wyprowadza je natomiast koordynacją, bo `więc` zdania nie podporządkowuje,
+i to jest cała trudność tego wpisu: dwa tory nazywają jedną konstrukcję inaczej,
+a obieg żąda, żeby napis wrócił tym drzewem, z którego wyszedł.
+Do przeczytania jest `_okolicznikowe` w tym samym pliku,
+czyli droga, którą wraca `bo`, i `test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii`
+w `tests/test_rozbiór.py`, który stał na tym zdaniu i stoi teraz na narzędniku.

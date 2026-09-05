@@ -165,7 +165,7 @@ i tam trafia na własny wyjątek:
 `brakuje` żąda dopełniacza i podmiotu mieć nie może,
 więc czytanie bez podmiotu jest tam jedynym poprawnym, a mimo to płaci.
 Czym ten warunek postawić,
-trzyma wpis o opuszczonym podmiocie w `todo/gramatyka.md`.
+trzyma wpis o opuszczonym podmiocie w `todo/parser.md`.
 
 Pozycja morfologii wycenia słownik, a nie gramatykę:
 czytanie oparte na formie, którą SGJP opatrzył kwalifikatorem odsyłającym ją

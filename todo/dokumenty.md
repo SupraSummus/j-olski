@@ -505,3 +505,19 @@ Ruchem jest w każdym z tych dwóch miejsc zdanie na twierdzenie.
 Do przeczytania jest akapit pod każdym z nich:
 drugie twierdzenie zdania wiodącego bywa powiedziane niżej całym akapitem,
 a wtedy zdanie wiodące oddaje je bez straty.
+
+Granica między dwoma plikami rejestru nie rozstrzyga, gdzie wpis ma stanąć.
+Nagłówek rejestru przypisuje `gramatyka.md` to, czego gramatyka nie bierze,
+a `konstrukcje.md` konstrukcje polszczyzny, których gramatyka nie wyprowadza,
+i są to dwa opisy jednego wpisu.
+Myślnik w miejscu pominiętego orzeczenia, aglutynant poza formą czasu przeszłego
+i okolicznik wyrażony zdaniem w środku zdania stoją w pierwszym pliku,
+a wolny celownik i człon bez czasownika wtrącony w środek w drugim,
+choć wszystkie pięć mówi to samo: polszczyzna to ma, a gramatyka tego nie wyprowadza.
+Ruchem jest kryterium wypisane w nagłówku rejestru:
+brak pokrycia po jednej stronie,
+a kształt samej gramatyki — listy, ciała i deklaracje — po drugiej.
+Po nim idzie przeniesienie tych wpisów, które kryterium wskaże.
+Do przeczytania jest przedtem, ilu wpisów to dotyczy,
+bo oba pliki mają dziś po dwadzieścia kilka wpisów,
+a przeniesienie wszystkich zamieniłoby jeden plik za długi na drugi.

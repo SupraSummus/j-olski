@@ -312,3 +312,44 @@ bo segmentacja jednego zdania waży drobny ułamek jego rozbioru,
 więc powodem są dwa zdania tłumaczące się z jednego braku, a nie przebieg.
 Do przeczytania jest, ile ta pamięć waży nad najdłuższym dokumentem repozytorium,
 bo cena jest tu jedynym argumentem, a nikt jej nie zmierzył.
+
+Kropka bez odstępu za nią jest naprawą jednego znaku i jako jedyna nie ma kształtu.
+Napis niedomknięty i zdanie cytujące spoza rejestru dostają poprawkę
+poświadczoną rozbiorem (`Naprawa` w `olski/werdykt.py`),
+a `niska.Cena` wychodzi zatrzymaniem na formie,
+która z pomyłką autora nie ma nic wspólnego.
+Poza tę klasę wypadła przez rachubę zdań:
+kropka bez odstępu nie jest granicą zdania (`SENTENCE_END` w `olski/document.py`),
+więc po poprawce olski czyta dwa zdania zamiast jednego,
+a werdykt o jednym zdaniu nie ma gdzie takiej odpowiedzi postawić
+([`docs/subset.md`](../docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka)).
+Ruchy są dwa i różnią się adresatem.
+Albo poprawka wchodzi do podziału na zdania i mówi o niej wykrywacz nad dokumentem,
+a nie werdykt o zdaniu.
+Albo `Naprawa` niesie odczytania kilku zdań,
+i wtedy jej wiersz przestaje mówić jedną rzecz o jednym zdaniu.
+Do przeczytania przed wyborem jest
+[`docs/firing-rates.md`](../docs/firing-rates.md#missing-space-after-full-stop-read-the-text-of-a-link)
+wraz z sekcją o trafieniach słusznych tej samej reguły,
+bo mierzy ona ten sam odstęp nad korpusem audytowym, tyle że samym znakiem.
+
+Odrzucenie nie widzi małej litery na początku zdania.
+`cena jest niska.` wychodzi jednym czytaniem, choć zdaniem pisanej polszczyzny nie jest.
+Świadkiem jest tu norma, a nie rozbiór, bo gramatyka wyprowadza oba warianty tak samo.
+Norma ma dwa wyjątki i oba trafiają w ten rejestr.
+Nazwę pisaną małą literą zostawia się małą także na początku zdania,
+bo granicę zdania pokazuje kropka poprzedniego
+(Poradnia PWN, dr Jan Grzenia, „mała litera na początku nazwy własnej”) —
+czyli to samo, co u nas rozstrzyga o `FRAGMENT`.
+Pozycja wyliczenia zamknięta przecinkiem albo średnikiem zaczyna się małą literą,
+bo ciągnie zdanie zaczęte przed dwukropkiem.
+Blokerem jest ekstrakcja: `olski/markdown.py` zdejmuje backticki
+i nie mówi nikomu, że token nimi stał,
+a bez tego wyjątku pierwszego nie da się napisać —
+i nie zastąpi go test na polskie słowo,
+bo `odmień` i `przejrzyj` są nazwami funkcji i polskimi słowami naraz
+([`CLAUDE.md`](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)).
+Ruchem jest więc najpierw ta informacja przeniesiona przez ekstrakcję,
+a dopiero po niej kryterium, którego dowodem jest zero trafień nad prozą repozytorium:
+bez wyjątków strzela ono na pierwszych zdaniach akapitów kilkadziesiąt razy
+i ani razu trafnie.
