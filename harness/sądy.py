@@ -44,8 +44,7 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from harness import pliki_prozy
-from harness.wybory import wpisy
+from harness import pliki_prozy, wpisy
 from olski.subset.deklaracja import WYRAŻENIE_PRZYIMKOWE
 from olski.werdykt import WIELOZNACZNE, ZGŁOSZENIA, Verdict, Zdanie, nad_tekstem
 

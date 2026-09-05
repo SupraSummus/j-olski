@@ -39,7 +39,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-from harness.wybory import wpisy
+from harness import wpisy
 from olski.chwyty import chwyty
 from olski.werdykt import WIELOZNACZNE, Verdict, Zdanie, nad_tekstem, niespełnione_żądania
 

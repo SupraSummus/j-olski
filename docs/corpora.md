@@ -697,7 +697,8 @@ zestaw takich ciągów wokół jednego łącznika stoi w `próba/łącznik-odrzu
 a tamten plik nazywa zestaw dla całej gramatyki osobnym przedsięwzięciem.
 Po nazwach typów najbliżej polszczyzny pisanej bez korekty
 są typy konwersacyjny i internetowy,
-a ile w nich usterek, mówi dopiero czytanie.
+a ile w nich usterek, mówi dopiero czytanie,
+którego wycinki stoją w `próba/przeczytane.txt`.
 
 ## Not yet decided
 

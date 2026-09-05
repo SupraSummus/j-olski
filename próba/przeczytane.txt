@@ -1,0 +1,18 @@
+# Wycinki cudzej prozy przeczytane ręką, żeby korpus usterek rósł cudzym zdaniem
+#
+# Plik stoi poza `harness/`, bo program jest kasowalny, a przeczytanie nie —
+# ten sam powód, który podaje nagłówek `próba/wybory.txt`
+#
+# Wycinek wyznacza `python3 -m harness.wycinek --następny`, a nie ten, kto czyta;
+# przeczytany wpisuje się tutaj, więc sesja następna dostaje prozę nową.
+# Wpisuje się tu także wycinek, w którym usterki nie było ani jednej.
+# Po co ten obieg jest, mówi docs/roadmap.md#cele
+#
+# `od` i `do` niosą plik i numer zdania w tym pliku, licząc od jednego.
+# Nazwą wycinka jest `od`, bo `do` rusza się razem z korpusem i z długością wycinka.
+# Numery zdań są numerami podziału, który robi `olski/document.py`.
+# Proza pochodzi z podkorpusu milionowego NKJP w wydaniu 1.2, wyjęta przez
+# `harness/nkjp.py`, a odcisk pobrania stoi w docs/corpora.md#the-national-corpus-of-polish
+
+od: typ_publ/120-2-000001/txt_25-div.txt 1
+do: typ_publ/120-2-000001/txt_36-div.txt 8

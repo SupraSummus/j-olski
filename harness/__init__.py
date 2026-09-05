@@ -233,6 +233,49 @@ def pliki_prozy(katalog: Path) -> list[Path]:
     return sorted(katalog.rglob(f"*{PROSE_SUFFIX}"))
 
 
+def wpisy(
+    path: Path, klucze: Sequence[str], wymagane: Sequence[str]
+) -> list[dict[str, list[str]]]:
+    """Pola każdego wpisu pliku; klucz nieznany albo wymagany brakujący jest błędem.
+
+    Umowa jest jedna — jeden klucz na wiersz, wpisy rozdzielone pustą linią,
+    komentarz od kratki — i czyta ją stąd każda sonda pytająca o plik z ``próba/``,
+    bo dwie kopie rozjechałyby się na komentarzu wewnątrz wpisu.
+    Klucz spoza listy nie jest przemilczany, bo literówka w kluczu gubi pole
+    i nie widać tego po niczym.
+    """
+    wszystkie = []
+    for numer, blok in bloki(path.read_text(encoding="utf-8")):
+        pola: dict[str, list[str]] = {}
+        for wiersz in blok:
+            klucz, _, wartość = wiersz.partition(":")
+            if klucz not in klucze:
+                raise ValueError(f"{path}:{numer}: nieznany klucz {klucz!r}")
+            pola.setdefault(klucz, []).append(wartość.strip())
+        brakujące = set(wymagane) - pola.keys()
+        if brakujące:
+            raise ValueError(f"{path}:{numer}: wpis bez {', '.join(sorted(brakujące))}")
+        wszystkie.append(pola)
+    return wszystkie
+
+
+def bloki(tekst: str) -> list[tuple[int, list[str]]]:
+    """Wpisy pliku jako wiersze, każdy ze swoim pierwszym wierszem, żeby błąd miał adres."""
+    bloki, blok, numer = [], [], 0
+    for i, wiersz in enumerate(tekst.splitlines(), start=1):
+        if wiersz.startswith("#") or not wiersz.strip():
+            if blok:
+                bloki.append((numer, blok))
+                blok = []
+            continue
+        if not blok:
+            numer = i
+        blok.append(wiersz)
+    if blok:
+        bloki.append((numer, blok))
+    return bloki
+
+
 #: Korzeń repozytorium, czyli katalog nad tym pakietem.
 KORZEŃ = Path(__file__).resolve().parent.parent
 

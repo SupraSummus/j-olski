@@ -710,6 +710,10 @@ Wpisem jest wtedy, gdy usterka jest kształtem zdania;
 o tej, o której orzeka znaczenie słowa, olski będzie milczał
 i nie zapisujemy jej nigdzie
 ([`docs/subset.md`](docs/subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
+Zdania do tego korpusu bierze się z wycinka cudzej prozy przeczytanego w całości,
+a wyznacza go `python3 -m harness.wycinek --następny`.
+Przeczytany wycinek wpisuje się do `próba/przeczytane.txt`,
+także ten, w którym usterki nie było ani jednej.
 Ten korpus ustawia kolejkę toru gramatycznego, a nie kolejka blokerów
 ([`docs/roadmap.md`](docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)),
 więc produkcję i wykrywacz dopisuje się dla zdania, które w nim stoi.
