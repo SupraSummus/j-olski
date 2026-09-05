@@ -20,9 +20,27 @@ a nad `docs/` wraz z nagłówkami — nie,
 i tej różnicy komenda o sobie nie wie, bo dostaje pliki, a nie ich rodzaj.
 Ruchem jest flaga, po której `unclosed` liczy się do kodu wyjścia,
 albo zdanie mówiące, czemu nie liczy się nigdy.
+Tryb ścisły ma tu precedens i tego napisu nie liczy:
+liczy zdanie odrzucone, a napis niepunktowany zostawia,
+bo umowa jest o zdaniach
+([`docs/roadmap.md`](../docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)).
 Do przeczytania jest przebieg nad README,
 bo tam ta różnica rozstrzyga o przyrządzie pomiarowym
 ([`docs/roadmap.md`](../docs/roadmap.md#readme-jest-przyrządem-pomiarowym)).
+
+Tryb ścisły nazywa jedną klasę zdań dwoma słowami.
+Wiersz nad zdaniem otwiera `niesprawdzone`, bo mówi autorowi, że to jego zdanie
+i że kod wyjścia je liczy, a ostatni wiersz przebiegu liczy tę samą klasę pod
+nazwą `bez odczytania`, bo mierzy nią pokrycie i mierzy je w obu trybach
+(`Podsumowanie` w `olski/werdykt/tekst.py`).
+Ruchem jest albo ostatni wiersz mówiący pod trybem `niesprawdzone`,
+albo zdanie mówiące, czemu te dwie nazwy zostają.
+Cena pierwszego ruchu jest w tym, że kształt ostatniego wiersza zaczyna zależeć
+od flagi: liczbę fragmentów cytuje z niego
+[`docs/extraction.md`](../docs/extraction.md#what-the-numbers-here-were-run-over),
+a formatu pilnuje `tests/test_check.py`.
+Do przeczytania jest przebieg `--ścisły` nad `docs/`, bo dopiero nad tekstem
+z oboma wierszami widać, czy czytelnik te dwie nazwy w ogóle zestawia.
 
 Lista czytań mnoży odmiany zdań składowych, a mogłaby je sumować.
 Wpisem na liście jest jedno czytanie, a streszczeniem czytania krotka

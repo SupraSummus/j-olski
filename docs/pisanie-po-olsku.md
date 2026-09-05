@@ -89,6 +89,16 @@ o niej mówi cała [kolejka blokerów](corpus.md#where-the-analyses-stop).
 Rozstrzyga o niej cena, czyli liczba zdań, które konstrukcja kupuje,
 i po tej liczbie tamta kolejka jest ułożona, a nie po dolegliwości.
 
+**W trybie ścisłym płaci autor, także tam, gdzie płaci gramatyka.**
+Tryb liczy zdanie bez odczytania do kodu wyjścia
+([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)),
+więc autor przepisuje dzisiaj i to zdanie, za które płaci gramatyka.
+Przepisania te są kolejką, a nie samą stratą:
+każde nazywa formę, na której stanęła analiza,
+a formy te złożone nad całym tekstem mówią,
+której konstrukcji ten rejestr żąda naprawdę
+([niżej](#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
+
 ## Odrzucenie bywa poprawką
 
 Formą, na której analiza nad tą prozą staje najczęściej, jest spójnik `i`,
