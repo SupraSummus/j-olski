@@ -1,30 +1,20 @@
 # Parser, las i koszt
 
-Sumy kosztów drzewa nikt nie zmierzył, więc nie wiadomo, czy bije porządek dzisiejszy.
-Las porządkuje ciała jednej pozycji jej kosztem, a drzewa wychodzą z niego
-wyliczaniem w głąb, więc kolejność czytań jest leksykograficzna:
-koszt produkcji przy korzeniu waży więcej niż każdy koszt produkcji pod nim,
-choćby ich było kilka.
-Koszt morfologii sumuje się już dziś i jest minimum po poddrzewie
-(`koszt_morfologii` w `olski/parse/las.py`), więc pytanie o sumę stawia się teraz
-o drugą połowę kosztu, a nie o cały.
-Porządek po sumie kosztów całego drzewa jest inną odpowiedzią i wymaga innego wyliczania,
-bo minimum globalne żąda kolejki nad lasem, a nie przejścia w głąb,
-i zdejmuje leniwość, na której stoi `numer_czytania` w `olski/parse/las.py`:
-wyliczanie przystaje dziś na pierwszym drzewie, które trafia, i granicy nie potrzebuje.
-Ruchem jest wariant napisany w sondzie, a nie w parserze,
-i jedna liczba obok tamtej: złote czytanie Składnicy pod jednym porządkiem i pod drugim.
-Suma liczona po `wyprowadzenia` w `olski/parse/las.py` odpowiedzi nie da,
-bo ta metoda czyta tablicę, czyli las przed unifikacją,
-i minimum wypada w niej czasem na kształcie, którego unifikacja nie przepuszcza;
-sumę bierze się przez to po krawędziach klas, a nie po ciałach pozycji.
-Dopiero różnica mówi, czy warto płacić za kolejkę.
-Trop jest jeden i jest przeciw: sesja, która wpuściła koszt morfologii, sumowała
-przez pomyłkę także koszty produkcji i przestawiła wtedy nad prozą repozytorium
-dwa razy więcej zdań, a przeczytane ręką wypadły gorzej — `Co pan sądzi o pomyśle
-Pawła Piskorskiego?` wychodziło pierwszym czytaniem z `Co pan` w wyrażeniu
-przyimkowym. Sądów jest kilkanaście i pomiarem to nie jest, więc trop mówi tyle,
-że sondę warto puścić, zanim ktoś napisze kolejkę.
+Suma rachunku nie wychodzi z werdyktu, bo kolejność czytań jej nie czyta.
+Rachunek wypisuje nazwy pozycji przy każdym czytaniu i po dopisaniu ceny okolicznika
+rozróżnia większość zdań wieloznacznych, ale sumy nie wydaje
+(`Verdict.rachunki` w `olski/werdykt/zdanie.py`),
+bo kolejność jest leksykograficzna i suma czytałaby się na miejsce w kolejce, którym nie jest.
+Wystawienie liczby i przestawienie kolejności są przez to jedną zmianą, a nie dwiema
+([`docs/disambiguation.md`](../docs/disambiguation.md#miara-porównywalna-nad-czytaniami)).
+Cena jest zmierzona: porządek po sumie traci nad Składnicą kilkanaście zdań na tysiąc kilkaset,
+co wypisuje `harness/skala.py`, więc do rozstrzygnięcia jest, czy zgodność liczby z kolejnością
+warta jest tych zdań, a nie ile ich jest.
+Przeszkodą po stronie kodu jest wyliczanie: minimum po sumie żąda kolejki nad lasem
+zamiast przejścia w głąb i zdejmuje leniwość, na której stoi `numer_czytania`
+w `olski/parse/las.py`, bo ono przystaje dziś na pierwszym drzewie, które trafia.
+Kolejność czyta przy tym dwóch — wydruk przez `podsumuj` w `olski/parse/__init__.py`
+oraz `numer_czytania` — a posortowanie samej listy wypisywanej rozjechałoby pomiar z wydrukiem.
 
 Przedstawiciel pozycji może stać w klasie, której żadne czytanie nie bierze.
 `_przedstawiciel` w `olski/parse/las.py` bierze pierwsze drzewo pozycji bez odsiewu po

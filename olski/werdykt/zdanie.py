@@ -39,11 +39,11 @@ from olski.werdykt.odrzucone import Naprawa, _naprawa, _od_zatrzymania
 from olski.werdykt.wykazy import (
     OdczytaniaFormy,
     Żądanie,
-    _koszty_drzewa,
     _morfologia_zdania,
     _pod_streszczeniem,
     _zwinięte,
     _żądania_streszczenia,
+    koszty_drzewa,
 )
 from olski.żądania import żąda_osoby
 
@@ -279,7 +279,7 @@ class Verdict:
         tam, gdzie stoi.
         """
         return [
-            cennik.rachunek(_koszty_drzewa(drzewa[0]))
+            cennik.rachunek(koszty_drzewa(drzewa[0]))
             for _streszczenie, drzewa in streszczone(self.result.readings, DEKLARACJA)
         ]
 

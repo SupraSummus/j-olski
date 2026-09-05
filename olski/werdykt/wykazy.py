@@ -99,7 +99,7 @@ def _morfologia_zdania(zdanie: str) -> tuple[OdczytaniaFormy, ...]:
     )
 
 
-def _koszty_drzewa(drzewo: Tree) -> Iterator[str]:
+def koszty_drzewa(drzewo: Tree) -> Iterator[str]:
     """Pozycje cennika, którymi płaci to drzewo: węzeł swoją produkcją, liść swoją formą.
 
     Liść płaci najtańszym ze swoich odczytań, bo tak liczy go las
@@ -115,7 +115,7 @@ def _koszty_drzewa(drzewo: Tree) -> Iterator[str]:
         return
     yield from drzewo.koszty
     for dziecko in drzewo.children:
-        yield from _koszty_drzewa(dziecko)
+        yield from koszty_drzewa(dziecko)
 
 
 @dataclass(frozen=True)

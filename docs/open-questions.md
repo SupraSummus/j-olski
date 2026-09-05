@@ -364,6 +364,11 @@ Current inclination is not to.
 Co ranking nad takim lasem osiąga tam, gdzie ktoś go zbudował i zmierzył,
 i dlaczego skłonność jest tu dalej „nie”,
 wycenia [disambiguation.md](disambiguation.md#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje).
+Wymaganie postawione tutaj jest przy tym mocniejsze od miary,
+którą tamten dokument przyjmuje
+([miara porównywalna](disambiguation.md#miara-porównywalna-nad-czytaniami)):
+miara porządkuje czytania i o żadnym nie orzeka, że jest tym właściwym,
+a obieg zamknięty żądałby, żeby drzewo autora wychodziło pierwsze.
 
 A third option, cheaper than either ranking or resolving:
 abstain when the forest holds more than one reading,

@@ -159,6 +159,9 @@ czyli `przestawienie` i `okolicznik`,
 a resztę nazywa deklaracja zdania (`olski/subset/zdanie.py`):
 `wysunięty orzecznik`, `czasownik przed podmiotem`, `opuszczony podmiot`
 oraz `wysunięte dopełnienie bezokolicznika`.
+`Okolicznik` nazywa przy tym oba te miejsca, bo okolicznik stoi i tam, gdzie wstawia
+go rozwinięcie, i pod wypełnieniami, których rozwinięcie nie pisze;
+dwie nazwy na jedną deklarację rozeszłyby się przy pierwszej przecenie.
 
 Cennik mówi o produkcji, a nie o czasowniku, który w niej stoi,
 i tam trafia na własny wyjątek:
@@ -203,6 +206,13 @@ a wyjątkiem jest sam znak kosztu okolicznika:
 czytanie z okolicznikiem postawione przed czytaniem bez niego
 traci prawie tyle, co odwrócone cięcie.
 
+**Cena niesie sam znak, a wysokości nie niesie**, i mówi to ta sama sonda
+zadana wariantami cennika (`harness/skala.py`).
+Pozycja podniesiona ponad dzisiejszą cenę nie rusza ani jednego zdania;
+rusza dopiero zejście do zera i przejście na wartość ujemną.
+Ciała jednej pozycji lasu różnią się zwykle jedną pozycją cennika,
+więc wysokość nie ma tam czego rozstrzygnąć.
+
 Zostały mimo to i jest to decyzja, a nie odczyt.
 Rozstrzygają zdania, o których ten korpus nie ma zdania:
 bez kosztu szyku `Janek lubi piwo.`, a bez kosztu wysunięcia `On jest wolny.`
@@ -214,6 +224,36 @@ szyk wypisany w niej jest podstawowy, a wysunięcie jest nacechowane.
 Czwarty koszt produkcji nie został: odsunięcie okolicznika od końca konstytuenta
 wyceniano tak samo i nie rusza ono ani jednego zdania,
 bo miejsca okolicznika różnią się rozpiętością córek, a o tych mówi już cięcie.
+
+**Okolicznik płaci tę pozycję także pod wypełnieniami, i dopisano ją tam po pomiarze.**
+Rozwinięcie wyłącza `grupa_orzeczenia` ze swojego naliczania, bo jej okolicznik
+przychodzi z `wypełnienia`, a tamte ciała pozycji nie płaciły
+(`_wypełnienia` w `olski/subset/zdanie.py`).
+Kosztowało to całą wycenę przyłączenia: `Program zapisuje ustawienia w pliku.`
+wyprowadza się dwoma drzewami, w których wyrażenie przyimkowe wisi raz pod członem
+imiennym, a raz pod okolicznikami, i oba stoją w szyku, który deklaracja im wypisała,
+więc oba rachunki wychodziły puste.
+Nad bankiem drzew wszystkie czytania miały jedną sumę w dwóch trzecich zdań
+wieloznacznych, a po dopisaniu ceny mają ją w niespełna jednej trzeciej;
+złote czytanie zostaje przy tym pierwsze w tylu zdaniach, co przedtem
+(`harness/skala.py`).
+Cena wyceniona osobno, samemu przyłączeniu, mierzyła się lepiej,
+i nie została z tego powodu: nacechowywała jedną z czterech rodzin ciał,
+czyli tę, w której konkurencja zwykle pada,
+więc trafność brała z dopasowania do korpusu, a nie z deklaracji o polszczyźnie.
+
+**Suma kosztów całego drzewa zmierzona jest wobec dzisiejszej leksykografii
+i wypada od niej gorzej.**
+Kolejność czytań jest leksykograficzna, bo drzewa wychodzą wyliczaniem w głąb,
+a ciała porządkuje koszt pozycji:
+koszt przy korzeniu waży więcej niż każdy koszt pod nim, choćby ich było kilka.
+Porządek po sumie, z dzisiejszą kolejnością rozstrzygającą remisy,
+traci nad Składnicą kilkanaście zdań na tysiąc kilkaset,
+a miara płaska zbudowana z odległości przyłączenia traci wielokrotnie więcej,
+i to w obie strony, którymi ją mierzono.
+Trafność tej kolejności bierze się więc stąd,
+że decyzja przy korzeniu bije wszystko pod sobą,
+a nie stąd, że koszty składają się na wielkość.
 
 **Kosztu morfologii ten pomiar nie widzi wcale i jest to brak w przyrządzie.**
 Bank drzew mierzy się morfologią złotą, czyli czytaniem wziętym z drzewa
@@ -438,15 +478,62 @@ Czytań wypisuje się najwyżej `MAX_READINGS`,
 a kolejność, w jakiej wychodzą, rozstrzyga, które autor zobaczy.
 Ranking postawiony tam porządkuje listę i nie dotyka odpowiedzi,
 więc kosztuje tyle, ile waży, i nie kosztuje ani jednego werdyktu.
-Czy to warte modelu trenowanego na banku drzew, ten dokument nie rozstrzyga;
-[open-questions.md](open-questions.md#the-round-trip-guarantee)
-trzyma pytanie o ranking wraz z notowaną tam niechęcią do budowania go.
+To zastosowanie jest przyjęte i opisuje je
+[sekcja niżej](#miara-porównywalna-nad-czytaniami).
+
+## Miara porównywalna nad czytaniami
+
+Sekcja wyżej odrzuca ranking wydający odpowiedź i tego nie odwraca.
+Przyjęte jest to, o co tamta zahacza ostatnim akapitem, i w kodzie jeszcze nie stoi:
+czytanie ma dostać liczbę, którą wolno porównać z liczbą czytania obok,
+a werdykt zdania wieloznacznego ma zostać wieloznaczny.
+Zdanie o dwóch czytaniach wychodzi dalej z obydwoma i autor dalej wybiera sam
+([README](../README.md)).
+
+Liczba ma mówić nie tylko, które czytanie jest tańsze, ale i o ile.
+Dzisiejsza kolejność mówi samo pierwsze, bo jest leksykograficzna
+i na żadnej skali nie leży
+([wyżej](#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+Bez drugiego nie odróżni się czytania o wiele zwyklejszego od sąsiada
+od takiego, które wyprzedza go o włos,
+a próg między jednym a drugim jest decyzją, którą stawia się dopiero nad wielkością.
+
+Rachunek czytania jest zalążkiem tej liczby i po dopisaniu ceny okolicznika
+rozróżnia większość zdań wieloznacznych (tamże).
+Wychodzą z niego nazwy pozycji, a nie ich suma, i suma wyjść nie może,
+póki kolejność jej nie czyta: dwie liczby w jednym wydruku, z których jedna
+przeczy drugiej, są gorsze od jednej
+(`Verdict.rachunki` w `olski/werdykt/zdanie.py`).
+Ile kosztuje przestawienie kolejności na sumę, jest zmierzone, więc cena tego kroku jest znana.
+
+Dowód mocniejszy od ceny niosą świadkowie warstwy rozstrzygającej,
+bo o przyłączeniu mówią wprost i mają zmierzoną częstość pomyłek
+([rozstrzyganie.md](rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
+a z częstości pomyłek kalibruje się próg.
+Warstwa ta odpowiada dziś obok werdyktu i miary nie zasila.
+
+Wejściem jest dziś zdanie, a ma nim być zdanie wraz z tym, co je otacza.
+Kierunek jest ten sam, który
+[kontekst rozstrzygający wykluczeniem](#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem)
+opisuje po swojemu: świadek powtórzenia czyta już akapit, a nie zdanie,
+więc składnik brany od niego wnosi kontekst do liczby.
+Cenę tamta sekcja nazywa i jest ona ta sama:
+liczba przestaje być własnością zdania samego,
+a przestawienie akapitu rusza ją bez ruszania zdania.
+
+O każdym składniku rozstrzyga ta liczba, którą mierzy się kolejność:
+złote czytanie pierwsze nad bankiem drzew (`harness/skala.py`).
+Składnik, po którym ona spada, nie wchodzi, choćby miarę uczynił gadatliwszą.
+Sekcja ta zastępuje ostatni akapit
+[sekcji o rankingu](#ranking-nie-jest-wyjściem-którego-ten-parser-potrzebuje)
+i scala się z nią wtedy, gdy miara stanie w kodzie.
 
 ## Dobre ujednoznacznianie jest odczytaniem i jest to hipoteza
 
-Sekcja wyżej odrzuca ranking, dwie niżej przyjmują po jednej rzeczy tańszej,
+Ranking wydający odpowiedź jest odrzucony, miara porównywalna nad czytaniami przyjęta,
+dwie sekcje niżej przyjmują po jednej rzeczy tańszej,
 a trzecia mówi, że reszty nie rozstrzyga nic, co stoi w zdaniu.
-Każda z tych czterech decyzji ma osobne uzasadnienie,
+Każda z tych decyzji ma osobne uzasadnienie,
 a pod wszystkimi leży jedno zdanie, którego dotąd nikt tu nie wypisał:
 odpowiedź warta wzięcia jest odczytaniem tego, co czytelnik ma przed sobą,
 a nie częstością zmierzoną nad czymś, czego przed sobą nie ma.

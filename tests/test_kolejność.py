@@ -129,6 +129,33 @@ def test_rachunek_stoi_przy_tym_odczytaniu_które_płaci():
     assert werdykt.rachunki == [(), (), ((OPUSZCZONY_PODMIOT, 1),)]
 
 
+def test_czytania_różniące_się_przyłączeniem_mają_różne_rachunki():
+    """Okolicznik pod wypełnieniami płaci, więc rachunek rozróżnia czytania przyłączeniowe.
+
+    Przyłączenie jest większością wieloznaczności olskiego, a pozycje szyku na
+    nim milczą: oba czytania `Program zapisuje ustawienia w pliku.` stoją w szyku,
+    który deklaracja im wypisała. Póki to ciało było darmowe, oba rachunki były
+    puste i suma nie miała czego porównać
+    (docs/disambiguation.md#miara-porównywalna-nad-czytaniami).
+    """
+    (werdykt,) = check("Program zapisuje ustawienia w pliku.")
+    assert werdykt.rachunki == [(), ((OKOLICZNIK, 1),)]
+
+
+def test_okolicznik_kosztuje_tyle_samo_obok_wypełnienia_co_bez_niego():
+    """Cena okolicznika nie zależy od tego, czy czasownik wypełnia przy okazji pozycję ramy.
+
+    Okolicznik stoi pod wypełnieniami w czterech rodzinach ciał i każda wypisuje
+    się osobno (`_wypełnienia` w `olski/subset/zdanie.py`), więc cena dopisana do
+    jednej z nich orzekałaby o zdaniu rzecz, której nikt nie zadeklarował:
+    `deskami` płaciłoby, a `dotąd` nie, choć oba dochodzą do orzeczenia.
+    """
+    z_dopełnieniem, bez_dopełnienia = check(
+        "Mieszczanie zabili okna deskami.\n\nRachunek zwraca się dotąd."
+    )
+    assert z_dopełnieniem.rachunki == bez_dopełnienia.rachunki == [((OKOLICZNIK, 1),)]
+
+
 def test_czytanie_oparte_na_formie_spoza_rejestru_wychodzi_z_lasu_później():
     """Koszt morfologii idzie w górę, aż trafi na ciała, które się nim różnią.
 
