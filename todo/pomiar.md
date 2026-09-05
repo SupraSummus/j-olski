@@ -687,3 +687,15 @@ czy zostaje jak jest, bo poprawka ma mówić, co poprawiłby czytelnik,
 a nie co wyprowadza gramatyka.
 Do przeczytania są zdania tych wpisów obok swoich poprawek,
 bo od odległości między nimi zależy, którą z tych trzech dróg wybrać.
+
+Wykrywacz zaimka niezwrotnego czeka na rozstrzygnięcie, czy zostaje w kodzie.
+Nad podkorpusem milionowym NKJP trafia kilkadziesiąt razy, a z trzydziestu
+przeczytanych sądów potwierdzony jest jeden
+([`docs/linter.md`](../docs/linter.md#wykrywacz-zaimka-niezwrotnego-został-za-flagą-bo-trafienie-od-chybienia-dzieli-znaczenie-słowa)).
+Reguła o imiesłowie bez podmiotu zeszła z kodu przy trzynastu trafieniach
+i zerze potwierdzeń, więc krok czwarty waży tę ostrzej niż tamtą,
+a broni jej to jedno potwierdzenie i cena, którą płaci repozytorium, a nie autor.
+Do przeczytania jest następne trzydzieści sądów, bo one to rozstrzygną:
+potwierdzenie drugie regułę broni, a trzydzieści sądów bez ani jednego
+zdejmuje ją razem z flagą, testami i trzema wpisami `próba/usterki.txt`,
+które ją zamawiały.

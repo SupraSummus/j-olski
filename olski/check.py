@@ -19,7 +19,7 @@ from typing import TypeVar
 
 from olski.cennik import cena
 from olski.chwyty import chwyty
-from olski.odniesienia import Odniesienie
+from olski.odniesienia import Niezwrotny, Odniesienie
 from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
 from olski.wejście import proza
 from olski.werdykt import (
@@ -156,6 +156,21 @@ def _wiersz_osoby(wiersz: Żądanie) -> str:
     )
 
 
+def _wiersz_niezwrotnego(wiersz: Niezwrotny) -> str:
+    """Zaimek dzierżawczy, rzecz i podmiot, którego on nie bierze, jako wiersz wydruku.
+
+    Wiersz kończy się formą, którą autor napisałby o rzeczy podmiotu, bo to ona
+    jest poprawką; rodzaju i przypadka wiersz jej nie odmienia, bo `swój` odmienia
+    się za rzeczą, a nie za zaimkiem, którego on zastępuje.
+    Formy w cudzysłowie z tego samego powodu, z którego dostaje go gospodarz
+    przyłączenia (:func:`_nierozstrzygnięte` w ``olski/werdykt/zdanie.py``).
+    """
+    return (
+        f"„{wiersz.zaimek}” określa „{wiersz.rzecz}”, a o rzeczy podmiotu "
+        f"„{wiersz.podmiot}” mówi się „swój”"
+    )
+
+
 def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
@@ -238,6 +253,11 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
     #  Osoby za żądaniami, bo są tymi żądaniami, na które projekt odpowiedział.
     if args.osoby:
         yield from map(_wiersz_osoby, niespełnione_żądania(verdict))
+    #  Zaimki dzierżawcze za osobami, bo obie flagi pytają o zdanie, a nie o
+    #  odczytanie, i obie o to, czego zdaniu brakuje: tam wykonawcy w pozycji,
+    #  tu formy, którą polszczyzna każe napisać o rzeczy podmiotu.
+    if args.dzierżawcze:
+        yield from map(_wiersz_niezwrotnego, verdict.niezwrotne)
     if świadkowie is not None:
         yield from _rozstrzygnięcia(verdict, świadkowie, zdanie.sąsiedztwo)
     #  Chwyt na końcu, bo o polszczyźnie tego zdania nie mówi nic.
@@ -285,6 +305,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--osoby",
         action="store_true",
         help="pokaż pozycje, w których czasownik żąda kogoś, a stoi w nich rzecz",
+    )
+    parser.add_argument(
+        "--dzierżawcze",
+        action="store_true",
+        help="pokaż zaimki dzierżawcze nazywające rzecz podmiotu, o której mówi się „swój”",
     )
     parser.add_argument(
         "--chwyty",

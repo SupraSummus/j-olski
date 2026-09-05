@@ -30,11 +30,19 @@ ODNIESIENIE = "niejasne odniesienie"
 #: nie widzi (:data:`ZNALEZISKA`), więc flaga nie rusza ani jednej liczby.
 ODNIESIENIE_W_ZDANIU = "niejasne odniesienie w zdaniu"
 
+#: Nazwa zgłoszenia spod flagi ``--dzierżawcze`` (``olski/odniesienia.py``):
+#: zaimek dzierżawczy nazywa rzecz podmiotu, o której polszczyzna mówi `swój`.
+#: Nazwa jest tu, a nie przy swojej warstwie, bo to lista niżej rozstrzyga, czym
+#: zgłoszenie jest: baza sądów ocenia je pod tą nazwą, a :data:`ZNALEZISKA` go nie
+#: liczą, więc ani podsumowanie, ani kod wyjścia się nie ruszają, dopóki sądy go
+#: nie awansują.
+ZAIMEK_NIEZWROTNY = "zaimek niezwrotny"
 ZGŁOSZENIA = (
     WIELOZNACZNE,
     POPRAWKA,
     ODNIESIENIE,
     ODNIESIENIE_W_ZDANIU,
+    ZAIMEK_NIEZWROTNY,
 )
 
 #: Te zgłoszenia, które są znaleziskiem, czyli mówią autorowi, co poprawić.
@@ -82,6 +90,7 @@ class Zdanie:
             POPRAWKA: self.werdykt.naprawa is not None,
             ODNIESIENIE: any(not o.w_zdaniu for o in self.odniesienia),
             ODNIESIENIE_W_ZDANIU: any(o.w_zdaniu for o in self.odniesienia),
+            ZAIMEK_NIEZWROTNY: bool(self.werdykt.niezwrotne),
         }
         return tuple(nazwa for nazwa in ZGŁOSZENIA if obecne[nazwa])
 

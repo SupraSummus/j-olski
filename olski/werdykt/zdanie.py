@@ -17,6 +17,7 @@ from olski import cennik
 from olski.document import SENTENCE_CLOSE
 from olski.grammar import Grammar
 from olski.morph import Segment
+from olski.odniesienia import Niezwrotny, zaimki_niezwrotne
 from olski.osoby import OSOBY_PROJEKTU, Osoby
 from olski.parse import (
     PRZYŁĄCZONY_DO,
@@ -294,6 +295,18 @@ class Verdict:
             _żądania_streszczenia(drzewa)
             for _streszczenie, drzewa in streszczone(self.result.readings, DEKLARACJA)
         ]
+
+    @property
+    def niezwrotne(self) -> tuple[Niezwrotny, ...]:
+        """Zaimki dzierżawcze, którym podmiot zdania jest zakazany (``olski/odniesienia.py``).
+
+        **Krotka jest o zdaniu, a nie o odczytaniu**, i tym różni się ten wykaz
+        od :attr:`żądania`, a jest nim z tego samego powodu, z którego wiersz o
+        żądaniu osoby jest o zdaniu (:func:`niespełnione_żądania`): trójkę
+        powtórzoną w odczytaniach warstwa zwija do jednej, więc wykaz na
+        odczytanie kazałby przeczytać kopie jednego wiersza.
+        """
+        return zaimki_niezwrotne(self.result.readings)
 
     @property
     def rozbieżne(self) -> list[Rozbieżność]:

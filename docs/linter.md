@@ -407,6 +407,80 @@ Dwa z nich napisano ręką pod ten korpus i to one regułę uwiarygodniły,
 a nagłówek `próba/usterki.txt` żąda zdań cudzych właśnie po to:
 zdanie wymyślone pod ten plik mierzy autora, a nie usterkę, którą ktoś popełnia.
 
+## Wykrywacz zaimka niezwrotnego został za flagą, bo trafienie od chybienia dzieli znaczenie słowa
+
+O rzeczy podmiotu polszczyzna mówi `swój`,
+więc `jego`, `jej` i `ich` nazywają rzecz kogoś innego niż podmiot zdania składowego.
+`Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby bezpieczeństwa.`
+nie mówi przez to o stosunku kandydata,
+choć nikogo innego to zdanie nie nazywa, a poprawką jest `swojego`.
+To zdanie i dwa takie stoją w `próba/usterki.txt`
+i to one postawiły ten wykrywacz w kolejce
+([roadmap.md](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
+Znalazł je nad NKJP sam wykrywacz, a nie wycinek przeczytany w całości,
+więc jego trafienie w nie jest obiegiem zamkniętym
+i dowodu o regule tamte trzy zdania nie niosą — niesie go baza sądów niżej.
+Warunek czyta z drzewa `olski/odniesienia.py`, a wiersz wypisuje flaga `--dzierżawcze`.
+
+Na [czterech osiach](#cztery-osie-każdej-reguły) wypada tam,
+gdzie [reguła o zaimku](#gdzie-na-tych-osiach-wypada-reguła-o-zaimku) obok niego:
+głębokością jest rozbiór, bo i podmiot, i głowę grupy imiennej nazywa dopiero drzewo,
+kształtem jest werdykt o zdaniu, a pytanie jest o strukturę.
+Progu przez to nie ma i kalibracji ta reguła nie potrzebuje —
+potrzebuje jej awans, i to on stanął.
+Populacją jest cudza polszczyzna,
+więc o regule rozstrzyga baza sądów, a nie przeczytanie wszystkich trafień.
+
+Zgłoszenie pada tam, gdzie podmiot składowego zgadza się z zaimkiem
+liczbą i rodzajem, a żadna inna rzecz stojąca przed zaimkiem się z nim nie zgadza.
+Zawężenia, którymi kandydatów ubywa, oraz cenę każdego z nich
+trzyma `olski/odniesienia.py`; każde zdejmuje trafienia, a żadne ich nie dokłada.
+
+Kryterium postawiono przed pomiarem:
+dwadzieścia sądów trafnych na trzydzieści awansuje wykrywacz do wydruku domyślnego,
+a mniej niż dziesięć zostawia go za flagą.
+Trzydzieści trafień nad podkorpusem milionowym NKJP przeczytano
+i czytelnik potwierdził jedno (`próba/nkjp-sądy.txt`).
+
+Chybienia są jednym kształtem i widać po nim, czego regule brakuje.
+Zaimek podejmuje w nich osobę nazwaną zdanie albo dwa wcześniej,
+a w podmiocie stoi rzecz, której czytelnik na posiadacza nie bierze:
+`Przeszywający ból, cierpienie widoczne na jego spoconej twarzy są oznaką łaski.`
+mówi o twarzy szamana, bo ból twarzy nie ma,
+a `Przez długi czas będą jeszcze trudności z ich nabyciem.`
+mówi o sadzonkach, bo trudności się nie nabywa.
+Zgodność liczby i rodzaju tego nie rozdziela i rozdzielić nie może:
+`jego` zgadza się z każdym rzeczownikiem męskim i nijakim w liczbie pojedynczej.
+Rozdziela to znaczenie słowa — czy rzecz stojąca w podmiocie bywa posiadaczem —
+a nie kształt zdania, więc zawężenia z drzewa na to nie ma
+([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
+
+Zawężenie do podmiotu nazywającego osobę tego nie ratuje.
+Osoba stoi w podmiocie także w chybieniach:
+`Witold poszedł w jego ślady i również poświęcił się dziennikarstwu.`
+mówi o śladach ojca.
+Rodzaj gramatyczny nazywa przy tym osobę tylko w rodzaju męskim,
+więc `jej` zostałoby bez zawężenia,
+a deklaracja osób tego projektu jest zamknięta i poza jego rejestr nie sięga
+([walencja.md](walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+
+Za flagą reguła stoi, a rozstrzygnięcia, czy ma stać dalej, ten dokument nie ma.
+[Krok czwarty](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)
+każe takiej regule zejść z kodu,
+gdy trafia często, a każde trafienie jest chybione,
+i tym krokiem wycofano [regułę o imiesłowie](#reguła-o-imiesłowie-bez-podmiotu-myliła-się-w-każdym-trafieniu)
+stojącą w tym dokumencie wyżej.
+Ta reguła jest głośniejsza od tamtej — nad tym samym podkorpusem
+tamta trafia kilkanaście razy, a ta kilkadziesiąt —
+a przeczytana część jej trafień daje jedno potwierdzenie,
+gdzie tamta nie dała ani jednego nad całą swoją populacją.
+Za jej pozostaniem stoi to jedno potwierdzenie oraz cena, którą płaci
+repozytorium, a nie autor: jedna funkcja, garść testów i nazwa poza
+znaleziskami, więc ani podsumowanie, ani kod wyjścia `olski-check` się nie ruszają.
+Za wycofaniem stoi ta sama arytmetyka, którą wycofano tamtą.
+Rozstrzygnie to przeczytanie następnych sądów: potwierdzenie drugie regułę broni,
+a trzydzieści sądów bez ani jednego zdejmuje ją tak jak tamtą.
+
 Reszta tego dokumentu opisuje tamten pakiet i argumenty, które za nim przemawiały.
 
 ## The target register: technical documentation
