@@ -352,14 +352,16 @@ a nie nad prozą, więc nie widzi go przebieg nad plikiem `.txt`.
 Co olski umie powiedzieć nad zdaniem, wyliczają dwa miejsca.
 Wydruk `olski-check` stawia po jednym wierszu na flagę (`olski/check.py`),
 a `zgłoszenia` w `harness/usterki.py` zbiera z tego nazwy dla korpusu usterek.
-Druga lista milczy o wykrywaczu dopisanym pod nową flagą,
-a sonda mówi wtedy ciszę nad wpisem, który olski wykrywa,
-czyli wydaje liczbę nieprawdziwą i nie widać tego po niej —
-i to jest ten sam powód, z którego
+Deklaracją jest `ZGŁOSZENIA` w `olski/werdykt/tekst.py`,
+a wykrywacz dopisany przez nią drugiej listy nie kosztuje:
+tak weszło `imiesłów bez podmiotu` i sonda usterek policzyła je bez zmiany w sobie.
+Poza tą deklaracją zostają dwa zgłoszenia — chwyt rejestru spod `--chwyty`
+oraz rzecz w pozycji osoby spod `--osoby` —
+i ich nazwy `harness/usterki.py` wypisuje ręką,
+więc zgłoszenie dopisane obok nich sonda przemilcza,
+czyli wydaje liczbę nieprawdziwą i nie widać tego po niej;
+to jest ten sam powód, z którego
 [`CLAUDE.md`](../CLAUDE.md#code) zakazuje drugiej deklaracji podzbioru.
-Ruchem jest jedna deklaracja w pakiecie: nazwa zgłoszenia wraz z funkcją,
+Ruchem jest wciągnięcie obu do tej deklaracji: nazwa zgłoszenia wraz z funkcją,
 która je nad zdaniem znajduje, a wydruk i sonda pytają o nią.
-Do rozstrzygnięcia jest, czy wchodzi do niej wieloznaczność
-i pozostałe wiersze werdyktu, bo `ZGŁOSZENIA` w `olski/werdykt/tekst.py`
-wylicza je już dziś, a wtedy deklaracji jest znów dwie.
 Ceną jest wydruk, bo dziś każda flaga rysuje swój wiersz inaczej.

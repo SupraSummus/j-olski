@@ -761,3 +761,114 @@ znalezisko: niejasne odniesienie w zdaniu
 werdykt: 5 odczytań; „z kobietami i ich wolnością” → „walce”, „obrońców”, „nietykalności”, „płodu”, „mamy”
 sąd: fałszywe
 powód: wolność mają kobiety, a nie walka, w której o nią chodzi
+
+plik: typ_publ/KOT/txt_51-div.txt
+kontekst: Sztuka posługiwania się słowem to wielki talent.
+zdanie: Posługując się nim z szermierczą precyzją i taneczną lekkością, można grać na barwnych strunach duszy.
+znalezisko: imiesłów bez podmiotu
+werdykt: 3 odczytania, różne w roli: dopełnienie; „na barwnych strunach” → „można”, „grać”
+sąd: fałszywe
+powód: gra ten, kto się słowem posługuje, a `można` mówi to o każdym, kto ma ten talent
+
+plik: typ_publ/130-5-000001464/txt_1-div.txt
+kontekst: W niedzielę o świcie funkcjonariusze Scotland Yardu przeprowadzili nalot na opustoszałą fabrykę guzików w południowo-wschodnim Londynie.
+kontekst: Jest ona ponoć bazą anarchistów, a na jej terenie odbywały się treningi dla aktywistów anarchistycznych, przygotowujących się do wywołania 1 maja w stolicy demonstracji i zamieszek.
+zdanie: Fabrykę zaplombowano, konfiskując także podejrzane materiały.
+znalezisko: imiesłów bez podmiotu
+werdykt: 2 odczytania; „także podejrzane materiały” ma 2 odczytania
+sąd: fałszywe
+powód: plombuje fabrykę i konfiskuje materiały ta sama policja, którą nazywa kontekst
+
+plik: typ_publ/120-2-000009/txt_149-div.txt
+kontekst: System Oikarinena mógł obsługiwać jednocześnie do stu dyskutantów.
+kontekst: Kilka lat później gadało już w sieci w jednym czasie kilkadziesiąt tysięcy ludzi, bo IRC wypączkował z fińskiego uniwersytetu.
+zdanie: Po prostu połączono ze sobą serwery w różnych częściach świata, tworząc gigantyczną sieć Internetu.
+znalezisko: imiesłów bez podmiotu
+werdykt: 4 odczytania, różne w roli: dopełnienie; „w różnych częściach świata” → „połączono”, „serwery”; „ze sobą” ma 2 odczytania
+sąd: fałszywe
+powód: łączy serwery i tworzy z nich sieć ten sam nienazwany ktoś, a zdanie mówi o skutku
+
+plik: typ_publ/120-2-900079/txt_6-div.txt
+kontekst: Postanowiono także powoli rezygnować z odbioru mleka poprzez filie (zlewnie) na rzecz bezpośredniej dostawy do centrali, jak nazwano mleczarnię w Woźnikach.
+kontekst: Uchwalono także regulamin pracy Rady Nadzorczej.
+zdanie: Można domniemywać na podstawie analizy dokumentów zarządu, że Rada Nadzorcza niejednokrotnie zastępowała zarząd i przejmowała jego kompetencje, ograniczając tym samym odpowiedzialność zarządu za działalność gospodarczą mleczarni.
+znalezisko: imiesłów bez podmiotu
+werdykt: 34 odczytania, różne w rolach: dopełnienie, okolicznik_zdaniowy, orzeczenie; „za działalność gospodarczą” → „Można”, „domniemywać”, „ograniczając”, „odpowiedzialność”, „zarządu”
+sąd: fałszywe
+powód: odpowiedzialność ogranicza Rada Nadzorcza, która przejmowała kompetencje; czytanie, w którym imiesłów określa `Można`, odpada
+
+plik: typ_lit/200-1-000015/txt_7-div.txt
+zdanie: Wracając do skąpej listy sukcesów Włodka, trzeba uczciwie powiedzieć, że najjaśniejszym w niej punktem jest Blondyn.
+znalezisko: imiesłów bez podmiotu
+werdykt: 10 odczytań; „w niej” → „najjaśniejszym”, „jest”; „skąpej listy sukcesów” ma 2 odczytania
+sąd: fałszywe
+powód: wraca do listy sukcesów i mówi o Blondynie ten sam autor, a `trzeba` mówi o nim samym
+
+plik: typ_fakt/310-2-000000071/txt_1-div.txt
+kontekst: Istniało wiele zwyczajów i obrzędów związanych z zawieraniem małżeństw i swataniem.
+zdanie: Domy, w których mieszkały panny na wydaniu, oznaczano, malując ściany w białe cętki, zawieszając w oknach lub na specjalnych tyczkach wianki, a czasem koło od wozu.
+znalezisko: imiesłów bez podmiotu
+werdykt: 4 odczytania; „na wydaniu” → „mieszkały”, „panny”; „w białe cętki” → „malując”, „ściany”
+sąd: fałszywe
+powód: oznacza domy i maluje ściany ten sam nienazwany ktoś, bo zdanie opisuje zwyczaj, a nie zdarzenie
+
+plik: typ_publ/120-2-000007/txt_49-div.txt
+zdanie: Nie kusząc się o rozstrzyganie tej złożonej sprawy technicznej, trzeba stwierdzić, że zaważyła ona ujemnie na polskim udziale festiwalowym, o czym będzie mowa później.
+znalezisko: imiesłów bez podmiotu
+werdykt: 18 odczytań, różne w roli: okolicznik_przysłówkowy; „na polskim udziale festiwalowym” → „trzeba”, „stwierdzić”, „zaważyła”; „zaważyła ona” ma 2 odczytania
+sąd: fałszywe
+powód: nie kusi się o rozstrzyganie i stwierdza ten sam autor, którego `trzeba` obejmuje
+
+plik: typ_publ/120-4-900006/txt_6-div.txt
+kontekst: Cztery lata temu władze stawiały sobie za główny cel walkę z bezrobociem.
+kontekst: Nie zrobiono nic.
+zdanie: Nawet strategii rozwoju miasta nie tknięto, powierzając jej opracowanie firmie z Poznania.
+znalezisko: imiesłów bez podmiotu
+werdykt: 4 odczytania, różne w rolach: cząstka_zdania, dopełnienie; „z Poznania” → „powierzając”, „firmie”
+sąd: fałszywe
+powód: strategii nie tknęła i opracowanie powierzyła ta sama władza miasta, którą nazywa kontekst
+
+plik: typ_qmow/712-1-900002/txt_45-div.txt
+kontekst: - Zatem druga część pytania.
+kontekst: Według moich informacji działania podejmowane przy dokonywaniu tej zmiany były niekonsekwentne.
+zdanie: Zmieniono system nadawania obrazu, pozostawiając wschodnioeuropejski system nadawania dźwięku, co oznacza, że za jakiś czas trzeba będzie znowu dokonywać podobnych przeróbek.
+znalezisko: imiesłów bez podmiotu
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: zmienia system obrazu i pozostawia system dźwięku ten sam nienazwany ktoś, o którego działaniach mówi kontekst
+
+plik: typ_nd/320-2-000000090/txt_2-div.txt
+kontekst: W psychologii wyróżnia się mowę wewnętrzną i mowę zewnętrzną.
+kontekst: Mowa zewnętrzna przyjmuje postać dźwiękową (mowa mówiona), pisaną lub ruchową (S.L.
+kontekst: Rubinsztejn 1964).
+kontekst: W aspekcie środków dydaktycznych interesuje nas głównie mowa pisana, która ma charakter alfabetyczny i cyfrowy.
+zdanie: Przechodząc na grunt dydaktyki geografii, można wyróżnić następujące rodzaje mowy pisanej: szkolny podręcznik geografii, zeszyt przedmiotowy i zeszyt ćwiczeń, geograficzną lekturę uzupełniającą i tabele statystyczne.
+znalezisko: imiesłów bez podmiotu
+werdykt: 3 odczytania; „na grunt dydaktyki geografii” ma 3 odczytania
+sąd: fałszywe
+powód: przechodzi na grunt dydaktyki i wyróżnia rodzaje mowy ten sam autor, a `można` mówi o nim samym
+
+plik: typ_publ/130-3-900001/txt_236-div.txt
+kontekst: Jacek Cichocki: W Polsce pojawia się dużo hipotez o przyczynach porwania i co się może dziać dalej.
+kontekst: Jednak na podstawie dostępnych faktów wciąż nie jesteśmy w stanie powiedzieć, jakie były motywy uprowadzenia, dopóki porywacze się z nami nie skontaktują.
+zdanie: Mając wiedzę o poprzednich porwaniach, trzeba uzbroić się w cierpliwość.
+znalezisko: imiesłów bez podmiotu
+werdykt: 4 odczytania; „o poprzednich porwaniach” → „Mając”, „wiedzę”; „w cierpliwość” → „trzeba”, „uzbroić”
+sąd: fałszywe
+powód: ma wiedzę o porwaniach i uzbraja się w cierpliwość ten sam mówiący, którego `trzeba` obejmuje
+
+plik: typ_publ/130-2-910000004/txt_32-div.txt
+zdanie: Można rozwiązać parlament, podając rząd do dymisji, wierząc, że nie uda się stworzyć w tym Sejmie nowej większości.
+znalezisko: imiesłów bez podmiotu
+werdykt: 96 odczytań; „do dymisji” → „podając”, „rząd”; „w tym Sejmie” → „wierząc”, „uda”, „stworzyć”; „nie uda się stworzyć” ma 2 odczytania; „nowej większości” ma 2 odczytania
+sąd: fałszywe
+powód: parlament rozwiązuje, rząd podaje do dymisji i wierzy ten sam prezydent, o którym zdanie mówi
+
+plik: typ_inf-por/330-4-000000002/txt_2-div.txt
+kontekst: Łatwiej jest radzić sobie z problemami, gdy ma się świadomość, że są one naturalnym elementem życia.
+kontekst: Rozwiązując je, uczymy się odpowiedzialności i wrażliwości na potrzeby innych.
+zdanie: Warto o tym pamiętać, wychowując dzieci.
+znalezisko: imiesłów bez podmiotu
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: pamięta o tym i wychowuje dzieci ten sam czytelnik, do którego zwraca się `Warto`

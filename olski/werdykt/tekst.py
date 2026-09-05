@@ -29,7 +29,20 @@ ODNIESIENIE = "niejasne odniesienie"
 #: a ta czeka na awans. Podsumowanie tego zgłoszenia nie liczy i kod wyjścia go
 #: nie widzi (:data:`ZNALEZISKA`), więc flaga nie rusza ani jednej liczby.
 ODNIESIENIE_W_ZDANIU = "niejasne odniesienie w zdaniu"
-ZGŁOSZENIA = (WIELOZNACZNE, POPRAWKA, ODNIESIENIE, ODNIESIENIE_W_ZDANIU)
+
+#: Nazwa zgłoszenia spod flagi ``--imiesłowy`` (``olski/imiesłowy.py``): imiesłów
+#: przysłówkowy stoi przy orzeczeniu, które podmiotu nie ma. Nazwa jest tu, a nie
+#: przy swojej warstwie, bo to lista niżej rozstrzyga, czym zgłoszenie jest:
+#: baza sądów ocenia je pod tą nazwą, a :data:`ZNALEZISKA` go nie liczą, więc ani
+#: podsumowanie, ani kod wyjścia się nie ruszają, dopóki sądy go nie awansują.
+IMIESŁÓW_BEZ_PODMIOTU = "imiesłów bez podmiotu"
+ZGŁOSZENIA = (
+    WIELOZNACZNE,
+    POPRAWKA,
+    ODNIESIENIE,
+    ODNIESIENIE_W_ZDANIU,
+    IMIESŁÓW_BEZ_PODMIOTU,
+)
 
 #: Te zgłoszenia, które są znaleziskiem, czyli mówią autorowi, co poprawić.
 #: Wieloznaczności tu nie ma, bo baza sądów nie potwierdziła ani jednego jej
@@ -76,6 +89,7 @@ class Zdanie:
             POPRAWKA: self.werdykt.naprawa is not None,
             ODNIESIENIE: any(not o.w_zdaniu for o in self.odniesienia),
             ODNIESIENIE_W_ZDANIU: any(o.w_zdaniu for o in self.odniesienia),
+            IMIESŁÓW_BEZ_PODMIOTU: bool(self.werdykt.imiesłowy),
         }
         return tuple(nazwa for nazwa in ZGŁOSZENIA if obecne[nazwa])
 
@@ -91,7 +105,7 @@ def nad_tekstem(text: str, w_zdaniu: bool = False) -> list[Zdanie]:
     Wejście jest jedno na oba wyjścia — wiersz poleceń (``olski/check.py``)
     i witrynę (``witryna/werdykty.py``) — bo różnią się one brzegiem, a nie
     środkiem: pierwsze drukuje wiersze, drugie składa JSON. Znalezisko dopisane
-    czwarte dochodzi przez to w jednym miejscu i w jednym się liczy
+    następne dochodzi przez to w jednym miejscu i w jednym się liczy
     (:meth:`Podsumowanie.ze_zdań`).
 
     ``w_zdaniu`` przepuszcza flagę do warstwy zaimkowej i pyta o nią sonda
