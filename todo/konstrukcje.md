@@ -72,6 +72,15 @@ Zamyka go pytanie o czytanie: to, które ten ciąg dokłada, polszczyzna ma,
 więc dopisanie produkcji odbiera werdykt nieprawdziwy, a nie samą jednoznaczność,
 i po tej stronie stoi
 [kierunek](../docs/roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście).
+Wpis ten stoi też w kolejce korpusu usterek, choć sonda pokazuje go jako ciszę:
+`Zainstalowałem sterownik i program, który nie działa.` (`próba/usterki.txt`)
+ma jedno odczytanie, ze zdaniem względnym przy `program`,
+a wariant `które nie działają`, który wymusza przyłączenie do całego ciągu,
+nie ma odczytania wcale.
+Wykrywacz niejasnego poprzednika nie ma więc nad tym zdaniem czego przeczytać,
+dopóki las nie niesie obu przyłączeń;
+robotą za tą ciszą jest ta produkcja, a nie wykrywacz
+([`docs/roadmap.md`](../docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
 
 Apozycji olski nie ma, więc przecinek przed wyliczeniem ma u niego jedno czytanie.
 `Przyszli moi sąsiedzi, lekarz i nauczyciel.` wychodzi jednym czytaniem,
