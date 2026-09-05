@@ -10,14 +10,20 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from harness.usterki import (
+    BEZ_DOMKNIĘCIA,
+    BEZ_LICENCJI,
     CISZA,
     CZYSTE,
     NIECZYTANE,
     SZUM,
     WYKRYTE,
+    ZATRZYMANIE,
     ŻADNE,
     Usterka,
     czytaj,
+    ostatnie,
+    punkt,
+    wydruk,
     zbadaj,
 )
 from olski.segmentacja import sentences
@@ -85,6 +91,36 @@ def wpis(zdanie, zgłoszenie, poprawka=None, kontekst=()):
 )
 def test_klasa_bierze_się_ze_zdania_i_z_poprawki_naraz(wpis, klasa):
     assert zbadaj(wpis).klasa == klasa
+
+
+@pytest.mark.parametrize(
+    ("zdanie", "grupa"),
+    [
+        #  Nazwy własnej ani angielskiego czasownika nie bierze ani jedna produkcja,
+        #  więc wpis o takim zdaniu żąda licencji formy, a nie produkcji.
+        ("Robocopy kompaktuje pliki.", BEZ_LICENCJI),
+        #  Licencję ma tu każda forma, a analiza staje na bezokoliczniku.
+        ("Kot jadać rybę.", ZATRZYMANIE),
+        #  Analiza dochodzi do końca zdania, a nic go nie domyka,
+        #  więc werdykt nie nazywa żadnej formy.
+        ("Nowa program zapisuje ustawienia.", BEZ_DOMKNIĘCIA),
+    ],
+    ids=lambda x: x,
+)
+def test_nieczytanie_dzieli_się_po_punkcie_zatrzymania(zdanie, grupa):
+    verdict = ostatnie((), zdanie).werdykt
+    assert punkt(verdict) == grupa, verdict.explain()
+
+
+def test_poprawek_czytanych_liczy_się_z_wpisów_z_usterką():
+    #  Wpis czysty poprawki nie ma, więc do mianownika nie wchodzi.
+    #  Wliczony zaniżałby liczbę, po którą się ten wiersz czyta.
+    wyniki = [
+        zbadaj(wpis("On uciekł.", ODNIESIENIE, "Kot uciekł.", ("Pies gonił kota.",))),
+        zbadaj(wpis("Kot jadać rybę.", ODNIESIENIE, "Kot jadać rybę i mięso.")),
+        zbadaj(wpis("Chałka przewyższa zwykłą bułkę.", ŻADNE)),
+    ]
+    assert "poprawek czytanych 1 z 2" in wydruk(wyniki)
 
 
 def test_wpis_z_usterką_bez_poprawki_jest_błędem(tmp_path):

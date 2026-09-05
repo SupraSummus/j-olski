@@ -347,7 +347,8 @@ Sprawdza go `python3 -m harness.usterki`,
 a cel jest osiągnięty, gdy każdy wpis wychodzi wykryty albo czysty.
 Ten sam przebieg ustawia kolejkę roboty
 ([niżej](#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)):
-wpis nieczytany żąda produkcji albo naprawy, wpis w ciszy żąda wykrywacza,
+wpis nieczytany żąda produkcji, licencji formy albo naprawy,
+wpis w ciszy żąda wykrywacza,
 a szum żąda zawężenia tego, co już pada.
 Cel mierzy zdolność, a nie udział,
 bo zdania korpusu nikt nie przepisuje pod gramatykę:
@@ -543,9 +544,20 @@ i są jej właścicielami [ustawy.md](ustawy.md) oraz [corpus.md](corpus.md).
 Co robić następne, mówi przebieg `python3 -m harness.usterki`
 nad `próba/usterki.txt`, a nie liczba pokrycia.
 Wpis nieczytany nazywa zdanie, którego gramatyka nie wyprowadza,
-a którego autor potrzebuje przeczytanego, bo stoi w nim usterka do zgłoszenia;
-produkcja, która je wpuszcza, ma pierwszeństwo przed produkcją,
+a którego autor potrzebuje przeczytanego, bo stoi w nim usterka do zgłoszenia.
+Czego taki wpis żąda, rozstrzyga punkt, na którym stanęła analiza,
+więc przebieg dzieli nieczytanie na trzy grupy.
+Grupa `bez licencji` nazywa formę, której nie bierze ani jedna produkcja,
+i żąda licencji dla tej formy, a nie produkcji
+([warstwa-leksykalna.md](warstwa-leksykalna.md#leksykon-projektu-wpuszcza-polskie-słowo-którego-słownik-nie-ma)).
+Grupa `zatrzymanie` nazywa formę, na której analiza staje,
+i żąda produkcji, która to zatrzymanie zdejmuje.
+Grupa `bez domknięcia` nie nazywa żadnej formy:
+analiza dochodzi do końca zdania, a nic go nie domyka.
+Ta grupa żąda produkcji na kształt całego zdania, a nie na formę w jego środku.
+Produkcja, której żąda któraś z tych grup, ma pierwszeństwo przed produkcją,
 która kupuje kilkadziesiąt zdań banku drzew bez ani jednej usterki.
+
 Zdania, którego polszczyzna nie ma, nie wpuszcza za to żadna produkcja
 i wpuścić go nie wolno, więc wpis o nim nazywa naprawę:
 zgłoszenie poświadcza wtedy odczytanie poprawionego napisu

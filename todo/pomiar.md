@@ -662,3 +662,15 @@ czy wpisy o wieloznaczności schodzą z korpusu razem z pytaniem,
 po co autorowi ten wiersz.
 Wpis zamknie `_klasa` w `harness/usterki.py` albo trzy wpisy korpusu,
 a przed tym zdanie w nagłówku korpusu, bo on tę klasę dziś opisuje.
+
+Wykrycie stoi na milczeniu nad poprawką, a nad poprawką nieczytaną
+milczy gramatyka, a nie wykrywacz, więc `wykryte` nad takim wpisem nie mówi,
+że zgłoszenie widzi usterkę, a nie coś obok niej.
+Nieczytana jest ponad połowa poprawek `próba/usterki.txt`
+i wypisuje ten stosunek `python3 -m harness.usterki`.
+Do rozstrzygnięcia jest, czy taki wpis dostaje w `_klasa` w `harness/usterki.py`
+osobną klasę, czy poprawki przepisujemy na zdania, które gramatyka bierze,
+czy zostaje jak jest, bo poprawka ma mówić, co poprawiłby czytelnik,
+a nie co wyprowadza gramatyka.
+Do przeczytania są zdania tych wpisów obok swoich poprawek,
+bo od odległości między nimi zależy, którą z tych trzech dróg wybrać.
