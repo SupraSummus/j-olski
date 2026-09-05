@@ -19,6 +19,7 @@ from typing import TypeVar
 
 from olski.cennik import cena
 from olski.chwyty import chwyty
+from olski.imiesłowy import Imiesłów
 from olski.odniesienia import Odniesienie
 from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
 from olski.wejście import proza
@@ -156,6 +157,16 @@ def _wiersz_osoby(wiersz: Żądanie) -> str:
     )
 
 
+def _wiersz_imiesłowu(wiersz: Imiesłów) -> str:
+    """Imiesłów i orzeczenie, które podmiotu nie ma, jako wiersz wydruku.
+
+    Oba nazwane formą, bo autor odszuka je w zdaniu właśnie w tej formie, i oba
+    w cudzysłowie z tego samego powodu, z którego dostaje go gospodarz
+    przyłączenia (:func:`_nierozstrzygnięte` w ``olski/werdykt/zdanie.py``).
+    """
+    return f"„{wiersz.imiesłów}” określa „{wiersz.orzeczenie}”, które podmiotu nie ma"
+
+
 def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
@@ -238,6 +249,10 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
     #  Osoby za żądaniami, bo są tymi żądaniami, na które projekt odpowiedział.
     if args.osoby:
         yield from map(_wiersz_osoby, niespełnione_żądania(verdict))
+    #  Imiesłowy za osobami, bo obie flagi pytają o zdanie, a nie o odczytanie,
+    #  i obie o to, czego zdaniu brakuje: tam wykonawcy w pozycji, tu podmiotu.
+    if args.imiesłowy:
+        yield from map(_wiersz_imiesłowu, verdict.imiesłowy)
     if świadkowie is not None:
         yield from _rozstrzygnięcia(verdict, świadkowie, zdanie.sąsiedztwo)
     #  Chwyt na końcu, bo o polszczyźnie tego zdania nie mówi nic.
@@ -285,6 +300,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--osoby",
         action="store_true",
         help="pokaż pozycje, w których czasownik żąda kogoś, a stoi w nich rzecz",
+    )
+    parser.add_argument(
+        "--imiesłowy",
+        action="store_true",
+        help="pokaż imiesłowy przysłówkowe stojące przy orzeczeniu, które podmiotu nie ma",
     )
     parser.add_argument(
         "--chwyty",

@@ -497,7 +497,8 @@ Korpus stawia więc wariant, w którym usterka jest kształtem:
 `Idąc do pracy, zgubiono klucze.` ma zdanie nadrzędne bez podmiotu,
 bo orzeczenie bezosobowe podmiotu nie ma,
 więc imiesłów nie ma go skąd wziąć,
-a wykrywacz czyta ten warunek z drzewa i nie pyta o żadne słowo z osobna.
+a wykrywacz czyta ten warunek z drzewa i nie pyta o żadne słowo z osobna
+([niżej](#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą)).
 Ceną jest usterka, której autor nie dostanie zgłoszonej:
 umowa jej nie obejmuje, więc odpowiada za nią sam.
 
@@ -613,6 +614,56 @@ gotową etykietę.` nie mówi, na czym etykieta staje.
 Sonda oceniająca puszcza flagę zawsze, i to jest jedyne miejsce, które ją włącza:
 baza sądów jest tym, co rozstrzyga o awansie,
 więc reguła czekająca na awans musi mieć czym trafienia wydać
+([linter.md](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
+
+## Imiesłów przy orzeczeniu bezosobowym czeka za flagą
+
+Imiesłów przysłówkowy podmiotu nie ma i pożycza go od zdania, które określa:
+`Program zapisuje ustawienia, sprawdzając zgodność.` mówi, że zgodność sprawdza program.
+Orzeczenie bezosobowe pożyczyć podmiotu nie może, bo samo go nie ma,
+więc `Idąc do pracy, zgubiono klucze.` nie mówi, kto szedł.
+Poprawką jest orzeczenie, które wykonawcę nazywa: `Idąc do pracy, zgubiłem klucze.`
+Tę parę i jeszcze jedną taką wylicza `próba/usterki.txt`,
+i to one postawiły ten wykrywacz w kolejce
+([wyżej](#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
+
+Warunek czyta się z drzewa: w jednym zdaniu składowym stoją okolicznik zdaniowy
+o głowie imiesłowowej i orzeczenie bezosobowe.
+Obie głowy tej roli wchodzą tu tak samo, bo podmiotu nie ma ani jedna —
+i forma nieosobowa `zgubiono`
+([orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu)),
+i predykatyw `trzeba`
+([orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika)).
+Sama gramatyka takiego zdania nie odrzuci, bo `pcon` nie niesie ani liczby,
+ani rodzaju, ani osoby
+([okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#imiesłów-przysłówkowy-stoi-tam-gdzie-okolicznik-wyrażony-zdaniem)),
+więc odpowiada za to osobna warstwa nad lasem:
+wykrywa ją `olski/imiesłowy.py`, a wypisuje flaga `--imiesłowy`.
+
+Za flagą reguła zostaje, bo sądy czytelnika jej nie awansowały,
+a tym razem sądy są całą populacją, a nie próbą z niej.
+Konstrukcja jest w tym rejestrze rzadka, więc trafienia nad całym podkorpusem
+milionowym NKJP przeczytano co do jednego:
+trzynaście sądów, ani jednego potwierdzenia (`próba/nkjp-sądy.txt`).
+Wszystkie trzynaście są jednym kształtem, którego czytelnik nie poprawia:
+wykonawca domyślny imiesłowu jest w nich wykonawcą domyślnym orzeczenia,
+więc nikt, kogo zdanie miało nazwać, z niego nie wypadł.
+W `Fabrykę zaplombowano, konfiskując także podejrzane materiały.`
+plombuje i konfiskuje ta sama policja, której zdanie nie nazywa,
+a `Warto o tym pamiętać, wychowując dzieci.` mówi dwa razy o tym samym czytelniku.
+Orzeczeniem jest przy tym w ośmiu z nich predykatyw, a w pięciu forma nieosobowa,
+więc podział po głowie roli tego kształtu nie rozcina.
+
+Wniosek jest o samej regule.
+Zgłasza ona dwa zdania korpusu usterek i oba napisano pod ten korpus,
+a nad cudzym tekstem trafia w zdania, których nikt nie poprawia.
+Po to właśnie nagłówek `próba/usterki.txt` żąda zdań cudzych:
+zdanie wymyślone pod ten plik mierzy autora, a nie usterkę, którą ktoś popełnia.
+Co usterkę od tego użycia odróżnia, orzeka wykonawca domyślny obu orzeczeń,
+a nie kształt zdania, więc zawężenia z drzewa na to nie ma.
+Reguła mimo to nie schodzi z kodu, bo nie trafia często:
+w wydruku domyślnym płaciłby za nią autor zdaniem przepisanym bez powodu,
+a za flagą płaci za nią repozytorium jedną funkcją i jednym testem
 ([linter.md](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
 
 ## What the grammar covers

@@ -41,6 +41,7 @@ from __future__ import annotations
 
 from olski.werdykt.odrzucone import Naprawa, zatrzymania
 from olski.werdykt.tekst import (
+    IMIESŁÓW_BEZ_PODMIOTU,
     ODNIESIENIE,
     ODNIESIENIE_W_ZDANIU,
     POPRAWKA,
@@ -66,6 +67,7 @@ __all__ = [
     "check",
     "dalsze_zatrzymania",
     "FRAGMENT",
+    "IMIESŁÓW_BEZ_PODMIOTU",
     "nad_tekstem",
     "Naprawa",
     "NIEDOMKNIĘTE",
