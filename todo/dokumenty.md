@@ -521,3 +521,21 @@ Po nim idzie przeniesienie tych wpisów, które kryterium wskaże.
 Do przeczytania jest przedtem, ilu wpisów to dotyczy,
 bo oba pliki mają dziś po dwadzieścia kilka wpisów,
 a przeniesienie wszystkich zamieniłoby jeden plik za długi na drugi.
+
+Sekcja `Where the analyses stop` w [`docs/corpus.md`](../docs/corpus.md#where-the-analyses-stop)
+mówi o dwóch przebiegach, a nagłówek zapowiada tylko pierwszy.
+Do zdania `The queue was ranked on a treebank` idzie o kolejkę nad bankiem drzew,
+a od niego przeszło sto wierszy o przebiegu nad prozą README:
+o dwóch klasach wieloznaczności, o czytaniu `sam` wziętym ze słownika,
+o notacji, której Morfeusz nie zna, i o tym, czym ten przebieg jest jako przyrząd.
+Jest to najdłuższa sekcja tego pliku i drugi temat pod cudzym nagłówkiem.
+Ruchem jest własna sekcja na przebieg nad prozą.
+Nie jest nim samo przestawienie akapitów:
+kotwica `#where-the-analyses-stop` wisi w przeszło trzydziestu miejscach,
+w tym w `CLAUDE.md`, więc podział żąda najpierw rozstrzygnięcia,
+która połowa zostaje pod starym nagłówkiem.
+Do przeczytania jest przedtem
+[`docs/roadmap.md`](../docs/roadmap.md#readme-jest-przyrządem-pomiarowym),
+bo ona trzyma decyzję o README jako przyrządzie,
+a ten plik ma trzymać to, co przebieg mówi dzisiaj,
+i granica między jednym a drugim biegnie w połowie akapitu.
