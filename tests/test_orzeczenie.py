@@ -318,6 +318,22 @@ def test_cząstka_się_pyta_leksykonu_o_inny_czasownik_niż_forma_bez_niej():
     assert verdict("Otwierają drzwi.").status == "ambiguous"
 
 
+def test_cząstka_pyta_o_leksykon_także_tam_gdzie_walenty_pisze_ją_pozycją():
+    #  `spotkać się` nie ma w Walentym własnego lematu, tylko pozycję `recip` w
+    #  schemacie `spotkać` (`POZYCJA_ZWROTNA` w `harness/walenty.py`). Leksykon
+    #  czytany z samych lematów zostawia tę formę przy ramie domyślnej, czyli z
+    #  biernikiem, i wtedy zdanie drugie wychodzi bez podmiotu, z zespołem w
+    #  dopełnieniu, zamiast nie wychodzić wcale.
+    assert role(verdict("Zespół programistów spotkał się rano.")) == [
+        {
+            "podmiot": "Zespół programistów",
+            "orzeczenie": "spotkał się",
+            "okolicznik_przysłówkowy": "rano → spotkał",
+        }
+    ]
+    assert verdict("Zespół programistów spotkali się rano.").status == "rejected"
+
+
 def test_cząstka_zwrotna_przed_formą_pyta_o_ten_sam_leksykon_zwrotny():
     #  Pozycja przednia jest tą samą pozycją tego samego czasownika, więc ramę ma
     #  brać z leksykonu zwrotnego tak samo jak tylna. Ciało napisane z ramą

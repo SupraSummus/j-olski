@@ -243,7 +243,9 @@ def _klasy(zwrotne: bool) -> list[tuple[dict[str, frozenset[str]], frozenset[str
     Forma z cząstką ``się`` pyta o swój leksykon, bo jest innym czasownikiem;
     lemat, którego tamten leksykon nie wymienia, bierze ramę domyślną tak samo
     jak każdy inny nieznany, bo cząstkę stawia polszczyzna przy czasowniku
-    dowolnym, a Walenty wymienia z niej samą zwrotność zleksykalizowaną.
+    dowolnym, a Walenty wymienia z niej tę, o której coś umie powiedzieć —
+    zwrotność zleksykalizowaną lematem, a zwykłą pozycją schematu
+    (``POZYCJA_ZWROTNA`` w ``harness/walenty.py``).
     Domyślne są przy tym dwie i różni je bezokolicznik, o czym mówi
     :data:`RAMA_DOMYŚLNA_ZWROTNA`.
 

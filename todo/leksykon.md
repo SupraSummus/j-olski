@@ -1,23 +1,8 @@
 # Leksykon i walencja
 
-Leksykon gubi zwrotność, którą Walenty zapisuje pozycją, a nie lematem.
-Walenty pisze `spotkać się` jako `spotkać` z pozycją `recip` w schemacie,
-a `myć się` jako `myć` z pozycją `refl`, i żadnej z nich `harness/walenty.py` nie czyta,
-więc `olski/leksykon.txt` mówi o 5 739 lematach zwrotnych,
-a 880 lematów tych schematów nie ma w nim wcale.
-Gramatyce nie odbiera to dziś nic, bo klasa domyślna leksykonu zwrotnego
-wpuszcza cząstkę i bez wpisu, a odbiera świadkowi ramowemu przyimki tych schematów
-(`przyimki_czasownika` w `olski/walencja.py`).
-Ruchem jest zdanie leksykonu o cząstce, czytane z obu zapisów naraz,
-a przed nim rozstrzygnięcie, czy pozycja `refl` odbiera ramie biernik:
-`się` stoi w niej w miejscu dopełnienia, więc lemat wzięty z ramą domyślną
-brałby biernik drugi raz.
-Do przeczytania jest, ile ta kolumna zmienia świadkowi:
-schematów z tymi pozycjami jest 2 407, a lematów 1 464.
-
 Sprawdzian leksykonu jest skryptem pisanym od nowa przy każdej zmianie.
 [Liczba, na której leksykon stoi](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)
-— 615 z 616 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
+— 618 z 619 lematów potwierdzonych bankiem drzew — bierze się ręcznie,
 bo `_slot_role` w `harness/corpus.py` czyta z pola `tfw` dwie role olskiego,
 a rama czasownika stoi w tym polu cała.
 Ruchem jest zejście po wybranym drzewie do węzłów `zdanie`,
@@ -26,6 +11,10 @@ i porównanie tego z `WALENCJA` w `olski/subset/rama.py`.
 Do rozstrzygnięcia jest, co taki przebieg drukuje:
 sama niezgodność jest liczbą, a pożytek z niej ma dopiero ten,
 kto widzi lemat, zdanie i pozycję, o którą poszło.
+Ręką odsiewa się przy tym siedem lematów z ośmiu, które takie zejście trafia —
+`musieć`, `należeć`, `powinien`, `warto`, `winien`, `zamierzać` i `zdążyć` —
+bo biernik należy tam do bezokolicznika pod nimi, a nie do nich;
+sprzeczny zostaje sam `być`.
 Do rozstrzygnięcia jest też, czy to jest flaga `harness.pomiar`,
 czy komenda obok niej, bo tamta mierzy gramatykę, a ta leksykon.
 Zdejmuje to zarazem pytanie, którego dziś nikt nie zadaje po zmianie w

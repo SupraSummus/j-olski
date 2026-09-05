@@ -334,26 +334,28 @@ czyli tak, jakby `myśleć się` było czasownikiem,
 a `Wino białe pije się inaczej.` dostaje przez to dwa czytania,
 z których to z podmiotem `Wino białe` jest czytaniem, którego polszczyzna nie ma:
 zdanie z tą cząstką podmiotu nie ma, a rzeczownik w nim stoi w bierniku.
-Ruchu tego olski nie bierze, bo czeka on na wpis o zwrotności,
-którą Walenty zapisuje pozycją, a nie lematem.
 Ruchem jest trzecia głowa `orzeczenie_bezosobowe` obok predykatywu i formy
 nieosobowej: forma osobowa trzeciej osoby liczby pojedynczej, w czasie przeszłym
 w rodzaju nijakim, klasa walencyjna z leksykonu niezwrotnego bez orzecznika
 zgodnego, cząstka w obu pozycjach.
 Klasa domyślna leksykonu zwrotnego jest tą konstrukcją przeczytaną nieprawdziwie,
 więc znika razem z odmową cząstki kopuli, która przy niej stoi.
-Cenę przeczytano zdanie po zdaniu i zostały po tym czytaniu dwie klasy z trzech.
+Głowa ta odzyskuje zarazem zdania, których czasownik ma wpis w leksykonie zwrotnym:
+`Wanny myje się roztworem szarego mydła i salmiaku.` czytania nie ma,
+bo `myć się` biernika nie bierze, i tak stoją trzy zdania banku drzew
+([docs/walencja.md](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)).
+Cenę przeczytano zdanie po zdaniu i zostały po tym czytaniu dwie klasy z trzech,
+a wpis o zwrotności zapisanej pozycją zdjął jedną z tych dwóch:
+`spotkać się` jest lematem leksykonu, a nie klasy domyślnej,
+więc zostaje sama zwrotność, której Walenty nie wymienia wcale.
 Klasa cząstki należącej do bezokolicznika — `Musieli się przebić.` — zeszła z tej
-ceny razem z pozycją przy bezokoliczniku i jest to kilkanaście zdań banku drzew;
-z reszty jedna klasa niesie `spotkać się`, czyli lemat spod tamtego wpisu,
-a druga zwrotność, której Walenty nie wymienia wcale.
+ceny razem z pozycją przy bezokoliczniku i jest to kilkanaście zdań banku drzew.
 Zakupem jest garść zdań odzyskujących jednoznaczność:
 przebieg z klasą domyślną zdjętą wypuszcza dziś pojedyncze zdania z wieloznacznych
 do przyjętych, czego przed tamtą pozycją nie robił ani razu.
 Zgodność ról przy tym spada, bo bank drzew daje cząstce w takim zdaniu rolę podmiotu
 ([docs/corpus.md](../docs/corpus.md#agreement-which-matters-more-than-acceptance)).
-Kto wpis podnosi, mierzy to na nowo po tamtym wpisie,
-bo `spotkać się` jest po nim lematem leksykonu, a nie klasy domyślnej.
+Kto ruch podnosi, mierzy obie liczby na nowo, bo wzięto je przed tamtym wpisem.
 
 Klasa walencyjna mnoży produkcje formy `bedzie` przez lematy, których ta forma nie ma.
 Czas przyszły idzie w `olski/subset/rama.py` przez tę samą pętlę co reszta form osobowych,
