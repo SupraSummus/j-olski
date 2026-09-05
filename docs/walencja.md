@@ -150,10 +150,10 @@ rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,
 ani bezokolicznika, ani zdania podrzędnego.
 `harness/walenty.py` jest tym przekładem i wypisuje `olski/leksykon.txt`,
 czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
-zdanie o bierniku niesie 7 941 wpisów, o celowniku 7 964,
-o celowniku przy wypełnieniu 4 889, o dopełniaczu 821,
-o bezokoliczniku 363, o bezokoliczniku pod kontrolą podmiotu 285,
-a o zdaniu podrzędnym 2 498.
+zdanie o bierniku niesie 8 847 wpisów, o celowniku 7 989,
+o celowniku przy wypełnieniu 4 893, o dopełniaczu 822,
+o bezokoliczniku 369, o bezokoliczniku pod kontrolą podmiotu 285,
+a o zdaniu podrzędnym 2 560.
 Ramy ten plik nie niesie, bo rama składa się dopiero ze zdań, które on mówi.
 Nazywają ją dwa moduły, po jednym na kierunek, bo każdy z nich czyta inne zdania:
 `olski/subset/rama.py` wypisuje klasy walencyjne razem z domyślną,
@@ -175,8 +175,8 @@ wyrażenie przyimkowe przyłącza się u olskiego wszędzie, gdzie polszczyzna j
 a wybór miejsca należy do czytelnika
 ([subset.md](subset.md#przyjąć-koszt-to-znaczy-dać-oba-czytania-wszędzie)).
 
-Kolumna ta niesie coś przy 12 195 wpisach,
-a 3 800 z nich weszło do pliku nią samą, bez ani jednego zdania obok.
+Kolumna ta niesie coś przy 12 734 wpisach,
+a 3 781 z nich weszło do pliku nią samą, bez ani jednego zdania obok.
 Rzeczownik wchodzi tak zawsze, bo zdania tego leksykonu są o czasowniku
 i o rzeczowniku nie orzekają żadnego,
 a czasownik o ramie domyślnej wchodzi wtedy, gdy jego schemat przyimka żąda.
@@ -192,7 +192,7 @@ które żąda go od czasownika, który go nie bierze,
 bo bezokolicznik z niczym się nie zgadza i pomyłka nie ma jak wyjść inaczej.
 
 Zdanie o zdaniu podrzędnym zmierzono po tej samej stronie i wyszło z tego to samo.
-Rama domyślna ma zdanie podrzędne, a leksykon wymienia 1 926 lematów,
+Rama domyślna ma zdanie podrzędne, a leksykon wymienia 1 922 lematy,
 które je biorą, więc odjęcie reszty jest wobec Walentego prawdziwe:
 `zamykać` bierze biernik, a `Kot zamyka, że mysz śpi.` polszczyzną nie jest.
 Nad Składnicą to odjęcie kosztuje jedno zdanie —
@@ -212,6 +212,44 @@ lemat go od czasownika nie rozdziela, a klucz rozdziela.
 Widać to na parze zdań, w której jedno przechodzi, a drugie nie:
 `Otwierają się drzwi.` wyprowadza się jednym czytaniem z podmiotem `drzwi`,
 a `Otwierają drzwi.` zostaje wieloznaczne, bo tam biernik stoi w ramie.
+
+Cząstkę `się` zapisuje Walenty dwoma sposobami i przekład czyta oba.
+Zwrotność zleksykalizowana ma własny lemat — `otwierać się` jest w słowniku obok
+`otwierać` — a zwrotność zwykłą zapisuje pozycja w schemacie lematu bez cząstki:
+`refl` przy `myć`, `recip` przy `spotkać`.
+Lematów z cząstką jest w słowniku 5 740, lematów ze schematem takiej pozycji 1 464,
+a 880 z tych drugich własnego lematu z cząstką nie ma.
+Klasa słowa bierze się przez to ze schematu, a nie z samego lematu.
+Cząstka zajmuje w takiej pozycji miejsce dopełnienia, więc biernik przy niej nie stoi,
+a `Zespół programistów spotkali się rano.` bez tego wpisu czytałoby się bezpodmiotowo,
+z zespołem w dopełnieniu.
+Świadek ramowy tego podziału nie widzi:
+czyta obie klasy sumą (`przyimki_czasownika` w `olski/walencja.py`),
+a schemat klasę tu zmienia, zamiast wchodzić albo wypadać,
+więc przyimki zostają słowo po słowie te same.
+
+Nad Składnicą kosztuje to trzy zdania i wszystkie trzy stoją na jednej konstrukcji:
+`Wanny myje się roztworem szarego mydła i salmiaku.` oraz
+`Określa się dwie jego cechy, prędkość i kierunek.` mają cząstkę bezosobową,
+przy której rzeczownik stoi w bierniku, a podmiotu zdanie nie ma.
+Olski czyta tę cząstkę klasą zwrotną, a biernika w tej klasie nie ma,
+bo `myć się` i `określać się` go nie biorą — to jest o nich prawda —
+i osobnej konstrukcji bezosobowej z cząstką olski nie ma.
+Bank drzew daje w takim zdaniu cząstce rolę podmiotu,
+więc odczytanie, które olski tam miał, obejmowało mniej niż drzewo wzorcowe
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance));
+zdań czytanych tak samo jak drzewo nie ubywa ani jedno.
+
+Fraza porównawcza pisze przypadek, którego czasownik nie żąda.
+`compar(jak)` zapisuje człon porównywany, a ten zgadza się przypadkiem z tym,
+z czym się go porównuje, więc `np(str)` w `padać jak muchy` jest mianownikiem.
+Czytany jako biernik dawałby dopełnienie 28 lematom, które go nie biorą,
+a wśród nich `padać`, `siedzieć`, `ginąć` i `pływać`.
+Nad Składnicą kosztuje to zawężenie dwa zdania i oba stoją na okoliczniku w bierniku,
+którego olski nie ma: `Siedzieli tak długą chwilę.` czytało się z dopełnieniem
+`długą chwilę`, a `Siedzę dziś cały dzień w domu i obiad jemy w domu.` z `cały dzień`.
+Zakupem jest jednoznaczność: `Siedziałam pod zdziczałą gruszą, która rodziła drobne,
+kwaśne owoce.` miało dwa czytania, a ma jedno, i jest nim czytanie anotatorów.
 
 Narzędnika przekład nie bierze, choć Walenty go zna.
 `inst` jest u olskiego pozycją orzecznika,
@@ -259,9 +297,9 @@ więc każde zdanie z werdyktem `FULL` daje ramę swojego czasownika,
 a 13 035 takich zdań daje 17 896 wystąpień czasownika i 2 856 lematów.
 Źródłem ramy bank być nie może, bo 1 328 z tych lematów widać w nim raz,
 a rama wyprowadzona z jednego zdania zabrania wszystkiego, czego to zdanie nie miało.
-Sprawdzianem być może: z 616 lematów,
+Sprawdzianem być może: z 619 lematów,
 którym Walenty odmawia biernika i które bank drzew zna,
-potwierdza 615.
+potwierdza 618.
 Jedynym sprzecznym jest `być` z 61 wystąpieniami,
 i są to zaprzeczone zdania egzystencjalne,
 w których pozycja `accgen` jest dopełniaczem, a nie biernikiem,

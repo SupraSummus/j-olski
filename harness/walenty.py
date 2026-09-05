@@ -33,6 +33,11 @@ Domyślność jest ta sama co przy bezokoliczniku, bo rama domyślna takiej pozy
 nie ma, a bez tego zdania nic nie odróżnia ``wiedzieć`` od ``zamykać``: oba biorą
 biernik, a zdanie podrzędne bierze jeden z nich.
 
+Cząstkę ``się`` zapisuje Walenty dwoma sposobami i oba czyta :func:`po_klasach`,
+bo mówią one o jednym słowie: lemat z cząstką oraz pozycja zwrotna w schemacie
+lematu bez niej (:data:`POZYCJA_ZWROTNA`). Klasa słowa bierze się przez to ze
+schematu, a nie z samego lematu.
+
 Kolumna przyimków nie jest zdaniem prawda-fałsz, tylko zbiorem: pozycja
 ``prepnp`` mówi, którego przyimka rama tego słowa żąda.
 Czyta ją warstwa rozstrzygająca, a nie gramatyka, i po obu stronach spornego
@@ -147,6 +152,23 @@ KONTROLOWANA = "controllee"
 #: jako osobny token, więc leksykon trzyma ją klasą słowa, a nie częścią lematu.
 SIĘ = " się"
 
+#: Pozycje, którymi Walenty pisze tę samą cząstkę przy lemacie bez niej: zwrotną
+#: i wzajemną. Zwrotność zleksykalizowana dostaje u niego własny lemat —
+#: ``otwierać się`` stoi w słowniku obok ``otwierać`` — a zwykła stoi tą pozycją:
+#: ``refl`` przy ``myć``, ``recip`` przy ``spotkać``.
+#:
+#: Cząstka zajmuje w takiej pozycji miejsce dopełnienia, więc biernik przy niej
+#: nie stoi. Schemat czytany przy lemacie bez cząstki zostawia słowo z nią bez
+#: wpisu, czyli przy ramie domyślnej, a wtedy bierze ono biernik drugi raz i
+#: ``Zespół programistów spotkali się rano.`` czyta się bezpodmiotowo.
+POZYCJA_ZWROTNA = ("{refl}", "{recip}")
+
+#: Fraza porównawcza, czyli `jak` wraz z tym, co za nim stoi. Przypadek napisany w
+#: jej środku jest przypadkiem członu porównywanego, a nie żądaniem czasownika:
+#: `padać jak muchy` porównuje z podmiotem i `np(str)` znaczy tam mianownik, a
+#: `padać` biernika nie bierze wcale. Pozycja taka odpada przez to cała.
+PORÓWNAWCZA = "compar("
+
 #: Kształt pozycji przyimkowej, wraz z przyimkiem w środku. Przypadek stoi za
 #: przecinkiem i to czytanie o niego nie pyta, bo ``Attachment`` w
 #: ``harness/attachment.py`` niesie sam przyimek: ``prepnp(o,loc)`` i
@@ -240,7 +262,7 @@ def bierze(schematy_lematu: Sequence[str], czego: Sequence[str]) -> bool:
         any(kształt in żądanie for kształt in czego)
         for schemat in schematy_lematu
         for etykieta, żądanie in pozycje(schemat)
-        if PODMIOT not in etykieta
+        if PODMIOT not in etykieta and PORÓWNAWCZA not in żądanie
     )
 
 
@@ -354,6 +376,26 @@ def schematy(path: Path | str) -> dict[str, list[str]]:
     return zebrane
 
 
+def po_klasach(schematy_czasowników: dict[str, list[str]]) -> dict[tuple[str, str], list[str]]:
+    """Schematy czasownika zebrane po lemacie bez cząstki i po klasie słowa.
+
+    Klasę bierze się ze schematu (:data:`POZYCJA_ZWROTNA`), więc lemat zapisany
+    oboma sposobami naraz dostaje jeden wpis zwrotny, a nie dwa.
+    """
+    zebrane: dict[tuple[str, str], list[str]] = {}
+    for lemat, ich_schematy in schematy_czasowników.items():
+        z_cząstką = lemat.endswith(SIĘ)
+        for schemat in ich_schematy:
+            klasa = CZASOWNIK_ZWROTNY if z_cząstką or _zwrotny(schemat) else CZASOWNIK
+            zebrane.setdefault((lemat.removesuffix(SIĘ), klasa), []).append(schemat)
+    return zebrane
+
+
+def _zwrotny(schemat: str) -> bool:
+    """Czy ten schemat mówi o formie z cząstką ``się`` (:data:`POZYCJA_ZWROTNA`)."""
+    return any(pozycja in schemat for pozycja in POZYCJA_ZWROTNA)
+
+
 def zdania(schematy_lematu: Sequence[str]) -> tuple[str, ...]:
     """Które zdania tego leksykonu są o tym lemacie prawdziwe."""
     orzeczone = []
@@ -390,13 +432,8 @@ def leksykon(
     Kolejność jest kolejnością lematu i klasy, bo taką kolejność ma plik.
     """
     zebrane = [
-        (
-            lemat.removesuffix(SIĘ),
-            CZASOWNIK_ZWROTNY if lemat.endswith(SIĘ) else CZASOWNIK,
-            zdania(ich_schematy),
-            przyimki(ich_schematy),
-        )
-        for lemat, ich_schematy in schematy(czasowniki).items()
+        (lemat, klasa, zdania(ich_schematy), przyimki(ich_schematy))
+        for (lemat, klasa), ich_schematy in po_klasach(schematy(czasowniki)).items()
     ]
     zebrane += [
         (lemat, RZECZOWNIK, (), przyimki(ich_schematy))

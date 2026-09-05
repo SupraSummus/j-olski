@@ -71,6 +71,10 @@ def test_pozycja_zleksykalizowana_nie_rozcina_się_na_swoim_plusie():
         #  Przypadek strukturalny w pozycji podmiotu jest mianownikiem, a nie
         #  biernikiem, więc sam podmiot dopełnienia nie zapowiada.
         ("subj,controller{np(str)} + controllee{infp(_)}", False),
+        #  Przypadek we frazie porównawczej jest przypadkiem członu
+        #  porównywanego: `padać jak muchy` porównuje z podmiotem, więc `np(str)`
+        #  znaczy tam mianownik, a `padać` biernika nie bierze wcale.
+        ("subj{np(str)} + {lex(compar(jak),lex(np(str),_,'mucha',natr))}", False),
     ],
 )
 def test_biernik_liczy_się_tylko_w_pozycji_niepodmiotowej(schemat, biernik):
@@ -246,6 +250,33 @@ def test_do_leksykonu_wchodzi_słowo_wraz_ze_zdaniami_które_są_o_nim_prawdziwe
             ),
             frozenset(),
         ),
+    ]
+
+
+def test_schemat_z_pozycją_zwrotną_mówi_o_słowie_z_cząstką_a_nie_o_lemacie(tmp_path):
+    """Zwrotność ma u Walentego dwa zapisy i klasa słowa bierze się z obu.
+
+    `spotkać` jest tu lematem, którego cząstkę Walenty pisze samą pozycją, a
+    `otwierać` takim, który ma oba zapisy naraz: schematy obu schodzą się w
+    jednym wpisie, bo mówią o jednym słowie.
+    """
+    czasowniki, rzeczowniki = _pliki(
+        tmp_path,
+        "spotkać: pewny: _: : perf: subj{np(str)} + obj{np(str)} + {prepnp(w,loc)}\n"
+        "spotkać: pewny: _: : perf: subj{np(str)} + {prepnp(z,inst)} + {recip}\n"
+        "otwierać: pewny: _: : imperf: subj{np(str)} + obj{np(str)}\n"
+        "otwierać: pewny: _: : imperf: subj{np(str)} + {np(dat)} + {refl}\n"
+        "otwierać się: pewny: _: : imperf: subj{np(str)} + {prepnp(na,acc)}\n",
+    )
+    assert leksykon(czasowniki, rzeczowniki) == [
+        (
+            "otwierać",
+            CZASOWNIK_ZWROTNY,
+            (NIE_BIERZE_BIERNIKA, BIERZE_CELOWNIK),
+            frozenset({"na"}),
+        ),
+        ("spotkać", CZASOWNIK, (), frozenset({"w"})),
+        ("spotkać", CZASOWNIK_ZWROTNY, (NIE_BIERZE_BIERNIKA,), frozenset({"z"})),
     ]
 
 
