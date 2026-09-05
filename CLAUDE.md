@@ -505,6 +505,10 @@ a powtarzają się w niej te chwyty:
   oraz konstrukcja bez sprawcy: „podjęto decyzję”, „zostało ustalone”.
   Gdzie czynność ma wykonawcę, wykonawca jest treścią,
   więc zdanie, które go gubi, gubi razem z nim następny ruch.
+  Czasownik pusty postawiony przed takim rzeczownikiem —
+  „dokonano przeprowadzenia analizy” — wypisuje `olski-check --chwyty`
+  ([`docs/linter.md`](docs/linter.md#trzeci-wykrywacz-zgłasza-czasownik-pusty-przed-rzeczownikiem-odczasownikowym)),
+  a resztę tego chwytu wykreśla czytelnik.
   Drugą połową tego chwytu jest wykonawca wymyślony,
   czyli abstrakcja wstawiona na miejsce zgubionego:
   pomiar rusza się sam, zdanie gubi role, dokument dostaje wskazanie.

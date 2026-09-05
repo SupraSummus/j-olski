@@ -10,8 +10,10 @@
 #
 # `zdanie` niesie usterkę, którą czytelnik by poprawił.
 # `usterka` mówi jednym zdaniem, co jest nie tak.
-# `zgłoszenie` nazywa zgłoszenie, które ma paść: słowem, którym liczy je
-# `olski-check`, kiedy takie zgłoszenie już jest, a nową nazwą, kiedy go nie ma.
+# `zgłoszenie` nazywa zgłoszenie, które ma paść: nazwą, którą je nazywa olski,
+# kiedy takie zgłoszenie już jest, a nową nazwą, kiedy go nie ma.
+# Chwyt rejestru stoi tu nazwą swojej reguły, a nie nazwą flagi, bo pod jedną
+# flagą stoi kilka reguł i nazwa wspólna nie mówi, która z nich padła.
 # Nowa nazwa jest wpisem kolejki, a nie deklaracją: zgłoszenie dopisane do
 # olskiego bierze tę nazwę albo wpis bierze jego.
 # `poprawka` niesie to samo zdanie bez usterki i zgłoszenie ma nad nim milczeć;
@@ -19,7 +21,10 @@
 # `kontekst` niesie zdania stojące przed zdaniem, kiedy usterki nie widać bez nich,
 # i stoi tak samo przed poprawką.
 # Wpis czysty ma `zgłoszenie: żadne` i poprawki nie ma: jest zdaniem bez usterki,
-# a każde zgłoszenie nad nim jest szumem.
+# a szumem jest nad nim każde zgłoszenie poza wierszem o odczytaniach.
+# Wiersz ten szumem nie jest, bo wieloznaczność jest odpowiedzią, a nie
+# znaleziskiem, i poprawiać nad nią nie ma czego:
+# docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem
 #
 # Zdania są pisane ręką pod ten plik, a nie brane z korpusu, bo usterka ma tu
 # być jedna i nazwana; rozkład rejestru mierzy baza sądów, nie ten plik.
@@ -88,7 +93,7 @@ poprawka: Zainstalowałem sterownik i program, a program nie działa.
 kontekst: Kierownik odrzucił wniosek.
 zdanie: To wywołało spore niezadowolenie.
 usterka: zaimek podejmuje całe zdanie obok, a nie rzecz w nim
-zgłoszenie: chwyt rejestru
+zgłoszenie: zaimek podejmujący zdanie
 poprawka: Ta decyzja wywołała spore niezadowolenie.
 
 zdanie: Podjęto decyzję o odłożeniu wdrożenia.

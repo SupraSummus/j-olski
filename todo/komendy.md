@@ -348,3 +348,18 @@ dziś wydaje napis, a rozpiętości wstawek nie ma w nim jak podać,
 więc albo wraca parą, albo `olski-check` czyta dokument dwa razy.
 Ceną drugiego wyjścia jest to, że zdanie zacytowane liczy się wtedy nad dokumentem,
 a nie nad prozą, więc nie widzi go przebieg nad plikiem `.txt`.
+
+Co olski umie powiedzieć nad zdaniem, wyliczają dwa miejsca.
+Wydruk `olski-check` stawia po jednym wierszu na flagę (`olski/check.py`),
+a `zgłoszenia` w `harness/usterki.py` zbiera z tego nazwy dla korpusu usterek.
+Druga lista milczy o wykrywaczu dopisanym pod nową flagą,
+a sonda mówi wtedy ciszę nad wpisem, który olski wykrywa,
+czyli wydaje liczbę nieprawdziwą i nie widać tego po niej —
+i to jest ten sam powód, z którego
+[`CLAUDE.md`](../CLAUDE.md#code) zakazuje drugiej deklaracji podzbioru.
+Ruchem jest jedna deklaracja w pakiecie: nazwa zgłoszenia wraz z funkcją,
+która je nad zdaniem znajduje, a wydruk i sonda pytają o nią.
+Do rozstrzygnięcia jest, czy wchodzi do niej wieloznaczność
+i pozostałe wiersze werdyktu, bo `ZGŁOSZENIA` w `olski/werdykt/tekst.py`
+wylicza je już dziś, a wtedy deklaracji jest znów dwie.
+Ceną jest wydruk, bo dziś każda flaga rysuje swój wiersz inaczej.

@@ -75,7 +75,11 @@ def wpis(zdanie, zgłoszenie, poprawka=None, kontekst=()):
             WYKRYTE,
         ),
         (wpis("Chałka przewyższa zwykłą bułkę.", ŻADNE), CZYSTE),
-        (wpis("Czekają nagrody.", ŻADNE), SZUM),
+        #  Wieloznaczność nad wpisem czystym szumem nie jest: poprawiać nad nią
+        #  nie ma czego, bo znaleziskiem nie jest.
+        (wpis("Czekają nagrody.", ŻADNE), CZYSTE),
+        #  Zaimek nad wpisem czystym szumem jest, bo autor przepisałby to zdanie.
+        (wpis("On uciekł.", ŻADNE, kontekst=("Pies gonił kota.",)), SZUM),
     ],
     ids=lambda x: x if isinstance(x, str) else x.zdanie[:30],
 )

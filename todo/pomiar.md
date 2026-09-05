@@ -645,3 +645,20 @@ Do przeczytania jest, ile zdań klasy `pozostaje` różni się samą budową,
 bo od tego zależy, czy ta warstwa jest warta czytania;
 policzy to podział tej klasy po kształcie wieloznaczności,
 taki jak w `harness/sądy.py`, a sonda go jeszcze nie ma.
+
+Szum nad wpisem, którego zgłoszeniem jest wieloznaczność, mówi o poprawce,
+a nie o olskim.
+Wpis taki dostaje `szum`, gdy wiersz o odczytaniach pada i nad zdaniem, i nad
+poprawką, a poprawki bez odczytań dwóch prawie nie ma:
+zdania czyste tego korpusu też je mają, bo dwa odczytania są w tej gramatyce
+zwykłą odpowiedzią, a nie usterką
+([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Dwa z trzech takich wpisów w `próba/usterki.txt` stoją dziś w szumie —
+`Koszt samej szynki przewyższa koszt szynki z dodatkami.` oraz
+`Stare koty i psy śpią.` — i żadna sesja nie ma z tego czego naprawić w kodzie.
+Do rozstrzygnięcia jest, czy takiemu wpisowi wolno nie mieć poprawki,
+czy poprawką ma być zdanie o jednym odczytaniu, i wtedy trzeba je napisać,
+czy wpisy o wieloznaczności schodzą z korpusu razem z pytaniem,
+po co autorowi ten wiersz.
+Wpis zamknie `_klasa` w `harness/usterki.py` albo trzy wpisy korpusu,
+a przed tym zdanie w nagłówku korpusu, bo on tę klasę dziś opisuje.

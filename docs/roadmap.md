@@ -337,7 +337,12 @@ i mówi, ile każdy cel potrzebuje zobaczyć, a nie który jest ważniejszy.
 **Każde zgłoszenie z korpusu usterek jest wykryte, a wpis czysty nie ma szumu.**
 `próba/usterki.txt` wylicza zdania z usterką, którą czytelnik by poprawił,
 wraz z poprawką, nad którą zgłoszenie ma milczeć,
-i zdania czyste, nad którymi ma milczeć wszystko.
+i zdania czyste, nad którymi ma milczeć wszystko, co autor ma poprawić.
+Wiersz o odczytaniach nie jest tam szumem, bo poprawiać nad nim nie ma czego
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Widać to na `Operator ustala priorytet.`, które stoi w korpusie wpisem czystym:
+czytelnik ma nad nim jedno czytanie, a olski dwa, i tak ma zostać
+([wyżej](#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
 Sprawdza go `python3 -m harness.usterki`,
 a cel jest osiągnięty, gdy każdy wpis wychodzi wykryty albo czysty.
 Ten sam przebieg ustawia kolejkę roboty
