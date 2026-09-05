@@ -941,6 +941,9 @@ Bank drzew na nie nie odpowiada i nie jest to jego usterka.
 Anotator Składnicy wybierał drzewo z lasu,
 więc jego odpowiedź mówi, które czytanie jest właściwe,
 a nie czy drugie w ogóle było dla niego czytaniem.
+Warstwa morfologiczna NKJP ma tę samą granicę i mówi o stopień mniej:
+którą formę anotator wziął, a nie które drzewo
+([adnotacje.md](adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)).
 Odpowiedź, której to pytanie potrzebuje, ma inną postać:
 pary czytań z sądem, czy mówią to samo.
 Anotacja taka jest przy tym tańsza niż wybór drzewa,

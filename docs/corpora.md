@@ -109,6 +109,8 @@ and a 1-million-word subcorpus of that is manually annotated.
 Only the 1-million-word subcorpus is downloadable.
 It carries CC BY, and the rest is reachable through
 the Poliqarp and PELCRA search interfaces and not otherwise.
+Its annotation layers ship in the archive beside the text,
+and which of olski's choices they settle is in [adnotacje.md](adnotacje.md).
 
 ```sh
 curl -L -o nkjp1m.tar.gz \
@@ -558,6 +560,9 @@ ocenionych ręką jako trafne albo fałszywe,
 i stoi w `próba/nkjp-sądy.txt`.
 Wpis podaje zdanie wraz ze zdaniami, które stoją przed nim w tej samej sekcji,
 nazwę znaleziska, wiersz werdyktu z chwili oceny, sąd i jego powód.
+Ten kształt wpisu zastępuje wpis o wyborze,
+który opisuje [adnotacje.md](adnotacje.md#jednostką-adnotacji-jest-wybór-a-zapisuje-się-go-słowami-zdania),
+a bazy na niego jeszcze nie przepisano.
 
 Baza rośnie przebiegami, a nie sesją czytania.
 Przebieg nad prozą korpusu wypisuje znaleziska, których baza jeszcze nie ma,
@@ -616,9 +621,12 @@ bo wpis powstaje ze znaleziska
 ([disambiguation.md](disambiguation.md#wieloznaczność-której-werdykt-nie-melduje)).
 Oceniający jest przy tym jeden i widzi werdykt, zanim oceni,
 więc powód czyni sąd sprawdzalnym przez drugą osobę, a drugiej oceny nie zastępuje.
-Sądy wydała dotąd sesja agenta, a nie rodzimy czytelnik,
-więc baza mierzy dziś rozumienie modelu,
-a rozumienie czytelnika dopiero od pierwszej oceny, którą wyda człowiek.
+Sądy wydała sesja agenta, a nie rodzimy czytelnik,
+więc baza mierzy rozumienie modelu.
+Rozumienie czytelnika ma nad wyborem, który jest odczytaniem formy,
+bo o nim mówi anotator korpusu
+([adnotacje.md](adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)),
+a nad przyłączeniem dopiero od pierwszej oceny, którą wyda człowiek.
 
 **Sąd wydaje się nad tekstem czytanym jako informatywny,
 choćby tekst informatywny nie był.**

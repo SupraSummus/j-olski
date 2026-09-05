@@ -591,7 +591,14 @@ ocena wypisanych znalezisk i przeniesienie wpisów do `próba/nkjp-sądy.txt`,
 po czym `python3 -m harness.sądy` liczy klasy i kształty nad całością.
 Ceną jest pobranie podkorpusu milionowego i przebieg gramatyki nad jego prozą,
 kilkanaście minut na czterech rdzeniach.
-Do rozstrzygnięcia jest, kto ocenia.
+Zanim ktoś przeczyta następną partię,
+`--nowe` ma pominąć zdania, które rozstrzyga sam anotator korpusu:
+`harness/znaczniki.py` nazywa je klasą `rozstrzygnięte`,
+a czytelnik jest potrzebny nad klasą `pozostaje`
+([`docs/adnotacje.md`](../docs/adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)).
+Do rozstrzygnięcia jest, czy `--nowe` woła tamtą sondę, czy bierze jej wydruk plikiem,
+bo tamta czyta archiwum, a ta samą prozę.
+Do rozstrzygnięcia jest też, kto ocenia.
 Dotychczasowe sądy wydała sesja agenta,
 a pytanie jest o czytelnika, więc pierwsza ocena przez człowieka
 mówi więcej niż następne czterdzieści przez model,
@@ -599,10 +606,42 @@ i najtańszą drogą do niej jest wydruk `--nowe` oddany komuś,
 kto po polsku czyta, a gramatyki nie zna.
 Druga ocena tych samych wpisów przez inną osobę albo sesję jest ruchem następnym:
 zgodność dwóch ocen mówi, ile sąd jest własnością zdania, a ile oceniającego,
-i bez niej żadna stopa z tej bazy nie ma błędu pomiaru.
+i bez niej żadna stopa z tej bazy nie ma błędu pomiaru;
+nad wyborem przypadka drugą oceną jest już anotator korpusu (tamże).
 Format na drugi sąd w tym samym wpisie nie jest rozstrzygnięty
 i wchodzi razem z pierwszą taką oceną.
 Osobno stoi pytanie, czy `olski-check` ma brać bazę jako listę znalezisk ocenionych
 i milczeć o nich nad własną prozą repozytorium,
 bo ten sam obieg — ocenić raz, nie widzieć więcej — służyłby przeglądowi dokumentów;
 dziś obieg ma tylko sonda w `harness/`.
+
+Wpis bazy sądów mówi o zgłoszeniu, a ma mówić o wyborze
+([`docs/adnotacje.md`](../docs/adnotacje.md#jednostką-adnotacji-jest-wybór-a-zapisuje-się-go-słowami-zdania)
+trzyma decyzję i to, co ona kupuje).
+Podnosi ten wpis to, że wieloznaczność wraca do znalezisk kształtem,
+a nie całością, bo kształt jest tym, co wpis o wyborze zapisuje,
+a dzisiejsze `fałszywe` składa kilka kształtów w jeden sąd.
+Ruchem jest przepisanie `próba/nkjp-sądy.txt` na wpisy o wyborze —
+fraza albo rola, kandydaci, odpowiedź, powód —
+oraz `harness/sądy.py` liczące klasy po wyborze, a sąd o zgłoszeniu z wyborów.
+`próba/wybory.txt` ma już ten kształt dla przyłączenia (`harness/wybory.py`),
+więc do rozstrzygnięcia jest, czy oba pliki czyta jedna sonda
+i czy plik jest jeden, czy po jednym na korpus.
+Powody dzisiejszych wpisów nazywają wybory słowami,
+więc przepisanie jest przeczytaniem kilkudziesięciu wpisów, a nie oceną od nowa.
+Do przeczytania jest przedtem, jak `Decyzje` w `olski/parse/decyzje.py`
+nazywa rozbieżność konstytuentu,
+bo wybór budowy nie ma jeszcze postaci,
+w której czytelnik nazwałby odpowiedź słowami zdania.
+
+Warstwa grup NKJP (`ann_groups.xml`) nazywa zasięg grupy imiennej i jej głowę,
+a złote znaczniki tego nie mówią,
+więc wybór budowy grupy — `Wiele takich poczwórności`, `naszych Czytelników` —
+ma tam odpowiedź anotatora, której `harness/znaczniki.py` nie czyta.
+Ruchem jest druga warstwa w tej sondzie:
+rozbieżność konstytuentu z `Decyzje` w `olski/parse/decyzje.py`
+zestawiona z grupą o tym samym zasięgu i tej samej głowie.
+Do przeczytania jest, ile zdań klasy `pozostaje` różni się samą budową,
+bo od tego zależy, czy ta warstwa jest warta czytania;
+policzy to podział tej klasy po kształcie wieloznaczności,
+taki jak w `harness/sądy.py`, a sonda go jeszcze nie ma.
