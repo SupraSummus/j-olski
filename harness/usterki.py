@@ -15,6 +15,11 @@ Wpis czysty (``zgłoszenie: żadne``) dostaje :data:`CZYSTE`, gdy nic, co autor 
 poprawić, nad nim nie pada, a :data:`SZUM`, gdy pada cokolwiek takiego. Wiersz
 o odczytaniach szumem nad nim nie jest (:data:`ODPOWIEDZI`).
 
+Nieczytanie dzieli się dalej po punkcie, na którym stanęła analiza
+(:func:`punkt`), bo robota, której taki wpis żąda, bierze się z tego punktu,
+a nie z samego nieczytania
+(docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów).
+
 Zgłoszeniem jest tu wszystko, co ``olski-check`` wypisuje nad zdaniem
 z jakąkolwiek flagą: nazwy z :data:`olski.werdykt.ZGŁOSZENIA`,
 nazwa chwytu spod ``--chwyty`` (``olski/chwyty.py``)
@@ -36,7 +41,7 @@ from pathlib import Path
 
 from harness.wybory import wpisy
 from olski.chwyty import chwyty
-from olski.werdykt import WIELOZNACZNE, Zdanie, nad_tekstem, niespełnione_żądania
+from olski.werdykt import WIELOZNACZNE, Verdict, Zdanie, nad_tekstem, niespełnione_żądania
 
 #: Korpus usterek.
 USTERKI = Path(__file__).parent.parent / "próba" / "usterki.txt"
@@ -63,6 +68,17 @@ CZYSTE = "czyste"
 #: Klasy w kolejności wydruku. Krotka, a nie zbiór, bo zbiór postawiony na drodze
 #: do wydruku wypisuje w każdym przebiegu co innego.
 KLASY = (WYKRYTE, CISZA, NIECZYTANE, SZUM, CZYSTE)
+
+#: Analiza staje na formie, której nie bierze ani jedna produkcja.
+BEZ_LICENCJI = "bez licencji"
+#: Analiza staje na formie, a licencję ma każda forma zdania.
+ZATRZYMANIE = "zatrzymanie"
+#: Analiza nie staje na żadnej formie, którą werdykt by nazwał: dochodzi do końca
+#: zdania i nic go nie domyka, albo nic nie punktuje napisu jako zdania.
+BEZ_DOMKNIĘCIA = "bez domknięcia"
+
+#: Grupy nieczytania w kolejności wydruku. Krotka z tego samego powodu co :data:`KLASY`.
+PUNKTY = (BEZ_LICENCJI, ZATRZYMANIE, BEZ_DOMKNIĘCIA)
 
 
 @dataclass(frozen=True)
@@ -92,6 +108,12 @@ class Wynik:
     nad_poprawką: tuple[str, ...]
     #: Wiersz werdyktu nad zdaniem z usterką.
     werdykt: str
+    #: Punkt, na którym stanęła analiza zdania z usterką (:func:`punkt`).
+    punkt: str | None
+    #: Czy olski czyta poprawkę. Nad poprawką nieczytaną milczy gramatyka, a nie
+    #: wykrywacz, więc :data:`WYKRYTE` stojące na takiej poprawce nie mówi, że
+    #: zgłoszenie widzi usterkę, a nie coś obok niej.
+    poprawka_czytana: bool
 
 
 def czytaj(path: Path = USTERKI) -> list[Usterka]:
@@ -146,14 +168,36 @@ def zbadaj(wpis: Usterka) -> Wynik:
     """Zapytaj olskiego o zdanie i o poprawkę i przyłóż odpowiedź do wpisu."""
     zdanie = ostatnie(wpis.kontekst, wpis.zdanie)
     nad_zdaniem = zgłoszenia(zdanie)
-    nad_poprawką = zgłoszenia(ostatnie(wpis.kontekst, wpis.poprawka)) if wpis.poprawka else ()
+    poprawka = ostatnie(wpis.kontekst, wpis.poprawka) if wpis.poprawka else None
+    nad_poprawką = zgłoszenia(poprawka) if poprawka is not None else ()
+    klasa = _klasa(wpis, nad_zdaniem, nad_poprawką, zdanie.werdykt.czytane)
     return Wynik(
         wpis=wpis,
-        klasa=_klasa(wpis, nad_zdaniem, nad_poprawką, zdanie.werdykt.czytane),
+        klasa=klasa,
         nad_zdaniem=nad_zdaniem,
         nad_poprawką=nad_poprawką,
         werdykt=zdanie.werdykt.explain(),
+        punkt=punkt(zdanie.werdykt),
+        poprawka_czytana=poprawka is not None and poprawka.werdykt.czytane,
     )
+
+
+def punkt(verdict: Verdict) -> str | None:
+    """Grupa nieczytania: gdzie stanęła analiza; ``None``, gdy nie stanęła nigdzie.
+
+    Warunki dalsze idą w kolejności :meth:`olski.werdykt.Verdict.explain`,
+    żeby grupa zgadzała się z wierszem ``dziś:`` stojącym pod wpisem.
+    Napis niepunktowany wchodzi przez to do :data:`BEZ_DOMKNIĘCIA` razem ze
+    zdaniem, nad którym analiza doszła do końca: formy zatrzymania werdykt
+    nad nim nie wypisuje, a mówi, że napisu nic nie domyka.
+    """
+    if verdict.czytane:
+        return None
+    if not verdict.punktowane:
+        return BEZ_DOMKNIĘCIA
+    if verdict.nielicencjonowane:
+        return BEZ_LICENCJI
+    return BEZ_DOMKNIĘCIA if verdict.zatrzymanie is None else ZATRZYMANIE
 
 
 def _klasa(
@@ -172,14 +216,23 @@ def _klasa(
 
 
 def wydruk(wyniki: Sequence[Wynik]) -> str:
-    """Klasy na zgłoszenie, a pod nimi wpis po wpisie.
+    """Liczby nad całym korpusem, potem klasy na zgłoszenie, a pod nimi wpis po wpisie.
 
     Zero wypisane, a nie pominięte: zgłoszenie bez ani jednego wykrycia jest
     odpowiedzią tej sondy, a nie brakiem odpowiedzi, bo to ono jest kolejką.
+
+    Mianownikiem poprawek czytanych są wpisy z usterką, bo tylko one poprawkę
+    mają (:func:`czytaj`).
     """
     z_usterką = [w for w in wyniki if not w.wpis.czysty]
     czyste = [w for w in wyniki if w.wpis.czysty]
-    wiersze = [f"{len(z_usterką)} zdań z usterką, {len(czyste)} czystych"]
+    grupy = collections.Counter(w.punkt for w in wyniki if w.klasa == NIECZYTANE)
+    po_punkcie = ", ".join(f"{grupa} {grupy[grupa]}" for grupa in PUNKTY)
+    wiersze = [
+        f"{len(z_usterką)} zdań z usterką, {len(czyste)} czystych",
+        f"poprawek czytanych {sum(w.poprawka_czytana for w in z_usterką)} z {len(z_usterką)}",
+        f"{NIECZYTANE} {grupy.total()}, po punkcie zatrzymania: {po_punkcie}",
+    ]
     nazwy = list(dict.fromkeys(w.wpis.zgłoszenie for w in z_usterką))
     for nazwa in nazwy:
         swoje = [w for w in z_usterką if w.wpis.zgłoszenie == nazwa]
