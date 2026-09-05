@@ -11,7 +11,10 @@ tylko to, za co ono płaci (``witryna/skrypt.js``).
 
 Cena jest deklaracją o polszczyźnie, a nie częstością wziętą z korpusu:
 mówi, że jedno czytanie tego samego napisu jest zwyklejsze od drugiego.
-Nikt jej nie zmierzył.
+Zmierzony jest sam jej znak, a wysokość nie:
+pozycja podniesiona ponad dzisiejszą cenę nie rusza nad bankiem drzew
+ani jednego czytania pierwszego, a zejście do zera i zmiana znaku ruszają
+(``harness/skala.py``).
 
 Pozycje dzielą się na dwie rodziny i różni je to, dokąd cena sięga.
 Pozycję produkcji płaci ciało i płaci ją na miejscu:
@@ -43,8 +46,7 @@ FORMA_SPOZA_REJESTRU = "forma spoza rejestru"
 #: a nie że jest zły. Dwa razy tyle płacą konstrukcje, które żądają czegoś spoza
 #: zdania: opuszczony podmiot każe szukać podmiotu w zdaniu obok, a wysunięte
 #: dopełnienie bezokolicznika każe czytać dwa czasowniki naraz, żeby powiedzieć,
-#: do którego z nich należy. Ze wszystkich tych cen zmierzono jeden znak, ten
-#: przy okoliczniku
+#: do którego z nich należy
 #: (``docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie``).
 #:
 #: Jednostką jest sto, a nie jeden, i kupuje to miejsce na cenę pośrednią:

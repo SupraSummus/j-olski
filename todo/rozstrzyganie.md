@@ -250,3 +250,24 @@ Ruchem tańszym od przeliczenia jest zejście obu komentarzy do rzędu wielkośc
 bo obie liczby są tam przesłanką jednego zdania o populacji morfologicznej,
 a właścicielem liczby jest dokument
 ([`CLAUDE.md`](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje)).
+
+Miara porównywalna nad czytaniami dostaje składnik od cennika, a od świadków nie dostaje nic.
+Cena okolicznika rozróżnia dziś czytania przyłączeniowe, orzekając o nich bez oglądania słów:
+płaci ją każde czytanie wieszające okolicznik przy orzeczeniu, i tyle o nim wie.
+Świadek pyta o to samo przyłączenie ramy walencyjnej, tabeli skłonności i akapitu
+([`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek)),
+więc dowód niesie mocniejszy, a miary nie zasila.
+Ruchem jest składnik liczony z jego odpowiedzi:
+czytanie przyłączające inaczej, niż wskazał świadek, płaci pozycję,
+a jej cena bierze się z częstości pomyłek tego świadka,
+bo ta częstość jest jedyną liczbą mówiącą, ile ta odpowiedź waży.
+Do przeczytania przedtem jest zasięg, czyli na ilu przyłączeniach Składnicy
+świadkowie w ogóle odpowiadają (`harness/wskazania.py`):
+składnik odzywający się rzadziej niż cena nie ruszy ani miary, ani kolejności,
+a zasięg tabeli skłonności jest mierzony na materiale, który ona widziała.
+Rozstrzyga ta sama liczba, co o każdym składniku miary:
+złote czytanie pierwsze, wypisywane przez `harness/skala.py`,
+i składnik, po którym ona spada, nie wchodzi.
+Cena tego ruchu stoi w czasie rozbioru, a nie w liczbie wierszy:
+warstwa liczy się dziś pod flagą i obok werdyktu, więc rozbioru nie kosztuje nic,
+a składnik miary liczyłby się w każdym przebiegu. Ile to kosztuje, nie liczył nikt.

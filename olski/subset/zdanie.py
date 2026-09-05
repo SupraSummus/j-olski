@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from olski.cennik import (
     CZASOWNIK_PRZED_PODMIOTEM,
+    OKOLICZNIK,
     OPUSZCZONY_PODMIOT,
     WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA,
     WYSUNIĘTY_ORZECZNIK,
@@ -648,6 +649,23 @@ def _wypełnienia(
     grammar: Grammar, okoliczniki: Sym, dopełnienie: Sym, orzecznik_ramy: Sym
 ) -> None:
     """Symbol, który czasownik bierze pod sobą, wraz z parą o celowniku w drugiej pozycji."""
+
+    # Okolicznik pod wypełnieniami płaci tę samą pozycję, co okolicznik wstawiony
+    # przez rozwinięcie (``olski/precedencja.py``), i płaci ją tu, bo rozwinięcie
+    # wyłącza z niej `grupa_orzeczenia`: jej okolicznik przychodzi właśnie stąd
+    # (``własny_okolicznik`` w ``olski/subset/__init__.py``). Póki te ciała były
+    # darmowe, dwa czytania różniące się przyłączeniem miały jeden rachunek i suma
+    # nie miała czego porównać
+    # (docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
+    #
+    # Cena jest jedna na okolicznik, a nie jedna na ciało, bo ciało bierze go dwoma
+    # córkami. Liczy się ją tutaj, żeby żadna z czterech rodzin ciał tej sekcji jej
+    # nie ominęła: okolicznik płacony w jednej, a darmowy w drugiej, orzekałby o
+    # zdaniu rzecz, której nikt nie zadeklarował
+    # (``test_okolicznik_kosztuje_tyle_samo_obok_wypełnienia_co_bez_niego``).
+    def _koszt(ciało: list) -> tuple[str, ...]:
+        return (OKOLICZNIK,) * ciało.count(okoliczniki)
+
     # To, co czasownik bierze: jedno dopełnienie, a okolicznik z obu jego stron.
     # Dopełnienie w bierniku, bezokolicznik i orzecznik — zgodny albo w narzędniku —
     # różnią się tym, którą pozycję ramy zajmują, a nie tym, gdzie stoją, więc każde
@@ -680,7 +698,7 @@ def _wypełnienia(
             [Głowa(wypełnienie), okoliczniki],
             [okoliczniki, Głowa(wypełnienie), okoliczniki],
         ):
-            grammar.rule("wypełnienia", ciało)
+            grammar.rule("wypełnienia", ciało, koszty=_koszt(ciało))
 
     # Same okoliczniki, czyli czasownik, który pozycji ramy nie wypełnia niczym:
     # `Mieszczanie zabili okna deskami.` ma tu `deskami`, a `Rachunek zwraca się
@@ -690,7 +708,9 @@ def _wypełnienia(
     # sam narzędnik w tej liście, a nie każdy okolicznik (:data:`BEZ_KOPULI`):
     # `Parser jest narzędziem.` ma odtąd jedno czytanie,
     # a `Cena jest gdzie indziej.` nie traci swojego.
-    grammar.rule("wypełnienia", [nt("okoliczniki", kopula=V("k"))], kopula=V("k"))
+    grammar.rule(
+        "wypełnienia", [nt("okoliczniki", kopula=V("k"))], koszty=(OKOLICZNIK,), kopula=V("k")
+    )
 
     # Druga pozycja ramy: dopełnienie w celowniku obok wypełnienia, które pozycję
     # ramy zajmuje. `Parser pokazuje autorowi oba czytania.`, `Parser mówi
@@ -721,7 +741,7 @@ def _wypełnienia(
             [Głowa(wypełnienie), celownikowe],
             [Głowa(wypełnienie), okoliczniki, celownikowe],
         ):
-            grammar.rule(PARA_WYPEŁNIEŃ, ciało, druga=DRUGA_CELOWNIK)
+            grammar.rule(PARA_WYPEŁNIEŃ, ciało, koszty=_koszt(ciało), druga=DRUGA_CELOWNIK)
 
     # Druga para: zdanie podrzędne obok dopełnienia w bierniku. `Kierownik
     # poinformował pracownika, że wniosek został odrzucony.`
@@ -754,7 +774,7 @@ def _wypełnienia(
         [Głowa(para), okoliczniki],
         [okoliczniki, Głowa(para), okoliczniki],
     ):
-        grammar.rule("wypełnienia", ciało)
+        grammar.rule("wypełnienia", ciało, koszty=_koszt(ciało))
 
 
 def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
