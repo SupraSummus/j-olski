@@ -316,3 +316,34 @@ zdanie: Lepiej jadać pięć razy dziennie w małych porcjach niż raz dziennie 
 usterka: przed „niż” stoi jeden człon, a po nim dwa spięte przez „a”
 zgłoszenie: niezgodne człony porównania
 poprawka: Lepiej jadać pięć razy dziennie w małych porcjach niż raz dziennie w dużych.
+
+# NKJP 1.2, typ_publ/120-2-000001/txt_26-div.txt
+
+kontekst: CKM: W 1999 roku urodziło się w Polsce 382 tys. dzieci.
+zdanie: Co oznacza, że prawni ojcowie aż 19 tysięcy pociech naiwnie sądzą, iż oni je spłodzili, naprawdę zaś "trud stworzenia" ich żony podjęły z kochankami.
+usterka: zdanie otwiera zaimek względny, którego poprzednikiem jest całe zdanie obok, a zdania nadrzędnego nie ma tu wcale
+zgłoszenie: zdanie względne bez zdania nadrzędnego
+poprawka: Oznacza to, że prawni ojcowie aż 19 tysięcy pociech naiwnie sądzą, iż oni je spłodzili, naprawdę zaś "trud stworzenia" ich żony podjęły z kochankami.
+
+# NKJP 1.2, typ_publ/120-2-000001/txt_27-div.txt
+
+kontekst: CKM: Nie boisz się pooperacyjnej blizny?
+kontekst: P: Medycyna poszła dziś tak daleko...
+zdanie: Myślę, że moja kariera zawodowa nie ucierpiałaby przez to.
+usterka: zaimek pasuje do blizny, o którą pytano, i do zdania obok o medycynie
+zgłoszenie: niejasne odniesienie
+poprawka: Myślę, że moja kariera zawodowa nie ucierpiałaby przez taką bliznę.
+
+# NKJP 1.2, typ_publ/120-2-000001/txt_29-div.txt
+
+zdanie: Polegają one na tym, że dochodzi się do władzy książęcej albo drogą zbrodniczą i niecną, albo tak, że prywatny obywatel zostaje władcą swej ojczyzny.
+usterka: pierwszy człon szeregu jest wyrażeniem narzędnikowym, a drugi zdaniem podrzędnym, więc oba wiszą przy „dochodzi się” inaczej
+zgłoszenie: niezgodne człony szeregu
+poprawka: Polegają one na tym, że do władzy książęcej dochodzi się albo drogą zbrodniczą i niecną, albo drogą, na której prywatny obywatel zostaje władcą swej ojczyzny.
+
+# NKJP 1.2, typ_publ/120-2-000001/txt_32-div.txt
+
+zdanie: Program można zamówić w sklepie internetowym: store.britannica.com (dociera do Polski po kilku tygodniach).
+usterka: podmiot domyślny wtrącenia pasuje do programu i do sklepu, a stoi zaraz po adresie sklepu
+zgłoszenie: niejasny podmiot domyślny
+poprawka: Program zamówiony w sklepie internetowym store.britannica.com dociera do Polski po kilku tygodniach.
