@@ -182,6 +182,23 @@ bo pyta się tu o to, czy przymiotnik jest głową grupy, czy orzecznikiem,
 a tego morfologia nie mówi.
 Tej głębokości żąda [cel o żądaniu pozycji](roadmap.md#cele) i tam ten predykat wraca.
 
+Dwie kandydatki z korpusu usterek przeczytano tak samo, a wykrywacza nie ma żadna.
+Orzeczenie bez wykonawcy brane z samej formy nieosobowej
+trafia nad tą prozą w co kilkadziesiąte zdanie,
+a trafienia są w większości czasownikiem, który czynność orzeka —
+`zmierzono`, `wybrano`, `przeczytano` — i wykonawcą jest tam sesja,
+której nazwanie nie dokłada nic.
+Z tego rozdziału wyszła reguła o
+[czasowniku pustym](#trzeci-wykrywacz-zgłasza-czasownik-pusty-przed-rzeczownikiem-odczasownikowym):
+`Podjęto decyzję o odłożeniu wdrożenia.` różni się od tamtych trafień tym,
+że czynność nazywa rzeczownik, a nie ten czasownik.
+Łańcuch dopełniaczy czytany z morfologii o łańcuchu nie mówi,
+bo dopełniacz jest zlany z innymi przypadkami:
+`zdania tego jednego pliku` wychodzi łańcuchem czterech,
+a sekcje angielskie dokładają trafienia bez ani jednego dopełniacza,
+bo Morfeusz czyta ich słowa jako polskie formy.
+Reguła ta żąda rozbioru i wraca z nim.
+
 Liczb tu nie ma, bo rusza je przeredagowanie akapitu;
 kto chce dzisiejszych, pisze predykat na nowo i puszcza go.
 
@@ -289,6 +306,41 @@ a nad prozą przepisaną reguła milczy.
 Zwrot ten jest tanią częścią reguły o jednym twierdzeniu na zdanie,
 a co odrzuciło resztę tamtej reguły,
 mówi [krok czwarty](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem).
+
+## Trzeci wykrywacz zgłasza czasownik pusty przed rzeczownikiem odczasownikowym
+
+`Dokonano przeprowadzenia analizy` nazywa czynność rzeczownikiem,
+a czasownik niesie z niej sam czas i tryb, choć czynność jest jedna
+i czasownik ma czym ją orzec: `Zespół przeanalizował awarię`.
+Naprawą jest ten czasownik, a nie krótsze zdanie.
+Wykrywa to `olski/chwyty.py`, a wypisuje ta sama flaga `--chwyty` co reguły wyżej.
+Reguła ta jest pierwszą, którą postawił
+[korpus usterek](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów):
+zdanie z usterką i jego poprawka stały w `próba/usterki.txt`,
+zanim ktokolwiek napisał predykat.
+
+Na [czterech osiach](#cztery-osie-każdej-reguły) kształtem jest werdykt o zdaniu,
+populacją nasza własna proza, a pytanie jest o strukturę:
+rozstrzyga się tu, czy czynność orzeka czasownik, czy rzeczownik obok niego.
+Progu przez to nie ma i kalibracji ta reguła nie potrzebuje.
+Głębokością jest morfologia, a oba zawężenia tej reguły —
+rzeczownik stojący zaraz za czasownikiem i rzeczownik bez czytania
+rzeczownikowego — biorą się z tego, czego morfologia nie mówi:
+ani czy ten rzeczownik jest dopełnieniem tego czasownika,
+ani którym ze swoich czytań stoi.
+Rozbiór by ją przez to zaostrzył, a przykład przy każdym zawężeniu
+stoi w `olski/chwyty.py`.
+Nominalizacji z wycofanego pakietu reguła ta nie wskrzesza:
+tamta pytała, czy rzeczownik odczasownikowy jest gorszy od czasownika,
+i pytała o to nad każdym, a ta pyta o zamkniętą listę czasowników,
+które czynności nie orzekają.
+
+Nad prozą repozytorium reguła nie kosztowała ani jednego zdania przepisanego
+i tym różni się od dwóch reguł wyżej:
+tego wzorca nikt tu nie napisał, bo katalog chwytów go zakazuje.
+Zostają w jej przebiegu same zdania przytoczone jako przykład,
+tu i w `olski/chwyty.py`, i jest to ta sama pozostałość, którą ma reguła o zaimku
+([wyżej](#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
 
 ```sh
 python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md todo/*.md

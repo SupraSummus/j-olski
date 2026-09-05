@@ -1,17 +1,21 @@
 """Co rozdziela chwyt rejestru od zdania, które tak samo wygląda i chwytem nie jest.
 
-Reguły są dwie i każda ma tu własne dwa zbiory zdań (``olski/chwyty.py``).
-Reguła o zaimku ma jeden warunek: rzeczownik zgodny z `to` stoi przy nim, czyli
-przed orzeczeniem zdania. Reguła o domyślnym orzeczeniu ma trzy, bo każdy z nich
-zdejmuje inną klasę zdań poprawnych. Każde zdanie niżej zdjęte osobno zamienia
-werdykt swojej reguły w przeciwny.
+Każda reguła ma tu własne dwa zbiory zdań (``olski/chwyty.py``): jeden ze zdaniami,
+które zgłoszenie mają dostać, a drugi z tymi, które tak samo wyglądają i dostać
+go nie mają. Każdy warunek reguły zdejmuje inną klasę zdań poprawnych, więc każde
+zdanie z drugiego zbioru zdjęte osobno zamienia werdykt tej reguły w przeciwny.
 """
 
 import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.chwyty import chwyty
+from olski.chwyty import (
+    CZASOWNIK_PUSTY,
+    PODJĘTE_ZDANIE,
+    ZASTĘPCZE_ORZECZENIE,
+    chwyty,
+)
 
 #: Zdania, nad którymi reguła milczy, każde z innego powodu: rzeczownik przy
 #: zaimku, rzeczownik odczasownikowy w tej roli, łącznik i zapowiedź
@@ -65,7 +69,7 @@ def test_zaimek_stojący_przy_swoim_rzeczowniku_nie_jest_chwytem(zdanie):
 @pytest.mark.parametrize("zdanie", ZGŁASZA.values(), ids=ZGŁASZA)
 def test_zaimek_bez_rzeczownika_przy_sobie_dostaje_zgłoszenie(zdanie):
     (chwyt,) = chwyty(zdanie)
-    assert chwyt.forma == "To"
+    assert (chwyt.nazwa, chwyt.forma) == (PODJĘTE_ZDANIE, "To")
     assert "wstaw w jego miejsce rzeczownik" in chwyt.naprawa
 
 
@@ -79,8 +83,40 @@ def test_zwrot_który_orzeczenia_nie_zastępuje_nie_dostaje_zgłoszenia(zdanie):
 )
 def test_zwrot_zamykający_człon_bez_orzeczenia_dostaje_zgłoszenie(zdanie, zwrot):
     (chwyt,) = chwyty(zdanie)
-    assert chwyt.forma == zwrot
+    assert (chwyt.nazwa, chwyt.forma) == (ZASTĘPCZE_ORZECZENIE, zwrot)
     assert "powtórz czasownik" in chwyt.naprawa
+
+
+#: Zdania, nad którymi reguła o czasowniku pustym milczy; czemu, mówi klucz.
+MILCZY_PUSTY = {
+    "czasownik orzeka czynność": "Zespół przeanalizował awarię, żeby ustalić jej przyczyny.",
+    "rzeczownik zwykły o czytaniu odczasownikowym": (
+        "Rada wykonuje zadania, o których mowa w ustawie."
+    ),
+    "rzeczownik odsunięty od czasownika": "Dokonano wczoraj przeprowadzenia analizy.",
+    "czasownik spoza listy": "Opisano przeprowadzenie analizy.",
+}
+
+#: Zdania z czasownikiem pustym wraz z parą form, którą wykrywacz ma nazwać.
+ZGŁASZA_PUSTY = {
+    "forma nieosobowa": (
+        "Dokonano przeprowadzenia analizy w celu ustalenia przyczyn awarii.",
+        "Dokonano przeprowadzenia",
+    ),
+    "czynność w podmiocie": ("Nastąpiło uruchomienie systemu.", "Nastąpiło uruchomienie"),
+}
+
+
+@pytest.mark.parametrize("zdanie", MILCZY_PUSTY.values(), ids=MILCZY_PUSTY)
+def test_czasownik_orzekający_czynność_nie_dostaje_zgłoszenia(zdanie):
+    assert chwyty(zdanie) == ()
+
+
+@pytest.mark.parametrize(("zdanie", "para"), ZGŁASZA_PUSTY.values(), ids=ZGŁASZA_PUSTY)
+def test_czasownik_pusty_przed_rzeczownikiem_odczasownikowym_dostaje_zgłoszenie(zdanie, para):
+    (chwyt,) = chwyty(zdanie)
+    assert (chwyt.nazwa, chwyt.forma) == (CZASOWNIK_PUSTY, para)
+    assert "orzeknij ją czasownikiem" in chwyt.naprawa
 
 
 def test_zdanie_o_dwóch_chwytach_zgłasza_oba():

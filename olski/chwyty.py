@@ -9,7 +9,9 @@ za którą odpowiadamy: autor sprawdzający swój tekst tego katalogu nie zna.
 Czemu reguła o zaimku progu nie potrzebuje i co odrzucił pomiar, który ją wybrał,
 mówi docs/linter.md#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie.
 O regule zastępującej orzeczenie mówi to samo
-docs/linter.md#drugi-wykrywacz-zgłasza-zwrot-zastępujący-orzeczenie-członu.
+docs/linter.md#drugi-wykrywacz-zgłasza-zwrot-zastępujący-orzeczenie-członu,
+a o regule o czasowniku pustym
+docs/linter.md#trzeci-wykrywacz-zgłasza-czasownik-pusty-przed-rzeczownikiem-odczasownikowym.
 """
 
 from __future__ import annotations
@@ -66,6 +68,40 @@ GRANICE_CZŁONÓW = frozenset({",", ";", ":", "—", "–", "(", ")", ".", "!", 
 PORÓWNANIE = frozenset({"jak", "niż"})
 
 
+#: Nazwy chwytów, po jednej na regułę. Wydruk ich nie pokazuje, bo autorowi mówi
+#: to samo naprawa stojąca w wierszu; pyta o nie korpus usterek, gdzie wpis nazywa
+#: zgłoszenie, które ma paść, a nazwa wspólna nie mówiłaby, która reguła padła.
+PODJĘTE_ZDANIE = "zaimek podejmujący zdanie"
+ZASTĘPCZE_ORZECZENIE = "zwrot zastępujący orzeczenie"
+CZASOWNIK_PUSTY = "czasownik pusty"
+
+#: Czasowniki, które przed rzeczownikiem odczasownikowym nie orzekają czynności:
+#: nazywa ją wtedy rzeczownik, a czasownik niesie z niej sam czas i tryb.
+#: Pustka jest własnością lematu, a nie kształtu zdania, więc lista jest zamknięta
+#: i wpisuje się do niej lemat, a nie wzorzec: `Rada wykonuje zadania.` orzeka
+#: czynność czasownikiem, a `Dokonano przeprowadzenia analizy.` rzeczownikiem.
+PUSTE = frozenset(
+    {
+        "dokonać",
+        "dokonywać",
+        "nastąpić",
+        "następować",
+        "podejmować",
+        "podjąć",
+        "przeprowadzać",
+        "przeprowadzić",
+        "ulec",
+        "ulegać",
+        "wykonać",
+        "wykonywać",
+    }
+)
+
+#: Części mowy, którymi forma stoi za rzeczownik zwykły
+#: (:func:`_puste_czasowniki`).
+RZECZOWNIKOWE = frozenset({"subst", "depr"})
+
+
 @dataclass(frozen=True)
 class Chwyt:
     """Chwyt rejestru w jednym zdaniu: forma albo zwrot wraz z naprawą.
@@ -74,6 +110,8 @@ class Chwyt:
     autorowi tyle, że coś jest nie tak.
     """
 
+    #: Która reguła to zgłasza.
+    nazwa: str
     #: Forma albo zwrot dwóch form, tak jak je zdanie zapisuje.
     forma: str
     #: Co z tym zrobić, jednym zdaniem.
@@ -88,7 +126,11 @@ def chwyty(zdanie: str) -> tuple[Chwyt, ...]:
     jednakowo: czytanie odebrane formie przez leksykon projektu nie ma tu wracać.
     """
     segmenty = morphology(zdanie)
-    return _podjęte_zdanie(segmenty) + _domyślne_orzeczenia(segmenty)
+    return (
+        _podjęte_zdanie(segmenty)
+        + _domyślne_orzeczenia(segmenty)
+        + _puste_czasowniki(segmenty)
+    )
 
 
 def _podjęte_zdanie(segmenty: list[Segment]) -> tuple[Chwyt, ...]:
@@ -111,7 +153,11 @@ def _podjęte_zdanie(segmenty: list[Segment]) -> tuple[Chwyt, ...]:
     if any(zgadza(zaimek, _imienne(segment), ZGODNE) for segment in _grupa(segmenty)):
         return ()
     return (
-        Chwyt(segmenty[0].form, "podejmuje całe zdanie obok: wstaw w jego miejsce rzeczownik"),
+        Chwyt(
+            PODJĘTE_ZDANIE,
+            segmenty[0].form,
+            "podejmuje całe zdanie obok: wstaw w jego miejsce rzeczownik",
+        ),
     )
 
 
@@ -166,7 +212,9 @@ def _domyślne_orzeczenia(segmenty: list[Segment]) -> tuple[Chwyt, ...]:
             continue
         zwrot = _zwrot_na_końcu(człon)
         if zwrot and not _porównanie(człony[numer + 1 :]):
-            znalezione.append(Chwyt(zwrot, "zastępuje orzeczenie: powtórz czasownik"))
+            znalezione.append(
+                Chwyt(ZASTĘPCZE_ORZECZENIE, zwrot, "zastępuje orzeczenie: powtórz czasownik")
+            )
     return tuple(znalezione)
 
 
@@ -217,3 +265,38 @@ def _porównanie(dalsze: list[list[Segment]]) -> bool:
             return człon[0].form.lower() in PORÓWNANIE
     return False
 
+
+def _puste_czasowniki(segmenty: list[Segment]) -> tuple[Chwyt, ...]:
+    """Czasownik pusty stojący przed rzeczownikiem odczasownikowym.
+
+    `Dokonano przeprowadzenia analizy` nazywa czynność rzeczownikiem, a czasownik
+    niesie z niej sam czas i tryb, choć czynność jest jedna i czasownik ma czym ją
+    orzec: `Zespół przeanalizował awarię`. Naprawą jest ten czasownik, a nie
+    krótsze zdanie.
+
+    Warunki są dwa, a każdy bierze się z tego, czego morfologia nie mówi.
+    Rzeczownik stoi za czasownikiem bez niczego pomiędzy, bo o formie stojącej
+    między nimi morfologia nie mówi, czy jest dopełnieniem tego czasownika;
+    `Dokonano wczoraj przeprowadzenia analizy.` reguła przez to przemilcza.
+    Rzeczownik nie ma czytania rzeczownikowego (:data:`RZECZOWNIKOWE`), bo forma
+    czytana i jako rzeczownik zwykły stoi w prozie zwykle nim, a którym ze swoich
+    czytań stoi tutaj, morfologia nie mówi: bez tego warunku
+    `Rada wykonuje zadania, o których mowa w ustawie.` dostaje zgłoszenie
+    za `zadania` czytane od `zadać`.
+    Ceną jest milczenie nad `Bufor ulega przepełnieniu.`,
+    bo `przepełnienie` jest u Morfeusza także rzeczownikiem zwykłym.
+    """
+    znalezione = []
+    for segment, następny in zip(segmenty, segmenty[1:], strict=False):
+        if not any(czytanie.lemma in PUSTE for czytanie in segment.readings):
+            continue
+        części = {czytanie.tag.pos for czytanie in następny.readings}
+        if "ger" in części and not części & RZECZOWNIKOWE:
+            znalezione.append(
+                Chwyt(
+                    CZASOWNIK_PUSTY,
+                    f"{segment.form} {następny.form}",
+                    "nazywa czynność rzeczownikiem: orzeknij ją czasownikiem",
+                )
+            )
+    return tuple(znalezione)

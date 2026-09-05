@@ -11,12 +11,14 @@ Sonda puszcza oba zdania przez ``olski-check`` i mówi o każdym wpisie jedno s�
   więc o usterce nie mówi nic gramatyka, a nie wykrywacz;
 - :data:`CISZA`: olski zdanie czyta i zgłoszenia nie wydaje.
 
-Wpis czysty (``zgłoszenie: żadne``) dostaje :data:`CZYSTE`, gdy nic nad nim nie pada,
-a :data:`SZUM`, gdy pada cokolwiek.
+Wpis czysty (``zgłoszenie: żadne``) dostaje :data:`CZYSTE`, gdy nic, co autor ma
+poprawić, nad nim nie pada, a :data:`SZUM`, gdy pada cokolwiek takiego. Wiersz
+o odczytaniach szumem nad nim nie jest (:data:`ODPOWIEDZI`).
 
 Zgłoszeniem jest tu wszystko, co ``olski-check`` wypisuje nad zdaniem
 z jakąkolwiek flagą: nazwy z :data:`olski.werdykt.ZGŁOSZENIA`,
-chwyt rejestru spod ``--chwyty`` i rzecz w pozycji osoby spod ``--osoby``.
+nazwa chwytu spod ``--chwyty`` (``olski/chwyty.py``)
+i rzecz w pozycji osoby spod ``--osoby``.
 Nazwa, której olski nie wydaje wcale, jest wpisem kolejki i wychodzi ciszą
 albo nieczytaniem, i to jest liczba, po którą się tę sondę puszcza.
 
@@ -34,7 +36,7 @@ from pathlib import Path
 
 from harness.wybory import wpisy
 from olski.chwyty import chwyty
-from olski.werdykt import Zdanie, nad_tekstem, niespełnione_żądania
+from olski.werdykt import WIELOZNACZNE, Zdanie, nad_tekstem, niespełnione_żądania
 
 #: Korpus usterek.
 USTERKI = Path(__file__).parent.parent / "próba" / "usterki.txt"
@@ -42,9 +44,13 @@ USTERKI = Path(__file__).parent.parent / "próba" / "usterki.txt"
 #: Zgłoszenie, które nie ma paść: wpis o zdaniu bez usterki.
 ŻADNE = "żadne"
 
-#: Nazwy zgłoszeń spod flag, których :data:`olski.werdykt.ZGŁOSZENIA` nie liczy.
-CHWYT = "chwyt rejestru"
+#: Nazwa zgłoszenia spod flagi, której :data:`olski.werdykt.ZGŁOSZENIA` nie liczy.
 OSOBA = "rzecz w pozycji osoby"
+
+#: Te zgłoszenia, nad którymi autor nie ma czego poprawić, więc nad wpisem czystym
+#: szumem nie są: wieloznaczność jest odpowiedzią, a nie znaleziskiem
+#: (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
+ODPOWIEDZI = frozenset({WIELOZNACZNE})
 
 KLUCZE = ("kontekst", "zdanie", "usterka", "zgłoszenie", "poprawka")
 
@@ -116,10 +122,13 @@ def czytaj(path: Path = USTERKI) -> list[Usterka]:
 
 
 def zgłoszenia(zdanie: Zdanie) -> tuple[str, ...]:
-    """Wszystko, co ``olski-check`` wypisuje nad tym zdaniem, z każdą flagą naraz."""
+    """Wszystko, co ``olski-check`` wypisuje nad tym zdaniem, z każdą flagą naraz.
+
+    Chwyt nazywa się tu swoją regułą, a nazwa wchodzi raz, choćby ta reguła
+    trafiła w zdanie dwa razy: powtórzona wypisałaby się dwa razy obok werdyktu.
+    """
     nazwy = list(zdanie.zgłoszenia)
-    if chwyty(zdanie.werdykt.text):
-        nazwy.append(CHWYT)
+    nazwy += dict.fromkeys(chwyt.nazwa for chwyt in chwyty(zdanie.werdykt.text))
     if niespełnione_żądania(zdanie.werdykt):
         nazwy.append(OSOBA)
     return tuple(nazwy)
@@ -151,7 +160,7 @@ def _klasa(
     wpis: Usterka, nad_zdaniem: Sequence[str], nad_poprawką: Sequence[str], czytane: bool
 ) -> str:
     if wpis.czysty:
-        return SZUM if nad_zdaniem else CZYSTE
+        return SZUM if any(nazwa not in ODPOWIEDZI for nazwa in nad_zdaniem) else CZYSTE
     if wpis.zgłoszenie in nad_zdaniem:
         return SZUM if wpis.zgłoszenie in nad_poprawką else WYKRYTE
     return CISZA if czytane else NIECZYTANE

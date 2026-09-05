@@ -244,3 +244,20 @@ ciało produkcji wylicza córki, więc pozycja wypełniona dwa razy żąda dwóc
 a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commicie.
 Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
 zmierzoną tak, jak mierzy się wpuszczenie pozycji.
+
+`podjąć` nie ma w `olski/żądania.txt` ani jednego wiersza,
+więc `--osoby` milczy nad `Dokument podjął decyzję o wdrożeniu.`,
+choć zdanie to stoi w korpusie usterek właśnie z tym zgłoszeniem
+(`próba/usterki.txt`).
+Leksykon walencyjny ten lemat wymienia, a plik żądań nie,
+i nie jest to obcięcie wejścia, bo `podjudzić` stoi w pliku obok.
+Do przeczytania jest wpis `podjąć` w wydaniu TEI Walentego.
+`podjąć decyzję` jest tam frazą zleksykalizowaną,
+a takiej frazy `pozycja` w `harness/żądania.py` pozycją nie nazywa;
+pytanie brzmi, czy razem z nią wypada podmiot tego samego schematu,
+bo podmiot jest osobną frazą i żądanie osoby stoi właśnie w nim.
+Ruch zależy od odpowiedzi:
+podmiot gubiony razem z frazą zleksykalizowaną jest usterką przekładu,
+a lemat bez warstwy semantycznej jest brakiem zasobu
+i wtedy zgłoszenie nad tym zdaniem musi wziąć coś innego niż żądanie ramy.
+Ceną wejścia jest pobranie Walentego, bo ten plik powstaje przebiegiem.
