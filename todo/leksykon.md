@@ -100,3 +100,147 @@ definiuje ją praca o tej warstwie, zbiorami synsetów —
 więc lista z nich wzięta nazywa częstość, a nie przynależność,
 i metonimie w niej będą, bo metonimia jest właśnie tym przypadkiem,
 w którym słowo żądania nie spełnia.
+
+Klasa kopuli zabiera lematowi wpis z leksykonu (`_walencja` w `olski/subset/rama.py`),
+więc kopula nie bywa naraz czasownikiem, który bierze zdanie z `że`.
+Widać to na `bywać`, odkąd lemat ten stoi w `KOPULA` w `olski/walencja.py`:
+`Odpowiedzią bywa decyzja.` przechodzi z odrzuconego na przyjęte,
+a `bywa tak, że` zostaje bez ani jednego czytania —
+jedno zdanie Składnicy i jedno zdanie `docs/subset.md`.
+Ceną tą zapłacono za rolę: bez tego wpisu `Skreślenie bywa całą naprawą.`
+też ma jedno czytanie, tyle że z narzędnikiem w okoliczniku, a nie w orzeczniku
+([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).
+Ruchem jest rama kopuli liczona jako suma z ramą tego lematu,
+a nie jedna wartość na całą listę,
+i wtedy ta sama zmiana rusza `być`, któremu Walenty daje dopełniacz,
+bezokolicznik oraz zdanie podrzędne; tamtego rozszerzenia nie zmierzył nikt.
+Do przeczytania przed pomiarem jest, że sondzie różnicowej tego nie zmierzyć
+podmianą samej stałej: klasy walencyjne liczą się przy imporcie modułu,
+a nie w `build`, więc wariant złożony po podmianie `KOPULA` jest tą samą gramatyką.
+
+Pozycja pytania zależnego stoi w ramie domyślnej i nikt nie zmierzył jej zawężenia.
+`RAMA_DOMYŚLNA` w `olski/subset/rama.py` daje `int` każdemu czasownikowi,
+tak jak daje mu `comp`, a Walenty wypisuje osobno lematy z jednym i z drugim.
+Zawężenie `comp` do leksykonu zmierzono i nie kupiło ani jednego czytania,
+a przy `int` wynik nie musi wypaść tak samo:
+pytanie zależne konkuruje z koordynacją przecinkiem i ze zdaniem względnym,
+gdzie zdanie z `że` nie konkuruje z niczym, bo spójnika `że` nie bierze nic innego.
+Wpis waży więcej, odkąd `co` bierze poprzednik zdaniowy: cena tamtej pozycji
+stoi prawie cała na zdaniach z pytaniem zależnym, którym ono dokłada
+drugie czytanie
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#poprzednikiem-zaimka-co-jest-zaimek-albo-zdanie)),
+więc zawężenie `int` do leksykonu odbiera ją tym z nich,
+których czasownik pytania nie żąda.
+Czeka na ten wpis pytanie o miejsce.
+`Gdzie są przetrzymywani zakładnicy?` zostaje odrzucone dlatego,
+że `gdzie` dopisane do przysłówków pytajnych daje drugie czytanie
+każdemu zdaniu, w którym ta forma otwiera okolicznik pod czasownikiem spoza
+leksykonu — `Wchodzi w roadmap.md, gdzie linter sprawdza regułę.` —
+a czytania tego polszczyzna nie ma
+([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)).
+Nad prozą tego repozytorium sam lemat kosztuje w werdyktach zero
+i wyciąga z odrzucenia pojedyncze zdania,
+więc po zawężeniu wchodzi bez pomiaru drugiego.
+Ruchem jest osobne zdanie leksykonu o `cp(int)`, wzięte przez `harness/walenty.py`,
+i wariant gramatyki bez `int` w ramie domyślnej, zmierzony wobec olskiego.
+Czym ten wariant zmierzyć, jest rozstrzygnięte:
+zawężenie ramy jest zmianą danych, a nie grupą produkcji,
+i takiemu wariantowi `Sonda` podaje gramatykę funkcją (`Sonda.gramatyki`).
+Do przeczytania jest przy tym, czy skład ma dla tego zdania czytelnika:
+zdanie o zdaniu podrzędnym czyta ono (`rama` w `olski/walencja.py`),
+a pytania zależnego
+`olski/skład/składnia.py` nie ma czym postawić,
+więc zdanie dopisane bez tej kategorii jest danymi, których nie czyta nikt.
+
+`pod względem` żąda licencji od słowa, do którego się przyłącza,
+a olski żąda licencji tylko od dopełnienia.
+Czytelnik odrzuca `wolni pod względem swej godności` bez pomocy składni,
+bo `równy` ma pozycję na wzgląd, a `wolny` jej nie ma.
+Tę samą obserwację robi nad `przewyższać`
+[`docs/subset.md`](../docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera),
+gdzie porównanie mówi, w czym jedno przewyższa drugie,
+i nie ma jej dziś gdzie zapisać.
+Leksykon walencyjny mówi o pozycjach ramy, które czasownik bierze albo których nie bierze
+([`docs/walencja.md`](../docs/walencja.md#zdania-leksykonu-pochodzą-z-walentego-i-mówią-mniej-niż-on)),
+a okolicznik pozycji ramy nie zajmuje i przyłącza się do każdego czasownika za darmo,
+więc żaden wpis nie odbiera czytania,
+w którym wzgląd dochodzi do `rodzą się`.
+Ruchem jest zdanie leksykonu odwrócone wobec tamtych trzech:
+nie „ten czasownik czegoś nie bierze”, tylko „to wyrażenie przyimkowe
+przyłącza się tam, gdzie licencjonuje je leksykon”,
+czyli cecha przy przyimku zleksykalizowanym, a nie przy jego gospodarzu.
+Robi ono z pierwszego artykułu Deklaracji zdanie jednoznaczne:
+odejmuje czytanie z `rodzą się`, bo ten czasownik wzglądu nie licencjonuje,
+a zostaje czytanie z `równi`, czyli jedno.
+Odejmuje też czytanie nad całym ciągiem współrzędnym,
+bo `wolny` wzglądu nie licencjonuje tak samo.
+Do rozstrzygnięcia jest, czy to jeszcze walencja, czy już ta warstwa,
+którą [`docs/open-questions.md`](../docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)
+odkłada poza gramatykę jako odpowiedź trzecią;
+różnicę robi to, że leksykon w gramatyce już jest, a tamta warstwa nie.
+Do przeczytania jest, ile takich przyimków rejestr ma,
+bo `pod względem` jest jednym z nich i nikt nie policzył, ile jest reszty,
+oraz co Walenty mówi o wzglądzie:
+pozycje zleksykalizowane wypisuje on w schemacie,
+a przymiotnika, który licencjonuje tu wzgląd, nie ma w pliku czasownikowym,
+z którego leksykon powstaje,
+choć archiwum obok tego pliku niesie katalog przymiotnikowy.
+Kryterium wejścia ma ten ruch to samo, co każda warstwa więzowa:
+[wyprowadza się z gramatyki albo jest gramatyką pisaną drugi raz](../docs/parsowanie.md#więzy-wchodzą-wyprowadzone-z-gramatyki-a-nie-napisane-obok-niej),
+a leksykalnie znaczy to tyle, że pozycję wypisuje słownik.
+Jeśli Walenty jej nie wypisuje, ruchu nie ma i cały wpis zamyka skasowanie,
+bo „brzmi nielogicznie” jest sądem o świecie, a nie faktem o słowie:
+olski melduje wtedy wieloznaczność, tak samo jak melduje ją wszędzie indziej.
+
+Rama mówi, co czasownik bierze, i nie mówi, ile tego bierze.
+Dopełnień stoi przy czasowniku najwyżej jedno,
+bo tyle stoi w ciele każdej produkcji `wypełnienia` w `olski/subset/zdanie.py`,
+a nie dlatego, że rama tak mówi;
+ruchem jest rama zużywana, czyli ta,
+[którą pokazuje Świgra](../docs/swigra.md#valency-as-a-resource-that-gets-consumed):
+pozycja zajęta znika z tego, co niesie reszta grupy.
+Wolno ją wyrazić cechą o dziedzinie skończonej,
+bo pozycji jest w ramie skończenie wiele,
+więc rozwinięcie idzie przed parsowaniem i nie rusza klasy złożoności.
+Kupuje to jednak tyle, ile jest ram o dwóch pozycjach naraz,
+a rama domyślna takiej nie ma:
+biernik z bezokolicznikiem naraz zmierzono i nad Składnicą pod złotą morfologią
+przyjmuje kilka zdań mniej, a wieloznacznych ma o kilka więcej,
+bo grupa imienna za bezokolicznikiem dochodzi wtedy i do niego, i do formy osobowej.
+Pozycja, która z inną naprawdę stoi, jest już wpuszczona i jest nią celownik obok
+wypełnienia ([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+tyle że licencji nie niesie tam rama, tylko cecha obok niej,
+bo ramy unifikacja nie zużywa, a przecina.
+Ruch jest przez to odwróceniem tamtej decyzji, a nie dopisaniem do niej:
+rama zużywana zdejmuje tę cechę i wypowiada parę samą ramą.
+Do przeczytania jest, co robi z klasami walencyjnymi:
+dziś dzieli je para na dwie, a rama zużywana dzieliłaby je tym,
+ile pozycji lemat bierze naraz.
+
+Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
+([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
+i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
+Ruchem jest druga wartość cechy `druga` w `olski/subset/rama.py`
+wraz ze zdaniem leksykonu liczonym tak samo jak tamto,
+a przed nim pomiar, bo cena tej pozycji jest po stronie żywej morfologii wysoka:
+celownik dzieli formę z miejscownikiem, a dopełniacz z biernikiem i z mianownikiem mnogim.
+Do przeczytania jest, czy zdanie z tą parą da się w ogóle odróżnić po werdykcie:
+`Nauczyciel uczy dzieci matematyki.` wyprowadza się już dziś,
+bo dopełniacz za grupą imienną czyta się jej przydawką,
+więc brak tej pozycji nie odrzuca zdania, tylko odbiera mu drugie czytanie.
+
+Rama jest w tej gramatyce stanem, a nie zasobem, i nikt nie policzył, co to kosztuje.
+Pozycji już zajętej unifikacja nie ma jak odnotować, bo zajęcie zależy od pozostałych
+córek, a nie od pary głowy i zależnego, i na tym walencja wypadła z kanału cech
+([`docs/parsowanie.md`](../docs/parsowanie.md#cechy-biorą-to-co-zawęża-jest-symetryczne-i-lokalne)).
+Sonda więzowa płaciła za to samo dwoma polami sprawdzanymi nad drzewem gotowym —
+łukiem wymaganym i łukiem zakazanym
+([`docs/design-notes.md`](../docs/design-notes.md#podłoże-więzowe-zmierzone-sondą)) —
+i jest to jedyny znany warunek, którego przecięcie zbiorów nie umie powiedzieć,
+a warstwa za parserem umiałaby.
+Do przeczytania jest przedtem, czy w tej gramatyce jest w ogóle co zdejmować:
+ciało produkcji wylicza córki, więc pozycja wypełniona dwa razy żąda dwóch ciał,
+a jeżeli żadne takie nie stoi, cały wpis zamyka skasowanie z powodem w commicie.
+Jeśli stoi, ruchem jest warunek nad czytaniem gotowym wraz z jego ceną
+zmierzoną tak, jak mierzy się wpuszczenie pozycji.

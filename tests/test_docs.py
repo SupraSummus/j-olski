@@ -106,8 +106,9 @@ CYTAT_INSTRUKCJI = re.compile(r"(?<![\w-])(?:CLAUDE\.md|todo/)")
 NAD_CAŁĄ_PROZĄ = ("harness/__init__.py", "tests/test_docs.py")
 #: Proza, która sama jest instrukcją albo rejestrem, więc wolno jej wskazywać oba.
 INSTRUKCJA = ("CLAUDE.md", "todo/")
-#: An entry in the docs register's list of documents, which is the only place
-#: that puts a document on somebody's path. Rejestr konstrukcji jest katalogiem,
+#: An entry in a register's list of files, the docs register and the list of open
+#: work alike, which is the only place that puts a file on somebody's path.
+#: Rejestr konstrukcji jest katalogiem,
 #: więc wchodzi na tę listę tak jak dokument, a wiersz nazywa katalog:
 #: bez tego rejestr zszedłby ze ścieżki czytelnika i nic by nie czerwieniało.
 #: Wiersz nazywa plik bez katalogu, bo spis stoi w tym samym katalogu co on.
@@ -246,12 +247,14 @@ def test_moduł_nie_cytuje_instrukcji_ani_rejestru_otwartej_roboty():
     assert not trafienia, "moduł cytuje instrukcję albo rejestr:\n" + "\n".join(trafienia)
 
 
-def test_every_document_is_listed_in_the_docs_register():
-    register = ROOT / "docs" / "README.md"
-    listed = set(LISTED_DOCUMENT.findall(register.read_text()))
-    documents = {path.name for path in (ROOT / "docs").glob("*.md")} - {register.name}
-    registers = {f"{path.name}/" for path in (ROOT / "docs").iterdir() if path.is_dir()}
-    assert documents | registers == listed
+@pytest.mark.parametrize("rejestr", ("docs", "todo"))
+def test_każdy_plik_stoi_w_spisie_swojego_rejestru(rejestr: str):
+    katalog = ROOT / rejestr
+    spis = katalog / "README.md"
+    wypisane = set(LISTED_DOCUMENT.findall(spis.read_text()))
+    pliki = {ścieżka.name for ścieżka in katalog.glob("*.md")} - {spis.name}
+    podrejestry = {f"{ścieżka.name}/" for ścieżka in katalog.iterdir() if ścieżka.is_dir()}
+    assert pliki | podrejestry == wypisane
 
 
 def test_the_checks_a_person_runs_are_the_checks_a_push_runs():

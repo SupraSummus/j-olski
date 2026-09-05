@@ -83,8 +83,12 @@ wtedy całą zmianą jest skasowanie wpisu, z powodem w komunikacie commita.
 - [komendy.md](komendy.md) — wiersz poleceń, wydruki
   i sondy, których repozytorium nie ma.
 - [korpusy.md](korpusy.md) — pobranie korpusu i ekstrakcja nad nim.
+- [warstwa-leksykalna.md](warstwa-leksykalna.md) — czytania, które słownik daje
+  formie, wykluczenia odbierające je z powrotem i deklaracje projektu o lematach.
 - [gramatyka.md](gramatyka.md) — co gramatyka bierze,
   a czego nie bierze: produkcje, symbole, listy lematów.
+- [cechy.md](cechy.md) — cechy, więzy i pytania,
+  którymi gramatyka odpowiada o własnym kształcie.
 - [leksykon.md](leksykon.md) — leksykon walencyjny
   i to, czego przekład z Walentego nie przenosi.
 - [parser.md](parser.md) — las, koszt i zatrzymanie.
