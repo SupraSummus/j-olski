@@ -833,7 +833,7 @@ garść zeszła razem z wykluczeniem przysłówka pytajnego
 ([`docs/konstrukcje-gramatyczne/podrzędność.md`](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)),
 a wszystkie poza jednym są tego kształtu.
 Tym jednym jest
-`Jest nią to, dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem.`,
+`Jest nią to, dlaczego wieloznaczność jest odpowiedzią, a odrzucenie milczeniem.`,
 które stawia pytanie za zaimkiem `to`,
 czyli za zapowiednikiem, którego ta gramatyka nie ma,
 więc wpis ten go nie zamyka.

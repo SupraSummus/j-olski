@@ -220,7 +220,7 @@ i zdanie, którego nic nie domyka, są dwoma zdarzeniami
 Oba te zdania wypisuje flaga `--zatrzymania`,
 bo odrzucenie, którego nie zdejmuje jeden znak, znaleziskiem nie jest
 i wydruk sam z siebie o nim milczy
-([`subset.md`](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
+([`subset.md`](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)),
 więc kto pisze pod tę gramatykę, trzyma tę flagę włączoną.
 
 Drugie pytanie brzmi: ile jeszcze.

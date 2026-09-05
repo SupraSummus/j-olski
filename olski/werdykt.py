@@ -1,12 +1,13 @@
-"""Werdykt o zdaniu: znalezisko wraz z tym, co autor ma przeczytać.
+"""Werdykt o zdaniu: zgłoszenie wraz z tym, co autor ma przeczytać.
 
 Werdykt mówi o zdaniu więcej niż to, do której klasy je liczy,
 bo autor ma na niego zareagować.
-Zdanie o dwóch odczytaniach jest znaleziskiem
-(docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
-a :meth:`Verdict.explain` pokazuje, gdzie te odczytania się rozchodzą;
-znaleziskiem jest też zdanie, które od odczytania dzieli jeden znak
-(:class:`Naprawa`);
+Zdanie o dwóch odczytaniach dostaje wiersz z tymi odczytaniami,
+a :meth:`Verdict.explain` pokazuje, gdzie one się rozchodzą;
+znaleziskiem, czyli tym, co autor ma poprawić, jest zdanie,
+które od odczytania dzieli jeden znak (:class:`Naprawa`),
+a wieloznaczność nim nie jest
+(docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem);
 zdanie odrzucone dostaje miejsce, na którym rozbiór stanął,
 a :func:`zatrzymania` każde takie miejsce, bo pierwsze zasłania następne.
 Skąd te odczytania się biorą, mówi ``Verdict.morfologia``:
@@ -324,18 +325,18 @@ class Verdict:
         return bool(SENTENCE_CLOSE.search(self.text))
 
     @property
-    def znalezisko(self) -> bool:
+    def zgłoszenie(self) -> bool:
         """Czy narzędzie ma o tym zdaniu coś do powiedzenia.
 
-        Znaleziska widoczne z jednego zdania są dwa: wieloznaczność oraz poprawka
-        jednego znaku
-        (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
-        Trzecie — zaimek wskazujący na dwie rzeczy naraz — pada obok werdyktu,
+        Zgłoszenia widoczne z jednego zdania są dwa: wieloznaczność oraz poprawka
+        jednego znaku, a znaleziskiem jest tylko druga
+        (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
+        Zaimek wskazujący na dwie rzeczy naraz pada obok werdyktu,
         bo rzeczy nazywa zdanie obok (``olski/odniesienia.py``), więc tutaj go nie ma.
         Warunek stoi tu raz, bo pyta o niego wydruk nad każdym zdaniem osobno;
-        :class:`Podsumowanie` liczy każde z tych znalezisk nad tekstem i liczy je osobno.
+        :class:`Podsumowanie` liczy każde z tych zgłoszeń nad tekstem i liczy je osobno.
 
-        Napis niepunktowany zostaje poza znaleziskiem także wtedy, gdy poprawkę
+        Napis niepunktowany zostaje poza zgłoszeniem także wtedy, gdy poprawkę
         ma, bo nagłówek i pozycja listy dochodzą tu jako takie napisy i żadne z
         nich nie jest zdaniem, którego autor nie domknął
         (docs/extraction.md); wydruk pokazuje je do flagi ``--zatrzymania``.
@@ -926,12 +927,18 @@ def check(text: str, grammar: Grammar | None = None) -> list[Verdict]:
     return [werdykt(zdanie, morphology(zdanie), grammar) for zdanie in sentences(text)]
 
 
-#: Nazwy znalezisk, tak jak pisze je czytelnik bazy sądów i jak liczy je
+#: Nazwy zgłoszeń, tak jak pisze je czytelnik bazy sądów i jak liczy je
 #: podsumowanie. Krotka, bo kolejność jest kolejnością wydruku.
 WIELOZNACZNE = "wieloznaczne"
 POPRAWKA = "poprawka jednego znaku"
 ODNIESIENIE = "niejasne odniesienie"
-ZNALEZISKA = (WIELOZNACZNE, POPRAWKA, ODNIESIENIE)
+ZGŁOSZENIA = (WIELOZNACZNE, POPRAWKA, ODNIESIENIE)
+
+#: Te zgłoszenia, które są znaleziskiem, czyli mówią autorowi, co poprawić.
+#: Wieloznaczności tu nie ma, bo baza sądów nie potwierdziła ani jednego jej
+#: zgłoszenia (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem);
+#: wraca tu kształtem, który baza potwierdzi, a nie całością.
+ZNALEZISKA = (POPRAWKA, ODNIESIENIE)
 
 
 @dataclass(frozen=True)
@@ -945,16 +952,16 @@ class Zdanie:
     werdykt: Verdict
     #: Zdania, które w tym akapicie stoją przed tym; czyta je ``olski/rozstrzyganie.py``.
     sąsiedztwo: Sąsiedztwo
-    #: Zaimki wskazujące na dwie rzeczy naraz, trzecie ze znalezisk (``olski/odniesienia.py``).
+    #: Zaimki wskazujące na dwie rzeczy naraz, drugie ze znalezisk (``olski/odniesienia.py``).
     odniesienia: tuple[Odniesienie, ...]
 
     @property
-    def znaleziska(self) -> tuple[str, ...]:
-        """Nazwy znalezisk, które olski ma o tym zdaniu, w kolejności :data:`ZNALEZISKA`.
+    def zgłoszenia(self) -> tuple[str, ...]:
+        """Nazwy zgłoszeń, które olski ma o tym zdaniu, w kolejności :data:`ZGŁOSZENIA`.
 
-        Jedno miejsce mówi, co jest znaleziskiem nad zdaniem: liczy z niego
+        Jedno miejsce mówi, co olski nad zdaniem zgłasza: liczy z niego
         :class:`Podsumowanie` i ocenia je baza sądów (``harness/sądy.py``).
-        Napis niepunktowany nie ma żadnego, jak w :attr:`Verdict.znalezisko`.
+        Napis niepunktowany nie ma żadnego, jak w :attr:`Verdict.zgłoszenie`.
         """
         if not self.werdykt.punktowane:
             return ()
@@ -963,7 +970,12 @@ class Zdanie:
             POPRAWKA: self.werdykt.naprawa is not None,
             ODNIESIENIE: bool(self.odniesienia),
         }
-        return tuple(nazwa for nazwa in ZNALEZISKA if obecne[nazwa])
+        return tuple(nazwa for nazwa in ZGŁOSZENIA if obecne[nazwa])
+
+    @property
+    def znaleziska(self) -> tuple[str, ...]:
+        """Te ze zgłoszeń, które są znaleziskiem (:data:`ZNALEZISKA`)."""
+        return tuple(nazwa for nazwa in self.zgłoszenia if nazwa in ZNALEZISKA)
 
 
 def nad_tekstem(text: str) -> list[Zdanie]:
@@ -1009,9 +1021,10 @@ class Podsumowanie:
 
     #: Zdania, czyli to, o czym werdykt orzeka: fragmentów nie ma tu ani w liczniku.
     zdań: int
-    #: Zdania o kilku odczytaniach, czyli znaleziska wieloznaczności.
+    #: Zdania o kilku odczytaniach. Liczba mówi, ile zdań olski czyta na kilka
+    #: sposobów, a znaleziskiem nie jest i do :attr:`znalezisk` nie wchodzi.
     wieloznaczne: int
-    #: Zdania, które od odczytania dzieli jeden znak, czyli drugie ze znalezisk
+    #: Zdania, które od odczytania dzieli jeden znak, czyli pierwsze ze znalezisk
     #: (:class:`Naprawa`). Liczba jest osobna od :attr:`wieloznaczne`, bo mówi o
     #: zdaniu rzecz przeciwną: tamto olski czyta i ma o nim za dużo do
     #: powiedzenia, a to zdanie czyta dopiero po poprawce.
@@ -1024,27 +1037,28 @@ class Podsumowanie:
     #: werdykty o takim napisie, :data:`FRAGMENT` i :data:`NIEDOMKNIĘTE`, bo o
     #: mianowniku rozstrzyga jedno i to samo: domknięcia nie postawił nikt.
     fragmentów: int
-    #: Zdania z zaimkiem, który wskazuje na dwie rzeczy naraz, czyli trzecie ze
+    #: Zdania z zaimkiem, który wskazuje na dwie rzeczy naraz, czyli drugie ze
     #: znalezisk (``olski/odniesienia.py``). Zdanie wieloznaczne z takim zaimkiem
     #: stoi w dwóch licznikach naraz, tak samo jak zdanie naprawialne, i z tego
-    #: samego powodu: znaleziska są dwa i mówią o zdaniu co innego.
+    #: samego powodu: liczby mówią o zdaniu co innego.
     niejasnych_odniesień: int
 
     @property
     def znalezisk(self) -> int:
-        """Ile zdań tekstu narzędzie zgłasza, bez względu na to, które znalezisko.
+        """Ile znalezisk narzędzie ma nad tekstem, bez względu na to, które.
 
-        Pyta o to kod wyjścia (``olski/check.py``), bo o samym zgłoszeniu
+        Pyta o to kod wyjścia (``olski/check.py``), bo o samym znalezisku
         rozstrzyga tu jedno miejsce, a znalezisko dopisane później dostaje ten
-        kod wyjścia razem z własnym licznikiem.
+        kod wyjścia razem z własnym licznikiem. Wieloznaczność do tej liczby nie
+        wchodzi (:data:`ZNALEZISKA`).
         """
-        return self.wieloznaczne + self.naprawialne + self.niejasnych_odniesień
+        return self.naprawialne + self.niejasnych_odniesień
 
     @classmethod
     def ze_zdań(cls, zdania: Sequence[Zdanie]) -> Podsumowanie:
         """Podsumowanie tych zdań, choćby przyszły z kilku plików naraz."""
         punktowane = [wpis.werdykt for wpis in zdania if wpis.werdykt.punktowane]
-        ile = collections.Counter(nazwa for wpis in zdania for nazwa in wpis.znaleziska)
+        ile = collections.Counter(nazwa for wpis in zdania for nazwa in wpis.zgłoszenia)
         return cls(
             zdań=len(punktowane),
             wieloznaczne=ile[WIELOZNACZNE],

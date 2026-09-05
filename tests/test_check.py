@@ -14,8 +14,8 @@ Drugą jest ostatni wiersz, bo liczbę fragmentów bierze z niego
 Trzecią są kody wyjścia, bo widzi je tylko ten, kto komendę wpina w potok:
 znalezisko daje jeden, a wołanie, którego nie da się wykonać, dwa,
 i te dwie odpowiedzi nie mogą się zlać w jedną.
-Zdanie, którego olski nie wyprowadza, nie jest znaleziskiem
-(``docs/subset.md``), więc kodu nie rusza.
+Zdanie, którego olski nie wyprowadza, nie jest znaleziskiem,
+a zdanie wieloznaczne też nie (``docs/subset.md``), więc żadne kodu nie rusza.
 Czwartą jest to, czym komenda czyta plik: dokument dochodzi do gramatyki bez
 swojego aparatu, a plik prozy tak, jak leży, i wydruk nie mówi, którą drogą
 tekst przyszedł.
@@ -60,14 +60,18 @@ def test_ostatni_wiersz_wydruku_niesie_liczbę_fragmentów(capsys):
     assert "fragmenty, których nic nie punktuje jako zdania: 1" in _podsumowanie(capsys)
 
 
-def test_kod_jeden_dostaje_każde_znalezisko_a_odrzucenie_bez_poprawki_nie():
-    """Kod wyjścia niesie znaleziska, a zdanie poza gramatyką znaleziskiem nie jest.
+def test_kod_jeden_dostaje_znalezisko_a_wieloznaczność_i_odrzucenie_nie(capsys):
+    """Kod wyjścia niesie znaleziska, a nie odczytania ani milczenie.
 
-    Zdanie naprawialne stoi tu obok wieloznacznego, bo kod wyjścia jest pytaniem
-    o znalezisko, a nie o wieloznaczność (`Podsumowanie.znalezisk`).
+    Zdanie wieloznaczne dostaje wiersz z odczytaniami i kod zero,
+    bo wieloznaczność jest odpowiedzią, a nie znaleziskiem
+    (`ZNALEZISKA` w `olski/werdykt.py`); zdanie poza gramatyką nie dostaje ani
+    wiersza, ani kodu.
     """
-    assert olski.check.main(["-c", "Program otwierający się psuje."]) == 1
+    assert olski.check.main(["-c", "Program otwierający się psuje."]) == 0
+    assert "3 odczytania" in capsys.readouterr().out
     assert olski.check.main(["-c", 'Przepisem "Zasad techniki prawodawczej" jest ustawa.']) == 1
+    assert olski.check.main(["-c", "Maki rosną w garnkach. Są one czerwone."]) == 1
     assert olski.check.main(["-c", "Nowa program zapisuje ustawienia."]) == 0
 
 

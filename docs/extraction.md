@@ -301,7 +301,7 @@ i tak też go werdykt wypisuje: jako poprawkę jednego znaku,
 kształtem wspólnym z poprawką cudzysłowu
 ([subset.md](subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka)).
 Wypisuje mu go flaga `--zatrzymania`, bo znaleziskiem napis bez kropki nie jest
-([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 Pomiar podzbioru nie liczy takiego napisu do mianownika tak samo jak fragmentu,
 bo domknięcia nie postawił nikt.
 

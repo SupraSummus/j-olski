@@ -1,0 +1,150 @@
+# Korpus usterek: zdania z usterką, którą sprawdzacz ma zgłosić, wraz z poprawką.
+#
+# Plik stoi poza `harness/`, bo program jest kasowalny, a sąd o zdaniu nie —
+# ten sam powód, który podaje nagłówek `próba/wybory.txt`.
+#
+# Ten plik jest kolejką roboty toru gramatycznego: mówi, jakich zgłoszeń autor
+# potrzebuje, a `python3 -m harness.usterki` mówi, które z nich olski już wydaje.
+# Po co kolejka stoi tu, a nie w banku drzew, mówi
+# docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów
+#
+# `zdanie` niesie usterkę, którą czytelnik by poprawił.
+# `usterka` mówi jednym zdaniem, co jest nie tak.
+# `zgłoszenie` nazywa zgłoszenie, które ma paść: słowem, którym liczy je
+# `olski-check`, kiedy takie zgłoszenie już jest, a nową nazwą, kiedy go nie ma.
+# Nowa nazwa jest wpisem kolejki, a nie deklaracją: zgłoszenie dopisane do
+# olskiego bierze tę nazwę albo wpis bierze jego.
+# `poprawka` niesie to samo zdanie bez usterki i zgłoszenie ma nad nim milczeć;
+# zgłoszenie padające nad obojgiem nie widzi usterki, tylko coś obok niej.
+# `kontekst` niesie zdania stojące przed zdaniem, kiedy usterki nie widać bez nich,
+# i stoi tak samo przed poprawką.
+# Wpis czysty ma `zgłoszenie: żadne` i poprawki nie ma: jest zdaniem bez usterki,
+# a każde zgłoszenie nad nim jest szumem.
+#
+# Zdania są pisane ręką pod ten plik, a nie brane z korpusu, bo usterka ma tu
+# być jedna i nazwana; rozkład rejestru mierzy baza sądów, nie ten plik.
+
+zdanie: Idąc do pracy, padał deszcz.
+usterka: imiesłów przysłówkowy ma inny podmiot niż zdanie, więc deszcz idzie do pracy
+zgłoszenie: imiesłów bez podmiotu
+poprawka: Kiedy szedłem do pracy, padał deszcz.
+
+zdanie: Czytając raport, zgasło światło.
+usterka: imiesłów przysłówkowy ma inny podmiot niż zdanie
+zgłoszenie: imiesłów bez podmiotu
+poprawka: Kiedy czytałem raport, zgasło światło.
+
+zdanie: Zespół programistów spotkali się rano.
+usterka: orzeczenie stoi w liczbie mnogiej, a podmiot w pojedynczej
+zgłoszenie: niezgodność podmiotu z orzeczeniem
+poprawka: Zespół programistów spotkał się rano.
+
+zdanie: Lista błędów i ostrzeżeń zostały zapisane.
+usterka: orzeczenie zgadza się z bliższym rzeczownikiem, a nie z podmiotem
+zgłoszenie: niezgodność podmiotu z orzeczeniem
+poprawka: Lista błędów i ostrzeżeń została zapisana.
+
+kontekst: Pies gonił kota.
+zdanie: On uciekł.
+usterka: zaimek pasuje do psa i do kota
+zgłoszenie: niejasne odniesienie
+poprawka: Kot uciekł.
+
+zdanie: Pies gonił kota, a on uciekł.
+usterka: zaimek pasuje do psa i do kota, a oba stoją w tym samym zdaniu
+zgłoszenie: niejasne odniesienie
+poprawka: Pies gonił kota, a kot uciekł.
+
+zdanie: Kierownik poinformował pracownika, że jego wniosek został odrzucony.
+usterka: zaimek pasuje do kierownika i do pracownika
+zgłoszenie: niejasne odniesienie
+poprawka: Kierownik poinformował pracownika, że wniosek pracownika został odrzucony.
+
+zdanie: Jan poprosił Piotra o jego samochód.
+usterka: zaimek pasuje do Jana i do Piotra
+zgłoszenie: niejasne odniesienie
+poprawka: Jan poprosił Piotra o pożyczenie samochodu.
+
+zdanie: Prezes zwolnił dyrektora, ponieważ był niekompetentny.
+usterka: podmiot domyślny zdania podrzędnego pasuje do prezesa i do dyrektora
+zgłoszenie: niejasny podmiot domyślny
+poprawka: Prezes zwolnił dyrektora, ponieważ dyrektor był niekompetentny.
+
+zdanie: Nauczyciel powiedział uczniowi, że musi się bardziej starać.
+usterka: podmiot domyślny zdania podrzędnego pasuje do nauczyciela i do ucznia
+zgłoszenie: niejasny podmiot domyślny
+poprawka: Nauczyciel powiedział uczniowi, że uczeń musi się bardziej starać.
+
+zdanie: Wysłałem list do Anny i Marka, którego napisałem wczoraj.
+usterka: zdanie względne stoi przy Marku, a mówi o liście
+zgłoszenie: niejasny poprzednik zdania względnego
+poprawka: Wysłałem do Anny i Marka list, który napisałem wczoraj.
+
+zdanie: Zainstalowałem sterownik i program, który nie działa.
+usterka: zdanie względne pasuje do programu i do obu rzeczy naraz
+zgłoszenie: niejasny poprzednik zdania względnego
+poprawka: Zainstalowałem sterownik i program, a program nie działa.
+
+kontekst: Kierownik odrzucił wniosek.
+zdanie: To wywołało spore niezadowolenie.
+usterka: zaimek podejmuje całe zdanie obok, a nie rzecz w nim
+zgłoszenie: chwyt rejestru
+poprawka: Ta decyzja wywołała spore niezadowolenie.
+
+zdanie: Podjęto decyzję o odłożeniu wdrożenia.
+usterka: zdanie nie nazywa, kto zdecydował
+zgłoszenie: orzeczenie bez wykonawcy
+poprawka: Zarząd odłożył wdrożenie.
+
+zdanie: Zostało ustalone, że testy trwają za długo.
+usterka: zdanie nie nazywa, kto ustalił
+zgłoszenie: orzeczenie bez wykonawcy
+poprawka: Zespół ustalił, że testy trwają za długo.
+
+zdanie: Dokonano przeprowadzenia analizy w celu ustalenia przyczyn awarii.
+usterka: czasownik pusty niesie rzeczownik odczasownikowy, a czynność jest jedna
+zgłoszenie: czasownik pusty
+poprawka: Zespół przeanalizował awarię, żeby ustalić jej przyczyny.
+
+zdanie: Raport zawiera analizę wyników badań skuteczności metod leczenia pacjentów oddziału.
+usterka: sześć dopełniaczy pod rząd, a czytelnik nie wie, co do czego należy
+zgłoszenie: łańcuch dopełniaczy
+poprawka: Raport analizuje, jak skutecznie oddział leczy pacjentów.
+
+zdanie: Dokument podjął decyzję o wdrożeniu.
+usterka: rzecz stoi tam, gdzie czasownik żąda kogoś
+zgłoszenie: rzecz w pozycji osoby
+poprawka: Zarząd podjął decyzję o wdrożeniu.
+
+zdanie: Widziałem człowieka z lornetką.
+usterka: wyrażenie przyimkowe czyta się przy obu gospodarzach i mówi wtedy co innego
+zgłoszenie: wieloznaczne
+poprawka: Przez lornetkę widziałem człowieka.
+
+zdanie: Koszt samej szynki przewyższa koszt szynki z dodatkami.
+usterka: podmiot i dopełnienie mają zlane przypadki, a czytania mówią rzecz przeciwną
+zgłoszenie: wieloznaczne
+poprawka: Sama szynka kosztuje więcej niż szynka z dodatkami.
+
+zdanie: Stare koty i psy śpią.
+usterka: przymiotnik czyta się nad jednym członem i nad oboma
+zgłoszenie: wieloznaczne
+poprawka: Psy śpią ze starymi kotami.
+
+zdanie: Operator ustala priorytet.
+zgłoszenie: żadne
+
+zdanie: Zamknij okno, bo jest zimno.
+zgłoszenie: żadne
+
+zdanie: System zapisuje logi do katalogu tymczasowego.
+zgłoszenie: żadne
+
+zdanie: Zespół skończył migrację bazy danych.
+zgłoszenie: żadne
+
+zdanie: Firma zatrudnia sto osób.
+zgłoszenie: żadne
+
+zdanie: Pies gonił kota, a kot uciekł.
+zgłoszenie: żadne

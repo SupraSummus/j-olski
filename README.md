@@ -20,6 +20,15 @@ Każdy werdykt przychodzi z odczytaniem, z którego wyszedł.
 
 ## Kierunek
 
+Narzędzie jest dla autora, który pisze po polsku.
+Autorem bywa człowiek, a bywa agent AI.
+Zdania z usterką wylicza korpus usterek.
+Sonda mówi, które usterki olski już zgłasza.
+
+```sh
+python3 -m harness.usterki
+```
+
 Pierwszym torem jest gramatyka podzbioru polszczyzny.
 Drugim torem jest skład, którego nazwa jest kalamburem od *składni*.
 Oba tory mierzy ten plik.
@@ -40,10 +49,10 @@ Nie ma aplikacji, która napędzałaby to wszystko.
 **Gramatyka podzbioru polszczyzny** stoi nad Morfeuszem 2.
 Zdanie jest olskie, gdy gramatyka je wyprowadza.
 Narzędzie sprawdza zdania polskiego tekstu.
-Wieloznaczność jest jego znaleziskiem.
+Wieloznaczność jest jego odpowiedzią.
 Zdanie o programie ma trzy odczytania,
 a dwa odczytania mówią rzecz przeciwną,
-więc narzędzie zgłasza to autorowi.
+więc narzędzie wypisuje to autorowi.
 
 ```sh
 python3 -m olski.check -c "Zapisz plik konfiguracyjny.
@@ -90,6 +99,11 @@ Trzecie dzieli od pierwszego sama rola:
 program jest w nim psuty, a w pierwszym psuje ustawienia.
 Czytanie trzecie stoi na końcu, bo podmiotu nie obsadza wcale.
 Konstrukcja bez podmiotu jest w olskim nacechowana.
+Odpowiedź o czytaniach nie jest znaleziskiem.
+Czytelnik ma zwykle jedno czytanie.
+Autor czyta odpowiedź i sam wybiera czytanie.
+Tę decyzję zapisuje
+[docs/subset.md](docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
 Cenę tej konstrukcji trzyma
 [docs/disambiguation.md](docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
 Oba miejsca cząstki trzyma
@@ -144,7 +158,7 @@ Cięcie nie jest granicą konstrukcji.
 Po co ta flaga jest, mówi
 [docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz).
 
-Poprawka jednego znaku jest drugim znaleziskiem.
+Poprawka jednego znaku jest pierwszym znaleziskiem.
 Autor cytuje cudzysłowem maszynowym, a olski bierze inną parę znaków.
 
 ```sh
@@ -162,7 +176,7 @@ Poprawkę poświadcza rozbiór poprawionego zdania.
 Czemu świadkiem jest gramatyka, a nie znak, mówi
 [docs/subset.md](docs/subset.md#poprawkę-jednego-znaku-poświadcza-gramatyka).
 
-Zaimek wskazujący na dwie rzeczy naraz jest trzecim znaleziskiem.
+Zaimek wskazujący na dwie rzeczy naraz jest drugim znaleziskiem.
 Rzeczy nazywa zdanie obok, a nie zdanie z zaimkiem.
 
 ```sh
@@ -180,7 +194,7 @@ Oba zdania mają po jednym odczytaniu.
 Wieloznaczność jest tu własnością tekstu, a nie zdania.
 Jednostką umowy jest przez to tekst.
 Zaimki, które olski bierze, wylicza
-[docs/subset.md](docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-trzecim-znaleziskiem).
+[docs/subset.md](docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem).
 
 Zasięg gramatyki i cenę przyłączenia wyrażenia przyimkowego
 trzyma [docs/subset.md](docs/subset.md).

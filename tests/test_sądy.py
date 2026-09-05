@@ -69,7 +69,7 @@ def test_znalezisko_stoi_w_bazie_raz():
 #: Zdania, po jednym na klasę, wraz z tym, czym są dla olskiego dzisiaj.
 #: ``Czekają nagrody.`` stoi w bazie i ma dwa odczytania; ``Chałka przewyższa
 #: zwykłą bułkę.`` ma jedno, bo przypadki obu grup się nie zlewają
-#: (docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego);
+#: (docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem);
 #: ``Nowa program`` nie ma wyprowadzenia, bo formy się nie zgadzają.
 ZGŁOSZONE = "Czekają nagrody."
 JEDNO_ODCZYTANIE = "Chałka przewyższa zwykłą bułkę."

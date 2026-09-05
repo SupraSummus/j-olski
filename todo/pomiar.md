@@ -405,7 +405,7 @@ czy wybrana interpretacja niesie jedną wartość przypadka, czy dysjunkcję.
 `subst:sg:nom.acc:m3` jest w `olski/morph.py` jedną interpretacją z cechą mnogą,
 więc tager, który ją wybierze i zostawi `nom.acc`, synkretyzmu nie zdejmuje,
 a od synkretyzmu zaczyna się wieloznaczność, którą olski zgłasza
-([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
+([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
 Ruchem jest przebieg Concrafta nad kilkoma zdaniami i odczytanie tego pola.
 Trzecia kolumna dopiero po nim, bo Concraft to binarium Haskella
 i model stumegabajtowy, czyli zależność pomiaru z fetchem, jak Składnica i Walenty,

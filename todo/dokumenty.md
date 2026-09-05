@@ -499,7 +499,7 @@ o stosunku zgrubnym i o mierzeniu na przemian — niosą po dwa twierdzenia,
 a instrukcja ma nieść jedno na zdanie.
 Wykrywacza na to nie ma i mieć nie będzie:
 dwa człony spięte spójnikiem trafiają w tej prozie zbyt często, żeby coś wskazać
-([`docs/linter.md`](../docs/linter.md#kolejna-reguła-zaczyna-się-od-pomiaru-a-nie-od-pomysłu)),
+([`docs/linter.md`](../docs/linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)),
 więc rozdziela je czytelnik.
 Ruchem jest w każdym z tych dwóch miejsc zdanie na twierdzenie.
 Do przeczytania jest akapit pod każdym z nich:

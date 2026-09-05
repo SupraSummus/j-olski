@@ -34,7 +34,7 @@ after the conjunctions that admit one
 Closeness to Polish argues for the other half,
 and what it costs nobody has measured.
 
-### Znalezisko wieloznaczności nie mówi, czy ma ją też czytelnik
+### Odpowiedź o wieloznaczności nie mówi, czy ma ją też czytelnik
 
 `Cały wywód prowadzi docs/linter.md.` ma dwa czytania,
 SVO i OVS, bo notacja jest nieodmienna, a `wywód` ma biernik równy mianownikowi.
@@ -45,18 +45,18 @@ trzyma to jako cenę przyjętą świadomie.
 Olski wpuszcza czytania, które polszczyzna naprawdę ma, OVS wśród nich,
 bo deklaracja, że pierwsza grupa imienna jest podmiotem,
 czytałaby się jednoznacznie tylko temu, kto zna konwencję
-([subset.md](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)).
-Zdanie wieloznaczne w polszczyźnie dostaje więc znalezisko
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Zdanie wieloznaczne w polszczyźnie dostaje więc wiersz z odczytaniami
 za wieloznaczność, którą naprawdę ma,
-i znalezisko to brzmi tak samo jak nad zdaniem,
+i wiersz ten brzmi tak samo jak nad zdaniem,
 którego drugie czytanie czytelnik by odrzucił.
 Autor czyta oba czytania i zostawia zdanie, jeżeli oba są jego,
 ale werdykt mu tej różnicy nie nazywa.
 
-Żadnemu tekstowi to znalezisko przy tym nie ciąży,
-bo kryterium wyjścia toru gramatycznego nie ma
-([roadmap.md](roadmap.md#tor-gramatyczny-nie-ma-końca)),
-więc zostaje pytanie o sam werdykt: czy taki jest dla autora użyteczny.
+Czy taki wiersz jest znaleziskiem, rozstrzygnięto:
+nie jest, bo baza sądów nie potwierdziła ani jednego
+([subset.md](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)).
+Otwarte zostaje, jak ma wrócić.
 Wyjściem, którego to pytanie szuka, jest werdykt, który tę klasę nazywa,
 czyli mówi „dwa czytania i polszczyzna ma tu dwa”, a nie samo „dwa czytania”.
 Kosztem jest to, czego program nie wyda:
@@ -248,7 +248,7 @@ zostawia go z kilkoma rozbiorami naraz,
 dopóki dalsze słowo ich nie unieważni.
 
 Mierzy to co innego niż
-[znalezisko wieloznaczności](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
+[znalezisko wieloznaczności](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem),
 i obie wielkości rozjeżdżają się w obie strony.
 `Koszt samej szynki przewyższa koszt szynki z dodatkami.`
 czyta się gładko i ma kilka czytań,

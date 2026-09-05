@@ -25,6 +25,8 @@ or a document's own `Not yet decided`.
 The next move is the tell:
 waiting for somebody else's answer is an entry there,
 a file to write is an entry here.
+Zdanie z usterką, o której olski milczy, nie jest wpisem tutaj,
+tylko wpisem korpusu usterek w `próba/usterki.txt`.
 
 A register, not a changelog:
 an entry that closes is deleted by the same commit that settles it,

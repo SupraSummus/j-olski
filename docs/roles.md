@@ -83,7 +83,7 @@ Dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
 bo kod jest właścicielem tego, co zaimplementowane.
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać.
 Jest nią to,
-[dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem](subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego).
+[dlaczego wieloznaczność jest odpowiedzią, a odrzucenie milczeniem](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
 
 Drugie wejście tej roli jest w przeglądarce i prowadzi do tego samego werdyktu.
 Witryna woła tę samą gramatykę.
@@ -99,6 +99,28 @@ Psuje ją też odrzucenie podane bez tego, dokąd analiza doszła.
 Instalacji poza klonem nie ma.
 Witryna tego nie zmienia, dopóki nikt nie postawi jej pod adresem
 ([witryna.md](witryna.md#nie-zapadło)).
+
+## Autor, który sprawdza własny tekst
+
+Pyta, co w swoim zdaniu poprawić.
+Tekstu nie pisał pod gramatykę i o gramatyce nie wie nic.
+Wchodzi przez `olski-check` nad własnym plikiem i czyta znaleziska,
+a odpowiedź o odczytaniach czyta wtedy, gdy o nią pyta.
+Czego ta rola od narzędzia chce, wylicza korpus usterek (`próba/usterki.txt`),
+a ile z tego dziś dostaje, mówi `python3 -m harness.usterki`.
+Dla tej roli jest [to, co budowane](roadmap.md#co-jest-budowane).
+
+**Psuje ją** zgłoszenie fałszywe, bo kosztuje zdanie przepisane bez powodu.
+Psuje ją też milczenie nad zdaniem, które czytelnik by poprawił,
+bo autor bierze milczenie za zgodę.
+Psuje ją wreszcie werdykt mówiący o gramatyce, a nie o zdaniu:
+zdanie odrzucone jest dla niej zdaniem bez odpowiedzi, a nie usterką.
+
+**Obsadza ją** sesja agenta nad prozą, którą pisze do tego repozytorium,
+oraz autor nad korpusem usterek,
+bo każde zdanie tego korpusu napisał jako czytelnik, który by je poprawił.
+Autor z zewnątrz tej roli nie obsadza, bo wydania nie ma,
+i to jest rola, dla której wydanie by powstało.
 
 ## Planista
 
@@ -231,7 +253,7 @@ Widać to po tabelach, które mają datowane pochodzenie.
 
 ## Czytelnik toru gramatycznego
 
-Pyta, co olski parsuje i dlaczego wieloznaczność jest znaleziskiem, a odrzucenie milczeniem.
+Pyta, co olski parsuje i dlaczego wieloznaczność jest odpowiedzią, a odrzucenie milczeniem.
 Wchodzi w [subset.md](subset.md), a dalej w [design-notes.md](design-notes.md)
 po drabinę kosztów i po urwisko nieciągłości.
 Sąsiedztwo tego toru opisują [swigra.md](swigra.md),
@@ -317,10 +339,10 @@ Cały `CLAUDE.md` jest pisany pod tę rolę.
 Recenzent nie jest rolą, tylko fazą.
 Kończy ją każda postawa cokolwiek pisząca.
 Opisuje ją przegląd zmian.
-Nie ma autora reguły, bo wyszedł razem z pakietem reguł.
-Kto chciałby tę rolę obsadzić na nowo,
-zaczyna od tego, [co ją zamknęło](linter.md#co-zamknęło-pakiet-reguł),
-a nie od formatu, w którym reguła kiedyś stała.
+Nie ma autora reguły, bo wyszedł razem z pakietem reguł,
+a wykrywacz pisze [autor produkcji](#autor-produkcji):
+zaczyna od zdania w korpusie usterek, a nie od formatu, w którym reguła kiedyś stała
+([linter.md](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
 Nie ma też roli osoby dokładającej się z zewnątrz.
 Rozdzielenie `CLAUDE.md` na wersję dla autora i wersję dla gości
 kosztowałoby dwie kopie tych samych reguł, żeby obsłużyć nikogo.

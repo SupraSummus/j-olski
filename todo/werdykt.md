@@ -195,8 +195,8 @@ Zdanie bywa jednoznaczne strukturalnie i przemilcza przy tym, o kogo idzie.
 `Wynajmę mieszkanie.` ma w `olski/żądania.txt` dwie pozycje wykluczające się —
 `Initiator.Goal` w celowniku i `Initiator.Source` pod `od` — i żadnej nie obsadza,
 więc czytelnik nie wie, czy wynajmuje się komuś, czy od kogoś.
-Znaleziska są dziś dwa, wieloznaczność i poprawka jednego znaku
-([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego)),
+Znaleziska są dziś dwa, poprawka jednego znaku i zaimek wskazujący na dwie rzeczy
+([`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)),
 a to byłoby trzecie i wordnetu nie żąda:
 role stoją w pliku, a nieobsadzoną pozycję widzi rozbiór.
 Bliskie jest ono regule o zdaniu spakowanym
@@ -262,37 +262,6 @@ Do przeczytania jest, ile zdań to odsłania: nad README zdanie jest dziś jedno
 więc ruch opłaca się dopiero wtedy, gdy przebieg nad rejestrem pokaże ich więcej,
 a przebieg ten trzeba puścić z warunkiem zdjętym i z zawężonym,
 bo różnica między nimi jest całą mierzoną rzeczą.
-
-Wieloznaczność jest znaleziskiem, a mierzona baza sądów nie ma dla tego ani jednego potwierdzenia.
-`python3 -m harness.sądy` wypisuje same trafienia nad zdaniem osądzonym jako czyste
-i zero potwierdzonych,
-a dwie próbki przeczytane ręką idą w tę samą stronę
-([`docs/open-questions.md`](../docs/open-questions.md#olski-melduje-wieloznaczność-której-czytelnik-nie-ma)
-trzyma je wraz z udziałem zdań, w których pozycja stoi).
-Nad podkorpusem NKJP znalezisko pada przy tym nad większością zdań, które olski czyta,
-więc reguła o zerowej precyzji nad taką populacją zgłasza autorowi co drugie zdanie bez powodu.
-Regułę o takim profilu ten projekt raz już wycofał
-([`docs/firing-rates.md`](../docs/firing-rates.md#dwie-reguły-wyszły-z-pakietu-i-to-jest-ich-odczyt)),
-więc pytanie brzmi, czy wieloznaczność ma dalej iść w kod wyjścia i w wiersz znalezisk.
-Odpowiedź bywa inna dla każdego kształtu znaleziska,
-a sonda dzieli już potwierdzenia po kształcie — przyłączenie, role, budowa grupy —
-więc ruch może zdjąć jeden kształt ze znaleziska, a inny zostawić:
-zgłoszenie samego przyłączenia jest pierwszym kandydatem do zdjęcia,
-bo nad obu przeczytanymi próbkami czytelnik nie zawahał się nad nim ani razu.
-Ruchem, gdy stopa się nad większą bazą utrzyma,
-jest `Podsumowanie.znalezisk` w `olski/werdykt.py` przestające sumować `wieloznaczne`
-albo sumujące je tylko dla kształtów, które baza potwierdza;
-wiersz werdyktu i osobny licznik podsumowania zostają, bo mówią, co olski o zdaniu wie,
-a znaleziskiem przestaje być samo zgłoszenie.
-Ceną jest proza: właścicielem faktu jest
-[`docs/subset.md`](../docs/subset.md#wieloznaczność-jest-znaleziskiem-a-nie-definicją-olskiego),
-a wniosek stąd powtarza kilkanaście dokumentów wraz z README,
-i wszystkie idą jednym commitem, bo inaczej przez chwilę kłamią.
-Blokerem jest baza sądów za mała, żeby na niej stanąć;
-podnosi go wpis o powiększeniu bazy w [pomiar.md](pomiar.md).
-Do przeczytania jest przy tym, co po zmianie zostaje w wydruku:
-znaleziska są wtedy dwa — poprawka jednego znaku i zaimek wskazujący na dwie rzeczy —
-i README ma to powiedzieć wprost, a nie przemilczeć.
 
 Werdykt nie niesie segmentów, więc nad jednym napisem segmentacja idzie drugi raz.
 `dalsze_zatrzymania` w `olski/werdykt.py` woła `morphology` nad `Verdict.text` ponownie,
