@@ -18,6 +18,7 @@ from olski.document import SENTENCE_CLOSE
 from olski.grammar import Grammar
 from olski.imiesłowy import Imiesłów, imiesłowy_bez_podmiotu
 from olski.morph import Segment
+from olski.odniesienia import Niezwrotny, zaimki_niezwrotne
 from olski.osoby import OSOBY_PROJEKTU, Osoby
 from olski.parse import (
     PRZYŁĄCZONY_DO,
@@ -310,6 +311,16 @@ class Verdict:
         odczytanie kazałby przeczytać kopie jednego wiersza.
         """
         return imiesłowy_bez_podmiotu(self.result.readings)
+
+    @property
+    def niezwrotne(self) -> tuple[Niezwrotny, ...]:
+        """Zaimki dzierżawcze, którym podmiot zdania jest zakazany (``olski/odniesienia.py``).
+
+        Krotka jest o zdaniu, a nie o odczytaniu, z tego samego powodu co
+        :attr:`imiesłowy`: trójkę powtórzoną w odczytaniach warstwa zwija do
+        jednej, więc wykaz na odczytanie kazałby przeczytać kopie jednego wiersza.
+        """
+        return zaimki_niezwrotne(self.result.readings)
 
     @property
     def rozbieżne(self) -> list[Rozbieżność]:

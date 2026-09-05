@@ -872,3 +872,256 @@ znalezisko: imiesłów bez podmiotu
 werdykt: jedno odczytanie
 sąd: fałszywe
 powód: pamięta o tym i wychowuje dzieci ten sam czytelnik, do którego zwraca się `Warto`
+
+plik: typ_publ/Rzeczpospolita/txt_217-div.txt
+kontekst: Na fixingu notowania 7 funduszy i indeksu NIF (120,9 pkt.)
+zdanie: były wczoraj najniższe od początku ich historii giełdowej.
+znalezisko: zaimek niezwrotny
+werdykt: 9 odczytań, różne w rolach: okolicznik_narzędnikowy, okolicznik_przysłówkowy, orzecznik, podmiot; „od początku ich historii giełdowej” → „były”, „wczoraj”, „najniższe”
+sąd: fałszywe
+powód: podmiotem jest tu `wczoraj` czytane rzeczownikowo, a `ich` podejmuje fundusze nazwane w zdaniu obok
+
+plik: typ_publ/120-2-000006/txt_156-div.txt
+kontekst: - Wskazując na stan gospodarki, w której około połowy PKB rozdzielano centralnie, mówił pan przed wyborami o potrzebie likwidacji "komunizmu rynkowego".
+kontekst: Likwidacja okazuje się dla wielu wyborców bolesna.
+zdanie: Czy lekarz może leczyć pacjenta wbrew jego woli?
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w rolach: dopełnienie, okolicznik_przysłówkowy; „wbrew jego woli” → „może”, „leczyć”, „pacjenta”
+sąd: fałszywe
+powód: `jego` podejmuje pacjenta, bo o woli lekarza mówiłoby się `swojej`; kandydatem jedynym lekarz jest przy tym tylko w czytaniu, w którym `wbrew jego woli` dochodzi do pacjenta
+
+plik: typ_fakt/310-2-000006/txt_7-div.txt
+kontekst: Swą młodość spędził na Krupniczej Witold Zechenter, którego ojciec był redaktorem "Czasu", "Roli" i "Głosu Narodu".
+zdanie: Witold poszedł w jego ślady i również poświęcił się dziennikarstwu.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w rolach: dopełnienie, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: `jego` podejmuje ojca z kontekstu, a `swoje ślady` nie znaczyłoby nic
+
+plik: typ_publ/130-5-000000381/txt_1-div.txt
+kontekst: Prawie 700 tysięcy złotych dolnośląskie PKO wydało na premie gwarancyjne, które teraz próbuje odzyskać.
+kontekst: Kilkudziesięciu osobom, które skorzystały z pieniędzy grożą wysokie grzywny i kary więzienia.
+kontekst: Jednak ciągle nie wiadomo, kto ma rację: PKO czy właściciele książeczek mieszkaniowych.
+zdanie: Sądy wydają w ich sprawach sprzeczne wyroki i powołują się na nieaktualne przepisy.
+znalezisko: zaimek niezwrotny
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: `ich` podejmuje właścicieli książeczek z kontekstu, a sądy spraw nie mają, tylko je rozpatrują
+
+plik: typ_lit/200-4-000056/txt_4-div.txt
+kontekst: Przed południem ubrałem się ładnie, w krawat i marynarkę.
+kontekst: Miała przyjść do mnie dama, a ja umierałem z ciekawości, nie mogąc się doczekać, żeby zobaczyć, jak wygląda.
+zdanie: Czy jest taka jak jej głos?
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w rolach: orzecznik, podmiot; „jak jej głos” → „jest”, „taka”
+sąd: fałszywe
+powód: `jej` podejmuje damę z kontekstu, a podmiotem jest zaimek przymiotny `taka`, który nikogo nie nazywa
+
+plik: typ_urzed/610-1-000153/txt_2-div.txt
+kontekst: 2.
+zdanie: Rodzaje świadczeń z ubezpieczeń społecznych, warunki nabywania prawa do nich oraz zasady i tryb ich przyznawania określają odrębne przepisy.
+znalezisko: zaimek niezwrotny
+werdykt: 84 odczytania, różne w rolach: dopełnienie, podmiot; „z ubezpieczeń społecznych” → „Rodzaje”, „świadczeń”; „do nich” → „Rodzaje”, „określają”, „warunki”, „nabywania”, „prawa”
+sąd: fałszywe
+powód: `ich` podejmuje świadczenia, a nie rodzaje, i stoi z nimi w jednej grupie imiennej
+
+plik: typ_publ/130-5-000000469/txt_1-div.txt
+zdanie: Piosenkarka była niemiło zaskoczona reakcją fanów na jej potwornie szczupłą figurę, którą zaprezentowała podczas koncertu z okazji urodzin Michaela Jacksona.
+znalezisko: zaimek niezwrotny
+werdykt: 112 odczytań, różne w rolach: okolicznik_narzędnikowy, okolicznik_przysłówkowy, orzecznik; „na jej potwornie szczupłą figurę” → „była”, „reakcją”, „fanów”; „podczas koncertu” → „była”, „reakcją”, „zaprezentowała”; „z okazji urodzin Michaela Jacksona” → „była”, „reakcją”, „zaprezentowała”, „koncertu”
+sąd: trafne
+powód: figura jest piosenkarki, więc polszczyzna żąda tu `swoją`, a `jej` odsyła poza zdanie, gdzie nikogo nie ma
+
+plik: typ_nklas/040-1-000006/txt_4-div.txt
+kontekst: Bóg pragnie rozwoju i postępu dla ludzkości.
+zdanie: Ale prawdziwy postęp możliwy jest wtedy, gdy ludzie zachowują Jego przykazania i szanują prawa wpisane w ich sumienia i stworzoną rzeczywistość.
+znalezisko: zaimek niezwrotny
+werdykt: 27 odczytań, różne w rolach: dopełnienie, okolicznik_zdaniowy, orzecznik, podmiot; „w ich” → „szanują”, „prawa”, „wpisane”
+sąd: fałszywe
+powód: `ich` podejmuje ludzi ze składowego obok, a podmiotem tego składowego są prawa, które sumień nie mają
+
+plik: typ_publ/120-2-900074/txt_7-div.txt
+zdanie: Struktura nauki powinna stanowić uogólnienie jej zasięgu przedmiotowego i zakresu treściowego.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jej` podejmuje naukę, która stoi w grupie podmiotu, a nie samą strukturę
+
+plik: typ_lit/030-2-000000014/txt_2-div.txt
+zdanie: Naciąga z tamtej strony cięciwy tysiąc jego łuczników i tysiąc nieszczędnej strzały w kwiat rycerstwa wypuszcza.
+znalezisko: zaimek niezwrotny
+werdykt: 90 odczytań, różne w rolach: dopełnienie, podmiot; „w kwiat” → „tysiąc”, „wypuszcza”, „strzały”; „tysiąc jego łuczników” ma 3 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje władcę z kontekstu, a podmiotem jest liczebnik `tysiąc`
+
+plik: typ_publ/DP2003/txt_4-div.txt
+kontekst: Utracił ją na 20 lat wyrokiem nowojorskiego sądu za zabójstwo swojej żony.
+kontekst: Werdykt ten w jego przypadku oznaczał jednak coś więcej niż tylko utratę wolności.
+kontekst: Chapin nim trafił za kraty był jednym z najgłośniejszych dziennikarzy i redaktorów prasy nowojorskiej, człowiekiem pełnym życia, wigoru, stojącym u szczytu kariery zawodowej.
+zdanie: Taki dramatyczny zwrot w życiu w pełni uzasadniał jego przygnębienie, gorycz, niewiarę w sens dalszej egzystencji.
+znalezisko: zaimek niezwrotny
+werdykt: 32 odczytania, różne w rolach: dopełnienie, okolicznik_przysłówkowy, podmiot; „w życiu” → „zwrot”, „uzasadniał”; „w pełni” → „uzasadniał”, „życiu”; „w sens dalszej egzystencji” → „uzasadniał”, „przygnębienie”, „gorycz”, „niewiarę”
+sąd: fałszywe
+powód: przygnębienie jest Chapina z kontekstu, a zwrot go nie ma, tylko je uzasadnia
+
+plik: typ_publ/130-3-900006/txt_14-div.txt
+kontekst: Od dwóch lat w Woli Skolankowskiej goszczą niepełnosprawni artyści z Centrum Rehabilitacji w Grudziądzu.
+kontekst: Biskup Chrapek uczynił tamtejszą, lokalną placówkę ogólnopolską instytucją.
+kontekst: Jego pomysłem było powołanie Teatru Życia, czyli formy rehabilitacji przez sztukę.
+zdanie: Dziś centrum nosi jego imię.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, okolicznik_przysłówkowy, podmiot
+sąd: fałszywe
+powód: `jego` podejmuje biskupa nazwanego w zdaniu obok, a `Dziś` podmiotem nie jest
+
+plik: typ_publ/SuperExpress/txt_380-div.txt
+zdanie: Spotkanie z Ojcem Świętym otworzyło nowy rozdział w jego chorobie.
+znalezisko: zaimek niezwrotny
+werdykt: 16 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot; „z Ojcem” → „Spotkanie”, „otworzyło”; „w jego” → „otworzyło”, „rozdział”
+sąd: fałszywe
+powód: choroby nie ma ani spotkanie, ani rozdział, więc zaimek podejmuje osobę z artykułu
+
+plik: typ_publ/130-3-900005/txt_4-div.txt
+zdanie: Sposób przewożenia psa jest uzależniony od jego wielkości oraz od tego, jakie auto posiadamy.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: okolicznik_przysłówkowy, orzecznik; „od jego wielkości” → „jest”, „uzależniony”; „od jego wielkości oraz od tego” ma 2 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje psa, a sposób wielkości nie ma
+
+plik: typ_net_interakt/620-3-010001101/txt_2-div.txt
+zdanie: Jedzą dzieci w krwi ich matek.
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w rolach: dopełnienie, podmiot; „w krwi ich matek” → „Jedzą”, „dzieci”
+sąd: fałszywe
+powód: `ich` podejmuje dzieci, a te czytają się tu i w podmiocie, i w dopełnieniu; w drugim z tych czytań `swoich` byłoby błędem
+
+plik: typ_publ/KOT/txt_26-div.txt
+kontekst: Cat Club Łódź współpracuje z fundacjami i instytucjami niosącymi pomoc kotom bezdomnym.
+kontekst: Na wystawę zaproszono przedstawicieli łódzkiego odddziału Towarzystwa Opieki nad Zwierzętami, które podczas dwóch dni kwestowania zebrało aż 1803 zł.
+zdanie: TOZ dziękuje wszystkim kociarzom za ich wyjątkową hojność i życzliwość.
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w rolach: dopełnienie, okolicznik_narzędnikowy; „za ich wyjątkową hojność i życzliwość” → „dziękuje”, „kociarzom”
+sąd: fałszywe
+powód: `ich` podejmuje kociarzy stojących w tym samym zdaniu, a o hojności TOZ-u zdanie nie mówi
+
+plik: typ_publ/110-4-000000302/txt_1-div.txt
+kontekst: Księgi Prospera umarły na klasycznie papierową przypadłość - nietrwałość materii.
+kontekst: Ogień (lub - jak wolał Shakespeare - woda) jest niezawodnym mordercą liter.
+kontekst: Papier płonie także w Pillow Book.
+zdanie: Nic nie wynika z faktu dosłownego ożywiania testu, skoro papier jest jego ostatnim powiernikiem.
+znalezisko: zaimek niezwrotny
+werdykt: 12 odczytań, różne w rolach: okolicznik_narzędnikowy, okolicznik_przysłówkowy, okolicznik_zdaniowy, orzecznik; „faktu dosłownego ożywiania testu” ma 2 odczytania
+sąd: fałszywe
+powód: `jego` podejmuje tekst, a papier powiernika nie ma, tylko nim jest
+
+plik: typ_lit/200-1-000007/txt_1-div.txt
+kontekst: Angielscy archeolodzy porównali malowidła Buszmenów z malowidłami w jaskiniach francuskich.
+kontekst: Buszmeni z obrzeży pustyni Kalahari bez problemu objaśnili badaczom, co przedstawia malunek przodków, i odtańczyli go w transie.
+kontekst: Buszmeński szaman opisał transowy lot w przestworzach, prowadzony przez duchy zwierząt.
+zdanie: Przeszywający ból, cierpienie widoczne na jego spoconej twarzy są oznaką łaski.
+znalezisko: zaimek niezwrotny
+werdykt: 3 odczytania, różne w roli: podmiot; „na jego spoconej twarzy” → „ból”, „są”, „cierpienie”
+sąd: fałszywe
+powód: twarz jest szamana z kontekstu, a ból twarzy nie ma
+
+plik: typ_publ/120-2-000009/txt_138-div.txt
+kontekst: - Kapliczka przylegała do kościoła katolickiego, Łemkowie z niej od wielu lat nie korzystali.
+kontekst: Stała pusta, niszczała, groziła zawaleniem.
+zdanie: Decyzja o jej rozebraniu i budowie nowej nie była skierowana przeciwko Łemkom, ale podyktowana zdrowym rozsądkiem?
+znalezisko: zaimek niezwrotny
+werdykt: 8 odczytań, różne w rolach: orzecznik, podmiot; „o jej rozebraniu i budowie nowej” → „Decyzja”, „była”; „przeciwko Łemkom” → „była”, „skierowana”; „budowie nowej” ma 2 odczytania
+sąd: fałszywe
+powód: `jej` podejmuje kapliczkę z kontekstu, a decyzji się nie rozbiera
+
+plik: typ_publ/ZycieWarszawy_Zycie/txt_132-div.txt
+kontekst: Niemożliwe jest jednak rozszerzenie tej uprawy od zaraz.
+kontekst: Dużo czasu zajmuje bowiem produkcja materiału szkółkarskiego, czyli sadzonek.
+kontekst: Szkółki ze względów przyrodniczych są rozbudowywane bardzo powoli.
+zdanie: Przez długi czas będą jeszcze trudności z ich nabyciem.
+znalezisko: zaimek niezwrotny
+werdykt: 5 odczytań, różne w rolach: cząstka_zdania, okolicznik_narzędnikowy, podmiot; „z ich” → „będą”, „trudności”
+sąd: fałszywe
+powód: `ich` podejmuje sadzonki z kontekstu, a trudności się nie nabywa
+
+plik: typ_publ/NIE/txt_400-div.txt
+zdanie: Szanowni dyskutanci z RP i Francji, profesorowie, dziennikarze i papierożercy z urzędów nie raczyli przy okazji takich dyskusji zauważyć pewnego elementu, który nie mieści się w ramach ich kontroli.
+znalezisko: zaimek niezwrotny
+werdykt: 35 odczytań, różne w rolach: dopełnienie, podmiot; „z urzędów” → „dyskutanci”, „raczyli”, „profesorowie”, „dziennikarze”, „papierożercy”; „w ramach ich kontroli” → „raczyli”, „zauważyć”, „pewnego”, „mieści”; „pewnego elementu, który nie mieści się” ma 2 odczytania
+sąd: fałszywe
+powód: zaimek stoi w zdaniu względnym o własnym podmiocie `który`, więc `swojej` podjęłoby element, a nie dyskutantów
+
+plik: typ_publ/130-3-900001/txt_260-div.txt
+zdanie: Dla Pekinu dysydent za granicą jest lepszy niż dysydent w więzieniu: pozostaje praktycznie nieszkodliwy, a nikt nie upomina się o jego uwolnienie.
+znalezisko: zaimek niezwrotny
+werdykt: 16 odczytań, różne w rolach: okolicznik_przysłówkowy, orzecznik, podmiot; „za granicą” → „dysydent”, „jest”; „niż dysydent” → „jest”, „lepszy”; „w więzieniu” → „jest”, „dysydent”
+sąd: fałszywe
+powód: `jego` podejmuje dysydenta z tego samego zdania, a `nikt` nikogo nie nazywa
+
+plik: typ_publ/GazetaKociewska/txt_28-div.txt
+zdanie: Inny mieszkaniec stolicy Kociewia powiadomił o oszustwie dokonanym na jego szkodę przy zakupie filmu DVD na aukcji internetowej.
+znalezisko: zaimek niezwrotny
+werdykt: 136 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot; „na jego” → „powiadomił”, „oszustwie”; „przy zakupie filmu” → „powiadomił”, „szkodę”; „na aukcji internetowej” → „powiadomił”, „zakupie”, „filmu”, „DVD”
+sąd: fałszywe
+powód: `jego` stoi pod imiesłowem `dokonanym`, którego wykonawcą jest oszust, więc `swoją` nie podjęłoby mieszkańca
+
+plik: typ_lit/200-2-000071/txt_3-div.txt
+zdanie: Na Golgocie Chrystus był między dwoma łotrami, jeden uwierzył w Jego słowa, drugi je przeklął.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `Jego` podejmuje Chrystusa nazwanego w tym samym zdaniu, a wielka litera to właśnie znaczy
+
+plik: typ_fakt/310-2-000000215/txt_2-div.txt
+kontekst: Pociąg wreszcie powoli zaczął posuwać się do przodu.
+kontekst: Ja, przywarty do okienka wagonu, ledwie widzę wujka Jóźka.
+zdanie: Ściana łez zasłania mi jego postać.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jego` podejmuje wujka z kontekstu, a kandydatem `Ściana` jest tylko przez czytanie nazwiskowe, które Morfeusz tej formie daje
+
+plik: typ_publ/NIE/txt_356-div.txt
+kontekst: Tadeusz Okoniewski pisał też do samych palotynek.
+kontekst: Domagał się od nich pieniędzy za użytkowanie budynku, a także udostępnienia mu pomieszczenia, w którym zamierzał zamieszkać.
+kontekst: W końcu nawet w rozumieniu zakonnic on jest właścicielem części budynku.
+zdanie: Siostry odpowiedziały, że myśl, aby ktokolwiek obcy znalazł się w ich domu, jest niedopuszczalna, bo przebywa u nich Najświętszy Sakrament.
+znalezisko: zaimek niezwrotny
+werdykt: 42 odczytania, różne w rolach: dopełnienie, okolicznik_zdaniowy, orzecznik, podmiot; „w ich domu” → „odpowiedziały”, „znalazł”; „przebywa u nich Najświętszy Sakrament” ma 2 odczytania
+sąd: fałszywe
+powód: zaimek stoi w zdaniu o własnym podmiocie `ktokolwiek obcy`, więc `swoim` podjęłoby jego, a nie siostry
+
+plik: typ_lit/200-2-000008/txt_1-div.txt
+kontekst: - Będę myślał o tobie w każdej chwili.
+zdanie: Moje spojrzenie ponad jego głową ślizgało się po ciemnych gałęziach świerka rosnącego pod oknem, tegoroczne odgałęzienia odcinały się ostro od ciemnozielonego tła.
+znalezisko: zaimek niezwrotny
+werdykt: 12 odczytań, różne w rolach: okolicznik_narzędnikowy, podmiot; „ponad jego” → „spojrzenie”, „ślizgało”; „pod oknem” → „ślizgało”, „gałęziach”, „świerka”
+sąd: fałszywe
+powód: głowa jest rozmówcy, a spojrzenie głowy nie ma
+
+plik: typ_urzed/610-1-000123/txt_2-div.txt
+kontekst: 8.
+zdanie: Procedury wzorcowe podlegają ocenie, w przypadku gdy pojawiają się nowe dane o ich skuteczności lub konsekwencji stosowania.
+znalezisko: zaimek niezwrotny
+werdykt: 6 odczytań, różne w rolach: orzecznik, podmiot; „o ich skuteczności lub konsekwencji stosowania” → „pojawiają”, „nowe”, „dane”; „nowe dane” ma 2 odczytania
+sąd: fałszywe
+powód: `ich` podejmuje procedury ze składowego obok, a dane skuteczności nie mają, tylko o niej mówią
+
+plik: typ_lit/200-1-000014/txt_5-div.txt
+kontekst: Te dwa epizody, oba w słońcu, były początkiem i końcem.
+kontekst: Znów to samo.
+kontekst: Znów początek i koniec.
+kontekst: Te mikropoczątki i końce stanowią strukturę wielkiego początku i końca, mieszczą się w nim od: urodził się, do: umarł, a on jest takim samym początkiem i końcem czegoś większego, czym dla niego był epizod z psem.
+zdanie: Pies jest jego epizodem, on jest epizodem kraju, kraj epizodem świata, a świat kosmosu.
+znalezisko: zaimek niezwrotny
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `jego` podejmuje człowieka, o którym mówi akapit, a pies epizodu nie ma, tylko nim jest
+
+plik: typ_fakt/310-2-000000064/txt_2-div.txt
+kontekst: O zachodzie słońca filozofował na plaży z Simonem.
+kontekst: Mateo nie bierze udziału w tych sesjach.
+zdanie: To uroczy facet, ale kontakt jest ograniczony przez jego nieznajomość angielskiego.
+znalezisko: zaimek niezwrotny
+werdykt: 4 odczytania, różne w rolach: dopełnienie, orzeczenie, orzecznik, podmiot; „przez jego nieznajomość angielskiego” → „jest”, „ograniczony”
+sąd: fałszywe
+powód: `jego` podejmuje faceta ze zdania obok, a kontakt angielskiego nie zna

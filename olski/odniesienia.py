@@ -69,6 +69,11 @@ Zgłoszenie spod flagi nosi własną nazwę
 (:data:`olski.werdykt.ODNIESIENIE_W_ZDANIU`), więc baza sądów ocenia dwie reguły
 osobno, a kod wyjścia tej nazwy nie liczy;
 przebieg, który tych trafień żąda, jest sondą oceniającą (``harness/sądy.py``).
+
+Za flagą ``--dzierżawcze`` czeka drugi wykrywacz i pyta on o co innego:
+nie o to, na którą z dwóch rzeczy zaimek wskazuje,
+lecz o to, że jedna z tych rzeczy jest zaimkowi zakazana
+(:func:`zaimki_niezwrotne`).
 """
 
 from __future__ import annotations
@@ -78,7 +83,7 @@ from dataclasses import dataclass, field
 
 from olski.document import Document
 from olski.morph import Reading, zgadza
-from olski.parse import Leaf, Node, Result, Tree, liście, zakresy
+from olski.parse import Leaf, Node, Result, Tree, liście, w_zakresie, zakresy
 from olski.subset import DEKLARACJA
 
 #: Część mowy zaimka trzeciej osoby: `on`, `ona`, `ono`, `oni`, `one`
@@ -251,7 +256,7 @@ def _rzeczy(głowy: Iterable[Leaf]) -> list[_Rzecz]:
     return rzeczy
 
 
-def _głowy(drzewa: Iterable[Tree]) -> Iterator[Leaf]:
+def _głowy(drzewa: Iterable[Tree], wnętrze: tuple[int, int] | None = None) -> Iterator[Leaf]:
     """Głowy najszerszych grup imiennych, w kolejności zdania.
 
     Bierze i listę czytań, i córki węzła, bo zejście jest w obu wypadkach to samo.
@@ -260,20 +265,168 @@ def _głowy(drzewa: Iterable[Tree]) -> Iterator[Leaf]:
     Głowa bez odczytania imiennego odpada tutaj, a nie u pytającego,
     bo zgodność liczy się nad odczytaniami imiennymi i nad żadnymi innymi
     (:func:`olski.morph.zgadza`), więc taka głowa nie zgodziłaby się z niczym.
+
+    ``wnętrze`` jest miejscem zaimka dzierżawczego i pyta o nie
+    :func:`zaimki_niezwrotne`: rzecz obejmująca to miejsce rzeczy nie wydaje,
+    bo posiadacza nie ma w sobie samej.
+    Warunek pyta o człon głowy, a nie o całą grupę, i tym rozdziela dwa kształty:
+    w `do omawiania jego stosunku` zaimek stoi pod `omawianiem`, a w
+    `artystę i jego twórczość` obok `artysty`, więc tamten posiadaczem nie jest,
+    a ten jest.
     """
     for drzewo in drzewa:
         if isinstance(drzewo, Leaf):
             continue
         if drzewo.label == DEKLARACJA.grupa_imienna:
+            człon = drzewo.children[drzewo.głowa]
+            if wnętrze is not None and człon.span[0] <= wnętrze[0] and wnętrze[1] <= człon.span[1]:
+                continue
             głowa = drzewo.liść_głowy()
             if _imienne(głowa):
                 yield głowa
             continue
-        yield from _głowy(drzewo.children)
+        yield from _głowy(drzewo.children, wnętrze)
 
 
 def _imienne(liść: Leaf) -> list[Reading]:
     return [odczytanie for odczytanie in liść.odczytania if odczytanie.tag.pos in IMIENNE]
+
+
+@dataclass(frozen=True)
+class Niezwrotny:
+    """Zaimek dzierżawczy, rzecz, przy której stoi, i podmiot, którego zaimek nie bierze.
+
+    Wszystkie trzy formą, tak jak :class:`Odniesienie` nazywa rzeczy: autor ma je
+    odszukać w zdaniu, a stoją tam właśnie w tej formie.
+    """
+
+    #: `jego`, `jej` albo `ich`, tak jak stoi w zdaniu.
+    zaimek: str
+    #: Głowa grupy imiennej, którą ten zaimek określa: `stosunku`.
+    rzecz: str
+    #: Głowa podmiotu tego zdania składowego: `Kandydat`.
+    podmiot: str
+
+
+def zaimki_niezwrotne(czytania: Sequence[Node]) -> tuple[Niezwrotny, ...]:
+    """Zgłoszenia o zaimkach dzierżawczych tego zdania; pusta krotka jest milczeniem.
+
+    O rzeczy podmiotu polszczyzna mówi `swój`, więc `jego`, `jej` i `ich`
+    nazywają rzecz kogoś innego niż podmiot zdania składowego, w którym stoją.
+    Zgłoszenie pada tam, gdzie podmiot zgadza się z zaimkiem liczbą i rodzajem,
+    a żadna inna rzecz stojąca przed zaimkiem się z nim nie zgadza:
+    `Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby
+    bezpieczeństwa.` daje czytelnikowi jednego kandydata na posiadacza i zarazem
+    zakazuje mu go, więc albo autor chciał napisać `swojego`, albo odesłał
+    czytelnika poza zdanie ponad rzeczą, która stoi tuż obok.
+
+    **Rzecz zgodna obok podmiotu zdejmuje zgłoszenie**, bo wtedy zaimek ma dokąd
+    pójść i czytelnik go tam prowadzi: w `Marek stał na poboczu, czekając na
+    Grzesia i jego półciężarówkę.` `swoją` powiedziałoby o półciężarówce Marka,
+    więc `jego` podejmuje Grzesia i autor niczego nie poprawia. Zdanie, w którym
+    rzeczy zgodnych jest kilka, jest za to tym, o co pyta reguła obok
+    (:func:`niejasne_odniesienia`), a nie ta.
+
+    **Rzecz, pod którą zaimek stoi, kandydatem nie jest**, bo posiadacza nie ma
+    ona w sobie samej: w `do omawiania jego stosunku` posiadaczem nie jest ani
+    `omawianie`, które zaimek nad sobą ma, ani `stosunek`, który on określa.
+    Bez tego zawężenia zgłoszenie nie pada ani razu tam, gdzie zaimek stoi w
+    dopełniaczu po rzeczowniku, czyli w większości miejsc, w których stoi.
+    Rzecz stojąca obok zaimka kandydatem zostaje i to jest ta sama granica
+    widziana z drugiej strony: w `artystę i jego twórczość` posiadaczem jest
+    artysta, a ciąg współrzędny nie jest rzeczą, w której zaimek stoi
+    (:func:`_głowy`).
+
+    **Zaimek stojący w podmiocie zgłoszenia nie dostaje**, bo `swój` podejmuje
+    podmiot i w nim samym orzekałby o sobie (:func:`_w_podmiocie`).
+
+    **Zdanie podrzędne ma własny podmiot**, którego to zejście nie widzi
+    (:attr:`olski.parse.Deklaracja.podrzędne`), więc zaimek spod niego zgłoszenia
+    nie dostaje. Zawężenie myli się w tę samą stronę co trzy warunki reguły obok:
+    zdejmuje zgłoszenia, a nie dokłada ich.
+
+    Czytania, a nie werdykt nad nimi: warunek czyta się z drzewa, a werdykt czyta
+    stąd (``olski/werdykt/zdanie.py``), więc import w tamtą stronę zamykałby krąg.
+    Kształt wystarcza w jednym czytaniu, a nie w każdym, i trójka wchodzi raz,
+    choćby stała w kilku czytaniach — tak samo bierze je warstwa imiesłowowa
+    (``olski/imiesłowy.py``), i z tego samego powodu.
+    """
+    znalezione: dict[tuple[str, str, str], None] = {}
+    for czytanie in czytania:
+        for zakres in zakresy(czytanie, DEKLARACJA.składowe):
+            podmioty = w_zakresie(czytanie, DEKLARACJA.obsada.podmiot, DEKLARACJA.podrzędne, zakres)
+            if len(podmioty) != 1:
+                continue
+            podmiot = podmioty[0].liść_głowy()
+            for zaimek, rzecz in _dzierżawcze(czytanie, zakres):
+                if not _w_podmiocie(zaimek, podmioty[0]) and _tylko_podmiot(
+                    zaimek, podmiot, czytanie, zakres
+                ):
+                    znalezione.setdefault(
+                        (zaimek.segment.form, rzecz.segment.form, podmiot.segment.form), None
+                    )
+    return tuple(Niezwrotny(*trójka) for trójka in znalezione)
+
+
+def _w_podmiocie(zaimek: Leaf, podmiot: Node) -> bool:
+    """Czy zaimek stoi w podmiocie, czyli w rzeczy, o której `swój` orzec nie może.
+
+    `Rada Ministrów i jej prezes powinni określić termin.` nie ma tu czego
+    poprawiać i nie jest to sąd o rejestrze: `swój` podejmuje podmiot, więc w
+    samym podmiocie orzekałby o sobie i polszczyzna go tam nie stawia.
+    """
+    return podmiot.span[0] <= zaimek.span[0] and zaimek.span[1] <= podmiot.span[1]
+
+
+def _tylko_podmiot(zaimek: Leaf, podmiot: Leaf, czytanie: Node, zakres: tuple[int, int]) -> bool:
+    """Czy podmiot jest jedyną rzeczą stojącą przed zaimkiem, która się z nim zgadza.
+
+    Rzeczy bierzemy z kawałka przed zaimkiem, tak samo jak reguła obok
+    (:func:`_kawałki`) i z tego samego powodu: czytelnik szuka wstecz.
+    Podmiot stojący za zaimkiem odpada więc razem z podmiotem, który zaimek
+    obejmuje — `Jego stosunek do służby był omawiany.` nazywa podmiotem rzecz
+    posiadaną — bo żaden z nich nie jest rzeczą tego kawałka.
+    """
+    odczytania = [r for r in zaimek.odczytania if r.tag.pos == ZAIMEK]
+    przed = (zakres[0], zaimek.span[0])
+    głowy = [g for g in _głowy(czytanie.children, zaimek.span) if _w_zakresie(g, przed)]
+    if podmiot not in głowy or not zgadza(odczytania, _imienne(podmiot), ZGODNE):
+        return False
+    return len(_zgodne(odczytania, _rzeczy(głowy))) == 1
+
+
+def _dzierżawcze(czytanie: Node, zakres: tuple[int, int]) -> Iterator[tuple[Leaf, Leaf]]:
+    """Zaimki dzierżawcze tego składowego wraz z rzeczą, którą każdy określa.
+
+    Zaimek poznaje się po miejscu, a nie po cechach formy: dzierżawczym czyni go
+    ta jedna pozycja, w której gramatyka stawia go obok głowy imiennej
+    (``ZAIMEK_DZIERŻAWCZY`` w ``olski/subset/słowa.py``), a wypisane tu drugi raz
+    `gen`, `akc` i `npraep` byłyby drugą kopią tamtego warunku. Poza tą pozycją
+    `jego` jest dopełnieniem i o posiadaniu nie mówi nic.
+    """
+    for węzeł in _węzły(czytanie, DEKLARACJA.podrzędne):
+        for numer, dziecko in enumerate(węzeł.children):
+            if numer == węzeł.głowa or not isinstance(dziecko, Leaf):
+                continue
+            if any(r.tag.pos == ZAIMEK for r in dziecko.odczytania) and _w_zakresie(
+                dziecko, zakres
+            ):
+                yield dziecko, węzeł.liść_głowy()
+
+
+def _węzły(drzewo: Tree, podrzędne: Sequence[str]) -> Iterator[Node]:
+    """Węzły tego drzewa poza zdaniami podrzędnymi, sam korzeń włącznie."""
+    if isinstance(drzewo, Leaf):
+        return
+    yield drzewo
+    if drzewo.label in podrzędne:
+        return
+    for dziecko in drzewo.children:
+        yield from _węzły(dziecko, podrzędne)
+
+
+def _w_zakresie(liść: Leaf, zakres: tuple[int, int]) -> bool:
+    return zakres[0] <= liść.span[0] < zakres[1]
 
 
 def _zaimki(czytania: Sequence[Node]) -> list[Leaf]:

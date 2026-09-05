@@ -10,13 +10,18 @@ Rozszerzenie stojące za flagą ``w_zdaniu`` szuka rzeczy także w zdaniu zaimka
 więc jego zdania stoją tu parami: pod flagą zgłoszenie, a bez niej milczenie.
 Zgłoszenie to nosi własną nazwę, bo to ona trzyma regułę czekającą na awans
 poza kodem wyjścia, i jeden z tych sądów jest właśnie o niej.
+
+Druga reguła tej warstwy zgłasza zaimek dzierżawczy, którego posiadaczem jest
+podmiot zdania, bo o rzeczy podmiotu polszczyzna mówi `swój`. Trafienie ma ona
+jedno i milczeń kilka, więc sądy nietrywialne są tu te same co wyżej: co zdejmuje
+kandydata i dokąd sięga kawałek, w którym się go szuka.
 """
 
 import pytest
 
 pytest.importorskip("morfeusz2")
 
-from olski.werdykt import ODNIESIENIE_W_ZDANIU, nad_tekstem
+from olski.werdykt import ODNIESIENIE_W_ZDANIU, ZAIMEK_NIEZWROTNY, nad_tekstem
 
 
 def zgłoszenia(tekst: str, w_zdaniu: bool = False) -> list[tuple[tuple[str, tuple[str, ...]], ...]]:
@@ -113,6 +118,69 @@ def test_rzeczy_podaje_zdanie_obok_a_nie_cały_akapit_przed_zaimkiem():
     #  ręką; zdanie obok nie nazywa ani jednej rzeczy zgodnej z `one`.
     tekst = "Maki rosną w garnkach. Ogrodnik pracuje. Są one czerwone."
     assert zgłoszenia(tekst)[2] == ()
+
+
+def niezwrotne(tekst: str) -> list[tuple[tuple[str, str, str], ...]]:
+    """Zgłoszenia o zaimkach dzierżawczych jako trójki, po jednej krotce na zdanie."""
+    return [
+        tuple((n.zaimek, n.rzecz, n.podmiot) for n in zdanie.werdykt.niezwrotne)
+        for zdanie in nad_tekstem(tekst)
+    ]
+
+
+def test_zaimek_dzierżawczy_zgodny_z_samym_podmiotem_jest_zgłoszeniem():
+    """Zdanie, na którym reguła stoi (``próba/nkjp-sądy.txt``).
+
+    Kandydatem na posiadacza jest tu sam podmiot, a `swojego` jest tym, co autor
+    napisałby o stosunku kandydata, więc czytelnik nie ma dokąd pójść.
+    Kandydat jest jeden dzięki temu, że grupa imienna z zaimkiem rzeczy nie
+    wydaje: bez tego zawężenia `omawiania` i `stosunku` dokładają dwóch i
+    zgłoszenie schodzi.
+    """
+    zdanie = "Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby."
+    assert niezwrotne(zdanie)[0] == (("jego", "stosunku", "Kandydat"),)
+
+
+def test_rzecz_zgodna_obok_podmiotu_zdejmuje_zgłoszenie():
+    #  O półciężarówce Marka autor napisałby `swoją`, więc `jego` podejmuje
+    #  Grzesia i czytelnik ma dokąd pójść. Zdanie o kilku kandydatach jest tym,
+    #  o co pyta reguła obok, a nie ta.
+    zdanie = "Marek stał na poboczu, czekając na Grzesia i jego półciężarówkę."
+    assert niezwrotne(zdanie)[0] == ()
+
+
+def test_rzecz_spięta_z_zaimkiem_spójnikiem_kandydatem_zostaje():
+    #  Ciąg współrzędny obejmuje `jego`, a artysta stoi obok zaimka, nie nad nim,
+    #  więc posiadaczem być może; zdjęty razem z całym ciągiem zostawiałby tu
+    #  `Manifest` jako kandydata jedynego.
+    zdanie = "Manifest brał pod opiekę artystę i jego twórczość."
+    assert niezwrotne(zdanie)[0] == ()
+
+
+def test_zaimek_stojący_w_podmiocie_zgłoszenia_nie_dostaje():
+    #  `swój` podejmuje podmiot, więc w samym podmiocie orzekałby o sobie i
+    #  polszczyzna go tam nie stawia; autor nie ma tu czego poprawiać.
+    zdanie = "Rada Ministrów i jej prezes powinni określić termin."
+    assert niezwrotne(zdanie)[0] == ()
+
+
+def test_podmiot_stojący_za_zaimkiem_kandydatem_nie_jest():
+    #  Czytelnik szuka posiadacza wstecz, tak samo jak przy regule obok, a
+    #  `telefon` stoi za zaimkiem i nie jest niczym, co on podejmuje.
+    zdanie = "U jego stóp leżał zrujnowany telefon."
+    assert niezwrotne(zdanie)[0] == ()
+
+
+def test_zgłoszenie_o_zaimku_dzierżawczym_nie_jest_znaleziskiem():
+    """Reguła czeka na sądy czytelnika, więc kodu wyjścia nie rusza.
+
+    Sąd ten jest o tej samej granicy co sąd o rozszerzeniu spod ``w_zdaniu``,
+    a stoi osobno, bo obie nazwy trzeba było wpisać poza :data:`ZNALEZISKA`
+    osobno.
+    """
+    zdanie = nad_tekstem("Kandydat przystąpił do omawiania jego stosunku do służby.")[0]
+    assert ZAIMEK_NIEZWROTNY in zdanie.zgłoszenia
+    assert zdanie.znaleziska == ()
 
 
 def test_zdanie_bez_odczytania_nie_podaje_ani_jednej_rzeczy():

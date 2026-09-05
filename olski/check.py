@@ -20,7 +20,7 @@ from typing import TypeVar
 from olski.cennik import cena
 from olski.chwyty import chwyty
 from olski.imiesłowy import Imiesłów
-from olski.odniesienia import Odniesienie
+from olski.odniesienia import Niezwrotny, Odniesienie
 from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
 from olski.wejście import proza
 from olski.werdykt import (
@@ -167,6 +167,20 @@ def _wiersz_imiesłowu(wiersz: Imiesłów) -> str:
     return f"„{wiersz.imiesłów}” określa „{wiersz.orzeczenie}”, które podmiotu nie ma"
 
 
+def _wiersz_niezwrotnego(wiersz: Niezwrotny) -> str:
+    """Zaimek dzierżawczy, rzecz i podmiot, którego on nie bierze, jako wiersz wydruku.
+
+    Wiersz kończy się formą, którą autor napisałby o rzeczy podmiotu, bo to ona
+    jest poprawką; rodzaju i przypadka wiersz jej nie odmienia, bo `swój` odmienia
+    się za rzeczą, a nie za zaimkiem, którego on zastępuje.
+    Formy w cudzysłowie z tego samego powodu co przy :func:`_wiersz_imiesłowu`.
+    """
+    return (
+        f"„{wiersz.zaimek}” określa „{wiersz.rzecz}”, a o rzeczy podmiotu "
+        f"„{wiersz.podmiot}” mówi się „swój”"
+    )
+
+
 def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
@@ -253,6 +267,10 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
     #  i obie o to, czego zdaniu brakuje: tam wykonawcy w pozycji, tu podmiotu.
     if args.imiesłowy:
         yield from map(_wiersz_imiesłowu, verdict.imiesłowy)
+    #  Zaimki dzierżawcze za imiesłowami, bo pytają o to samo co warstwa zaimkowa
+    #  nad werdyktem, a czekają za flagą tak jak imiesłów nad nimi.
+    if args.dzierżawcze:
+        yield from map(_wiersz_niezwrotnego, verdict.niezwrotne)
     if świadkowie is not None:
         yield from _rozstrzygnięcia(verdict, świadkowie, zdanie.sąsiedztwo)
     #  Chwyt na końcu, bo o polszczyźnie tego zdania nie mówi nic.
@@ -305,6 +323,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--imiesłowy",
         action="store_true",
         help="pokaż imiesłowy przysłówkowe stojące przy orzeczeniu, które podmiotu nie ma",
+    )
+    parser.add_argument(
+        "--dzierżawcze",
+        action="store_true",
+        help="pokaż zaimki dzierżawcze nazywające rzecz podmiotu, o której mówi się „swój”",
     )
     parser.add_argument(
         "--chwyty",

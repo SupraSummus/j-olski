@@ -347,6 +347,74 @@ python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md todo/*
 python3 -m olski.check --chwyty $(find olski harness tests witryna opowieści -name '*.py')
 ```
 
+## Wykrywacz zaimka niezwrotnego został za flagą, bo trafienie od chybienia dzieli znaczenie słowa
+
+O rzeczy podmiotu polszczyzna mówi `swój`,
+więc `jego`, `jej` i `ich` nazywają rzecz kogoś innego niż podmiot zdania składowego.
+`Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby bezpieczeństwa.`
+nie mówi przez to o stosunku kandydata,
+choć nikogo innego to zdanie nie nazywa, a poprawką jest `swojego`.
+To zdanie i dwa takie stoją w `próba/usterki.txt`
+i to one postawiły ten wykrywacz w kolejce
+([roadmap.md](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
+Wykrywa go `olski/odniesienia.py`, a wypisuje flaga `--dzierżawcze`.
+
+Na [czterech osiach](#cztery-osie-każdej-reguły) wypada tam,
+gdzie [reguła o zaimku](#gdzie-na-tych-osiach-wypada-reguła-o-zaimku) obok niego:
+głębokością jest rozbiór, bo i podmiot, i głowę grupy imiennej nazywa dopiero drzewo,
+kształtem jest werdykt o zdaniu, a pytanie jest o strukturę.
+Progu przez to nie ma i kalibracji ta reguła nie potrzebuje —
+potrzebuje jej awans, i to on stanął.
+Populacją jest cudza polszczyzna,
+więc o regule rozstrzyga baza sądów, a nie przeczytanie wszystkich trafień.
+
+Zawężenia są trzy i każde zdejmuje trafienia, a żadne ich nie dokłada.
+Rzecz, pod którą zaimek stoi, kandydatem na posiadacza nie jest,
+bo posiadacza grupa imienna nie ma w sobie samej:
+w `do omawiania jego stosunku` nie jest nim ani omawianie, ani stosunek.
+Rzecz zgodna stojąca przed zaimkiem obok podmiotu zdejmuje zgłoszenie,
+bo wtedy zaimek ma dokąd pójść:
+w `Marek stał na poboczu, czekając na Grzesia i jego półciężarówkę.`
+o półciężarówce Marka mówiłoby się `swoją`, więc `jego` podejmuje Grzesia.
+Zaimek stojący w samym podmiocie zgłoszenia nie dostaje,
+bo `swój` podejmuje podmiot i w nim samym orzekałby o sobie:
+`Rada Ministrów i jej prezes` innej formy nie ma.
+
+Kryterium postawiono przed pomiarem:
+dwadzieścia sądów trafnych na trzydzieści awansuje wykrywacz do wydruku domyślnego,
+a mniej niż dziesięć zostawia go za flagą.
+Trzydzieści trafień nad podkorpusem milionowym NKJP przeczytano
+i czytelnik potwierdził jedno (`próba/nkjp-sądy.txt`).
+
+Chybienia są jednym kształtem i widać po nim, czego regule brakuje.
+Zaimek podejmuje w nich osobę nazwaną zdanie albo dwa wcześniej,
+a w podmiocie stoi rzecz, której czytelnik na posiadacza nie bierze:
+`Przeszywający ból, cierpienie widoczne na jego spoconej twarzy są oznaką łaski.`
+mówi o twarzy szamana, bo ból twarzy nie ma,
+a `Przez długi czas będą jeszcze trudności z ich nabyciem.`
+mówi o sadzonkach, bo trudności się nie nabywa.
+Zgodność liczby i rodzaju tego nie rozdziela i rozdzielić nie może:
+`jego` zgadza się z każdym rzeczownikiem męskim i nijakim w liczbie pojedynczej.
+Rozdziela to znaczenie słowa — czy rzecz stojąca w podmiocie bywa posiadaczem —
+a nie kształt zdania, więc zawężenia z drzewa na to nie ma
+([subset.md](subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa)).
+
+Zawężenie do podmiotu nazywającego osobę tego nie ratuje i sprawdzono to.
+Nad warstwą literacką zdejmuje ono większość chybień i większością zostawia je nadal,
+bo osoba stoi w podmiocie także tam, gdzie zaimek podejmuje kogoś innego:
+`Po wyrazie jego twarzy Wąsowski odgadł.`
+Rodzaj gramatyczny nazywa przy tym osobę tylko w rodzaju męskim,
+więc `jej` zostałoby bez zawężenia,
+a deklaracja osób tego projektu jest zamknięta i poza jego rejestr nie sięga
+([walencja.md](walencja.md#deklaracja-projektu-rozstrzyga-żądanie-osoby)).
+
+Reguła mimo to nie schodzi z kodu i jest to ten sam rachunek,
+który zostawił w nim [imiesłów bez podmiotu](subset.md#imiesłów-przy-orzeczeniu-bezosobowym-czeka-za-flagą):
+w wydruku domyślnym płaciłby za nią autor zdaniem przepisanym bez powodu,
+a za flagą płaci za nią repozytorium jedną funkcją i garścią testów.
+Jej nazwa zostaje przez to poza znaleziskami,
+więc ani podsumowanie, ani kod wyjścia `olski-check` się nie ruszają.
+
 Reszta tego dokumentu opisuje tamten pakiet i argumenty, które za nim przemawiały.
 
 ## The target register: technical documentation
