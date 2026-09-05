@@ -634,19 +634,6 @@ nazywa rozbieżność konstytuentu,
 bo wybór budowy nie ma jeszcze postaci,
 w której czytelnik nazwałby odpowiedź słowami zdania.
 
-Reguła wycofana zabiera z bazy sądów swoje sądy i nikt tego nie chciał.
-`czytaj` w `harness/sądy.py` odrzuca wpis o znalezisku spoza `ZGŁOSZENIA`,
-więc baza z nazwą, której olski już nie ma, nie wstaje,
-a [`docs/corpora.md`](../docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają)
-mówi zarazem, że sąd żyje dłużej niż liczba pod nim.
-Trzynaście sądów o imiesłowie bez podmiotu wyszło stamtąd właśnie tak
-i czyta się je dziś z historii `próba/nkjp-sądy.txt`.
-Do rozstrzygnięcia jest, czy baza dostaje nazwy zgłoszeń wycofanych,
-i wtedy `_klasa` musi powiedzieć, w której klasie taki sąd staje,
-bo `zdjęte` liczy zakup, a wycofanie reguły zakupem nie jest;
-czy wycofanie wchodzi do tamtej sekcji jako trzeci przypadek,
-w którym sąd z bazy jednak schodzi, wraz ze zdaniem o tym, gdzie wtedy stoi.
-
 Warstwa grup NKJP (`ann_groups.xml`) nazywa zasięg grupy imiennej i jej głowę,
 a złote znaczniki tego nie mówią,
 więc wybór budowy grupy — `Wiele takich poczwórności`, `naszych Czytelników` —
