@@ -33,17 +33,21 @@ i wtedy pytaniem jest, ile czasowników poza nią orzecznik w narzędniku bierze
 
 Zdanie leksykonu o parze przemilcza, które wypełnienie przy celowniku stoi,
 więc lemat z parą bierze wszystkie cztery naraz
-([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+([`docs/walencja.md`](../docs/walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)).
 Walenty rozdziela je i mówi to o tysiącach lematów, których rozkład trzyma
 tamta sekcja: `pokazywać` ma parę z biernikiem, ze zdaniem i z pytaniem,
 a z bezokolicznikiem jej nie ma, więc `Parser pokazuje autorowi zapisać ustawienia.`
 wyprowadza się i polszczyzną nie jest.
-Ruchem są cztery zdania leksykonu w miejsce jednego,
-a wraz z nimi cztery wartości cechy `druga` w `olski/subset/rama.py` zamiast jednej.
+Ruchem są cztery zdania leksykonu w miejsce tego jednego,
+a wraz z nimi cztery wartości cechy `druga` w `olski/subset/rama.py`
+w miejsce celownikowej.
 Do rozstrzygnięcia jest, czy warto:
 rama domyślna daje każdemu czasownikowi te same cztery wypełnienia naraz,
 więc para rozdzielona byłaby dokładniejsza od ramy, do której dochodzi,
 a klas walencyjnych przybywa wtedy tyle, ile jest podzbiorów tej czwórki.
+Cenę takiego podziału pokazała para biernikowa, która sąsiada już nazywa
+([`docs/walencja.md`](../docs/walencja.md#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy)):
+klas walencyjnych przybyło kilka, a produkcji gramatyki przeszło sto.
 Do przeczytania jest cena dzisiejszej zgrubności, której nikt nie policzył:
 ile zdań Składnicy przechodzi przez parę, której schemat lematu nie ma.
 
@@ -196,22 +200,23 @@ a rama domyślna takiej nie ma:
 biernik z bezokolicznikiem naraz zmierzono i nad Składnicą pod złotą morfologią
 przyjmuje kilka zdań mniej, a wieloznacznych ma o kilka więcej,
 bo grupa imienna za bezokolicznikiem dochodzi wtedy i do niego, i do formy osobowej.
-Pozycja, która z inną naprawdę stoi, jest już wpuszczona i jest nią celownik obok
-wypełnienia ([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)),
+Pozycje, które z inną naprawdę stoją, są już wpuszczone i są nimi celownik obok
+wypełnienia oraz biernik obok zdania podrzędnego
+([`docs/walencja.md`](../docs/walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)),
 tyle że licencji nie niesie tam rama, tylko cecha obok niej,
 bo ramy unifikacja nie zużywa, a przecina.
 Ruch jest przez to odwróceniem tamtej decyzji, a nie dopisaniem do niej:
 rama zużywana zdejmuje tę cechę i wypowiada parę samą ramą.
 Do przeczytania jest, co robi z klasami walencyjnymi:
-dziś dzieli je para na dwie, a rama zużywana dzieliłaby je tym,
-ile pozycji lemat bierze naraz.
+dziś dzielą je pary po tym, które z nich lemat ma,
+a rama zużywana dzieliłaby je tym, ile pozycji lemat bierze naraz.
 
-Dopełniacz nie ma drugiej pozycji ramy, którą ma celownik
-([`docs/walencja.md`](../docs/walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+Dopełniacz nie ma drugiej pozycji ramy, którą mają celownik i biernik
+([`docs/walencja.md`](../docs/walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)).
 Walenty daje go przy bierniku 15 lematom, przy pytaniu 28, a przy zdaniu 6,
-i te liczby są całym powodem, dla którego pozycja weszła sama celownikiem.
-Ruchem jest druga wartość cechy `druga` w `olski/subset/rama.py`
-wraz ze zdaniem leksykonu liczonym tak samo jak tamto,
+i te liczby są całym powodem, dla którego pozycja weszła najpierw celownikiem.
+Ruchem jest trzecia wartość cechy `druga` w `olski/subset/rama.py`
+wraz ze zdaniem leksykonu liczonym tak samo jak tamte dwa,
 a przed nim pomiar, bo cena tej pozycji jest po stronie żywej morfologii wysoka:
 celownik dzieli formę z miejscownikiem, a dopełniacz z biernikiem i z mianownikiem mnogim.
 Do przeczytania jest, czy zdanie z tą parą da się w ogóle odróżnić po werdykcie:

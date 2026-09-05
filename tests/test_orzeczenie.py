@@ -28,6 +28,7 @@ from olski.subset import (
     WALENCJA,
     WALENCJA_ZWROTNA,
 )
+from olski.subset.rama import _klasy
 from olski.walencja import KOPULA
 from tests.test_werdykt import role, verdict
 
@@ -257,6 +258,47 @@ def test_druga_pozycja_ramy_stoi_obok_każdego_wypełnienia_a_nie_samego_biernik
     #  zdanie wyprowadzało się także bez tej pozycji.
     assert verdict("Parser mówi autorowi, że zdanie czyta się dwojako.").readings
     assert verdict("Krawiec kazał córce usiąść.").status == "valid"
+
+
+def test_zdanie_podrzędne_staje_obok_biernika_tylko_u_lematu_z_parą():
+    #  Usterka, którą to łapie: para wzięta z tego, że rama domyślna ma obie
+    #  pozycje naraz. Biernik i zdanie podrzędne bierze z niej każdy czasownik,
+    #  więc bez własnego zdania leksykonu parę dostaje i `zamykać`.
+    assert verdict("Kierownik poinformował pracownika, że wniosek został odrzucony.").status == "valid"
+    assert not verdict("Zamyka okno, że cena jest niska.").readings
+
+
+def test_para_biernikowa_żąda_dopełniacza_pod_przeczeniem():
+    #  Usterka, którą to łapie: ciało pary milczące o negacji. Głową jest w nim
+    #  zdanie podrzędne, które negacji nie niesie, więc bez ogłoszenia jej przez
+    #  samą produkcję przeczenie nie dochodzi do dopełnienia.
+    #
+    #  Rzeczownik jest tu żeński, bo w `pracownika` biernik i dopełniacz mają
+    #  jedną formę i to zdanie wychodzi tak samo źle, jak dobrze.
+    assert verdict("Kierownik nie poinformował firmy, że wniosek został odrzucony.").status == "valid"
+    assert not verdict("Kierownik nie poinformował firmę, że wniosek został odrzucony.").readings
+
+
+def test_para_biernikowa_stoi_w_jednym_szyku_i_nie_wysuwa_zdania_przed_dopełnienie():
+    #  Ciało jest jedno, gdzie para celownikowa ma dwa szyki, bo zdanie podrzędne
+    #  niesie swój przecinek i staje za tym, co orzeczenie mówi bez niego.
+    assert not verdict("Kierownik poinformował, że wniosek został odrzucony, pracownika.").readings
+
+
+@pytest.mark.parametrize("zwrotne", [False, True])
+def test_lemat_z_dwiema_parami_dostaje_jedną_klasę_walencyjną(zwrotne):
+    #  Usterka, którą to łapie: lemat z dwiema parami wpisany do klasy każdej z
+    #  nich. `objaśnić` bierze celownik obok wypełnienia i biernik obok zdania
+    #  podrzędnego, więc dwie klasy dałyby mu dwa czytania jednego kształtu, a
+    #  liczba czytań ich nie rozdziela: kształt jest ten sam.
+    #
+    #  Po ramie pilnuje tego `test_klasy_walencyjne_nie_zachodzą_na_siebie`,
+    #  a rama pary nie niesie, więc tam ten lemat stoi raz i tak samo stałby raz
+    #  przy dwóch klasach `druga`.
+    lematy = [
+        lemat for warunek, _rama, _druga in _klasy(zwrotne) for lemat in warunek.get("lemma", ())
+    ]
+    assert len(lematy) == len(set(lematy))
 
 
 def test_wolny_celownik_pada_obok_dopełnienia_a_nie_na_leksykonie():

@@ -136,7 +136,7 @@ Zdanie o celowniku i zdanie o dopełniaczu są twierdzące i mówią,
 ([niżej](#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)).
 Zdanie o celowniku przy wypełnieniu jest węższe od tamtego pierwszego i mówi,
 że jeden schemat stawia ten celownik obok drugiej pozycji
-([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+([niżej](#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)).
 Zdania o bezokoliczniku są dwa i jedno jest węższe od drugiego, jak przy celowniku:
 szersze mówi, że bezokolicznik przy tym czasowniku stoi,
 a węższe — że jego wykonawcą jest podmiot tego samego schematu
@@ -144,6 +144,10 @@ a węższe — że jego wykonawcą jest podmiot tego samego schematu
 Zdanie o zdaniu podrzędnym mówi, że czasownik bierze zdanie wprowadzone przez `że`,
 czyli że stoi przy nim to, co ktoś mówi albo wie
 ([kategorie-zapisu.md](kategorie-zapisu.md#treść-jest-zdarzeniem-o-którym-ktoś-coś-sądzi)).
+Zdanie o bierniku przy tym zdaniu podrzędnym mówi o parze tak samo jak to o celowniku,
+a różni się od niego tym, że sąsiada nazywa:
+jeden schemat stawia dopełnienie w bierniku obok zdania z `że`, i tylko obok niego
+([niżej](#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy)).
 Kierunek zdania o bierniku jest przeciwny niż kierunek pozostałych,
 bo przeciwne są domyślności, od których one odejmują:
 rama domyślna ma dopełnienie w bierniku, a nie ma ani przypadka poza nim,
@@ -153,7 +157,7 @@ czyli słowa wraz z tym, które z tych zdań są o nich prawdziwe:
 zdanie o bierniku niesie 8 847 wpisów, o celowniku 7 989,
 o celowniku przy wypełnieniu 4 893, o dopełniaczu 822,
 o bezokoliczniku 369, o bezokoliczniku pod kontrolą podmiotu 285,
-a o zdaniu podrzędnym 2 560.
+o zdaniu podrzędnym 2 560, a o bierniku przy zdaniu podrzędnym 288.
 Ramy ten plik nie niesie, bo rama składa się dopiero ze zdań, które on mówi.
 Nazywają ją dwa moduły, po jednym na kierunek, bo każdy z nich czyta inne zdania:
 `olski/subset/rama.py` wypisuje klasy walencyjne razem z domyślną,
@@ -268,7 +272,7 @@ Zdania są przez to dwa, a nie jedno, i różni je właśnie kontrola.
 Szersze mówi, że bezokolicznik przy tym czasowniku stoi,
 węższe — że wykonawcą jest jego własny podmiot,
 i drugie zawiera się w pierwszym tak samo jak celownik przy wypełnieniu
-w celowniku ([niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)).
+w celowniku ([niżej](#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)).
 
 Węższe czyta skład, bo drzewo stawiające bezokolicznik stawia i wykonawcę,
 a `Krawiec kazał córce zejść.` mówi, że zeszłaby córka, i tego skład nie zapisze.
@@ -456,7 +460,7 @@ bo kształt obu wyprowadzeń jest ten sam
 ([subset.md](subset.md#co-się-liczy-jako-jedno-odczytanie)).
 
 Drugiego dopełnienia obok pierwszego ta pozycja nie daje;
-daje je [pozycja niżej](#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia)
+daje je [pozycja niżej](#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy)
 i wpuszcza ją osobne zdanie leksykonu.
 Wyrażenia przyimkowego to nie dotyczy, bo ono jest okolicznikiem:
 `Parser mówi autorowi o czytaniach.` wyprowadza się i wychodzi wieloznaczne,
@@ -525,7 +529,7 @@ zdanie o dwudziestu wyrazach ma kilka zatrzymań naraz,
 więc pozycja zdejmuje jedno z nich i zostawia zdanie odrzucone, tylko dalej.
 Widać ją za to nad zdaniem krótkim.
 
-### Druga pozycja ramy jest celownikiem obok wypełnienia
+### Celownik obok wypełnienia jest drugą pozycją ramy
 
 `Parser pokazuje autorowi oba czytania.`, `Parser mówi autorowi, że zdanie czyta się dwojako.`
 Celownik stoi tu obok wypełnienia, które pozycję ramy zajmuje, a nie w niej samej,
@@ -610,6 +614,83 @@ python3 -m olski.check --readings -c "Parser pokazuje autorowi oba czytania."
 <text>: Parser pokazuje autorowi oba czytania.
         - podmiot: Parser, dopełnienie: autorowi + oba czytania, orzeczenie: pokazuje
 ```
+
+### Biernik obok zdania podrzędnego jest drugą pozycją ramy
+
+`Kierownik poinformował pracownika, że wniosek został odrzucony.`
+Zdanie z `że` zajmuje pozycję ramy
+([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej)),
+a tutaj stoi obok dopełnienia w bierniku, które zajmuje drugą.
+Licencji udziela mu ta sama cecha, którą niesie para celownikowa
+[wyżej](#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy), i z tego samego powodu.
+
+```sh
+python3 -m olski.check --readings --zatrzymania -c "Kierownik poinformował pracownika, że wniosek został odrzucony.
+Kierownik nie poinformował firmy, że wniosek został odrzucony.
+Kierownik nie poinformował firmę, że wniosek został odrzucony.
+Zamyka okno, że cena jest niska."
+```
+
+```text
+<text>: Kierownik poinformował pracownika, że wniosek został odrzucony.
+        - podmiot: Kierownik, dopełnienie: pracownika, orzeczenie: poinformował
+<text>: Kierownik nie poinformował firmy, że wniosek został odrzucony.
+        - podmiot: Kierownik, dopełnienie: firmy, orzeczenie: nie poinformował
+<text>: Kierownik nie poinformował firmę, że wniosek został odrzucony.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+<text>: Zamyka okno, że cena jest niska.
+        brak odczytania: analiza dochodzi do końca, a nic nie domyka zdania
+zdań: 4; wieloznaczne: 0; bez odczytania: 2
+```
+
+Przeczenie żąda w tej parze dopełniacza, tak samo jak od dopełnienia stojącego samego.
+
+**Zdanie leksykonu nazywa tu sąsiada, a celownikowe go przemilcza.**
+Celownik pozycji ramy nie zajmuje wcale, więc zdanie o nim wystarcza samo:
+sąsiada licencjonuje obok niego rama.
+Biernik i zdanie z `że` są oba pozycjami ramy domyślnej,
+więc para wzięta z tego, że lemat ma obie, obowiązywałaby przy każdym czasowniku,
+a `Zamyka okno, że cena jest niska.` polszczyzną nie jest.
+Nie dowodzą jej też dwa zdania leksykonu policzone osobno:
+biernik z jednego schematu i zdanie z drugiego to nie para,
+a takich lematów jest 1 094 przy 288, które mają obie pozycje w jednym schemacie.
+Kryterium schematu jest to samo co przy celowniku
+(`bierze_ramą` w `harness/walenty.py`).
+
+**Par z biernikiem jest trzy, a weszła jedna.**
+Walenty stawia biernik obok zdania z `że` przy 288 wpisach,
+obok pytania zależnego przy 132, a obok bezokolicznika przy 28.
+Weszła ta ze zdaniem, bo jej brakowało zdaniu z korpusu usterek,
+a dwóch pozostałych nikt nie zmierzył;
+każda jest osobnym zdaniem leksykonu, więc cena każdej jest osobną liczbą.
+Strona zwrotna wychodzi z tego wydania Walentego pusta:
+biernika obok zdania podrzędnego nie bierze ani jeden czasownik z cząstką `się`.
+
+**Szyk jest jeden, bo zdanie podrzędne niesie swój przecinek.**
+Para celownikowa ma dwa szyki, bo polszczyzna ma oba,
+a `Że wniosek został odrzucony, poinformował pracownika.` nie jest zdaniem tego rejestru.
+Okolicznika między członami to ciało nie ma i nikt go nad nim nie policzył,
+a miejsca wokół całej pary wylicza `wypełnienia` w `olski/subset/zdanie.py`.
+
+**Cena i zakup są zmierzone nad Składnicą 180723 przebiegiem przed zmianą i po niej.**
+Pod złotą morfologią czytanie dostaje jedno zdanie, które przedtem nie miało żadnego,
+i jest ono wieloznaczne, a złote czytanie w nim ocalało i stoi pierwsze.
+Jednoznaczności nie traci ani jedno zdanie przyjęte,
+a zgodność ról z drzewem wzorcowym nie rusza się ani o jedno zdanie
+([corpus.md](corpus.md#agreement-which-matters-more-than-acceptance)).
+Pod Morfeuszem przyjętych przybywa jedno i wieloznacznych jedno.
+Widać za to, że para zdejmuje jeden powód odrzucenia, a nie całe odrzucenie:
+wiersz `comp` kolejki blokerów schodzi o kilkadziesiąt zdań,
+a rosną wiersze zdań, które stają dalej
+([corpus.md](corpus.md#where-the-analyses-stop)).
+Nad prozą tego repozytorium nie rusza się ani jeden werdykt,
+ani w odcisku wszystkich jej zdań, ani w werdyktach zdań cytowanych w grawisach.
+
+**Kosztuje to podział klas walencyjnych, a nie samo ciało.**
+Parę ogłasza czasownik, więc klasa dzieli się po tym, które pary lemat ma,
+i po stronie bez cząstki `się` klas przybywa kilka.
+Produkcji gramatyki przybywa przeszło sto, a ciałem pary jest jedna z nich;
+liczbę dzisiejszą drukuje `harness/odcisk.py`.
 
 ## Żądanie pozycji jest osobnym plikiem, a nie kolumną leksykonu
 

@@ -442,8 +442,8 @@ i jest to wynik pomiaru o dwóch rejestrach, a nie usterka w którejś z nich.
 Jedna para wypadła poza przelicznik w drugą stronę niż `bedzie`.
 Wiersz `comp` obiecywał 567 zdań, a okolicznik wyrażony zdaniem
 oddał z niego niecałą dziesiątą część.
-Wiersz ten liczy jednak trzy konstrukcje naraz — zdanie z `że`, ten okolicznik
-i spójniki trybu przypuszczającego, które weszły po nim —
+Wiersz ten liczy jednak kilka konstrukcji naraz — zdanie z `że`, ten okolicznik,
+spójniki trybu przypuszczającego i biernik obok zdania podrzędnego, które weszły po nim —
 i tym różni się od tamtych, z których każdy stał za jedną.
 Obietnicą wiersza jest więc tyle, ile konstrukcji on liczy,
 a tego kolejka o sobie nie mówi i mówić nie może:

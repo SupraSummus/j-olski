@@ -666,7 +666,10 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
 - Dopełnienie w celowniku obok drugiego wypełnienia, tam gdzie leksykon parę wpuszcza:
   `Parser pokazuje autorowi oba czytania.`,
   `Parser mówi autorowi, że zdanie czyta się dwojako.`
-  ([walencja.md](walencja.md#druga-pozycja-ramy-jest-celownikiem-obok-wypełnienia))
+  ([walencja.md](walencja.md#celownik-obok-wypełnienia-jest-drugą-pozycją-ramy))
+- Zdanie podrzędne obok dopełnienia w bierniku, tam gdzie leksykon tę parę wpuszcza:
+  `Kierownik poinformował pracownika, że wniosek został odrzucony.`
+  ([walencja.md](walencja.md#biernik-obok-zdania-podrzędnego-jest-drugą-pozycją-ramy))
 - The register's own notation as an indeclinable noun:
   `Zobacz docs/subset.md.`, argued above
 - Forma pisana wersalikami, której słownik nie czyta wcale,
