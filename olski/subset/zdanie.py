@@ -53,6 +53,7 @@ from olski.subset.słowa import (
     NAWIAS_OTWIERAJĄCY,
     NAWIAS_ZAMYKAJĄCY,
     PREDYKATYW,
+    PREDYKATYW_PRZYSŁÓWKOWY,
     PRZECINEK,
     PRZECZENIA,
     PRZECZENIE,
@@ -223,30 +224,34 @@ def _szyki_zdania_składowego(
     # docs/konstrukcje-gramatyczne/orzeczenie.md#czasownik-nieosobowy-rządzi-ramą-swojego-lematu.
     forma_przyszła = word("bedzie", number="sg", person="ter")
     for przeczenie, negacja in PRZECZENIA:
-        grammar.rule(
-            ORZECZENIE_BEZOSOBOWE,
-            [*przeczenie, Głowa(PREDYKATYW)],
-            valency=RAMA_BEZOSOBOWA,
-            negacja=negacja,
-            druga=BEZ_DRUGIEJ,
-        )
-        # Czas przyszły tej głowy, w obu szykach: `Trzeba będzie zmierzyć cenę.`
-        # i `Będzie trzeba zmierzyć cenę.` Liczba i osoba stoją wypisane wartością,
-        # a nie zmienną, bo predykatyw nie niesie ani jednej, a cechy, której
-        # konstytuent nie niesie, unifikacja nie sprawdza: bez tych dwóch wartości
-        # `Trzeba będą zmierzyć cenę.` się wyprowadza. Cenę każdego szyku osobno mówi
-        # docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem.
-        for ciało in (
-            [*przeczenie, Głowa(PREDYKATYW), forma_przyszła],
-            [*przeczenie, forma_przyszła, Głowa(PREDYKATYW)],
-        ):
+        # Głowy są tu dwie i różni je sam znacznik, którym Morfeusz je wydaje
+        # (:data:`PREDYKATYWY_PRZYSŁÓWKOWE`). Ramę biorą przez to jedną i tę samą,
+        # a ciała wychodzą osobne, bo cena każdej z tych głów jest osobną liczbą.
+        for predykatyw in (PREDYKATYW, PREDYKATYW_PRZYSŁÓWKOWY):
             grammar.rule(
                 ORZECZENIE_BEZOSOBOWE,
-                ciało,
+                [*przeczenie, Głowa(predykatyw)],
                 valency=RAMA_BEZOSOBOWA,
                 negacja=negacja,
                 druga=BEZ_DRUGIEJ,
             )
+            # Czas przyszły tej głowy, w obu szykach: `Trzeba będzie zmierzyć cenę.`
+            # i `Będzie trzeba zmierzyć cenę.` Liczba i osoba stoją wypisane wartością,
+            # a nie zmienną, bo predykatyw nie niesie ani jednej, a cechy, której
+            # konstytuent nie niesie, unifikacja nie sprawdza: bez tych dwóch wartości
+            # `Trzeba będą zmierzyć cenę.` się wyprowadza. Cenę każdego szyku osobno mówi
+            # docs/konstrukcje-gramatyczne/orzeczenie.md#forma-bedzie-składa-czas-przyszły-także-z-predykatywem.
+            for ciało in (
+                [*przeczenie, Głowa(predykatyw), forma_przyszła],
+                [*przeczenie, forma_przyszła, Głowa(predykatyw)],
+            ):
+                grammar.rule(
+                    ORZECZENIE_BEZOSOBOWE,
+                    ciało,
+                    valency=RAMA_BEZOSOBOWA,
+                    negacja=negacja,
+                    druga=BEZ_DRUGIEJ,
+                )
         for zwrotne, cząstka in ((False, ()), (True, (CZĄSTKA_ZWROTNA,))):
             for warunek, rama, druga in _klasy(zwrotne):
                 grammar.rule(

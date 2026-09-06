@@ -566,6 +566,19 @@ CZĄSTKI_PRZY_LICZEBNIKU = frozenset({"przeszło"})
 CZĄSTKA_PRZY_LICZEBNIKU = word("part", lemma=CZĄSTKI_PRZY_LICZEBNIKU)
 
 
+#: Cząstki, które stopniują przysłówek: `Testy trwają za długo.`
+#: Lista jest rozłączna z :data:`CZĄSTKI` i rozłączna być musi, tak samo jak lista
+#: wyżej i z tego samego powodu: cząstka tamtej listy dochodzi do zdania całego,
+#: więc lemat stojący na obu dałby `za długo` dwa wyprowadzenia jednego kształtu.
+#: Kryterium na wejście i to, kto zostaje na zewnątrz, trzyma
+#: docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-za-stopniuje-przysłówek-i-nie-stopniuje-przymiotnika.
+CZĄSTKI_STOPNIA = frozenset({"za"})
+
+
+#: Cząstka stopnia jako terminal (:data:`CZĄSTKI_STOPNIA`).
+CZĄSTKA_STOPNIA = word("part", lemma=CZĄSTKI_STOPNIA)
+
+
 #: Cząstka czasownika zwrotnego jako terminal.
 CZĄSTKA_ZWROTNA = word("part", lemma=LEMAT_ZWROTNY)
 
@@ -604,6 +617,23 @@ PREDYKATYWY = frozenset({
 #: Predykatyw na czele swojego zdania: sama lista i nic więcej, tak samo jak
 #: :data:`CZĄSTKA`.
 PREDYKATYW = word("pred", lemma=PREDYKATYWY)
+
+
+#: Przysłówki, które orzekają tak samo jak predykatyw wyżej: `Trudno jadać rzadko.`,
+#: `Lepiej omijać ulicę Sienkiewicza.`
+#:
+#: Lista jest zamknięta, bo ``adv`` niesie każdy przysłówek naraz, a orzekać bez
+#: podmiotu umie garść: bez listy `Szybko.` wychodziłoby zdaniem. Kryterium na
+#: wejście jest przez to świadek: lemat wchodzi ten, którym bank drzew orzeka bez
+#: czasownika. `dobrze` wchodzi za `lepiej`, bo stopień wyższy idzie u Morfeusza
+#: pod lematem stopnia równego.
+#: Kogo świadek zostawia na zewnątrz i za ile, wywodzi
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#predykatyw-przysłówkowy-orzeka-tym-samym-ciałem-co-predykatyw.
+PREDYKATYWY_PRZYSŁÓWKOWE = frozenset({"trudno", "łatwo", "dobrze", "ciężko", "przykro"})
+
+
+#: Predykatyw przysłówkowy jako terminal (:data:`PREDYKATYWY_PRZYSŁÓWKOWE`).
+PREDYKATYW_PRZYSŁÓWKOWY = word("adv", lemma=PREDYKATYWY_PRZYSŁÓWKOWE)
 
 
 #: Łącznik między orzecznikiem a podmiotem, oba w mianowniku:

@@ -491,6 +491,53 @@ Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
 więc konstrukcja jest tu droga w rejestrze,
 który olskiemu ustawia kolejkę, a nie w tym, o który mu chodzi.
 
+## Cząstka `za` stopniuje przysłówek i nie stopniuje przymiotnika
+
+`Testy trwają za długo.` ma tę samą budowę co `Testy trwają bardzo długo.`,
+a gramatyka wyprowadza te dwa napisy dwoma ciałami,
+bo rozdziela je tagset, a nie pozycja:
+`bardzo` jest u Morfeusza przysłówkiem i bierze je gospodarz trzeci
+([wyżej](#przysłówek-dostaje-wszystkich-trzech-gospodarzy)),
+a `za` jest u niego cząstką, której terminal stopnia nie bierze.
+Ciała różni przez to sam terminal,
+a od córki prawej oba żądają tego samego, czyli niczego:
+`za tu` wyprowadza się tak samo jak `bardzo tu`.
+
+Lista jest zamknięta i ma na sobie jeden lemat,
+bo `part` niesie całą klasę cząstek naraz, a stopniuje z niej garść.
+Kryterium na wejście jest to samo, którym zamyka się lista cząstek zdania
+([wyżej](#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
+i `za` przechodzi je mimo trzech czytań przyimkowych:
+przyimek żąda za sobą grupy imiennej, a przysłówek grupą imienną nie jest.
+Rozłączność z tamtą listą jest za to warunkiem:
+lemat stojący na obu dochodziłby do zdania dwiema drogami —
+raz cząstką zdania, raz przez okolicznik pod sobą —
+tak samo jak lemat postawiony zarazem
+[przy liczebniku](grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna).
+
+Sonda różnicowa (`harness/ruch.py`) mierzy to ciało jego zdjęciem.
+Nad Składnicą wyciąga ono z odrzucenia pojedyncze zdania —
+`Za dawno przywykł do posłuchu.`, `Kto tu jest za głośno?` —
+a jednoznaczności nie traci ani jedno zdanie przyjęte.
+Nad prozą tego repozytorium kupuje wyprowadzenie kilku zdaniom i żadnemu werdyktu,
+a prowadzi w nich `za darmo`, czyli zrost, w którym `za` niczego nie stopniuje.
+Czytanie stopniujące jest tam nieprawdziwe, a zdania zostają wieloznaczne,
+więc werdykt nieprawdy o nich nie orzeka.
+
+Przymiotnika ta cząstka nie stopniuje, choć polszczyzna stawia ją i przed nim.
+Ciało przy przymiotniku kupuje nad Składnicą jedno zdanie
+(`Według grup ten próg jest za wysoki.`) i jedno nad prozą tego repozytorium,
+a jednoznaczność odbiera tam zdaniu innemu:
+`Kto płaci za odrzucone zdanie, rozstrzyga się z fotela użytkownika.`
+Drugie czytanie bierze w nim `za odrzucone` za przydawkę,
+a `odrzucone zdanie` całe za dopełnienie w bierniku,
+i przyimka nie zostaje w nim ani jednego.
+Kształt ten daje każde zdanie, w którym po tym przyimku stoi przymiotnik
+w jednym z trzech przypadków, którymi ten przyimek rządzi,
+a pozycja przy przysłówku nie ma go wcale, bo przyimek przysłówkiem nie rządzi.
+Warunkiem, który tę granicę odwraca, jest zdanie korpusu usterek,
+którego olski nie czyta przez brak tego ciała.
+
 ## Przymiotnik w formie poprzyimkowej jest okolicznikiem, a nie wyrażeniem przyimkowym
 
 `Reguła działa po polsku.` wyprowadza się, a `Reguła działa polsku.` nie:

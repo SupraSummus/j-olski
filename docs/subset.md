@@ -777,6 +777,10 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
 - Predykatyw, czyli słowo, które orzeka bez podmiotu i bez czasownika:
   `Trzeba czytać dokumenty.`, `Widać granicę w odpowiedzi.`, `Nie wiadomo.`
   ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#predykatyw-orzeka-bez-podmiotu-i-rządzi-ramą-czasownika))
+- Przysłówek orzekający tak samo, czyli ten, którego Morfeusz trzyma pod `adv`,
+  a polszczyzna stawia na czele zdania bez podmiotu:
+  `Trudno jadać rzadko.`, `Lepiej omijać ulicę Sienkiewicza.`
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#predykatyw-przysłówkowy-orzeka-tym-samym-ciałem-co-predykatyw))
 - Cząstka przy zdaniu i wewnątrz grupy imiennej:
   `Program już zapisuje ustawienia.`, `Już program zapisuje ustawienia.`,
   `Nawet ptaki przestały śpiewać.`
@@ -784,6 +788,9 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
 - Cząstka przybliżająca przed liczebnikiem, czyli granica, którą ten rejestr
   pisze zamiast liczby dokładnej: `Kupuje przeszło sto zdań.`
   ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cząstkę-przybliżającą-przyłącza-liczebnik-a-nie-grupa-imienna))
+- Cząstka `za` stopniująca przysłówek, czyli to, czego terminal stopnia nie bierze,
+  bo Morfeusz nie ma tej formy pod przysłówkiem: `Testy trwają za długo.`
+  ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-za-stopniuje-przysłówek-i-nie-stopniuje-przymiotnika))
 - Cudzysłów obejmujący grupę imienną, czyli tytuł albo termin cytowany:
   `Same „Zasady techniki prawodawczej” stoją poza tą sumą.`
   Grupa przechodzi przez niego cała, więc odmienia się wedle roli, w której stanęła.
@@ -1280,6 +1287,11 @@ Every one of these is a sentence that gets rejected and should not be:
   [cyfry olski nie bierze](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii),
   a liczebnik rządzący z dopełniaczem pojedynczym — `półtora roku` — stoi poza tym
   z tego samego powodu, z którego mnogi wszedł: rządzi innym przypadkiem.
+- Cząstka `za` przed przymiotnikiem: `Plik jest za duży.` jest odrzucone,
+  gdzie `Testy trwają za długo.` wyprowadza się.
+  Pozycja jest jednym ciałem, zmierzono ją i odłożono,
+  a wywód wraz z warunkiem, który tę granicę odwraca, trzyma
+  [konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-za-stopniuje-przysłówek-i-nie-stopniuje-przymiotnika).
 - Narzędnik bez przyimka wysunięty przed zdanie:
   `Wieczorem wziął lustro.` jest odrzucone,
   gdzie `Wziął lustro wieczorem.` wyprowadza się.
