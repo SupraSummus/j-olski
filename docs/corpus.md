@@ -403,8 +403,8 @@ The queue, the length curve and the status table are computed by
 so the same three tables come off a file of prose under a command of their own:
 
 ```sh
-python3 -m harness.markdown docs/roles.md --into proza/
-olski-pokrycie proza/roles.txt
+python3 -m harness.markdown docs/witryna.md --into proza/
+olski-pokrycie proza/witryna.txt
 ```
 
 Whoever raises coverage over a document of their own needs this ranking
@@ -416,8 +416,7 @@ and occur in these 13,035 sentences a handful of times.
 The number to read there is the curve rather than the total,
 because a construction admitted moves the stopping point of a long sentence
 without moving its verdict,
-so the total can stand still while the run bought exactly what it was meant to
-([pisanie-po-olsku.md](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
+so the total can stand still while the run bought exactly what it was meant to.
 
 Morphology is live and has to be:
 prose carries no disambiguated tags, so the gold column has no meaning over it,

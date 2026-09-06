@@ -19,7 +19,7 @@ i przez leksykon walencyjny, a stoi tutaj, bo liczbę stamtąd czyta ten,
 kto rozstrzyga, co gramatyka ma brać dalej.
 Odwrotnie ``olski/pokrycie.py``, który liczy to samo, co ``harness/pomiar.py``,
 a stoi po drugiej stronie, bo kolejkę blokerów nad własnym plikiem
-czyta autor (docs/pisanie-po-olsku.md).
+czyta autor.
 
 Trzeciej odpowiedzi to kryterium nie ma i potrzebują jej pliki deklaracji.
 ``olski.toml`` nie służy ani jednemu, ani drugiemu, bo jest konfiguracją
@@ -284,7 +284,7 @@ def proza_repozytorium() -> list[Path]:
     """Cała proza repozytorium, czyli to, co obejmują reguły pisania.
 
     Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
-    ``docs/`` albo do ``todo/`` wszedł tu sam.
+    ``docs/``, do ``warsztat/`` albo do ``todo/`` wszedł tu sam.
     Rejestr konstrukcji jest katalogiem w ``docs/``, więc zejście tam jest
     rekurencyjne: bez tego odcisk minąłby cały ten rejestr.
 
@@ -295,5 +295,6 @@ def proza_repozytorium() -> list[Path]:
     return (
         sorted(KORZEŃ.glob("*.md"))
         + sorted((KORZEŃ / "docs").rglob("*.md"))
+        + sorted((KORZEŃ / "warsztat").glob("*.md"))
         + sorted((KORZEŃ / "todo").glob("*.md"))
     )

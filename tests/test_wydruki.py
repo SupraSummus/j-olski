@@ -10,15 +10,14 @@ from __future__ import annotations
 
 import shlex
 from dataclasses import dataclass
-from pathlib import Path
 
 import pytest
 
 pytest.importorskip("morfeusz2")
 
+from harness import proza_repozytorium
 from olski.check import main
 
-ROOT = Path(__file__).resolve().parent.parent
 KOMENDA = "olski.check"
 
 
@@ -68,8 +67,9 @@ def _wydruki() -> list:
     Lista wypisana ręką pomija blok dopisany później i nie mówi o tym ani słowem.
     """
     znalezione = []
-    # Rekurencyjnie, bo rejestr konstrukcji jest katalogiem i wydruki w nim ma.
-    for ścieżka in [ROOT / "README.md", *sorted((ROOT / "docs").rglob("*.md"))]:
+    # Cała proza repozytorium, bo blok wydruku wkleja się tak samo do dokumentu,
+    # do instrukcji i do rejestru, a zbiór wypisany tutaj mijałby te dwa ostatnie.
+    for ścieżka in proza_repozytorium():
         bloki = _ogrodzone(ścieżka.read_text(encoding="utf-8"))
         # blok poleceń stoi nad wydrukiem, a rozdziela je jeden wiersz pusty
         nad = {blok.zamknięcie + 2: blok for blok in bloki if blok.rodzaj == "sh"}

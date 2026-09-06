@@ -11,7 +11,7 @@ się inaczej.
 Sama liczba zdań przyjętych nie jest sygnałem, dopóki zdania dokumentu są długie:
 takie zdanie ma po kilka zatrzymań naraz, więc pozycja dopisana do gramatyki
 zdejmuje jedno z nich i zdania nie wypuszcza. Rusza się wtedy kolejka i krzywa, a nie
-suma, i dlatego stoją tu obok niej (docs/pisanie-po-olsku.md).
+suma, i dlatego stoją tu obok niej.
 
 Ten sam licznik nad bankiem drzew mierzy gramatykę, a nie tekst, i stoi po
 drugiej stronie granicy pakietu (``harness/pomiar.py``): pyta o zgodność z

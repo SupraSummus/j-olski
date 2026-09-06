@@ -5,7 +5,6 @@ Ramę — czym olski jest, co działa i dokąd to idzie — daje
 [README](../README.md), a każdy dokument z tego spisu rozwija jej kawałek.
 Spisu nie czyta się od góry: czytelnik przebiega go do swojego dokumentu.
 Dzielimy go po torach, bo czytelnik przychodzi po jeden tor.
-Kto po który dokument sięga, mówi [roles.md](roles.md).
 
 Dokument dostaje tu zdanie albo dwa i nie powtarza swoich liczb,
 bo właścicielem faktu jest ten dokument, a nie spis.
@@ -39,9 +38,6 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
   Składnica jest tam bankiem drzew.
 - [ustawy.md](ustawy.md) mówi,
   czego żądają od zdania w ustawie „Zasady techniki prawodawczej”.
-- [pisanie-po-olsku.md](pisanie-po-olsku.md)
-  zbiera feedback z fotela użytkownika.
-  Autor płaci za jedno odrzucone zdanie, a gramatyka za drugie.
 - [extraction.md](extraction.md)
   prowadzi dokument w Markdownie i prozę modułu do gramatyki
   i mówi, co ten krok po drodze zmyśla.
@@ -79,10 +75,6 @@ więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 
 ## Oba tory
 
-- [roles.md](roles.md) nazywa role,
-  w których ktoś to repozytorium czyta.
-  Wszystkie te role obsadza jedna osoba.
-  Planista dzieli tam partię wpisów między sesje.
 - [architecture.md](architecture.md) wylicza warstwy,
   przez które zdanie przechodzi w obu kierunkach.
   Oba tory mają dwie warstwy wspólne.

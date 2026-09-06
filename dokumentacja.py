@@ -29,8 +29,8 @@ KONFIGURACJA = KORZEŃ / "mkdocs.yml"
 SITE_URL = re.compile(r"(?m)^site_url:\s*https://([^/\s]+)")
 #: Proza w układzie katalogów z repozytorium. Układ jest tu treścią, a nie
 #: wygodą: `../README.md` z `docs/` rozwiązuje się tylko wtedy, gdy korzeniem
-#: strony jest korzeń repozytorium. Lista jest wyliczeniem, więc instrukcja sesji
-#: i rejestr otwartej roboty nie wchodzą tam pod żadną nazwą (docs/publikacja.md).
+#: strony jest korzeń repozytorium. Lista jest wyliczeniem, więc warstwa robocza
+#: nie wchodzi tam pod żadną nazwą (docs/publikacja.md).
 PROZA = ("README.md", "docs")
 #: Link względny bez kotwicy. Kotwica odpada tutaj, bo pytamy o plik do skopiowania.
 LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s#]+)")

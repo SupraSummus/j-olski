@@ -152,8 +152,7 @@ def zatrzymania(segmenty: list[Segment], grammar: Grammar | None = None) -> tupl
 
     Werdykt nazywa jedno miejsce (:func:`na_czym_stanęło`), a zdanie długie ma ich
     kilka i pierwsze zasłania resztę, więc kto pisze pod tę gramatykę, nie widzi z
-    werdyktu, ile jeszcze poprawek to zdanie zabierze; po co ta odpowiedź jest,
-    mówi docs/pisanie-po-olsku.md.
+    werdyktu, ile jeszcze poprawek to zdanie zabierze.
 
     Cięcie nie wskazuje usterki ani granicy konstrukcji, tak samo jak jedno
     zatrzymanie jej nie wskazuje.

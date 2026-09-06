@@ -33,8 +33,7 @@ def test_odczytanie_z_dopełnieniem_zostawia_formie_samo_odczytanie_biernikowe()
     Słownik zna `Janek` także jako rzeczownik żeński nieodmienny, więc forma stoi
     w każdym przypadku naraz i zdanie dostaje odczytanie z dopełnieniem `Janek`.
     Streszczenie nazywa tam rolę i formę, a nie odczytanie formy, więc bez tego
-    wykazu autor nie ma czym tego odczytania sprawdzić
-    (docs/pisanie-po-olsku.md#skąd-bierze-się-odczytanie-którego-autor-nie-widzi).
+    wykazu autor nie ma czym tego odczytania sprawdzić.
     """
     znalezione = werdykt("Janek lubi piwo.")
     podmiotem, dopełnieniem = znalezione.readings

@@ -345,7 +345,7 @@ tu i w `olski/chwyty.py`, i jest to ta sama pozostałość, którą ma reguła o
 ([wyżej](#wykrywacz-chwytu-zgłasza-to-bez-rzeczownika-przy-sobie)).
 
 ```sh
-python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md todo/*.md
+python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md warsztat/*.md todo/*.md
 python3 -m olski.check --chwyty $(find olski harness tests witryna opowieści -name '*.py')
 ```
 
@@ -563,8 +563,6 @@ Cenę tę u olskiego płaci autor, a odrabia mu ją kształt odpowiedzi.
 Werdykt wypisuje odczytania, które zdanie ma,
 więc autor czyta granicę z samej odpowiedzi, a nie z odmowy
 ([README](../README.md#co-działa)).
-Rachunek z fotela autora opisuje
-[pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie).
 
 ### It also removes two hard requirements
 

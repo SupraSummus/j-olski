@@ -39,16 +39,16 @@ def test_wariant_ma_tyle_samo_produkcji_co_olski_bo_zdejmuje_cenę_a_nie_ciało(
 def test_zdanie_któremu_cena_przestawia_czytanie_pierwsze_wchodzi_do_przykładów(tmp_path):
     """Przebieg nad plikiem prozy: mianownik, brak rozjazdu i oba czytania pierwsze.
 
-    `Role opisuje docs/roles.md.` czyta się z nazwą pliku w podmiocie albo
+    `Cele opisuje docs/roadmap.md.` czyta się z nazwą pliku w podmiocie albo
     w okoliczniku narzędnikowym, a bez ceny okolicznika oba czytania kosztują
     tyle samo i przodem wychodzi to bez podmiotu.
     """
     plik = tmp_path / "proza.txt"
-    plik.write_text("Role opisuje docs/roles.md.\n", encoding="utf-8")
+    plik.write_text("Cele opisuje docs/roadmap.md.\n", encoding="utf-8")
     raport = przebieg([plik], [OKOLICZNIK])
     assert (raport.zdań, raport.wieloznaczne) == (1, 1)
     assert raport.rozjechane == {}
     (zdanie, u_olskiego, w_wariancie) = raport.przykłady[OKOLICZNIK][0]
-    assert zdanie == "Role opisuje docs/roles.md."
+    assert zdanie == "Cele opisuje docs/roadmap.md."
     assert "podmiot" in u_olskiego[0]
     assert "podmiot" not in w_wariancie[0]

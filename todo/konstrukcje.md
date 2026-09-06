@@ -8,7 +8,7 @@ więc brak jest w samym złożeniu, a nie w żadnym z dwóch czół
 Do przeczytania jest `ciąg_pytajny` w `olski/subset/podrzędne.py` obok pozycji
 orzecznika wysuniętego, bo pytanie jest o to, czy człon z orzecznikiem
 wypuszcza cechę, której ciało ciągu żąda od członu pierwszego.
-Zdanie to pisze `docs/roles.md`, a odrzucenie jest werdyktem uczciwym,
+Zdanie to pisze `warsztat/roles.md`, a odrzucenie jest werdyktem uczciwym,
 więc pozycja nie ma pilności, jaką miałby brak wydający `valid`.
 
 Wypełnienie inne niż dopełnienie, wysunięte przed głowę, która orzeka bez podmiotu,
@@ -231,7 +231,7 @@ Dwa ciała, które weszły, spinają zdania składowe i grupy imienne,
 a w tym napisie ciąg zaczyna się za podmiotem, czyli spina same orzeczenia,
 a takiej pozycji koordynacja olskiego nie ma na żadnym poziomie.
 Zdanie to nazywa ten brak na liście w
-[`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej).
+[`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej).
 Ruchem jest ciało spinające orzeczenia, a nie kolejny lemat ani kolejny poziom,
 i cena jest widoczna przed pomiarem: orzeczenie niesie ramę czasownika,
 więc ciąg musiałby powiedzieć, którą ramę wypuszcza w górę,
@@ -445,7 +445,7 @@ a `Rdzeń nie ma wiersza.` wyprowadza się.
 Spójnik skorelowany `ani` wchodzi tylko powtórzony przed każdym członem
 ([`docs/konstrukcje-gramatyczne/zdanie-złożone.md`](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
 a pojedyncze `ani jeden` jest cząstką wzmacniającą przeczenie, nie koordynacją.
-Lista braków w [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)
+Lista braków w [`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej)
 wymienia `ani jedna` przy elipsie głowy, a ten wpis mówi, że rzeczownik nic tu nie zmienia.
 Ruchem jest cząstka przy liczebniku, wraz z pomiarem,
 a do przeczytania jest lista cząstek przy grupie imiennej
@@ -464,7 +464,7 @@ a `Jeden z nich obowiązuje.` wyprowadza się, bo `jeden` czyta się rzeczowniki
 i `z nich` dochodzi do niego jak każde wyrażenie przyimkowe.
 `Który` i `każdy` bez rzeczownika padają już same, jako elipsa głowy,
 i tamta pozycja jest zmierzona i odrzucona
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)),
+([`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej)),
 tylko że z `z nich` obok elipsy nie ma:
 wyrażenie przyimkowe mówi, spośród czego się wybiera, i zastępuje rzeczownik.
 Ruchem jest ciało zaimka z tym jednym wyrażeniem, a nie elipsa głowy w ogóle,

@@ -523,8 +523,7 @@ a zdania, o którym razem mówiłyby co innego niż każda z osobna, nie ma ani 
 
 Nad prozą tego repozytorium ta sama sonda liczby przyjętych prawie nie rusza,
 choć kilkudziesięciu zdaniom zmienia werdykt,
-i nie jest to sprzeczność z liczbami wyżej, tylko
-[zasłanianie](pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony):
+i nie jest to sprzeczność z liczbami wyżej, tylko zasłanianie:
 zdanie o dwudziestu wyrazach ma kilka zatrzymań naraz,
 więc pozycja zdejmuje jedno z nich i zostawia zdanie odrzucone, tylko dalej.
 Widać ją za to nad zdaniem krótkim.

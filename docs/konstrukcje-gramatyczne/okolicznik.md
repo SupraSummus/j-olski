@@ -510,8 +510,7 @@ a lista pisana ręką odsiewałaby razem z tym `z bliska` i `od dawna`.
 Jednoznaczności to nie kosztuje:
 pary, której nikt nie pisze, nie ma w żadnym zdaniu, więc nie dokłada ona czytania żadnemu.
 
-Nad prozą tego repozytorium wiersz `adjp`
-[kolejki blokerów](../pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)
+Nad prozą tego repozytorium wiersz `adjp` kolejki blokerów
 obiecywał kilkanaście zdań,
 a pozycja wyciąga z odrzucenia przeszło połowę z nich;
 reszta staje po niej na blokerze następnym, bo zdanie odrzucone niesie zwykle kilka.

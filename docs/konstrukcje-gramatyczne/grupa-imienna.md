@@ -792,8 +792,7 @@ bo grupa imienna o jednym zaimku bierze każdą z nich,
 więc analiza zatrzymywała się dopiero za zaimkiem:
 `Jego skutki są znane.` stawało na `znane`.
 Wskazała ją sesja pisząca pod tę gramatykę zdanie po zdaniu.
-Ze wszystkiego, co tam zawracało zdanie, ta pozycja zawracała je najczęściej
-([pisanie-po-olsku.md](../pisanie-po-olsku.md)).
+Ze wszystkiego, co tam zawracało zdanie, ta pozycja zawracała je najczęściej.
 
 ## Zaimek zwrotny jest terminalem, bo nie zgadza się z niczym
 

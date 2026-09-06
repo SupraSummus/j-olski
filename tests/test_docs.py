@@ -14,7 +14,8 @@ and nothing derives one from the other.
 
 A document ``docs/README.md`` does not list is the same rot with nothing renamed:
 it is on no reader's path, and adding one without listing it costs nothing.
-Which path a document sits on is what ``docs/roles.md`` names.
+Prozy warstwy roboczej spis nie obejmuje, bo jej ścieżką jest instrukcja sesji,
+więc plik dopisany do ``warsztat/`` czyta się stamtąd albo nie czyta wcale.
 
 A module named in prose rots the same way and used to rot unwatched.
 Prose points at code because code owns what is implemented,
@@ -28,11 +29,11 @@ Wskazanie mówiące, w którą stronę przewijać, jest zdaniem o kolejności w 
 Sekcja przestawiona czyni je nieprawdą, a link rozwiązuje się dalej,
 więc nic w Markdownie nie czerwienieje.
 
-Wskazanie z prozy poza instrukcją albo z modułu na ``CLAUDE.md`` i na ``todo/``
+Wskazanie z prozy wydawanej albo z modułu na warstwę roboczą
 jest usterką, choć nic w nim nie zgasło:
 zależność między nimi jest jednostronna,
 a wskazanie ma prowadzić w tę samą stronę.
-README idzie przy tym pod adres, a te dwie ścieżki nie idą,
+README idzie przy tym pod adres, a te trzy ścieżki nie idą,
 więc link z niego wywraca budowanie strony (``docs/publikacja.md``).
 """
 
@@ -93,19 +94,22 @@ CITED_PATH = re.compile(
 O_USUNIĘTYM = "firing-rates.md"
 #: Rejestr konstrukcji jest katalogiem wewnątrz ``docs/``, więc cytat z kodu
 #: nazywa plik w nim: sam katalog nie mówi, która warstwa jest właścicielem.
-#: Instrukcji sesji ani rejestru otwartej roboty ten wzorzec nie obejmuje,
-#: bo kod ich nie cytuje wcale i pilnuje tego test kierunku niżej.
+#: Warstwy roboczej ten wzorzec nie obejmuje,
+#: bo kod jej nie cytuje wcale i pilnuje tego test kierunku niżej.
 CITED_DOCUMENT = re.compile(r"docs/[\w-]+(?:/[\w-]+)?\.md(?:#[\w-]+)?")
-#: Wskazanie na ``CLAUDE.md`` albo na rejestr otwartej roboty w ``todo/``.
-#: W dokumencie jest nim link, bo tylko link prowadzi czytelnika dalej,
-#: a w module sam cytat, bo modułu nikt nie czyta w przeglądarce.
-LINK_INSTRUKCJI = re.compile(r"\]\([^)]*(?:CLAUDE\.md|todo/)")
-CYTAT_INSTRUKCJI = re.compile(r"(?<![\w-])(?:CLAUDE\.md|todo/)")
-#: Pliki, których wejściem jest cała proza repozytorium, więc nazywają te dwie
+#: Warstwa robocza: instrukcja sesji, rejestr otwartej roboty i dokument o pracy
+#: tutaj. Wolno jej wskazywać każdą z tych ścieżek, a prozie wydawanej i modułowi
+#: nie wolno żadnej, więc oba testy kierunku czytają tę jedną listę: druga
+#: milczałaby o ścieżce dopisanej do pierwszej.
+WARSTWA_ROBOCZA = ("CLAUDE.md", "todo/", "warsztat/")
+#: Wskazanie na nią. W dokumencie jest nim link, bo tylko link prowadzi
+#: czytelnika dalej, a w module sam cytat, bo modułu nikt nie czyta w przeglądarce.
+_ŚCIEŻKI = "|".join(re.escape(ścieżka) for ścieżka in WARSTWA_ROBOCZA)
+LINK_WARSTWY = re.compile(rf"\]\([^)]*(?:{_ŚCIEŻKI})")
+CYTAT_WARSTWY = re.compile(rf"(?<![\w-])(?:{_ŚCIEŻKI})")
+#: Pliki, których wejściem jest cała proza repozytorium, więc nazywają te trzy
 #: ścieżki jako dane: odcisk mierzy je wszystkie, a ten plik pilnuje cytatów z nich.
 NAD_CAŁĄ_PROZĄ = ("harness/__init__.py", "tests/test_docs.py")
-#: Proza, która sama jest instrukcją albo rejestrem, więc wolno jej wskazywać oba.
-INSTRUKCJA = ("CLAUDE.md", "todo/")
 #: An entry in a register's list of files, the docs register and the list of open
 #: work alike, which is the only place that puts a file on somebody's path.
 #: Rejestr konstrukcji jest katalogiem,
@@ -227,24 +231,24 @@ def test_every_document_cited_from_code_resolves(source: Path, target: str):
     assert_resolves(ROOT / path, anchor, source.name)
 
 
-def test_dokument_nie_linkuje_instrukcji_ani_rejestru_otwartej_roboty():
+def test_proza_wydawana_nie_linkuje_warstwy_roboczej():
     trafienia = wskazania(
         (
             document
             for document in DOCUMENTS
-            if not str(document.relative_to(ROOT)).startswith(INSTRUKCJA)
+            if not str(document.relative_to(ROOT)).startswith(WARSTWA_ROBOCZA)
         ),
-        LINK_INSTRUKCJI,
+        LINK_WARSTWY,
     )
-    assert not trafienia, "dokument linkuje instrukcję albo rejestr:\n" + "\n".join(trafienia)
+    assert not trafienia, "dokument linkuje warstwę roboczą:\n" + "\n".join(trafienia)
 
 
-def test_moduł_nie_cytuje_instrukcji_ani_rejestru_otwartej_roboty():
+def test_moduł_nie_cytuje_warstwy_roboczej():
     trafienia = wskazania(
         (source for source in SOURCES if str(source.relative_to(ROOT)) not in NAD_CAŁĄ_PROZĄ),
-        CYTAT_INSTRUKCJI,
+        CYTAT_WARSTWY,
     )
-    assert not trafienia, "moduł cytuje instrukcję albo rejestr:\n" + "\n".join(trafienia)
+    assert not trafienia, "moduł cytuje warstwę roboczą:\n" + "\n".join(trafienia)
 
 
 @pytest.mark.parametrize("rejestr", ("docs", "todo"))
@@ -255,6 +259,23 @@ def test_każdy_plik_stoi_w_spisie_swojego_rejestru(rejestr: str):
     pliki = {ścieżka.name for ścieżka in katalog.glob("*.md")} - {spis.name}
     podrejestry = {f"{ścieżka.name}/" for ścieżka in katalog.iterdir() if ścieżka.is_dir()}
     assert pliki | podrejestry == wypisane
+
+
+def test_każdy_dokument_warsztatu_stoi_w_instrukcji():
+    """Ścieżką do dokumentu o pracy tutaj jest instrukcja sesji, a nie spis.
+
+    Spisu warsztat nie ma, bo dwa wiersze nie są rejestrem, który się przebiega,
+    więc dokument, którego instrukcja nie nazywa, leży poza drogą jedynej roli,
+    która po niego przychodzi. Rejestrem robi się warsztat wtedy, gdy wypisanie
+    tych wierszy zacznie się opłacać, i wtedy ten test zastępuje spis obok.
+    """
+    instrukcja = (ROOT / "CLAUDE.md").read_text()
+    poza = [
+        ścieżka.name
+        for ścieżka in sorted((ROOT / "warsztat").glob("*.md"))
+        if f"](warsztat/{ścieżka.name}" not in instrukcja
+    ]
+    assert not poza, "instrukcja nie nazywa dokumentu warsztatu: " + ", ".join(poza)
 
 
 def test_the_checks_a_person_runs_are_the_checks_a_push_runs():

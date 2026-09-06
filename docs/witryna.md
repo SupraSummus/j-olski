@@ -37,8 +37,7 @@ Deklaruje go dodatek `witryna`, a suita go nie instaluje.
 
 ## Strona zaczyna od tego, czym olski jest
 
-Pod adresem publicznym strona dostaje czytelnika, który o projekcie nie słyszał
-([roles.md](roles.md#ktoś-kto-trafia-tu-pierwszy-raz)).
+Pod adresem publicznym strona dostaje czytelnika, który o projekcie nie słyszał.
 Pierwsze akapity mówią więc, czym jest parser i czym jest jedno odczytanie,
 a pole tekstowe jest dopiero pod nimi.
 Żart o spiłowanym `p` jest w tym układzie podpisem pod wprowadzeniem.
@@ -394,8 +393,7 @@ liczby z sekcji o pamięci wychodzą z przebiegu na pustej witrynie,
 a nie z witryny, do której ktoś naraz wkleja tekst.
 
 Strona pod adresem publicznym jest zaproszeniem dla czytelnika spoza projektu.
-[roles.md](roles.md#rola-jest-postawą-nie-osobą) mówi,
-że tutaj każdą rolę obsadza jedna osoba.
+Tutaj każdą rolę obsadza jedna osoba.
 Warto pilnować tego stanu.
 Witryna sama tego nie łamie, bo obsługuje tę samą osobę w przeglądarce.
 

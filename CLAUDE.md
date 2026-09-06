@@ -49,7 +49,7 @@ Zdanie, którego olski nie bierze, wolno jednak w każdym dokumencie ruszyć,
 i wolno przy tym ruszyć zamiast niego gramatykę.
 Który z tych dwóch ruchów wykonać nad danym zdaniem, a kiedy oba naraz,
 rozstrzyga
-[`docs/pisanie-po-olsku.md`](docs/pisanie-po-olsku.md#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu),
+[`warsztat/pisanie-po-olsku.md`](warsztat/pisanie-po-olsku.md#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu),
 i on jest właścicielem tego kryterium.
 Granica jest jedna i pada na zdanie, a nie na dokument:
 zdanie po przepisaniu ma mówić to samo i mówić nie gorzej,
@@ -372,15 +372,37 @@ Na rzecz prywatną wolno się oprzeć tam, gdzie pilnuje jej test:
 blok wydruku wszedł do dokumentu dlatego, że `tests/test_wydruki.py`
 puszcza komendę i porównuje wiersze.
 
-## Dokument i kod nie wskazują na CLAUDE.md ani na todo/
+## Dokument i kod nie wskazują na warstwę roboczą
 
-Kod i dokumenty mają sens bez tego pliku i bez rejestru otwartej roboty,
-a ten plik i `todo/` bez kodu i dokumentów sensu nie mają,
+Warstwę roboczą tworzą trzy ścieżki: ten plik, `todo/` oraz `warsztat/`.
+Ten plik mówi, jak się w tym repozytorium pracuje,
+a rejestr wylicza otwartą robotę.
+`warsztat/` trzyma dokument, którego potrzebuje ktoś, kto olskiego zmienia,
+a `docs/` ten, którego potrzebuje ktoś, kto olskiego używa albo ocenia.
+Granica biegnie tędy, którędy kod dzieli się na `olski` i `harness`,
+i pyta o to samo: czy przyda się to komuś, kto olskiego nie rozwija.
+Stoją tam [role](warsztat/roles.md), w których ktoś to repozytorium czyta,
+oraz [rachunek z fotela autora](warsztat/pisanie-po-olsku.md),
+który pisze prozę pod tę gramatykę.
+Wskazanie wewnątrz tej warstwy idzie w obie strony i nic go nie ogranicza.
+
+Reszta `docs/` przez to kryterium przeszła i została na miejscu,
+choć niejeden tamtejszy dokument czyta ten, kto gramatykę zmienia.
+Przeniesienie ich zrywa przeszło sto wskazań w prozie wydawanej,
+bo warsztatu strona nie wydaje.
+Kupuje przy tym dwa zdania: tyle razy te dokumenty nazywają warstwę roboczą.
+Cena konstrukcji powołuje się w nich na pomiar, a pomiar na korpus,
+więc granica przecina jeden wywód, zamiast rozdzielić dwa.
+Odwróci to dokument, który zacznie warstwę roboczą nazywać częściej,
+niż kosztuje jego przeniesienie.
+
+Kod i dokumenty mają sens bez tych trzech ścieżek,
+a one bez kodu i dokumentów sensu nie mają,
 bo każde ich zdanie mówi, co zrobić z jednym albo z drugim.
 Wskazanie prowadzi w tę samą stronę co ta zależność:
-ten plik i `todo/` wskazują dokument i moduł, a one ich nie wskazują.
+warstwa robocza wskazuje dokument i moduł, a one jej nie wskazują.
 README nie jest tu wyjątkiem, bo idzie na stronę dokumentów.
-Ten plik i `todo/` na stronę nie idą, więc link z README wywraca jej budowanie
+Warstwa robocza na stronę nie idzie, więc link z README wywraca jej budowanie
 ([`docs/publikacja.md`](docs/publikacja.md)).
 
 Naprawą jest jedno zdanie przepisane z właściciela, bez wskazania obok niego,
@@ -701,7 +723,7 @@ in [`docs/open-questions.md`](docs/open-questions.md)
 or in a document's own `Not yet decided`.
 `todo/` may carry a one-line pointer at the other list, and nothing more;
 the pointer does not run the other way
-([one direction](#dokument-i-kod-nie-wskazują-na-claudemd-ani-na-todo)).
+([one direction](#dokument-i-kod-nie-wskazują-na-warstwę-roboczą)).
 
 Zdanie z usterką, którą czytelnik by poprawił, a olski o niej milczy,
 nie jest wpisem na żadnej z tych list, tylko wpisem korpusu usterek (`próba/usterki.txt`),
@@ -730,7 +752,7 @@ a akapity o niej czyta przed zdaniem o tym, co projekt robi.
 Partię wpisów dzieli między sesje ta rola, która ją układa,
 a nie ta, która dostaje podział zrobiony,
 więc właścicielem tego podziału jest
-[planista](docs/roles.md#planista).
+[planista](warsztat/roles.md#planista).
 Jedno zdanie z niego obowiązuje w każdej sesji:
 sesje naraz może pracować kilka, i wolno im wtedy,
 gdy każda rozstrzyga inną decyzję, a nie wtedy, gdy ruszają inne pliki.
@@ -1112,7 +1134,7 @@ a których nie zadaje żadna sekcja wyżej.
   Zmiana, która tylko przestawia tekst, nie idzie nigdzie.
 - **Czyja ścieżka.** Kto przeczyta zmienione miejsce
   i czy nadal znajdzie tam tekst dla siebie?
-  Role opisuje [`docs/roles.md`](docs/roles.md).
+  Role opisuje [`warsztat/roles.md`](warsztat/roles.md).
 - **Elegancja.** Czy rozwiązanie jest proste?
   Kod testów ma być tak samo prosty.
   Które testy są warte pisania, mówi [sekcja o testach](#tests).

@@ -5,8 +5,7 @@ więc pyta o nie ``tests/test_subset.py``.
 Fragment jest napisem, którego nikt nie napisał jako zdania,
 a niedomknięcie zdaniem bez ostatniego znaku;
 czemu granica między nimi biegnie tędy, wywodzi ``docs/extraction.md``.
-Zatrzymanie nazywa formę, na której stanęła analiza zdania odrzuconego,
-a po co ta odpowiedź jest, mówi ``docs/pisanie-po-olsku.md``.
+Zatrzymanie nazywa formę, na której stanęła analiza zdania odrzuconego.
 Wszystkie trzy mówią o napisie autora, a nie o grafie segmentacji.
 
 Czwartą jest żądanie pozycji, czyli to, czego czasownik żąda od słowa,

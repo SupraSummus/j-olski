@@ -1,8 +1,8 @@
 """Kolejka blokerów i krzywa pokrycia nad plikiem prozy.
 
 Liczba pokrycia nad własnym dokumentem stoi w miejscu, dopóki zdania są długie,
-a rusza się kolejka pod nią, więc te dwie tabele są tym, po co ktoś tu sięga
-(docs/pisanie-po-olsku.md). Testy pytają o wiersz, który ta kolejka nazywa,
+a rusza się kolejka pod nią, więc te dwie tabele są tym, po co ktoś tu sięga.
+Testy pytają o wiersz, który ta kolejka nazywa,
 bo nazwa formy jest tym, co czytelnik z niej bierze.
 
 Nad bankiem drzew liczy te same tabele ``harness/pomiar.py`` i tam stoją

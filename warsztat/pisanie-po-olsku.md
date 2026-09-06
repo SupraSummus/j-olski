@@ -28,10 +28,10 @@ a rozstrzyga je tak, że rusza obie strony naraz
 i zatrzymuje się w [punkcie kompromisu](#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu).
 
 Planem to nie jest.
-Właścicielem ruchu jest `todo/`,
-kolejności [`roadmap.md`](roadmap.md),
+Właścicielem ruchu jest [`todo/`](../todo/README.md),
+kolejności [`roadmap.md`](../docs/roadmap.md),
 a ceny wpuszczenia konstrukcji
-[`subset.md`](subset.md#what-the-grammar-covers);
+[`subset.md`](../docs/subset.md#what-the-grammar-covers);
 tu stoi tylko materiał, którego te trzy dokumenty nie miały skąd wziąć.
 
 ## Ruchy są dwa i spotykają się w punkcie kompromisu
@@ -85,13 +85,13 @@ zdejmuje developerowi część roboty, nie mówiąc przez to mniej.
 
 **Za napis, który polszczyzna ma, a ten rejestr pisze rzadko, płaci autor.**
 Produkcja czeka wtedy na kolejce, a nie na tę jedną sesję:
-o niej mówi cała [kolejka blokerów](corpus.md#where-the-analyses-stop).
+o niej mówi cała [kolejka blokerów](../docs/corpus.md#where-the-analyses-stop).
 Rozstrzyga o niej cena, czyli liczba zdań, które konstrukcja kupuje,
 i po tej liczbie tamta kolejka jest ułożona, a nie po dolegliwości.
 
 **W trybie ścisłym płaci autor, także tam, gdzie płaci gramatyka.**
 Tryb liczy zdanie bez odczytania do kodu wyjścia
-([roadmap.md](roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)),
+([roadmap.md](../docs/roadmap.md#podzbiór-jest-umową-a-nie-zasięgiem)),
 więc autor przepisuje dzisiaj i to zdanie, za które płaci gramatyka.
 Przepisania te są kolejką, a nie samą stratą:
 każde nazywa formę, na której stanęła analiza,
@@ -107,7 +107,7 @@ którego nie stawia tu żadna zasada.
 Polska interpunkcja stawia go przed `i` tylko tam,
 gdzie domyka on zdanie podrzędne albo wtrącenie,
 i olski ma dokładnie te dwa miejsca
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
 W `architecture.md` pięć zdań miało ten przecinek bez żadnego z tych dwóch powodów.
 
 Płaci tu autor i ten rachunek się zwraca.
@@ -118,7 +118,7 @@ a `tests/test_docs.py` sprawdza nazwy plików i sekcji.
 O tym przecinku powiedział w tym repozytorium tylko werdykt `rejected`.
 
 Odpowiada to na zarzut, że
-[biała lista każe pisać pod parser](linter.md#it-dissolves-the-habitability-problem).
+[biała lista każe pisać pod parser](../docs/linter.md#it-dissolves-the-habitability-problem).
 Każe wtedy, gdy się myli, a kiedy się nie myli, każe pisać poprawną polszczyzną.
 Który z tych dwóch wypadków zachodzi, rozstrzyga czytelnik i po to ten fotel jest.
 
@@ -134,7 +134,7 @@ a wyprowadza się dopiero wtedy, gdy zamkną się wszystkie,
 więc dopisana pozycja zdejmuje jedno z nich
 i zostawia zdanie odrzucone, tylko dalej.
 Krzywą pokrycia po długości zdania trzyma
-[corpus.md](corpus.md#the-measurement) i mówi ona to samo od drugiej strony:
+[corpus.md](../docs/corpus.md#the-measurement) i mówi ona to samo od drugiej strony:
 pokrycie spada z urwiska między dziesiątym a dwudziestym tokenem.
 
 Poprawka autora zasłania się tak samo.
@@ -147,7 +147,7 @@ i nie zależy od tego, kto go zdjął.
 Zasłanianie widać najlepiej na pozycji, którą zmierzono z obu stron naraz.
 Dopełnienie w celowniku i w dopełniaczu jest taką pozycją.
 Nad bankiem drzew kupuje przeszło sto zdań
-([walencja.md](walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
+([walencja.md](../docs/walencja.md#leksykon-licencjonuje-dopełnienie-w-celowniku-i-w-dopełniaczu)),
 a nad prozą tego repozytorium podnosi liczbę zdań przyjętych o pojedyncze sztuki,
 choć z tego fotela była brakiem najdroższym.
 Zdania tej prozy mają po kilka zatrzymań naraz,
@@ -159,7 +159,7 @@ dopóki zdania tego dokumentu są długie.
 Sygnałem jest zatrzymanie, bo ono się rusza,
 i po to `--zatrzymania` pokazuje je wszystkie nad jednym zdaniem,
 a `olski-pokrycie` nad całym plikiem układa je w kolejkę
-([corpus.md](corpus.md#the-same-queue-over-prose)).
+([corpus.md](../docs/corpus.md#the-same-queue-over-prose)).
 Nad zdaniem krótkim jest odwrotnie:
 jedno zatrzymanie, jedna poprawka i widoczny skutek,
 czego doświadcza każdy, kto pisze README
@@ -171,7 +171,7 @@ Sonda różnicowa wycenia pozycję, zdejmując ją z gramatyki,
 więc wycenia ją wobec wszystkiego, co w gramatyce zostaje,
 a pozycja wpuszczona samotnie mierzy się przez to blisko zera,
 choć obok pozycji, o którą jej zdania i tak się potykają, kupuje wielokrotnie więcej
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#przecinek-zamykający-należy-do-zdania-podrzędnego-a-nie-do-spójnika-za-nim)).
 Cena pozycji nie jest przez to liczbą, którą raz się zapisuje,
 a dwie pozycje wpuszczone razem bywają warte więcej niż z osobna.
 
@@ -210,7 +210,7 @@ i wpis o nim trzyma `todo/`.
 Zdanie o populacji kilka razy większej przechodzi bez `kilka razy`,
 tylko że wtedy rzędu wielkości nie mówi,
 a rząd wielkości jest tu tym, po co ono stoi.
-Granicę tę stawia `CLAUDE.md`,
+Granicę tę stawia [`CLAUDE.md`](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie),
 i to ona rozstrzyga, kiedy przebieg po dokumencie się kończy.
 
 ## Odrzucenie mówi, na czym stanęło, i mówi to raz
@@ -226,11 +226,11 @@ Pierwsze pytanie brzmi: który człon tknąć.
 Odpowiada na nie nazwane miejsce zatrzymania,
 a werdykt nazywa je dwoma zdaniami, bo zatrzymanie na formie
 i zdanie, którego nic nie domyka, są dwoma zdarzeniami
-([`subset.md`](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+([`subset.md`](../docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 Oba te zdania wypisuje flaga `--zatrzymania`,
 bo odrzucenie, którego nie zdejmuje jeden znak, znaleziskiem nie jest
 i wydruk sam z siebie o nim milczy
-([`subset.md`](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)),
+([`subset.md`](../docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem)),
 więc kto pisze pod tę gramatykę, trzyma tę flagę włączoną.
 
 Drugie pytanie brzmi: ile jeszcze.
@@ -291,7 +291,7 @@ i tam ten sam wykaz wypisuje każde odczytanie każdej formy.
 Odczytania nieodmiennego polszczyzna w tym zdaniu nie ma i nikt go nie zdejmuje:
 wykluczenie sięga odczytania nieodmiennego stojącego obok czytania z klasy zamkniętej,
 a szersze zabrałoby `jury` i `menu`, czyli zwyczajne polskie słowa
-([warstwa-leksykalna.md](warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not)).
+([warstwa-leksykalna.md](../docs/warstwa-leksykalna.md#the-dictionary-offers-readings-polish-does-not)).
 Autorowi zostaje więc wymiana słowa, a nie przestawienie zdania:
 `Janek pije piwo.` jest wieloznaczne tak samo,
 a `Chłopiec lubi piwo.` ma jedno odczytanie.
@@ -301,7 +301,7 @@ bo odczytanie z siedmioma przypadkami widać w nim po samym znaczniku.
 Pytanie sąsiednie zadaje `--żądania`:
 czego czasownik żąda od słowa, które autor postawił w jego pozycji.
 Czy to słowo żądanie spełnia, ten wykaz nie mówi
-([walencja.md](walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
+([walencja.md](../docs/walencja.md#werdykt-nazywa-żądanie-obsadzonej-pozycji)).
 
 ## Kolejka czytana po formie mówi to, czego nie mówi po części mowy
 
@@ -311,7 +311,7 @@ Nad wierszami otwartymi — `fin`, `subst`, `prep` — mówi to dość,
 a nad zamkniętymi zbiera pod jedną nazwą formy żądające każda innej konstrukcji:
 wiersz `conj` prowadzą w tym rejestrze `i` oraz `a`,
 a pod nimi stoją `czy`, `czyli` i `ani`
-([corpus.md](corpus.md#where-the-analyses-stop) trzyma, które wiersze prowadzą).
+([corpus.md](../docs/corpus.md#where-the-analyses-stop) trzyma, które wiersze prowadzą).
 Ruch nad tym wierszem trzyma `todo/`.
 
 Kolejka policzona po samej formie odpowiada zarazem na pytanie o rachunek.
@@ -320,7 +320,7 @@ widać po nim, czy polszczyzna ma napis, w którym ono stoi.
 Część mowy tego nie mówi, bo `interp` obejmuje naraz przecinek postawiony źle
 i dwukropek, którego gramatyce brakuje.
 Kolejkę tę drukuje jedno polecenie nad werdyktami, więc puszcza ją każda sesja
-([subset.md](subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
+([subset.md](../docs/subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 
 ## Czego brakuje najbardziej
 
@@ -330,7 +330,7 @@ Przy każdej pozycji stoi para zdań, z których pierwsze nie ma czytania,
 a drugie się wyprowadza, bo różnica między nimi jest tu całą informacją.
 O jednoznaczność ta lista nie pyta, bo pyta o pozycję, której w gramatyce nie ma.
 Pozycja wpuszczona do gramatyki z tej listy schodzi
-i zostaje po niej sekcja w [`subset.md`](subset.md#what-the-grammar-covers).
+i zostaje po niej sekcja w [`subset.md`](../docs/subset.md#what-the-grammar-covers).
 
 **Grupa imienna z elipsą głowy.**
 `Wszystkie obsadza jedna osoba.` pada, `Wszystkie role obsadza jedna osoba.` przechodzi.
@@ -341,7 +341,7 @@ Pozycja ta stoi tu inaczej niż pozostałe, bo jest już zmierzona:
 jedno ciało wyciąga zdania z odrzucenia,
 a jednoznaczność odbiera większej liczbie zdań, niż wyciąga,
 i wypada tak w każdym z trzech przebiegów
-([subset.md](subset.md#what-it-does-not-cover-yet) trzyma liczby).
+([subset.md](../docs/subset.md#what-it-does-not-cover-yet) trzyma liczby).
 Płaci więc za nią autor i będzie płacił, a wpis zostaje na liście po to,
 żeby nikt nie liczył jej drugi raz.
 
@@ -349,7 +349,7 @@ Płaci więc za nią autor i będzie płacił, a wpis zostaje na liście po to,
 `Czasem granica jest granicą modułu.` pada,
 `Granica jest czasem granicą modułu.` przechodzi.
 Narzędnik bez przyimka gramatyka bierze i bierze go na każdym miejscu okolicznika
-poza tym jednym ([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
+poza tym jednym ([konstrukcje-gramatyczne/okolicznik.md](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)),
 bo przed zdaniem stoi już orzecznik wysunięty przed kopulę.
 Naprawą jest tu przestawienie okolicznika za czasownik.
 
@@ -358,7 +358,7 @@ Naprawą jest tu przestawienie okolicznika za czasownik.
 Zgodny orzeka i orzeka razem z dwukropkiem, który wylicza —
 `Tory są dwa: gramatyka i skład.` —
 a rządzący stawia podmiot w dopełniaczu i nie zgadza orzeczenia z niczym
-([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
+([konstrukcje-gramatyczne/grupa-imienna.md](../docs/konstrukcje-gramatyczne/grupa-imienna.md#liczebnik-orzeka-o-tym-ile-czegoś-jest)).
 Naprawą jest tu wymiana szyku na zgodny.
 
 **Apozycja z nazwą.**
@@ -372,7 +372,7 @@ więc [README](../README.md#co-działa) nie zapowiada przykładu jego słowami,
 tylko blokiem pod spodem.
 Spójnika apozycja nie ma, więc od członu bez czasownika, który wszedł,
 różni ją to, że nie ma czym wpuścić jej osobno
-([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
+([konstrukcje-gramatyczne/zdanie-złożone.md](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#człon-bez-czasownika-stoi-za-spójnikiem-który-go-bierze));
 cenę tej produkcji trzyma `todo/`.
 
 **Cząstka `się` oddalona od swojego czasownika.**
@@ -381,14 +381,14 @@ cenę tej produkcji trzyma `todo/`.
 i tak samo pada `Nie mogłem się na niczym skupić.`,
 gdzie cząstka należy do `skupić`, a odgradza ją od niego wyrażenie przyimkowe.
 Obie pozycje tuż przy czasowniku gramatyka ma i ma je przy każdej jego formie
-([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
+([konstrukcje-gramatyczne/orzeczenie.md](../docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)),
 więc naprawą jest przysunięcie cząstki do czasownika, do którego należy.
 
 **Cząstka `tylko` wewnątrz grupy imiennej.**
 `Istnieją tylko te konstrukcje, które stoją na liście.` pada,
 `Istnieją te konstrukcje, które stoją na liście.` przechodzi.
 Pozycję wewnątrz grupy cząstka ma
-([konstrukcje-gramatyczne/okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
+([konstrukcje-gramatyczne/okolicznik.md](../docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)),
 a `tylko` zostaje poza listą cząstek,
 bo Morfeusz czyta je także jako spójnik;
 w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
@@ -397,7 +397,7 @@ w tym rejestrze jest to cząstka określająca grupę imienną najczęściej.
 `Werdykt ani nie wnosi, ani nie zdejmuje.` pada,
 `Ani werdykt nie wnosi, ani nie zdejmuje.` przechodzi.
 Spójnik powtórzony przed każdym członem gramatyka ma
-([konstrukcje-gramatyczne/zdanie-złożone.md](konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
+([konstrukcje-gramatyczne/zdanie-złożone.md](../docs/konstrukcje-gramatyczne/zdanie-złożone.md#spójnik-skorelowany-powtarza-się-przed-każdym-członem)),
 a te dwa zdania rozdziela miejsce, w którym ciąg się zaczyna:
 w drugim otwiera on zdanie składowe, w pierwszym stoi za jego podmiotem,
 czyli spina same orzeczenia, a takiej pozycji koordynacja nie ma.
@@ -417,13 +417,13 @@ Dopisane słowo pytające ma to czytanie zdjąć, a nie stanąć obok niego;
 `todo/` trzyma ruch.
 Pytanie ma w gramatyce cztery kształty — zaimek przy rzeczowniku,
 `kto` i `co` same
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)),
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#zaimki-kto-i-co-wchodzą-wszystkimi-pozycjami-naraz)),
 `czy` nad całym zdaniem
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą))
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-rozstrzygnięcie-podporządkowuje-spójnikiem-a-nie-rolą))
 oraz `dlaczego` przed zdaniem całym
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)) —
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)) —
 a `jak`, `jaki` i `ile` żądają każde innego
-([subset.md](subset.md#what-it-does-not-cover-yet)).
+([subset.md](../docs/subset.md#what-it-does-not-cover-yet)).
 Dokument, który opisuje rolę czytelnika, pisze te zdania zdanie po zdaniu,
 bo rola pyta, a pytanie jest jej definicją.
 
@@ -431,11 +431,11 @@ bo rola pyta, a pytanie jest jej definicją.
 `Gdzie są przetrzymywani zakładnicy?` pada,
 a `Wchodzi w roadmap.md, gdzie każdy etap ma kryterium wyjścia.` przechodzi.
 Okolicznik z `gdzie` gramatyka ma
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)),
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)),
 a kształt pytania o okoliczność ma od `dlaczego`,
 więc zostaje tu sam lemat i wraca on razem z zawężeniem ramy domyślnej:
 dopisany dziś daje drugie czytanie każdemu zdaniu z okolicznikiem tego kształtu
-([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)).
+([konstrukcje-gramatyczne/podrzędność.md](../docs/konstrukcje-gramatyczne/podrzędność.md#pytanie-o-okoliczność-wysuwa-przysłówek-a-zdanie-pod-nim-jest-całe)).
 Naprawą jest tu na razie zdanie oznajmujące o tym samym.
 
 **Bezokolicznik pod słowem, które orzeka bez podmiotu.**
@@ -451,7 +451,7 @@ SGJP zna `linter` i daje mu dopełniacz `linteru`,
 a ta proza odmienia go wedle drugiego leksemu,
 więc `lintera` jest dla słownika formą nieznaną
 i wychodzi rzeczownikiem o nieoznaczonym przypadku
-([warstwa-leksykalna.md](warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
+([warstwa-leksykalna.md](../docs/warstwa-leksykalna.md#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
 Pozycja ta stoi przez to tu razem ze słowem pytającym wyżej:
 zdanie nie pada, więc autor nie ma po czym poznać, że werdykt o nim milczy.
 Leksykon projektu takiego wiersza nie przyjmuje z powodu, który sam podaje,
@@ -461,7 +461,7 @@ a ruch trzyma `todo/`.
 `docs/pisanie-po-olsku.md jest raportem.` przechodzi,
 a `docs/pisanie-w-olskim.md jest raportem.` pada na `-`.
 Wzorzec notacji nie przyjmuje członu z jednej litery i mówi, za co tak płaci
-([warstwa-leksykalna.md](warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja)),
+([warstwa-leksykalna.md](../docs/warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja)),
 więc nazwy pliku z `w` albo `i` w środku nie da się w olskim wymówić.
 Ten dokument nazywa się tak, jak się nazywa, właśnie dlatego.
 Tak samo pada flaga: `--readings` rozpada się na `-`, `-` i słowo.
@@ -482,7 +482,7 @@ Odrzucenie z nazwaną formą naprawia się bez myślenia.
 Wieloznaczność przestaje być przy tym po dwudziestu zdaniach sygnałem:
 prawie każda bierze się z przyłączenia albo ze synkretyzmu,
 o czym projekt rozstrzygnął
-([subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)),
+([subset.md](../docs/subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)),
 więc znalezisko czyta się jak brak werdyktu.
 Nagrodą jest zaś milczenie, które bywa nie za składnię, a za dobór słów:
 to samo zdanie z dopełnieniem żeńskim wychodzi jednoznaczne,
@@ -519,7 +519,7 @@ Skracanie zostaje radą dla piszącego dzisiaj, a nie kierunkiem dla gramatyki.
 
 Materiał wyszedł z sesji agenta nad prozą tego repozytorium —
 [README](../README.md#konwencje), [`roles.md`](roles.md),
-[`architecture.md`](architecture.md) oraz kolejka po formie nad całym `docs/` —
+[`architecture.md`](../docs/architecture.md) oraz kolejka po formie nad całym `docs/` —
 a fotel bywał w nich jeden, drugi albo oba naraz.
 Nad `architecture.md` sesje były dwie i różni je jednostka:
 pierwsza szła za jedną formą przez cały katalog,
@@ -532,7 +532,7 @@ Liczby mają właścicieli tam, gdzie stoją nad tekstem z repozytorium:
 ile zdań pliku się wyprowadza, drukuje `olski.check`,
 a kolejkę blokerów i krzywą pokrycia po długości zdania nad prozą
 drukuje `olski-pokrycie`, i te same tabele nad bankiem drzew `harness.pomiar`
-([corpus.md](corpus.md#the-same-queue-over-prose)).
+([corpus.md](../docs/corpus.md#the-same-queue-over-prose)).
 Zdania kandydujące z pierwszej sesji stały w katalogu tymczasowym
 i do repozytorium nie weszły, więc jej liczby zostały w gicie.
 
