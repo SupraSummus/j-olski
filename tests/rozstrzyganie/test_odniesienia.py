@@ -49,6 +49,23 @@ def test_rzecz_nazwana_dwa_razy_w_jednym_zdaniu_jest_jedną_rzeczą():
     assert zgłoszenia("Maki rosną wśród maków. Są one czerwone.")[1] == ()
 
 
+def test_dwie_głowy_jednej_grupy_są_jedną_rzeczą():
+    #  `radny Mitkiewicz` jest przydawką albo apozycją, a każde z tych czytań
+    #  ma inną głowę. Lemat ich nie scala, bo mają różne, więc bez scalenia po
+    #  rozpiętości grupy jedna osoba wychodzi stąd jako wybór między dwiema.
+    tekst = "Radny Mitkiewicz przyszedł na zebranie. On mówił długo."
+    assert zgłoszenia(tekst)[1] == ()
+
+
+def test_grupa_szersza_w_jednym_czytaniu_niż_w_drugim_jest_tą_samą_rzeczą():
+    #  `dla Zwierząt` wisi przy schronisku albo przy orzeczeniu, więc grupa
+    #  podmiotu ma w tych dwóch czytaniach dwie różne rozpiętości, a rzecz jest
+    #  jedna. Scalenie po rozpiętości równej zostawia tu wybór między
+    #  schroniskiem a zwierzętami.
+    tekst = "Schronisko dla Zwierząt oddaje je za złotówkę."
+    assert zgłoszenia(tekst, w_zdaniu=True)[0] == ()
+
+
 def test_zgodność_liczy_się_parami_odczytań_a_nie_sumą_cech():
     #  `je` jest pojedynczą nijaką albo mnogą niemęskoosobową, a `Program` i
     #  `plik` są pojedyncze męskie. Suma cech zaimka wpuszcza pojedynczą męską,

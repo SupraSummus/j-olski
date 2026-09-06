@@ -248,18 +248,39 @@ a liczebnik w podmiocie bierze rzecz z dopełniacza obok siebie,
 więc żądanie mówi tam o tej rzeczy, a nie o liczbie.
 Do przeczytania są wiersze tej flagi nad `docs/`, bo klasa jest tam cała.
 
-Jedna grupa imienna o dwóch czytaniach wydaje warstwie zaimkowej dwie rzeczy.
-`Radny Mitkiewicz przyszedł na zebranie. On mówił długo.` dostaje zgłoszenie
-`„On” wskazuje na „Radny” albo „Mitkiewicz”`, choć to jedna osoba:
-przydawka i apozycja są dwoma czytaniami tej samej grupy, a każde z nich ma inną głowę,
-więc `_głowy` w `olski/odniesienia.py` wydaje obie, a `_rzeczy` scala tylko wspólny lemat.
-Wpis jest o regule dzisiejszej, a nie o rozszerzeniu za flagą,
-bo zdanie obok wydaje takie pary tak samo.
-Ruchem jest scalenie głów, których grupy zachodzą na siebie:
-`_głowy` zna rozpiętość każdej grupy, więc dwie głowy z jednej rozpiętości
-są jedną rzeczą tak samo jak dwie formy o jednym lemacie.
-Do przeczytania są sądy `fałszywe` w `próba/nkjp-sądy.txt`, które ten kształt nazywają —
-`radny Mitkiewicz`, `lewą nogą`, `innych ludzi` — bo mówią, ile zgłoszeń to zdejmuje.
+Rzecz scalona zgadza się odczytaniami wszystkich swoich głów,
+więc bywa zgodna z zaimkiem, z którym nie zgadza się w żadnym pojedynczym czytaniu.
+`_rzeczy` w `olski/odniesienia.py` zbiera odczytania każdej głowy, którą scaliło,
+a `Schronisko dla Zwierząt` nazywa pod jedną głową rzecz nijaką pojedynczą,
+a pod drugą rzecz w liczbie mnogiej,
+więc rzecz scalona zgadza się i z `ono`, i z `one`.
+Czytelnik takiej rzeczy nie ma, bo wybiera czytanie,
+a w każdym z nich grupa nazywa się jedną głową.
+Po stronie zaimka takiej sumy cech olski nie liczy,
+i pilnuje tego `tests/rozstrzyganie/test_odniesienia.py`.
+Ruchem jest liczenie rzeczy w czytaniu zamiast nad sumą czytań:
+zgłoszenie pada wtedy, gdy dwie rzeczy zgodne z zaimkiem nazywa jedno czytanie.
+Do przeczytania jest, ile zgłoszeń ta suma dokłada nad NKJP.
+Wśród sądów bazy nie dołożyła ani jednego (`harness/sądy.py`),
+a nad prozą repozytorium przestawia listy kandydatów, nie ruszając liczby zgłoszeń.
+
+Rozszerzenie za flagą `w_zdaniu` ma dwa potwierdzenia,
+a jedno z nich należy do reguły, którą baza sądów już zdjęła,
+więc decyzją jest, czy ono za tą flagą zostaje.
+`Kandydat sam natychmiast przystąpił do omawiania jego stosunku do służby
+bezpieczeństwa.` jest usterką dlatego, że `jego` odsyła poza zdanie i nie ma dokąd,
+a nie dlatego, że zdanie nazywa dwie rzeczy do wyboru;
+tę usterkę zgłaszała reguła o zaimku niezwrotnym
+([`docs/linter.md`](../docs/linter.md#reguła-o-zaimku-niezwrotnym-zeszła-z-kodu-bo-posiadacza-wybiera-znaczenie-słowa)),
+a kryterium postawione tam przed pomiarem zdejmuje wykrywacz z kodu
+przy mniej niż dziesięciu sądach trafnych na trzydzieści.
+Ruchem jest albo zdjęcie rozszerzenia wraz z trzema wpisami `próba/usterki.txt`,
+które je zamawiają — a wszystkie trzy pisano ręką pod ten plik —
+albo dwa zawężenia — jedno na spójnik czytany rzeczownikiem,
+drugie na podmiot, którego zaimek dzierżawczy wyklucza — i drugie czytanie sądów po nich
+([`docs/subset.md`](../docs/subset.md#rzeczy-z-tego-samego-zdania-czekają-za-flagą)).
+Do przeczytania jest, ile trafień po tych dwóch zawężeniach zostaje,
+bo sufit z dzisiejszych sądów mówi, że udział trafnych nie przekroczy jednej dziesiątej.
 
 Kandydat miejscowy wycisza zaimek także tam, gdzie polszczyzna go z nim nie łączy.
 `olski/odniesienia.py` milczy nad zaimkiem, przed którym w tym samym zdaniu stoi

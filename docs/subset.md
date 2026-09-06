@@ -603,20 +603,31 @@ czterdzieści z nich przeczytano i trafne są trzy
 Trafienia te noszą własną nazwę — `niejasne odniesienie w zdaniu` —
 więc baza ocenia dwie reguły osobno i nie miesza ich w jednej liczbie,
 a kod wyjścia nazwy spod flagi nie widzi.
-Fałszywe są w większości jednym z czterech kształtów,
+Fałszywe są w większości jednym z trzech kształtów,
 i to one nazywają, co trzeba zawęzić przed następnym podejściem:
-kandydatem bywa druga głowa tej samej grupy — `radny Mitkiewicz`, `lewą nogą` —
-czyli jedna rzecz policzona dwa razy;
-bywa nim spójnik albo przyimek, który morfologia czyta też jako rzeczownik — `Kiedy`, `Od`;
+kandydatem bywa spójnik albo przyimek, który morfologia czyta też jako rzeczownik — `Kiedy`, `Od`;
 bywa nim podmiot własnego składowego, którego zaimek dzierżawczy wyklucza,
 bo o podmiocie mówi się `swój`;
 a bywa nim rzecz, której nikt nie podejmuje, bo zdanie orzeka o niej co innego —
 `nad ich szczebiotem` po `W gałęziach nawołują ptaki`.
-Trzy pierwsze kształty zdejmuje zawężenie, a czwarty, którym jest ich większość,
+Dwa pierwsze kształty zdejmuje zawężenie, a trzeci, którym jest ich większość,
 nie schodzi żadnym, bo rozstrzyga o nim znaczenie, a nie zgodność.
-Trzy trafne mówią, po co to rozszerzenie wraca:
+Potwierdzenia mówią, po co to rozszerzenie wraca:
 `Na centralnie umieszczonym bolcu osadzamy krążek i dopiero wtedy naklejamy na nim
 gotową etykietę.` nie mówi, na czym etykieta staje.
+
+Jednego kształtu ta lista nie ma, bo zawężenie zdjęło go z obu reguł naraz.
+Druga głowa tej samej grupy — `radny Mitkiewicz`, `lewą nogą` —
+nazywa jedną rzecz dwa razy, więc te głowy scala rozpiętość grupy,
+którą dzielą (`olski/odniesienia.py`).
+Zdjęło ono mniej niż co trzecie chybienie i udziału trafnych nie podniosło,
+bo zabrało zarazem jedno z trzech potwierdzeń.
+Zdanie tego potwierdzenia mówi, czemu tak:
+kandydatami były w nim `biednym` i `nerwicowcem`, czyli jedna osoba,
+a powód sądu nazywa parę, której to zgłoszenie nie wydało — żulika i nerwicowca.
+Sonda liczy to jako stratę i liczy dobrze, bo sąd zapadł nad tym zdaniem;
+o samej regule mówi ta strata tyle,
+że potwierdzenie należało do zdania, a nie do wyboru, który zgłoszenie pokazało.
 
 Sonda oceniająca puszcza flagę zawsze, i to jest jedyne miejsce, które ją włącza:
 baza sądów jest tym, co rozstrzyga o awansie,
