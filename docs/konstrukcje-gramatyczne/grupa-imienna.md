@@ -93,6 +93,33 @@ tyle ma wyliczenie z rejestru ustaw, nad którym olski liczy czytań najwięcej
 i tamta liczba mówi, ile taki mnożnik znaczy przy zdaniu,
 które wieloznaczność ma już z innego powodu.
 
+## Żaden z dwóch szyków przydawki nie jest nacechowany
+
+Przymiotnik stoi przy rzeczowniku po obu jego stronach,
+a szyk za rzeczownikiem nazywa termin: `plik konfiguracyjny`, `język polski`.
+Wygląda to na pozycję cennika, której brakuje —
+skoro szyk mniej swobodny jest nacechowany wszędzie indziej
+([disambiguation.md](../disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)) —
+i pomiar mówi, że nią nie jest.
+
+Konkurencja jest tu o parę `przymiotnik rzeczownik`,
+której oba słowa polszczyzna czyta obiema częściami mowy:
+raz głową jest słowo prawe, raz lewe.
+Cena postawiona pod szykiem za rzeczownikiem przepuszcza przodem czytanie z głową po lewej,
+a nad bankiem drzew traci na tym kilkadziesiąt złotych czytań pierwszych
+pod obiema morfologiami — na tysiąc siedemset zdań pod złotą i dwa i pół tysiąca pod żywą —
+i traci je na zdaniach takich jak `W tych oczach odbijał się widok nietutejszy.`,
+gdzie `widok nietutejszy` jest podmiotem, a nie podmiotem z orzecznikiem.
+Sprawdza się to pozycją dopisaną do czterech ciał `człon_imienny`,
+w których przydawka stoi za głową, i sondą `harness/skala.py` w obu wariantach.
+
+Te dwa szyki są przez to dwiema konstrukcjami o różnym znaczeniu,
+a nie jedną w dwóch odległościach od deklaracji,
+i olski zostawia obie tam, gdzie zostawia przyłączenie wyrażenia przyimkowego
+([subset.md](../subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)).
+Odwróci to cena nazywająca sam termin, a nie szyk,
+bo terminu nie poznaje się po kolejności słów.
+
 ## Przydawka koordynuje się i rozdziela rzeczownik tylko za nim
 
 Przymiotniki przy jednym rzeczowniku polszczyzna spina spójnikiem i przecinkiem,
