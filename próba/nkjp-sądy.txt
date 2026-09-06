@@ -1424,3 +1424,1229 @@ znalezisko: zaimek niezwrotny
 werdykt: 2 odczytania, różne w roli: okolicznik_przysłówkowy
 sąd: fałszywe
 powód: `ich` stoi w członie porównania o własnym podmiocie `wspólnicy`, więc `swoi` orzekałby o nich samych
+
+plik: typ_publ/Midrasz/txt_47-div.txt
+kontekst: Mama postanowiła uciekać do ojca.
+kontekst: Malował wówczas synagogę w Opatowie.
+kontekst: Kiedy wyjeżdżaliśmy, na dworcu na naszych oczach Niemcy z wagonów wyrzucali Żydów.
+zdanie: Udaliśmy, że nie mamy z nimi nic wspólnego, dzięki temu dotarliśmy do celu podróży.
+znalezisko: niejasne odniesienie
+werdykt: 5 odczytań, różne w roli: dopełnienie; „do celu” → „Udali”, „dotarli”
+sąd: fałszywe
+powód: udawali, że nie są Żydami wyrzucanymi z wagonów, a `dworcu` sam z `nimi` nie zgadza się liczbą: wchodzi na listę scalony z `oczach`
+
+plik: typ_lit/200-4-000000302/txt_18-div.txt
+kontekst: Z lektury wybił ją klakson.
+kontekst: Drogie auta nawet jak trąbią, to ucho odczuwa pieszczotę.
+kontekst: Zarzuciła na ramię podrobionego adidasa, w dłonie ujęła kiść toreb i pomagając sobie nogą, zatrzasnęła drzwi służbowego mieszkania.
+zdanie: Lewicki wystartował spod lexusa, aby pomóc jej nieść bagaże.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: bagaże niesie kobieta, której zdanie obok nie nazywa rzeczownikiem, a ramię, kiść i noga niczego nie niosą; `sobie` wchodzi na listę rzadkim lematem `soba`
+
+plik: typ_publ/120-2-000005/txt_19-div.txt
+kontekst: Mówimy o karceniu z powodów politycznych, ale prasa doniosła niedawno o nauczycielu, który rozbił uczniowi głowę, w pewnej wiejskiej szkole nauczycielka biła i znęcała się psychicznie nad dwoma pokoleniami uczniów.
+zdanie: Była nietykalna, bo chroniła ją karta nauczyciela.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: nietykalna jest nauczycielka, bo to ją chroni karta nauczyciela
+
+plik: typ_publ/120-2-000006/txt_159-div.txt
+kontekst: - Amerykanie na swoje kino mówią "przemysł filmowy" i ich oczekiwania wobec filmu są jasne: chodzi o to, aby się jak najlepiej sprzedał.
+kontekst: Nie przeszkadza im więc, że do produkcji włączają się Europejczycy czy Azjaci.
+zdanie: Przyjmuje się ich bez najmniejszych trudności, są nawet mile widziani.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
+sąd: fałszywe
+powód: przyjmuje się Europejczyków i Azjatów, bo to oni są mile widziani, a produkcji nikt nie przyjmuje
+
+plik: typ_publ/130-5-000001783/txt_1-div.txt
+kontekst: Wczoraj przy ul. Orłowity 22 wybuchł pożar w piwnicy jednego z budynków mieszkalnych.
+kontekst: Spłonęły papiery, stare szmaty, niepotrzebne sprzęty.
+kontekst: Jednak po dokładnych oględzinach straż pożarna odkryła ofiarę pożaru.
+zdanie: Okazało się, że był nią pies.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: psem okazała się odkryta ofiara, a nie straż, która ją odkryła
+
+plik: typ_publ/130-5-000000811/txt_1-div.txt
+kontekst: Kobieta zachowała się bardzo lekkomyślnie, bo przechodziła przez ruchliwą jezdnię w miejscu niedozwolonym.
+kontekst: Potrącona przez auto doznała  urazów nogi, głowy i wstrząśnienia mózgu.
+kontekst: Do drugiego wypadku doszło wieczorem na przejściu dla pieszych koło poczty.
+kontekst: Tam przez fiata 126p potrącony został mężczyzna.
+zdanie: Wezwane pogotowie ratunkowe odwiozło go do szpitala.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: do szpitala odwozi się potrąconego mężczyznę, a nie fiata, który go potrącił
+
+plik: typ_lit/200-1-000029/txt_8-div.txt
+kontekst: Szust!
+kontekst: trzask!
+kontekst: – ktoś wyrwał się z krzaków po przeciwnej stronie dróżki.
+kontekst: Był to niewielki staruszek, nagi do pasa, w zielonkawych spodniach.
+kontekst: Miał mały plecaczek, a przed sobą dźwigał wypchany szary worek.
+zdanie: Nazywano go Leśnym Człowiekiem.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: okolicznik_narzędnikowy
+sąd: fałszywe
+powód: przezwisko nosi staruszek z akapitu, a plecak i worek on dźwiga
+
+plik: typ_publ/130-2-910000006/txt_25-div.txt
+kontekst: Za kilka tygodni na naszych drogach pojawi się następca fiata bravo/brava - stilo.
+kontekst: Auto pokazane zostało już w Polsce podczas Salonu Samochodowego w Poznaniu.
+kontekst: Zdaniem producenta, samochód ten dokonał skoku pokoleniowego w klasie średnich pojazdów kompaktowych.
+kontekst: Stilo to model środka gamy Fiata.
+zdanie: Jego zadaniem jest ponowne wylansowanie pojazdów tej marki w największym segmencie w Europie.
+znalezisko: niejasne odniesienie
+werdykt: 11 odczytań, różne w roli: podmiot; „w największym segmencie” → „jest”, „wylansowanie”, „pojazdów”, „marki”; „w Europie” → „jest”, „wylansowanie”, „pojazdów”, „segmencie”
+sąd: fałszywe
+powód: `Stilo` i `model` są jedną rzeczą, bo zdanie obok utożsamia je orzeczeniem imiennym
+
+plik: typ_publ/120-2-000009/txt_92-div.txt
+kontekst: Publiczność przyjęła ją entuzjastycznie, ale krytycy nazwali królową kiczu.
+zdanie: Koncertowała rzadko, bardzo szybko zaczęto o niej mówić jak o wielkiej nieobecnej.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań, różne w roli: okolicznik_przysłówkowy; „o wielkiej nieobecnej” → „zaczęto”, „mówić”
+sąd: fałszywe
+powód: koncertuje artystka, którą krytycy nazwali królową kiczu, a nie publiczność, która ją przyjęła
+
+plik: typ_lit/200-4-000000604/txt_33-div.txt
+kontekst: Zerwał się podporucznik Hromadko, podszedł do stolików zajętych przez oficerów z pułku artyleryjskiego, nie wiedzieli nic więcej, wrócił i usiadł przy milczących kolegach.
+zdanie: Cisza panowała przy ich stoliku, wiadomość nie odebrała apetytu jedynie podporucznikowi Śledziejce, kończył już śniadanie i przeprowadził szybki rachunek w pamięci.
+znalezisko: niejasne odniesienie
+werdykt: 48 odczytań, różne w rolach: cząstka_zdania, dopełnienie, okolicznik_narzędnikowy, podmiot; „w pamięci” → „przeprowadził”, „rachunek”
+sąd: fałszywe
+powód: stolik jest milczących kolegów, przy których usiadł, a `nic` wchodzi na listę rzadkim lematem `nica`
+
+plik: typ_publ/SlowoPowszechne/txt_1-div.txt
+kontekst: - Cała Polska wiąże nadzieje z osobą ks.
+kontekst: Prymasa.
+kontekst: Jego działalność stanowi żywą weryfikację postawy Kościoła wobec porządku doczesnego i widząc go z perspektywy eschatologicznej, pomaga światu być sobą.
+zdanie: Uświadamia mu jego sens, przeznaczenie, przestrzega przed deformacjami.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: sens uświadamia się światu, któremu działalność pomaga być sobą, a `weryfikację` wchodzi na listę scalona z `porządku` i sama z `mu` nie zgadza się rodzajem
+
+plik: typ_publ/120-4-900010/txt_22-div.txt
+kontekst: Z aparatu USG korzystało mnóstwo pacjentów.
+zdanie: Przychodnia dotkliwie odczuła więc jego brak.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: brakuje aparatu, bo to z niego korzystali pacjenci
+
+plik: typ_publ/120-2-900107/txt_8-div.txt
+kontekst: Szef sztabu jest przełożonym wszystkich pracowników sztabu i kieruje jego pracą.
+kontekst: Jest pierwszym doradcą dowódcy i odpowiada przed nim za sprawne funkcjonowanie sztabu.
+kontekst: Informuje on sztab o najważniejszych decyzjach dowódcy, a w razie nieobecności dowódcy i jego zastępcy - podejmuje decyzje.
+zdanie: Jego stałym zastępcą jest oficer G3.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: okolicznik_narzędnikowy, podmiot
+sąd: fałszywe
+powód: zastępcę ma szef sztabu, o którym mówi cały akapit, a `razie` jest członem zwrotu `w razie`
+
+plik: typ_publ/SuperExpress/txt_441-div.txt
+kontekst: Płeć piękna zwycięża!
+kontekst: Nasza reporterka nie musiała stać w kolejce do dworcowej kasy, by kupić bilet na pociąg.
+zdanie: Kiepsko miał natomiast jej kolega - nikt go nie przepuścił.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: kolegę ma reporterka, a kolejka kolegów nie ma
+
+plik: typ_publ/110-2-000026/txt_2-div.txt
+kontekst: Jej zastępca Iwan z dumą pokazuje dom, w którym się urodził Juszczenko.
+zdanie: Prawie do samych wyborów mieszkała w nim jego matka.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: mieszka się w domu, a matka jest Juszczenki, którego nazywa zdanie obok
+
+plik: typ_inf-por/330-2-000016/txt_58-div.txt
+kontekst: Zauważyłam, że człowiek ten jest nawet całkiem miły.
+kontekst: Wywiązał się między nami dialog.
+kontekst: Dowiedziałam się, że mój rozmówca z powodu swojego wzrostu pracował na budowie.
+zdanie: Zauważyłam, że wielkość ciała tego człowieka jest również miarą jego wewnętrznej wielkości.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań, różne w roli: okolicznik_narzędnikowy; „ciała tego człowieka” ma 2 odczytania; „również miarą jego wewnętrznej wielkości” ma 2 odczytania
+sąd: fałszywe
+powód: wewnętrzną wielkość ma człowiek, o którym mowa, a nie budowa, na której pracował
+
+plik: typ_qmow/712-1-900001/txt_21-div.txt
+kontekst: - Wysoka Izbo!
+kontekst: Wkradła się pewna pomyłka.
+kontekst: Komisja przyjęła uchwałę i przedstawiła ją Prezydium Sejmu.
+zdanie: Nie ma ona już nic do dodania.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: cząstka_zdania, dopełnienie; „do dodania” → „ma”, „nic”
+sąd: fałszywe
+powód: dodać coś może komisja, a uchwała jest tym, co przedstawiono
+
+plik: typ_nd/320-4-000000102/txt_3-div.txt
+kontekst: W krajach zachodnich kredyty budowlano-mieszkaniowe należą do najważniejszych form kredytów.
+zdanie: Są one udzielane bardzo chętnie przez banki, które uważają hipotekę na domach mieszkalnych za bardzo dobrą formę zabezpieczenia.
+znalezisko: niejasne odniesienie
+werdykt: 16 odczytań, różne w roli: okolicznik_przysłówkowy; „na domach mieszkalnych” → „Są”, „uważają”, „hipotekę”; „za bardzo dobrą formę zabezpieczenia” → „Są”, „uważają”, „domach”
+sąd: fałszywe
+powód: udziela się kredytów, a nie krajów ani form
+
+plik: typ_publ/SuperExpress/txt_530-div.txt
+kontekst: Akcja wyławiania martwych ryb trwała przez kilka godzin.
+kontekst: Wyłowiono ponad pół tony śniętych ryb.
+kontekst: Do badań pobrano próbki wody z jeziora i tkanek martwych ryb.
+zdanie: Dopiero po ich zakończeniu będzie wiadomo, co zabiło ryby.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „co” ma 2 odczytania
+sąd: fałszywe
+powód: kończą się badania, bo `po ich zakończeniu` mówi o nich, a próbki się do nich pobiera
+
+plik: typ_lit/200-4-000000316/txt_24-div.txt
+kontekst: Było jeszcze po czwarte - jakaś wariatka zadzwoniła i stwierdziła, że zna denatkę.
+zdanie: Skąd jej to przyszło do pokręconego łba?
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: do pokręconego łba przychodzi to wariatce, która zadzwoniła, bo denatki już nie ma
+
+plik: typ_publ/Rzeczpospolita/txt_225-div.txt
+kontekst: W Kijowie podczas minionych weekendów odbywały się prawdziwe maratony zjazdów różnych partii politycznych.
+zdanie: Zatwierdzały one listy kandydatów do parlamentu w części proporcjonalnej przyszłorocznych wyborów.
+znalezisko: niejasne odniesienie
+werdykt: 25 odczytań, różne w rolach: dopełnienie, podmiot; „do parlamentu” → „Zatwierdzały”, „listy”, „kandydatów”; „w części proporcjonalnej przyszłorocznych wyborów” → „Zatwierdzały”, „listy”, „parlamentu”
+sąd: fałszywe
+powód: listy kandydatów zatwierdzają zjazdy, a `Kijowie` sam z `one` nie zgadza się liczbą: wchodzi na listę scalony z `weekendów`
+
+plik: typ_lit/200-2-000142/txt_7-div.txt
+kontekst: - Jasne, że ci pomogę, Taro.
+kontekst: Telefonowałem do ciebie.
+kontekst: Chciałem oddać ci plecak.
+kontekst: I chciałem ci powiedzieć, że nie jestem starym dupkiem.
+kontekst: To Ueno jest starym dupkiem.
+zdanie: Powiedziałem mu to przed chwilą.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „przed chwilą” → „Powiedział”, „to”
+sąd: fałszywe
+powód: `Ueno` i `dupkiem` są jedną osobą, bo zdanie obok utożsamia je orzeczeniem imiennym
+
+plik: typ_publ/NIE/txt_70-div.txt
+kontekst: Funkcjonariusze ABW dzwonili do jej kolegów i podwładnych z Podhala.
+zdanie: Umawiali się z nimi w kawiarniach, na stacjach benzynowych.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: umawiają się funkcjonariusze, więc `nimi` są koledzy i podwładni, do których dzwonili
+
+plik: typ_publ/130-5-000000563/txt_1-div.txt
+kontekst: Kilkunastu opolskich policjantów szukało w piątek wieczorem 4-letniej dziewczynki, która wyszła z domu przy ul. Fiołkowej w Grudzicach.
+kontekst: Dziecko znalazł ponad 3 kilometry od domu kierowca przejeżdżający leśną drogą.
+kontekst: Dziewczynka była pod opieką dziadków.
+zdanie: Wybiegła za pieskiem, który czmychnął jej z podwórka.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „z podwórka” → „Wybiegła”, „czmychnął”
+sąd: fałszywe
+powód: piesek czmychnął dziewczynce, która za nim wybiegła, a opieka podwórka nie ma
+
+plik: typ_publ/SuperExpress/txt_432-div.txt
+kontekst: Konrad K. nie przyznaje się do winy.
+kontekst: Twierdzi, że jego żona wypatrzyła z balkonu, że jakiś mężczyzna bije ich syna.
+kontekst: Dlatego zbiegł na dół, jakieś dzieci pokazały mu Wójcickiego.
+zdanie: Chciał z nim porozmawiać.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: rozmawia się z Wójcickim, którego mu pokazano, a nie z dołem, na który zbiegł
+
+plik: typ_lit/200-2-000016/txt_1-div.txt
+kontekst: Szła w stronę rzeki ogarnięta coraz większym niepokojem.
+kontekst: Eweliny nigdzie nie było widać.
+kontekst: Minęła zakręt i skierowała się w stronę mostku.
+kontekst: Była już blisko, kiedy nagle zobaczyła siostrzenicę.
+kontekst: Stała oparta o balustradę i patrzyła na wodę.
+zdanie: Słysząc kroki Suzanne, spojrzała w jej stronę i uśmiechnęła się.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania; „kroki Suzanne” ma 2 odczytania
+sąd: fałszywe
+powód: `jej` podejmuje Suzanne, której kroki stoją w tym samym zdaniu, a przy balustradzie siostrzenica stała
+
+plik: typ_publ/130-5-000001813/txt_1-div.txt
+kontekst: Odchodząc od wcześniejszego sprzeciwu, rząd Izraela oświadczył, że będzie współdziałał z grupą badawczą, kierowaną przez byłego amerykańskiego senatora George Mitchella, weterana procesu pokojowego w Irlandii Północnej.
+zdanie: Jego ekipa spodziewana jest na Bliskim Wschodzie w ciągu dwóch najbliższych tygodni.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „w ciągu dwóch najbliższych tygodni” → „jest”, „Wschodzie”
+sąd: fałszywe
+powód: ekipę ma Mitchell, który kieruje grupą badawczą, a rząd Izraela się jej spodziewa
+
+plik: typ_publ/130-3-910001/txt_59-div.txt
+kontekst: Jeśli w dniu wyborów będziesz daleko od miejsca zameldowania, weź wcześniej ze swojego urzędu gminy zaświadczenie o prawie do głosowania.
+zdanie: Możesz z nim pójść do dowolnego obwodu.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „do dowolnego obwodu” → „Możesz”, „pójść”
+sąd: fałszywe
+powód: do obwodu idzie się z zaświadczeniem, a `swojego` nazywa urząd i wchodzi na listę formą przydawki
+
+plik: typ_publ/130-5-000000460/txt_1-div.txt
+kontekst: Saperzy wydobyli we wtorek sześć artyleryjskich pocisków burzących z czasów II wojny światowej, odkrytych na terenie budowy na krakowskim Prądniku Czerwonym.
+kontekst: Ich zdaniem, w ziemi mogą znajdować się kolejne niewypały.
+kontekst: Pociski są przerdzewiałe i posiadają zapalniki.
+zdanie: Są bardzo niebezpieczne, ich wybuch spowodowałby falę uderzeniową o promieniu do jednego kilometra.
+znalezisko: niejasne odniesienie
+werdykt: 16 odczytań, różne w rolach: dopełnienie, okolicznik_przysłówkowy, orzecznik; „o promieniu” → „spowodował”, „falę”; „do jednego kilometra” → „spowodował”, „promieniu”; „jednego kilometra” ma 2 odczytania
+sąd: fałszywe
+powód: wybuchają pociski, a zapalnik jest ich częścią, więc obu czytaniom wychodzi na to samo
+
+plik: typ_publ/SuperExpress/txt_180-div.txt
+kontekst: Kilka lat temu Salwocki siedział przed domem na ławeczce.
+kontekst: Z klatki wyszedł sąsiad i w pijackim amoku rzucił się na niego z siekierą.
+zdanie: Zranił go w głowę.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: rani sąsiad, który rzucił się z siekierą, więc `go` jest Salwocki z akapitu, a amok nikogo nie rani
+
+plik: typ_lit/030-2-000000007/txt_8-div.txt
+kontekst: Z Rosji uciekli jedni z pierwszych.
+zdanie: Przebąkiwano o nich, że są w Paryżu.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: w Paryżu są ci, którzy uciekli, a `Rosji` wchodzi na listę mnogim czytaniem dopełniacza
+
+plik: typ_lit/200-2-000135/txt_1-div.txt
+kontekst: Rano przed wyjściem z domu włączyłem telefon, ale nie zdążył już zadzwonić.
+zdanie: Usłyszałem go, wsiadając do windy.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: słychać telefon, który nie zdążył zadzwonić, a nie wyjście z domu
+
+plik: typ_publ/120-2-900125/txt_5-div.txt
+kontekst: Teren parku obejmuje najbardziej charakterystyczny i najpiękniejszy fragment Sudetów.
+zdanie: Znajduje się on w górnych partiach Karkonoszy.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: orzecznik, podmiot; „w górnych partiach Karkonoszy” → „Znajduje”, „on”
+sąd: fałszywe
+powód: teren parku obejmuje ten fragment, więc obu czytaniom wychodzi na to samo miejsce
+
+plik: typ_publ/120-2-910000001/txt_33-div.txt
+kontekst: Poprzedni album tria TLC cieszył się wśród słuchaczy ogromną popularnością.
+kontekst: Zdobył też wiele prestiżowych nagród.
+kontekst: Nowy album jest jeszcze lepszy niż słynny debiut.
+zdanie: Nie dziwi więc jego debiut na szczycie listy Billboardu.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w rolach: dopełnienie, podmiot, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: na szczycie listy debiutuje nowy album, a `debiut` jest w zdaniu obok tym, z czym się go porównuje
+
+plik: typ_publ/130-5-000000682/txt_1-div.txt
+kontekst: Policjanci, Straż Miejska i pracownicy miejskich ośrodków pomocy społecznej w Katowicach przez całą noc z wtorku na środę penetrowali miejscowy dworzec kolejowy, szukając osób pod wpływem narkotyków lub innych środków odurzających.
+zdanie: Następnie prosili ich o opuszczenie dworca, zachęcali do zamieszkania w placówkach dla bezdomnych.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania; „w placówkach” → „zachęcali”, „zamieszkania”; „dla bezdomnych” → „zachęcali”, „placówkach”
+sąd: fałszywe
+powód: prosili policjanci i strażnicy, więc proszeni są ci, których szukali
+
+plik: typ_publ/120-2-900123/txt_2-div.txt
+kontekst: Żałuje, że do tej pory nie miała możliwości doszlifowania swego talentu na kursie tańca.
+zdanie: Jej osobowość najlepiej przedstawiałby potulny baranek, rzadko kiedy stawia na swoim, prawie w ogóle się nie kłóci.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: okolicznik_przysłówkowy, okolicznik_zdaniowy, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: osobowość ma kobieta, o której mówi akapit, a nie pora ani możliwość
+
+plik: typ_lit/200-2-000120/txt_1-div.txt
+kontekst: Wtedy przypomnieliśmy sobie, że synek kasjerki hoduje zaskrońca.
+zdanie: Mimo późnej pory skoczyliśmy po niego.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: trafne
+powód: skoczyć można i po zaskrońca, i po chłopca, który go hoduje, a zdanie nie mówi po kogo
+
+plik: typ_fakt/310-4-000000004/txt_2-div.txt
+kontekst: Miałam kiedyś przyjaciółkę we Francji.
+kontekst: Młodą początkującą aktorkę.
+kontekst: Irenka była Belgijką.
+zdanie: Jej dziadkowie emigrowali z Białegostoku, z Polski.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `Irenka` i `Belgijką` są jedną osobą, bo zdanie obok utożsamia je orzeczeniem imiennym
+
+plik: typ_publ/120-2-900001010/txt_16-div.txt
+kontekst: Składamy serdeczne podziękowania wszystkim tym, dzięki którym powstała nasza placówka.
+kontekst: Tym, którzy wspomagają nas w jej rozwoju.
+kontekst: Szczególne podziękowania kierujemy do rodziców naszych wychowanków.
+zdanie: Bardzo cenimy ich pomoc w zorganizowaniu tej pięknej jubileuszowej uroczystości.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: dopełnienie; „w zorganizowaniu tej pięknej jubileuszowej uroczystości” → „cenimy”, „pomoc”
+sąd: fałszywe
+powód: pomoc jest rodziców, do których kierowane są podziękowania
+
+plik: typ_publ/GazetaKociewska/txt_1-div.txt
+kontekst: Radny Świadek pytał starostę o plany uruchomienia w Specjalnej Strefie Ekonomicznej wytwórni biopaliw.
+zdanie: Według jego wiedzy trwają właśnie prace projektowe, a zakład ma być bardzo nowoczesny, co jest olbrzymią szansą na nowe miejsca pracy i rozwój.
+znalezisko: niejasne odniesienie
+werdykt: 32 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik, podmiot; „na nowe miejsca pracy i rozwój” → „jest”, „szansą”; „nowe miejsca pracy” ma 2 odczytania
+sąd: trafne
+powód: pytał radny, a o planach wie starosta, którego pytał, więc wiedza jest równie dobrze jednego, jak drugiego
+
+plik: typ_fakt/310-4-000000002/txt_8-div.txt
+kontekst: Dać paru Ormianom po łbie i zaraz się uspokoją!
+kontekst: Ktoś wyrwał sztachetę z płotu.
+zdanie: Inni dołączyli do niego i razem ruszyli ulicą, krzycząc: Bić Ormian!
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania
+sąd: fałszywe
+powód: dołączyć można do człowieka, który wyrwał sztachetę, a nie do sztachety
+
+plik: typ_publ/120-2-900107/txt_8-div.txt
+kontekst: Szef sztabu jest przełożonym wszystkich pracowników sztabu i kieruje jego pracą.
+kontekst: Jest pierwszym doradcą dowódcy i odpowiada przed nim za sprawne funkcjonowanie sztabu.
+kontekst: Informuje on sztab o najważniejszych decyzjach dowódcy, a w razie nieobecności dowódcy i jego zastępcy - podejmuje decyzje.
+kontekst: Jego stałym zastępcą jest oficer G3.
+zdanie: W sztabach, w których nie ma stanowiska szefa sztabu (batalion i brygada) jego funkcje pełni oficer G3/S3.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: okolicznik_narzędnikowy, podmiot
+sąd: fałszywe
+powód: funkcje pełni się za szefa sztabu, którego nazywa to samo zdanie, a oficer G3 jest tym, kto je pełni
+
+plik: typ_publ/GazetaGoleniowska/txt_2-div.txt
+kontekst: Remont szkoły zawodowej przygotowywał i prowadzi Wydział Promocji starostwa powiatowego.
+zdanie: Jego naczelnik jest na urlopie.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: naczelnika ma wydział, a remont naczelnika nie ma
+
+plik: typ_publ/120-4-900000001/txt_78-div.txt
+kontekst: Tadeusz Kantor pozostawił dorobek zaskakująco różnorodny i olbrzymi.
+zdanie: Składają się nań setki obrazów, rysunków i szkiców, kostiumy i modele teatralne, projekty scenograficzne.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: orzecznik, podmiot
+sąd: fałszywe
+powód: setki obrazów składają się na dorobek, a nie na człowieka, który go pozostawił
+
+plik: typ_lit/200-4-000048/txt_1-div.txt
+kontekst: Namydlił się na karku i pod pachami.
+kontekst: Mruknął coś w odpowiedzi i usiadł w miednicy, czując, jak mu się z zimna kurczą jądra.
+kontekst: Za kotarę wpadł Rot i merdając ogonem, stanął na dwóch łapach.
+zdanie: Mock mokrą dłonią pogłaskał go po łbie i wrócił do swych ablucyj.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: gładzi się po łbie psa, który stanął na dwóch łapach, a nie jego ogon
+
+plik: typ_lit/200-4-000000603/txt_14-div.txt
+kontekst: Aksinia nie złorzeczyła koniowi, że padł w środku jesiennej orki.
+zdanie: Widziała w nim długoletniego przyjaciela, który teraz ją opuszczał.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: przyjaciela widziała w koniu, który padł, a nie w środku orki
+
+plik: typ_publ/120-2-900022/txt_1-div.txt
+kontekst: 5.
+kontekst: Wyroki carskie były srogie, ale bardzo różne.
+kontekst: Wspomniany wyżej Dubiecki odgrywał w powstaniu styczniowym o wiele większą rolę, a też nie został stracony.
+kontekst: Wspomina przecież, że był na Sybirze razem z Antonim Schmidtem.
+kontekst: Schmidt nie był jedynym ułaskawionym przez hrabiego Berga lub cara.
+zdanie: Razem z nim ułaskawiony został Landowski.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `Schmidt` i `jedynym` są tą samą osobą, bo zdanie obok orzeka o nim właśnie tym
+
+plik: typ_publ/SuperExpress/txt_487-div.txt
+kontekst: Niemcy nie chcą mówić o liczbie policjantów podczas mistrzostw.
+zdanie: Wiadomo jednak, że będą ich tysiące.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: tysiące będzie policjantów, a wiersz nazywa ich `liczbie`, czyli formą głowy grupy, w której stoją
+
+plik: typ_lit/200-4-000010/txt_5-div.txt
+kontekst: W słuchawce zaległa cisza.
+zdanie: Słyszała spokojny oddech mężczyzny, który postanowił nie ułatwiać jej zadania.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania; „jej zadania” ma 2 odczytania
+sąd: fałszywe
+powód: zadanie ma kobieta, która słucha, a słuchawka i cisza zadania nie mają
+
+plik: typ_lit/200-2-000125/txt_3-div.txt
+kontekst: To się już skończyło.
+kontekst: Zostało zapakowane w paczkę, wysłane w przeszłość.
+zdanie: Nie ma, nic nie zostało z tych lęków, które wydają się jej teraz początkiem ciężkiej choroby.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: lęki wydają się takie kobiecie, o której mówi akapit, a paczce ani przeszłości nic się nie wydaje
+
+plik: typ_publ/120-4-900001/txt_4-div.txt
+kontekst: Jak dowiadujemy się z informacji zawartych w Internecie, ambasador jest zapalonym miłośnikiem pieszych wędrówek.
+zdanie: Jego hobby to także podróżowanie oraz czytanie książek historycznych i powieści kryminalnych.
+znalezisko: niejasne odniesienie
+werdykt: 8 odczytań, różne w rolach: cząstka_zdania, dopełnienie, orzeczenie, podmiot; „powieści kryminalnych” ma 2 odczytania
+sąd: fałszywe
+powód: `ambasador` i `miłośnikiem` są jedną osobą, bo zdanie obok utożsamia je orzeczeniem imiennym, a informacja hobby nie ma
+
+plik: typ_publ/120-2-000001/txt_23-div.txt
+kontekst: Gospodynią domową, czekającą każdego popołudnia na pana domu z pełnym talerzem pomidorówki.
+kontekst: Swój czas, talent i wykształcenie poświęciła mężowi, dzieciom i wyszywaniu makatek.
+kontekst: Jej facet jest zmęczony pracą, pomidorówką oraz żoną.
+kontekst: Po zjedzeniu zupy od razu zasypia na kanapie z gazetą w ręku.
+zdanie: Wówczas jego kobieta szuka takich koziołków jak ty.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: dopełnienie; „jak ty” → „szuka”, „koziołków”
+sąd: fałszywe
+powód: kobietę ma facet z akapitu, a nie zjedzenie zupy ani kanapa, na której zasnął
+
+plik: typ_publ/130-5-000001431/txt_1-div.txt
+kontekst: Pomieszczenia w piwnicach budynku, należące kiedyś do Urzędu Rejonowego, zagospodarowało w październiku starostwo uznając, że ma do nich prawo.
+kontekst: Gdy urzędnicy powiatowi chcieli przenieść się do nich, zastali zamknięte drzwi.
+zdanie: Urząd Miasta wymienił w nich zamki.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: zamki wymienia się w drzwiach, a nie w urzędnikach, którzy je zastali zamknięte
+
+plik: typ_publ/ZycieWarszawy_Zycie/txt_142-div.txt
+kontekst: Poprawkę skrytykował już dyrektor wykonawczy Światowego Kongresu Żydów Elan Steinberg.
+zdanie: Na jego opinię powołuje się amerykański dziennik.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: opinię ma dyrektor, który poprawkę skrytykował, a poprawka opinii nie ma
+
+plik: typ_nklas/040-2-000008/txt_2-div.txt
+kontekst: W niższych klasach szkoły dzieliliśmy się na tłumek mikrusów i nielicznych starszych osiłków, opóźnionych w naukach, bo przecież to było zaraz po wojnie.
+kontekst: Jednym z nich był Jan Bołbot.
+zdanie: Widocznie z nauką mu nie szło, bo nie zauważyłem go w wyższych klasach.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `Jednym` i `Jan` są tą samą osobą, bo zdanie obok utożsamia je orzeczeniem imiennym
+
+plik: typ_publ/Sztafeta/txt_26-div.txt
+kontekst: Kustoszem zbiorów przechowywanych w Lwowskiej Galerii Sztuki jest Igor Chomyn.
+zdanie: Gościł on już w Stalowej Woli przy okazji otwarcia wystawy obrazów Jacka Malczewskiego.
+znalezisko: niejasne odniesienie
+werdykt: 12 odczytań, różne w rolach: dopełnienie, orzecznik, podmiot; „przy okazji” → „Gościł”, „Woli”
+sąd: fałszywe
+powód: `Kustoszem` i `Igor` są tą samą osobą, bo zdanie obok utożsamia je orzeczeniem imiennym
+
+plik: typ_publ/NIE/txt_427-div.txt
+kontekst: Kanibale – tato z synkiem – na plaży spotykają seksowną blondynkę.
+zdanie: Zjemy ją?
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: zjeść chcą blondynkę, którą spotkali, a nie plażę, na której ją spotkali
+
+plik: typ_lit/200-1-000029/txt_9-div.txt
+kontekst: Zęby miał ciągle w porządku, ale plecy bolały go czasami i w nocy nawiedzały ataki bezsenności.
+kontekst: Zostawało po nich następnego dnia takie nieco dziwne uczucie mdłości, jakby kaca.
+kontekst: Tamtego dnia użył w dodatku niecelnego argumentu i wiedział o tym.
+zdanie: Użył go z irytacji, więc pewnie się starzał.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: użyto argumentu, a wiersz nazywa kandydatem `dodatku`, czyli głowę grupy, w której argument stoi, i samego argumentu nie nazywa wcale
+
+plik: typ_lit/200-4-000000603/txt_26-div.txt
+kontekst: Bez słowa wyminął mnie i zatrzymał się przed dzieckiem.
+zdanie: Nieoczekiwanie wziął je na ręce.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: na ręce bierze się dziecko, a `Bez` jest przyimkiem, który morfologia czyta też krzewem
+
+plik: typ_publ/120-2-900001010/txt_39-div.txt
+kontekst: Pierwsze pytania z sali dotyczyły opieki lekarskiej w UE.
+zdanie: W każdym kraju jest ona inna, zależna od socjalnych możliwości państwa.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań, różne w roli: orzecznik; „od socjalnych możliwości państwa” → „jest”, „inna”, „zależna”; „socjalnych możliwości państwa” ma 2 odczytania
+sąd: fałszywe
+powód: inna w każdym kraju jest opieka lekarska, a `Pierwsze` jest przydawką pytań, którą morfologia czyta rzeczownikiem
+
+plik: typ_publ/120-2-910000003/txt_29-div.txt
+kontekst: Na szczególną uwagę zasługuje zewnętrzny moduł, w którego eleganckiej, szaro-czarnej obudowie mieści się wyjątkowo bogaty zestaw złączy: wejścia, wyjścia, tradycyjne - analogowe, a także cyfrowe optyczne, MIDI, FireWire.
+kontekst: Na przednim panelu modułu znajduje się bardzo przydatny regulator głośności.
+zdanie: Kiedy go wciśniemy, wycisza wszystkie dźwięki.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: dopełnienie, okolicznik_przysłówkowy, okolicznik_zdaniowy, orzeczenie
+sąd: fałszywe
+powód: wciska się regulator, który wycisza dźwięki, a panelu nikt nie wciska
+
+plik: typ_publ/NIE/txt_201-div.txt
+kontekst: Zakon wysłał do nich delegację pod wodzą siostry Gizeli.
+kontekst: Siostrzyczki emanowały szlachetnością i pobożnością.
+kontekst: Na piersiach dyndały im krzyże z Jezusem Chrystusem.
+zdanie: Unosiła się wokół nich anielska aura.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: aura unosi się wokół siostrzyczek, o których mówi akapit, a nie wokół piersi ani krzyży
+
+plik: typ_publ/130-5-000000534/txt_1-div.txt
+kontekst: Napastnicy grozili nastolatkom, że ich pobiją.
+zdanie: Okradli ich z zegarków i łańcuszków.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: okradli napastnicy, więc `ich` są nastolatkowie, którym grozili
+
+plik: typ_nd/320-3-000229/txt_1-div.txt
+kontekst: Jak wynika z prezentowanej  wyżej tabeli największą, bo przeszło 1/3 część miasta stanowią  w Głownie tereny zieleni i rekreacji.
+kontekst: Są to w przeważającej większości lasy sosnowe.
+zdanie: Otaczają one miasto od południa i zachodu.
+znalezisko: niejasne odniesienie
+werdykt: 10 odczytań, różne w rolach: dopełnienie, orzecznik, podmiot; „miasto od południa i zachodu” → „Otaczają”, „one”; „od południa i zachodu” → „Otaczają”, „miasto”
+sąd: fałszywe
+powód: miasto otaczają lasy, a wiersz nazywa je dwa razy — `większości` przez scalenie z `lasy`, a `sosnowe` czytaniem rzeczownikowym przydawki — więc wyboru między dwiema rzeczami nie ma
+
+plik: typ_publ/KurierSzczecinski/txt_7-div.txt
+kontekst: Daniel Stefański sądzi, że ewolucja tego typu witryn zmierza w kierunku serwisów akcyjnych z prawdziwego zdarzenia.
+kontekst: - Jedyną barierą opóźniającą ich tworzenie jest świadomość ludzi.
+kontekst: Po prostu rynek nie jest jeszcze na to przygotowany.
+kontekst: W tej chwili pogarszająca się sytuacja gospodarcza sprawia, że do firm windykacyjnych trafia coraz więcej trudnych wierzytelności.
+kontekst: Klienci zgłaszają się z tysiącami faktur miesięcznie.
+zdanie: Ich obsługa wymaga dużej sprawności.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: trafne
+powód: obsługiwać można i klientów, i faktury, których tysiące zgłaszają, a zdanie nie mówi których
+
+plik: typ_publ/130-5-000000745/txt_1-div.txt
+kontekst: Właściciel psa przyznał się do bicia.
+kontekst: Stwierdził, że chciał w ten sposób skrócić jego cierpienia.
+kontekst: Przedstawiono mu zarzut znęcania się nad zwierzęciem.
+kontekst: Według nieoficjalnych informacji próbował otruć suczkę.
+kontekst: Twierdzi, że nie miał pieniędzy, by leczyć chore zwierzę, o oddaniu go do schroniska nie pomyślał.
+zdanie: Grozi mu do dwóch lat więzienia.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: więzienie grozi właścicielowi psa, o którym mówi akapit, a nie zwierzęciu, nad którym się znęcał
+
+plik: typ_lit/200-4-000000205/txt_5-div.txt
+kontekst: Marki rozkłada, przelicza, dodaje, odejmuje, mnoży, dzieli, cuda wyprawia.
+zdanie: Na koniec upycha je w tajemnicy przed nami do jakiegoś schowka, paznokcie śrubokrętem przeczyści i kładzie się spać.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w roli: orzeczenie; „przed nami” → „upycha”, „tajemnicy”
+sąd: fałszywe
+powód: do schowka upycha się marki, które przeliczał, a cuda się wyprawia
+
+plik: typ_lit/200-1-000020/txt_1-div.txt
+kontekst: Generał Judenicz obejmuje dowództwo rosyjskiej Bałtyckiej Floty.
+zdanie: Dowódcy i załogi Floty Bałtyckiej muszą niezwłocznie podporządkować się jego rozkazom.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: rozkazy wydaje generał, a dowództwo rozkazów nie ma, tylko się je obejmuje
+
+plik: typ_publ/130-2-900014/txt_5-div.txt
+kontekst: Kolejny etap to muzyka.
+kontekst: Krzesimir Dębski po obejrzeniu pierwszego montażu może wreszcie zacząć komponować muzykę, którą zresztą nosił w sobie od rozpoczęcia pierwszych zdjęć.
+zdanie: Z jego muzyką film będzie mógł wejść w fazę synchronizacji, czyli ostatecznego zgrania efektów dźwiękowych z obrazami.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań, różne w roli: dopełnienie; „w fazę” → „mógł”, „wejść”; „z obrazami” → „zgrania”, „efektów”
+sąd: fałszywe
+powód: muzykę komponuje Dębski, a `sobie` wchodzi na listę rzadkim lematem `soba`
+
+plik: typ_lit/200-2-000142/txt_5-div.txt
+kontekst: - Wiem, Jakub mi mówił.
+kontekst: On rozmawiał ze swoją ciocią przez wideofon.
+kontekst: Jego ciocia zaśpiewała mu nawet piosenkę.
+zdanie: Ona występowała w dyskotekach.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: występuje ciocia, a piosenka jest tym, co zaśpiewała
+
+plik: typ_publ/130-2-900005/txt_9-div.txt
+kontekst: Prezydent Lech Kaczyński podpisał nowelizację ustawy o radiofonii i telewizji.
+kontekst: Zmienia ona sposób wyboru przewodniczącego KRRiT.
+kontekst: Dotychczas przewodniczącego wskazywał prezydent.
+zdanie: Teraz wybiorą go spośród swego grona członkowie Rady.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: wybiera się przewodniczącego, a prezydent jest tym, kto go dotąd wskazywał
+
+plik: typ_nklas/040-2-000001/txt_12-div.txt
+kontekst: Oprócz kapłanów i Lewitów do podtrzymania starej wiary Mojżeszowej przyczyniły się w pewnym stopniu bractwa pobożnych ludzi, którzy składali śluby Jahwe.
+zdanie: Poznaliśmy już nazirejczyków, ponieważ należał do nich Samson.
+znalezisko: niejasne odniesienie
+werdykt: 8 odczytań, różne w rolach: cząstka_zdania, dopełnienie, okolicznik_narzędnikowy; „należał do nich Samson” ma 2 odczytania
+sąd: fałszywe
+powód: `nich` podejmuje nazirejczyków z tego samego zdania, a nie kapłanów ani ślubów
+
+plik: typ_lit/200-4-000000601/txt_10-div.txt
+kontekst: Dopiero gdy przerwał, a wyglądał wtedy jak martwy, spojrzałem na Elkę.
+kontekst: Siedziała nieruchomo pod ścianą i właściwie nie była już Elką, tylko drewnianą kukłą.
+zdanie: Jej oczy wpatrzone w Weisera przypominały szklane paciorki lalek z dziecinnego teatru.
+znalezisko: niejasne odniesienie
+werdykt: 11 odczytań, różne w rolach: dopełnienie, podmiot; „w Weisera” → „oczy”, „przypominały”; „z dziecinnego teatru” → „przypominały”, „paciorki”, „lalek”
+sąd: fałszywe
+powód: `Elką` i `kukłą` są jedną osobą, bo zdanie obok orzeka o niej właśnie tym, a ściana oczu nie ma
+
+plik: typ_publ/DP2001/txt_14-div.txt
+kontekst: Kilkunastu baców przybyłych do Ludźmierza z drewnianej stągwi czerpało święconą wodę, by pokropić nią owcze stada, gdy z początkiem maja ruszą na letni wypas.
+kontekst: Z koszyka przed ołtarzem zabierali bacowie szczapy święcone w Wielką Sobotę.
+zdanie: Rozpalą nimi pierwszą watrę przy szałasie.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w roli: dopełnienie; „przy szałasie” → „Rozpalą”, „watrę”
+sąd: fałszywe
+powód: watrę rozpala się szczapami, które bacowie zabrali, a bacowie są tymi, którzy ją rozpalą
+
+plik: typ_lit/200-4-000000314/txt_16-div.txt
+kontekst: Wiktor sięgnął do torby, wyjął manierkę.
+kontekst: Wypili po kieliszku.
+kontekst: Saszka nagle uprzytomnił sobie, że nieświadomie zmierza ku temu, by we trójkę spali w pokoju Handzi.
+zdanie: Przez głowę przeleciały mu obrazy z Roksaną na statku.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w roli: podmiot; „z Roksaną” → „przeleciały”, „obrazy”; „na statku” → „przeleciały”, „Roksaną”
+sąd: fałszywe
+powód: obrazy przeleciały Saszce, którego nazywa zdanie obok, a `temu` jest zaimkiem ze zwrotu `ku temu`
+
+plik: typ_publ/130-3-910001/txt_234-div.txt
+kontekst: Mostostal-Export kupił biłgorajskiego producenta łańcuchów na początku lat 90.
+kontekst: Przy pomocy inwestora firma uniezależniła się od dostawców drutu.
+zdanie: Potentat sprezentował jej bowiem piec do jego wytwarzania.
+znalezisko: niejasne odniesienie
+werdykt: 5 odczytań; „do jego” → „sprezentował”, „piec”
+sąd: fałszywe
+powód: piec dostaje firma, która uniezależniła się od dostawców, a pomoc niczego nie dostaje
+
+plik: typ_publ/120-2-000010/txt_58-div.txt
+kontekst: Interesanci spojrzeli we wskazanym kierunku i oniemieli z radości.
+zdanie: W podwórzu stała ich Warszawa.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: samochód jest interesantów, którzy oniemieli, a radość samochodu nie ma
+
+plik: typ_publ/130-3-900001/txt_585-div.txt
+kontekst: W Czeczenii od dwóch dni trwa powszechna mobilizacja.
+kontekst: Władze w Groznym twierdzą, że do wtorku pod broń stawi się 600 tys. mężczyzn w wieku od 15 do 65 lat.
+kontekst: Na razie zaś prezydent Dudajew zamknął niebo nad republiką.
+zdanie: Jego rada wojenna ostrzegła Moskwę, że wszystkie samoloty przelatujące nad Czeczenią będą przechwytywane przez czeczeńskie lotnictwo.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań; „nad Czeczenią” → „samoloty”, „będą”; „przez czeczeńskie lotnictwo” → „ostrzegła”, „będą”, „przechwytywane”
+sąd: fałszywe
+powód: radę wojenną ma prezydent Dudajew, a `razie` jest członem zwrotu `na razie`
+
+plik: typ_lit/IsakowiczZaleskiMoje/txt_7-div.txt
+kontekst: Wreszcie - święcenia kapłańskie.
+kontekst: Tu także obrzędy są znacznie bardziej rozbudowane niż w liturgii rzymskiej.
+kontekst: Jest wiele elementów podkreślających, że kapłan jest "z ludu wybrany i dla ludu ustanowiony".
+kontekst: W pewnym momencie neoprezbiter klęka twarzą do wiernych, wyciąga ku nim ręce i prosi o modlitwę.
+zdanie: I cała wspólnota modli się za niego.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: modlą się za neoprezbitera, który prosi o modlitwę, a nie za moment
+
+plik: typ_publ/130-3-910001/txt_3-div.txt
+kontekst: W piątek żołnierze rwandyjscy szczelnym kordonem otoczyli obozowisko.
+kontekst: Spanikowani Hutu porzucili swoje szałasy z plastikowej folii.
+zdanie: Część z nich uciekła do dżungli.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: podmiot; „z nich” → „Część”, „uciekła”
+sąd: fałszywe
+powód: do dżungli uciekają ludzie, a szałasy są tym, co porzucili
+
+plik: typ_publ/Rzeczpospolita/txt_216-div.txt
+kontekst: Badania potwierdziły, że przyczyną śmierci dwudziestoletniej kobiety, która niedawno zmarła w klinice neurologii poznańskiej AM, była choroba Creutzfeldta-Jakoba.
+kontekst: Nie ma tylko pewności, czy mogła się zarazić jedną z odmian tego schorzenia, spokrewnionego z tzw. chorobą szalonych krów.
+kontekst: Wykażą to kolejne specjalistyczne badania mózgu.
+zdanie: Bez względu na ich wyniki lekarze uspokajają, że nie ma powodów do paniki.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań; „na ich wyniki” → „względu”, „uspokajają”; „do paniki” → „uspokajają”, „ma”, „powodów”
+sąd: fałszywe
+powód: wyniki mają badania, które to wykażą, a `to` rzeczy nie nazywa
+
+plik: typ_lit/200-2-000000213/txt_6-div.txt
+kontekst: Tadzio śpi.
+kontekst: Po seansie budzi się, patrzy na świece, stolik, na mnie i na Studjochę, ze śpiącym podziwem, bo Studjocha płynnie tłumaczy: miał papiery, zanocował u Chaima w oberży.
+kontekst: Był z żoną, Wandą.
+kontekst: I tu widocznie zaszła ta zdrada.
+kontekst: Edwarda potem złapali.
+kontekst: Chaim został stracony.
+zdanie: Przedtem Wanda zdradziła z nim męża.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `Chaim` i `stracony` są jedną osobą, bo zdanie obok orzeka o nim właśnie tym
+
+plik: typ_lit/200-2-000160/txt_7-div.txt
+kontekst: Tomala sięgnął po kieliszek.
+zdanie: Jego ręka drżała.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: rękę ma człowiek, który sięgnął, a nie kieliszek, po który sięgnął
+
+plik: typ_publ/130-5-000001055/txt_1-div.txt
+kontekst: Iran zaprzeczył, jakoby sąd apelacyjny w Teheranie miał utrzymać w mocy karę śmierci, wymierzoną przez sąd niższej instancji niemieckiemu biznesmenowi, oskarżonemu o utrzymywanie stosunków seksualnych z irańską kobietą.
+kontekst: Wiadomość taką podały w sobotę media teherańskie.
+zdanie: Potwierdził ją teherański adwokat przedsiębiorcy z Niemiec, 56-letniego Helmuta Hofera.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w roli: podmiot; „z Niemiec” → „Potwierdził”, „adwokat”, „przedsiębiorcy”
+sąd: fałszywe
+powód: potwierdza się wiadomość, a sobota jest tym, kiedy ją podano
+
+plik: typ_nd/320-2-000000088/txt_7-div.txt
+kontekst: Następne pytanie dotyczy odporności lodu na działanie sił zewnętrznych.
+kontekst: Inne ciała, znane z życia codziennego, są łatwiejsze do opisania.
+kontekst: Wiadomo doskonale, że aby zgiąć (odkształcić trwale) pręt stalowy, trzeba przyłożyć większą siłę od tej, jaka jest niezbędna do odkształcenia takich samych rozmiarów pręta ołowianego.
+kontekst: Zatem wielkość odkształcenia zależy od charakteru materiału i użytej siły.
+kontekst: Jakim materiałem jest lód?
+zdanie: Przyjrzyjmy się mu dokładniej.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `materiałem` i `lód` są tą samą rzeczą, bo zdanie obok pyta o nią orzeczeniem imiennym
+
+plik: typ_publ/SuperExpress/txt_138-div.txt
+kontekst: Kawalerka na pierwszym piętrze, którą kupili jej rodzice, miała dać jej wolność i swobodę.
+zdanie: Tymczasem po miesiącu mieszkania zmieniła jej życie w koszmar.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: dopełnienie; „w koszmar” → „zmieniła”, „życie”
+sąd: fałszywe
+powód: życie ma dziewczyna, której rodzice kupili kawalerkę, a kawalerka jest tym, co je zmieniło
+
+plik: typ_publ/ZycieWarszawy_Zycie/txt_32-div.txt
+kontekst: Ustaliliśmy jednak, że Kowalski planował inne zakończenie.
+zdanie: Ale nie pozwolili mu na to jego przełożeni.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: nie pozwolono Kowalskiemu, który planował, a zakończeniu nikt nie pozwala
+
+plik: typ_publ/120-4-900000001/txt_28-div.txt
+kontekst: Wśród trzech pozostałych młodych rysi śledzonych telemetrycznie, które osiedliły się w Puszczy Białowieskiej, były dwie samice.
+zdanie: Zajęły one terytoria w sąsiedztwie swych matek.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań, różne w rolach: dopełnienie, podmiot; „w sąsiedztwie swych matek” → „Zajęły”, „terytoria”
+sąd: fałszywe
+powód: terytoria zajęły dwie samice, a `młodych` nazywa te same rysie formą przydawki
+
+plik: typ_inf-por/330-2-000009/txt_4-div.txt
+kontekst: W XVI wieku rozśpiewane ptaszki trafiły na pogórze Harcu i tam, w miasteczku Andreasberg, wyhodowano uszlachetnioną ich odmianę - wyjątkowo uzdolnionych wokalistów.
+kontekst: Okręg zyskał wielką sławę, a ptaki z tamtejszych hodowli rozprzestrzeniły się w świecie pod nazwą kanarków harceńskich.
+kontekst: Kanarki wszelkich odmian są bardzo dobrymi śpiewakami, ale największe sukcesy odnoszą kojarzone i selekcjonowane pod tym właśnie kątem.
+zdanie: Im głównie przypadają laury na światowych konkursach śpiewaczych.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: laury przypadają kanarkom kojarzonym i selekcjonowanym, którym zdanie obok przypisuje największe sukcesy, a nie samym sukcesom
+
+plik: typ_publ/130-5-000001843/txt_1-div.txt
+kontekst: Kobieta była trzymana w zamknięciu, w okratowanym pomieszczeniu rodzinnego domu.
+zdanie: Nie wychodziła z niego przez kilkanaście lat.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `zamknięciu` i `pomieszczeniu` są w zdaniu obok jednym miejscem, więc wyboru nie ma
+
+plik: typ_publ/NIE/txt_262-div.txt
+kontekst: W Lesznowoli w powiecie grójeckim brat rzucił się z nożem na brata.
+zdanie: Poranił go i stanie za to przed sądem.
+znalezisko: niejasne odniesienie
+werdykt: 9 odczytań, różne w roli: dopełnienie; „za to” → „Poranił”, „go”, „stanie”; „przed sądem” → „Poranił”, „go”, „stanie”, „to”
+sąd: fałszywe
+powód: ranił brat, który rzucił się z nożem, więc `go` jest ten drugi, a nóż sam nikogo nie rani
+
+plik: typ_nklas/040-2-000000301/txt_6-div.txt
+kontekst: Piszę, a komputer po cichutku zlicza każde uderzenie w klawisz, nie przeoczy żadnej literki, kropki ani myślnika.
+zdanie: Podejrzałem go ukradkiem i okazało się, że napisałem już ponad milion znaków.
+znalezisko: niejasne odniesienie
+werdykt: 6 odczytań, różne w roli: cząstka_zdania; „ponad milion znaków” → „okazało”, „napisał”; „milion znaków” ma 2 odczytania
+sąd: fałszywe
+powód: podejrzeć można komputer, który zlicza uderzenia, a nie samo uderzenie w klawisz
+
+plik: typ_lit/200-4-000000604/txt_21-div.txt
+kontekst: Wypili herbatę, popluwając wiórkami.
+kontekst: Do godziny czternastej Marceli Hromadko nie odezwał się, spoglądał jedynie na zegarek, popędzając wściekłym wzrokiem pełzające wskazówki, a gdy spełniły oczekiwania, przekroczyły magiczną strefę, za którą czekała jaśniejsza część dnia, wstali i ubierali się pośpiesznie.
+zdanie: Przeszli alejką obok sztabu, przy bramie trzasnął im kopytami wartownik, skręcili w lewo w stronę kasyna.
+znalezisko: niejasne odniesienie
+werdykt: 8 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy; „obok sztabu” → „Przeszli”, „alejką”; „w stronę” → „skręcili”, „lewo”
+sąd: fałszywe
+powód: wartownik trzasnął kopytami przechodzącym, a wskazówki zegarka zostały przy zegarku
+
+plik: typ_qmow/712-1-900002/txt_76-div.txt
+kontekst: - Nie, nie.
+kontekst: Pan minister odpowiedział: jest program.
+zdanie: Jeżeli pani poseł jest zainteresowana, to go otrzyma.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „pani poseł jest zainteresowana” ma 2 odczytania
+sąd: fałszywe
+powód: otrzymuje się program, o którym mówi minister, a `Pan` jest tym, kto o nim powiedział
+
+plik: typ_publ/SuperExpress/txt_442-div.txt
+kontekst: Po pół roku tortur Bernadetta Datka wyglądała jak śmierć.
+zdanie: Bandyci wsadzili ją w Szczecinku do pociągu.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „do pociągu” → „wsadzili”, „Szczecinku”
+sąd: fałszywe
+powód: do pociągu wsadzono kobietę, a `śmierć` jest w zdaniu obok członem porównania
+
+plik: typ_publ/130-3-900001/txt_525-div.txt
+kontekst: Jeżeli rząd chce wprowadzać swoje reformatorskie projekty, musi porozumiewać się z prezydentem.
+zdanie: On jest bardzo ważnym partnerem.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
+sąd: fałszywe
+powód: partnerem jest prezydent, z którym rząd musi się porozumiewać
+
+plik: typ_lit/200-2-000172/txt_10-div.txt
+kontekst: Z prawej wyskoczył cwałem ciężkozbrojny bez hełmu, schylił się, usiłując chwycić za szory zaprzęgu.
+zdanie: Tassilo de Tresckow zajechał go i ciął mieczem.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w rolach: okolicznik_narzędnikowy, podmiot
+sąd: fałszywe
+powód: zajechał ciężkozbrojnego, którego nazywa zdanie obok, a `bez` jest tam przyimkiem, który morfologia czyta też krzewem
+
+plik: typ_inf-por/330-4-000000002/txt_4-div.txt
+kontekst: W wielu rodzinach dziewczynki nadal wychowuje się tak, by służyły innym.
+zdanie: Ich fascynacje, zainteresowania, potrzeby są traktowane z pobłażaniem lub lekceważone.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: fascynacje mają dziewczynki, o których wychowaniu mówi zdanie obok, a `innym` jest tam zaimkiem
+
+plik: typ_publ/120-2-900101/txt_3-div.txt
+kontekst: Powrót odbywa się w tempie przyspieszonym.
+kontekst: Załogi z niepokojem śledzą ciche chmury nadchodzące z południa.
+zdanie: Wkrótce dochodzi do ich uszu daleki pomruk grzmotów.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: dopełnienie, podmiot, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: uszy mają załogi, które śledzą chmury, a chmury uszu nie mają
+
+plik: typ_publ/130-5-000001397/txt_1-div.txt
+kontekst: Ostatecznie prezes zarządu PKP zagroził wyciągnięciem konsekwencji wobec tych, którzy nie podejmą pracy.
+kontekst: Nie wykluczył zwolnień.
+kontekst: Strajk zawieszono.
+kontekst: Jego przywódcę Jana Zaborowskiego oskarżono o zorganizowanie nielegalnego strajku.
+zdanie: Prokuratura zarzuciła mu, że naruszył ustawę o rozwiązywaniu sporów zbiorowych, bo nie przekazał pracodawcy postulatów związku i nie podjął negocjacji.
+znalezisko: niejasne odniesienie
+werdykt: 36 odczytań, różne w roli: okolicznik_zdaniowy; „o rozwiązywaniu sporów zbiorowych” → „zarzuciła”, „naruszył”, „ustawę”; „pracodawcy postulatów związku” ma 2 odczytania
+sąd: fałszywe
+powód: zarzuca się przywódcy strajku, a zorganizowanie jest tym, co mu zarzucono
+
+plik: typ_lit/200-4-000050/txt_5-div.txt
+kontekst: Przez chwilę rozglądam się w poszukiwaniu kogoś, kto gada przez telefon.
+kontekst: Jakbym znalazł, to chybabym zarekwirował.
+kontekst: Ale nie widzę, więc wpadam na pomysł, by zresetować swój telefon.
+zdanie: Wyłączam go, a potem włączam.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: wyłącza się telefon, który miał zostać zresetowany, a pomysłu nikt nie wyłącza
+
+plik: typ_fakt/310-2-000000104/txt_7-div.txt
+kontekst: Aby pozbyć się niespokojnego ducha z Apulii, Onufry wysłał Roberta do Kalabrii.
+zdanie: Dał mu wolną rękę we wszystkich działaniach i na dobry początek nadał niewielki zamek Scribla w dolinie Crati.
+znalezisko: niejasne odniesienie
+werdykt: 152 odczytania, różne w rolach: dopełnienie, okolicznik_narzędnikowy, podmiot; „we wszystkich działaniach” → „Dał”, „rękę”; „w dolinie” → „nadał”, „zamek”, „Scribla”
+sąd: fałszywe
+powód: wolną rękę daje wysyłający, więc `mu` jest Robert, a `ducha` nazywa w zdaniu obok jego samego
+
+plik: typ_lit/030-2-000000009/txt_3-div.txt
+kontekst: Pikole, przebrani w czyste kaftany i fartuchy, zeszli już na dół.
+kontekst: Ten i ów zajrzał na korytarz, uchylił drzwi do kawiarni i cofnął się, jak gdyby ujrzał tam coś niemiłego.
+kontekst: Adaś zdołał ukraść pannom bufetowym kilkanaście talerzyków i zanieść je na swój kredensowy stolik.
+zdanie: Bardzo go to cieszyło.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: cieszy się Adaś, który ukradł talerzyki, a panny ani stolik się nie cieszą
+
+plik: typ_publ/130-2-910000006/txt_18-div.txt
+kontekst: Kilka godzin wcześniej samolot z dziewczynkami i ich matką wylądował w Krakowie.
+kontekst: Tam również czekał tłum, ale reporterów.
+kontekst: Rodzice ze wzruszeniem prezentowali dziennikarzom swoje maleństwa i dziękowali za pomoc.
+zdanie: Razem z nimi pojawiła się również amerykańska pielęgniarka, która przez jakiś czas będzie pomagać w opiece nad dziećmi.
+znalezisko: niejasne odniesienie
+werdykt: 7 odczytań, różne w rolach: cząstka_zdania, podmiot; „w opiece” → „pojawiła”, „pomagać”; „nad dziećmi” → „pojawiła”, „pomagać”, „opiece”
+sąd: fałszywe
+powód: pielęgniarka przyjechała z rodzicami i dziećmi, a nie z dziennikarzami, którym je prezentowano
+
+plik: typ_net_interakt/620-3-010000834/txt_4-div.txt
+kontekst: Smród w łazience był nie do zniesienia.
+kontekst: McClees spuścił wodę, chwycił ręcznik, starł rzygowiny i wyrzucił frotową kulę z ładunkiem na korytarz.
+kontekst: Po holu przechadzał się człowiek w białych szmatach, w którym McClees rozpoznał garderobianego Ludmiły.
+zdanie: Fabien zawołał go po francusku i dostał odpowiedź w tym samym języku.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: dopełnienie; „w tym samym języku” → „dostał”, „odpowiedź”
+sąd: fałszywe
+powód: woła się człowieka rozpoznanego w holu, a nie sam hol
+
+plik: typ_inf-por/330-1-000004/txt_1-div.txt
+kontekst: Pamiętając złe chwile z dzieciństwa, chcecie postępować z dziećmi zupełnie inaczej niż wasi rodzice.
+zdanie: Gdy myśleliście o swoim rodzicielstwie, obiecywaliście sobie nie popełnić ich błędów.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w rolach: okolicznik_przysłówkowy, okolicznik_zdaniowy, orzeczenie, wyrażenie_przyimkowe; „sobie” ma 2 odczytania
+sąd: fałszywe
+powód: błędy popełnili rodzice, o których mówi zdanie obok, a nie dzieci, z którymi chcą postępować inaczej
+
+plik: typ_publ/130-3-910001/txt_74-div.txt
+kontekst: Anna Michajłowna Łarina pochodziła z rodziny bolszewickiej tak zasłużonej, że prochy jej ojca złożono z honorami pod ścianą Kremla.
+zdanie: Bucharin był współtowarzyszem i przyjacielem jej rodziców, swoją przyszłą, trzecią żonę, znał od kołyski.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: dopełnienie, wyrażenie_przyimkowe
+sąd: fałszywe
+powód: rodziców ma Anna Michajłowna, a `honorami` jest tam tym, z czym złożono prochy
+
+plik: typ_lit/200-3-000001/txt_1-div.txt
+kontekst: - Oni nie mają po pięćdziesiątce tak jak pan - powiedział Maliszewski.
+kontekst: - Mogą bardzo długo bawić się w ten sposób.
+kontekst: Ja jak byłem młody, toteż mogłem się w ten sposób bawić godzinami.
+kontekst: Naprawdę tak było.
+kontekst: Wstąpimy po mojego szwagra i podskoczymy tam, chce pan?
+zdanie: On już wrócił z roboty i chętnie pójdzie z nami.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: z roboty wrócił szwagier, po którego mają wstąpić, a `pan` jest tym, do kogo mówią
+
+plik: typ_publ/130-2-900005/txt_21-div.txt
+kontekst: Policjanci przywieźli pijanego radiowozem do szpitala.
+zdanie: Tam po badaniach okazało się, że jest on absolutnym rekordzistą, jeśli chodzi o liczbę promili alkoholu we krwi.
+znalezisko: niejasne odniesienie
+werdykt: 47 odczytań, różne w rolach: okolicznik_narzędnikowy, okolicznik_zdaniowy; „o liczbę promili alkoholu” → „okazało”, „chodzi”; „we krwi” → „okazało”, „chodzi”, „liczbę”, „promili”, „alkoholu”; „jest on” ma 2 odczytania; „on absolutnym rekordzistą” ma 2 odczytania
+sąd: fałszywe
+powód: rekordzistą jest pijany, którego zbadano, a nie radiowóz, którym go przywieziono
+
+plik: typ_publ/120-2-900085/txt_2-div.txt
+kontekst: Dyrektorzy szpitali tłumaczą, że nie mają pieniędzy dla lekarzy.
+zdanie: Nie wierzycie im?
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: nie wierzy się dyrektorom, którzy tłumaczą, a pieniędzy nie ma
+
+plik: typ_publ/DP2003/txt_9-div.txt
+kontekst: Uczestniczki wysłuchały wykładów doradców zawodowych i prawników, uczestniczyły w zajęciach psychologicznych, poznawały podstawy obsługi komputera i korzystania z Internetu.
+zdanie: Zorganizowano również dla nich warsztaty rękodzielnicze z zakresu robienia na drutach, haftowania, tkania, wykonywania makram.
+znalezisko: niejasne odniesienie
+werdykt: 19 odczytań, różne w roli: dopełnienie; „z zakresu robienia na drutach” → „Zorganizowano”, „warsztaty”; „na drutach” → „zakresu”, „robienia”
+sąd: fałszywe
+powód: warsztaty organizuje się dla uczestniczek, a nie dla wykładów ani zajęć
+
+plik: typ_net_interakt/620-3-010001620/txt_1-div.txt
+kontekst: Banał tak - kicz nie.
+kontekst: Powiedziałbym raczej - ironia.
+kontekst: Mieszanka pompatyczności z coca-colą.
+kontekst: Może to dla Ciebie niewiele znaczy, ale MI twój wiersz podobał się bardzo.
+zdanie: Odnalazłem w nim wiele smutnych prawd współczesności.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: prawdy odnajduje się w wierszu, a `MI` wchodzi na listę nazwą dźwięku, bo napis wersalikami wykluczenia słownikowego nie dostaje
+
+plik: typ_lit/200-2-000093/txt_8-div.txt
+kontekst: Widocznie nie był przy tym, jak Władek rozwinął swój sztandar.
+zdanie: Nie widział przy nim Szczęsnego.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: Szczęsnego nie widział przy sztandarze, a `tym` i `jak` rzeczy nie nazywają
+
+plik: typ_publ/130-5-000000130/txt_1-div.txt
+kontekst: Do zdarzenia doszło 10 lipca około godziny dwudziestej.
+kontekst: Z relacji dziecka wynika, że sąsiad zaprosił je do domu.
+zdanie: Poszła z własnej woli, gdyż dobrze go znała.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: znała sąsiada, który ją zaprosił, i to jest powód, dla którego poszła
+
+plik: typ_lit/200-1-000011/txt_5-div.txt
+kontekst: Chorąży ma na twarzy spokojny uśmieszek, bo dla niego to wszystko, co robiła wcześniej, w tym ze mną, zdaje się równie bez znaczenia jak dziecięce zabawy w doktora; dopiero on jest pierwszym mężczyzną Mileny.
+zdanie: I patrząc na nią przy nim, przyznaję, że ma rację.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: patrzy się na Milenę, którą zdanie obok nazywa w grupie `pierwszym mężczyzną Mileny`, a `Chorąży` zgadza się z `nią` tylko czytaniem nazwiska żeńskiego
+
+plik: typ_publ/130-5-000001461/txt_1-div.txt
+kontekst: Przez zamknięcie przejścia granicznego kupcy stracili niemieckich klientów.
+zdanie: Według nich z polsko-niemieckiego handlu utrzymywało się trzy tysiące osób.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: mówią kupcy, którzy stracili klientów, bo to oni liczą, z czego się utrzymywano
+
+plik: typ_publ/120-4-900009/txt_37-div.txt
+kontekst: Kubatura budynku liczy 7 tys. m sześć.
+kontekst: Ten wszechstronny, nowoczesny obiekt jest wyposażony w profesjonalny sprzęt pożarniczy.
+zdanie: Na jego otwarcie zjechali się przedstawiciele PSP w Warszawie, władze gminne, powiatowe oraz państwowe.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w roli: okolicznik_przysłówkowy; „w Warszawie” → „przedstawiciele”, „PSP”
+sąd: fałszywe
+powód: otwiera się obiekt, a sprzęt jest tym, w co go wyposażono
+
+plik: typ_lit/200-2-000151/txt_1-div.txt
+kontekst: - Nie, nie, poczekaj, moja droga.
+kontekst: Chcę ci coś opowiedzieć.
+kontekst: Widziałem rano, jak rozmawiałaś z tym sympatycznym młodzieńcem, Abibem Denisem.
+zdanie: Lubisz go?
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `młodzieńcem` i `Denisem` są jedną osobą, bo zdanie obok nazywa ją dwa razy
+
+plik: typ_publ/DP2001/txt_22-div.txt
+kontekst: W czerwcu inwestor uzyskał również z Krajowego Funduszu Mieszkalnictwa poprzez Bank Gospodarstwa Krajowego preferencyjny kredyt na budowę.
+zdanie: Będzie on spłacany z czynszu lokatorów, którzy tutaj zamieszkają.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: orzecznik; „z czynszu lokatorów, którzy tutaj zamieszkają” → „Będzie”, „spłacany”
+sąd: fałszywe
+powód: spłaca się kredyt, a inwestor jest tym, kto go uzyskał
+
+plik: typ_publ/SuperExpress/txt_529-div.txt
+kontekst: - Tak.
+kontekst: Na Śląsku mamy ciemnoskórego kolegę.
+zdanie: Nie eksponujemy go szczególnie, by nie robić niepotrzebnej szopki.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: eksponuje się kolegę, a nie Śląsk, na którym go mają
+
+plik: typ_publ/130-3-900001/txt_13-div.txt
+kontekst: Halina Kuban wraca do domu z trzema pekińczykami: Cziną, Amikiem i Czoko.
+zdanie: Mieszka z nimi sama.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: mieszka z pekińczykami, a wiersz nazywa ich `domu`, czyli formą głowy grupy, w której stoją; `Halina` zgadza się z `nimi` tylko czytaniem nazwiska
+
+plik: typ_nd/320-2-000000095/txt_9-div.txt
+kontekst: Stopień osłonięcia gruntu i gęstość roślin uprawnych wpływają na wielkość plonu i stanowią o przyroście biomasy w większości agrocenoz, a maksymalna pojemność retencji intercepcji Smaks.
+zdanie: jest od niej bezpośrednio zależna.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w rolach: okolicznik_przysłówkowy, orzecznik
+sąd: fałszywe
+powód: zdanie jest urwane na skrócie `Smaks.`, a `niej` podejmuje gęstość roślin z części, której olski tu nie widzi
+
+plik: typ_publ/ZycieWarszawy_Zycie/txt_73-div.txt
+kontekst: O odkryciu, a przede wszystkim o uczciwym znalazcy, zrobiło się głośno w mediach.
+kontekst: Dyrektor Muzeum Narodowego w Szczecinie Władysław Filipowiak osobiście gratulował Nowakowi.
+zdanie: Jego znalezisko nazwał skarbem stulecia.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: znalezisko ma Nowak, któremu gratulowano, a dyrektor jest tym, kto je nazwał
+
+plik: typ_publ/ZycieWarszawy_Zycie/txt_79-div.txt
+kontekst: Kazancewa po raz ostatni widziano, gdy podróżował śmigłowcem w rejonie walk.
+zdanie: Jego maszyna miała spaść nad wąwozem Argun na rosyjską ciężarówkę wyładowaną amunicją.
+znalezisko: niejasne odniesienie
+werdykt: 48 odczytań, różne w rolach: dopełnienie, okolicznik_narzędnikowy; „nad wąwozem” → „miała”, „spaść”; „na rosyjską ciężarówkę” → „miała”, „spaść”, „wąwozem”, „Argun”
+sąd: fałszywe
+powód: maszynę ma Kazancew, a śmigłowiec jest tą maszyną
+
+plik: typ_lit/200-4-000000204/txt_5-div.txt
+kontekst: Każdy z nas dźwiga na plecach jakiś krzyż.
+kontekst: Dla Stasysa Eidrigeviciusa jest nim sztuka, która przesłania mu świat, jak pędzle przesłaniały mu oczy tam na wernisażu.
+kontekst: Każdy z nas wytycza jakąś indywidualną drogę życia.
+kontekst: Kiedy jako dziecko codziennie szedł wiele kilometrów do szkoły w Poniewieżu, droga ułożona była z bierwion.
+zdanie: W Krakowie symbolizowały je deski.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: deski symbolizują bierwiona, z których ułożona była droga, a `dziecko` wchodzi na listę czytaniem nijakim
+
+plik: typ_publ/120-4-900000001/txt_17-div.txt
+kontekst: Dzięki temu przekonano się, że galaktyki aktywne nie tworzą jednolitej grupy, ale mają dość zróżnicowane własności.
+kontekst: W ostatnich latach udało się jednak wyjaśnić zauważone różnice i zaproponować model wspólny dla wszystkich obiektów aktywnych.
+zdanie: Powstał w ten sposób schemat ich unifikacji.
+znalezisko: niejasne odniesienie
+werdykt: 3 odczytania, różne w rolach: dopełnienie, podmiot
+sąd: fałszywe
+powód: unifikuje się obiekty aktywne, a wiersz nazywa je `model`, czyli formą głowy grupy, w której stoją
+
+plik: typ_publ/130-5-000001109/txt_1-div.txt
+kontekst: Podany przez PKO termin 31 grudnia wywołał obawy, że operacja może nie zostać całkowicie sfinalizowana przed tym terminem.
+kontekst: Czeki wymieniane są zatem sukcesywnie, nowi klienci otrzymują już nowe blankiety.
+zdanie: Ich wzór został opracowany przez Związek Banków Polskich i jest dostosowany do wymogów Unii Europejskiej.
+znalezisko: niejasne odniesienie
+werdykt: 8 odczytań, różne w roli: orzecznik; „przez Związek Banków Polskich” → „został”, „opracowany”; „do wymogów Unii Europejskiej” → „jest”, „dostosowany”; „Banków Polskich” ma 2 odczytania
+sąd: fałszywe
+powód: wzór mają nowe blankiety, a czeki i blankiety są tu jedną rzeczą, więc wyboru nie ma
+
+plik: typ_lit/030-2-000000011/txt_1-div.txt
+kontekst: Serce drżało w Adasiu, gdy dotknął rękami długo szukanych drzwi: pokrzywił je reumatyzm starości i stoczyły je czerwie.
+zdanie: Obejrzał je bacznie.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: obejrzał drzwi, których szukał, a wiersz nazywa je `rękami`, czyli formą głowy grupy, w której stoją
+
+plik: typ_publ/SuperExpress/txt_479-div.txt
+kontekst: Jan Batory nie doczekał spotkania po latach.
+zdanie: Ale jego przepowiednia prawie się sprawdziła.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: przepowiednię wygłosił Jan Batory, a spotkanie przepowiedni nie ma
+
+plik: typ_publ/SuperExpress/txt_221-div.txt
+kontekst: 7 osób zostało rannych, gdy w piątek terroryści zaatakowali w Iraku konwój Wielonarodowej Dywizji Centrum Południe.
+kontekst: Ranni to czterej polscy żołnierze, dwóch żołnierzy salwadorskich i tłumacz.
+zdanie: Ich życiu nie zagraża niebezpieczeństwo.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: `Ranni` i `żołnierze` są tymi samymi ludźmi, bo zdanie obok utożsamia je orzeczeniem imiennym
+
+plik: typ_lit/200-2-000157/txt_3-div.txt
+kontekst: Ale dzisiaj umysł mędrca od razu uleciał w stronę Ciemnej Gwiazdy.
+zdanie: Wieża z jego ciałem już dawno przestała być widoczna.
+znalezisko: niejasne odniesienie
+werdykt: 4 odczytania, różne w rolach: okolicznik_narzędnikowy, podmiot; „z jego” → „Wieża”, „przestała”
+sąd: fałszywe
+powód: ciało ma mędrzec, którego wiersz nie nazywa wcale, a `dzisiaj` wchodzi na listę czytaniem rzeczownikowym przysłówka
+
+plik: typ_publ/120-2-910000011/txt_88-div.txt
+kontekst: Przed tygodniem pisaliśmy o rozboju w Rabce.
+zdanie: Jego ofiarą padła samotnie mieszkająca staruszka.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: ofiarę ma rozbój, a nie tydzień, przed którym o nim pisano
+
+plik: typ_publ/120-2-000006/txt_76-div.txt
+kontekst: - Próbuję, bo nie mogę być wiecznym niedowiarkiem.
+kontekst: To nie było jednak jego pierwsze potknięcie.
+kontekst: Już po kampanii wyborczej i konflikcie wokół czasu antenowego dla AWS były wnioski kolegów o zmianę wiceprzewodniczącego AWS.
+zdanie: Ja je wstrzymałem, bo awantura personalna przed wyborami nie miała sensu.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania; „przed wyborami” → „awantura”, „miała”
+sąd: fałszywe
+powód: wstrzymuje się wnioski kolegów, a kampania wyborcza już się odbyła
+
+plik: typ_publ/130-2-900005/txt_52-div.txt
+kontekst: Uzbrojeni napastnicy przybyli pięcioma samochodami do dzielnicy Kazimija i zmusili dziesięciu pracowników piekarni Wissam do udania się z nimi w nieznanym kierunku.
+kontekst: Jednocześnie policja poinformowała, że w różnych częściach stolicy Iraku odnaleziono 10 ciał mężczyzn.
+kontekst: Ciała te noszą ślady tortur.
+zdanie: Na razie ich nie udało się zidentyfikować.
+znalezisko: niejasne odniesienie
+werdykt: 2 odczytania, różne w roli: orzeczenie
+sąd: fałszywe
+powód: identyfikuje się ciała, a ślady tortur są tym, co na nich widać
+
+plik: typ_publ/130-2-900005/txt_60-div.txt
+kontekst: Wzburzony ojciec zawiadomił policję, ale z chciwą pedagog i tak się umówił.
+zdanie: Postanowił, że jej nie odpuści.
+znalezisko: niejasne odniesienie
+werdykt: jedno odczytanie
+sąd: fałszywe
+powód: nie odpuszcza chciwej pedagog, z którą się umówił, a policję sam zawiadomił

@@ -642,9 +642,12 @@ i który druga osoba sprawdzi nad samym zdaniem.
 Sąd bez powodu jest zdaniem, którego nikt nie sprawdzi, czyj by nie był,
 więc dzieli tu powód, a nie gatunek oceniającego.
 Za decyzją stoi zgodność, którą da się przeliczyć.
-Złote znaczniki NKJP rozstrzygają same około jednego wpisu tej bazy na pięć,
+Złote znaczniki NKJP rozstrzygają same około jednego sądu o wieloznaczności na pięć,
 a odczytanie, które w takim wpisie zostaje, jest tym, które nazywa powód
 ([adnotacje.md](adnotacje.md#korpus-sam-odpowiada-na-wybór-który-jest-odczytaniem-formy)).
+Sąd o zaimku drugiej oceny stąd nie dostaje,
+bo jego wyborem nie jest odczytanie formy, tylko rzecz, którą zaimek podejmuje,
+a tego korpus nie zapisuje w żadnej warstwie.
 Anotator jest rodzimym czytelnikiem, więc te wpisy mają drugą ocenę
 i potwierdza ona powód, na którym sąd stanął.
 Samego sądu nie potwierdza: anotator mówi, które czytanie jest jego,
