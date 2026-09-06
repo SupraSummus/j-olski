@@ -28,6 +28,8 @@ więc `Są one czerwone.` dostałoby po nim zgłoszenie.
 Tu widać, czego ta warstwa żąda od rozbioru:
 morfologia mówi, że `pole` i `maków` są rzeczownikami,
 a która z tych dwóch form jest głową grupy, mówi dopiero drzewo.
+Drzewo wskazuje czasem dwie głowy jednej grupy naraz,
+a rzecz jest wtedy dalej jedna (:class:`_Rzecz`).
 
 **Rzeczy podaje pierwszy kawałek tekstu przed zaimkiem, który cokolwiek nazywa.**
 Kawałkiem jest zdanie składowe: najpierw własne, w części stojącej przed zaimkiem,
@@ -117,18 +119,38 @@ class Odniesienie:
     w_zdaniu: bool
 
 
+@dataclass(frozen=True)
+class _Głowa:
+    """Głowa grupy imiennej wraz z rozpiętością całej grupy.
+
+    Rozpiętość grupy jest tu dlatego, że dwie głowy jednej grupy nazywają jedną
+    rzecz (:func:`_rzeczy`), a z samego liścia jej nie widać.
+    """
+
+    rozpiętość: tuple[int, int]
+    liść: Leaf
+
+
 @dataclass
 class _Rzecz:
     """Rzecz nazwana w kawałku tekstu: forma, którą się ją wypisuje, i czym ona jest.
 
-    Lematy zbierają się dlatego, że jedna rzecz nazwana dwa razy jest jedną rzeczą:
-    `Maki` i `maków` w jednym kawałku nie stawiają czytelnika przed wyborem,
+    Jedna rzecz nazwana dwa razy jest jedną rzeczą, a nazwać ją dwa razy
+    tekst umie dwoma sposobami, więc scalanie pyta o dwie rzeczy naraz.
+    Lematem: `Maki` i `maków` w jednym kawałku nie stawiają czytelnika przed wyborem,
     a policzone osobno dałyby zgłoszenie nad każdym zdaniem,
     które o czymś mówi dwa razy.
+    Rozpiętością: grupa wieloznaczna ma w każdym czytaniu inną głowę,
+    a nazywa w każdym z nich tę samą rzecz —
+    `radny Mitkiewicz` jest przydawką albo apozycją, a osobą jedną —
+    i lemat tych dwóch głów nie scala, bo mają różne.
     """
 
     forma: str
     lematy: set[str]
+    #: Rozpiętości grup, którymi tekst tę rzecz nazwał. Zbiór, bo zdanie
+    #: wieloznaczne wydaje tę samą grupę raz na czytanie, a czytań bywają setki.
+    rozpiętości: set[tuple[int, int]]
     odczytania: list[Reading] = field(default_factory=list)
 
 
@@ -173,7 +195,7 @@ def _zgłoszenia(wynik: Result, obok: Result | None, w_zdaniu: bool) -> tuple[Od
 
 def _odniesienie(
     zaimek: Leaf,
-    własne: Sequence[Leaf],
+    własne: Sequence[_Głowa],
     granice: Sequence[int],
     obce: Sequence[_Rzecz],
     w_zdaniu: bool,
@@ -188,7 +210,7 @@ def _odniesienie(
     """
     odczytania = [r for r in zaimek.odczytania if r.tag.pos == ZAIMEK]
     for zakres in _kawałki(granice, zaimek.span[0]):
-        rzeczy = _rzeczy(g for g in własne if zakres[0] <= g.span[0] < zakres[1])
+        rzeczy = _rzeczy(g for g in własne if zakres[0] <= g.liść.span[0] < zakres[1])
         if zgodne := _zgodne(odczytania, rzeczy):
             return _zgłoszenie(zaimek, zgodne, w_zdaniu=True) if w_zdaniu else None
     return _zgłoszenie(zaimek, _zgodne(odczytania, obce), w_zdaniu=False)
@@ -230,28 +252,49 @@ def _kawałki(granice: Sequence[int], początek: int) -> list[tuple[int, int]]:
     return [(cięcia[i], cięcia[i + 1]) for i in reversed(range(len(cięcia) - 1))]
 
 
-def _rzeczy(głowy: Iterable[Leaf]) -> list[_Rzecz]:
+def _rzeczy(głowy: Iterable[_Głowa]) -> list[_Rzecz]:
     """Rzeczy nazwane przez te głowy, każda raz i w kolejności zdania.
 
     Głów jest kilka nad jedną formą tam, gdzie zdanie jest wieloznaczne,
     i wtedy głowa grupy imiennej bywa w każdym czytaniu inna;
     bierzemy je wszystkie, bo czytelnik też ma je wszystkie do wyboru.
+    Głowy jednej grupy scalają się przy tym w jedną rzecz,
+    a czemu tak, mówi docstring :class:`_Rzecz`.
     """
     rzeczy: list[_Rzecz] = []
     for głowa in głowy:
-        odczytania = _imienne(głowa)
+        odczytania = _imienne(głowa.liść)
         lematy = {odczytanie.lemma for odczytanie in odczytania}
         for rzecz in rzeczy:
-            if rzecz.lematy & lematy:
+            if rzecz.lematy & lematy or _zachodzi(rzecz.rozpiętości, głowa.rozpiętość):
                 rzecz.lematy |= lematy
+                rzecz.rozpiętości.add(głowa.rozpiętość)
                 rzecz.odczytania += odczytania
                 break
         else:
-            rzeczy.append(_Rzecz(głowa.segment.form, set(lematy), list(odczytania)))
+            rzeczy.append(
+                _Rzecz(
+                    głowa.liść.segment.form,
+                    set(lematy),
+                    {głowa.rozpiętość},
+                    list(odczytania),
+                )
+            )
     return rzeczy
 
 
-def _głowy(drzewa: Iterable[Tree]) -> Iterator[Leaf]:
+def _zachodzi(rozpiętości: Iterable[tuple[int, int]], rozpiętość: tuple[int, int]) -> bool:
+    """Czy ta grupa zachodzi na którąś z grup, którymi tekst nazwał już jedną rzecz.
+
+    Zachodzenie, a nie równość: grupa wieloznaczna bywa w jednym czytaniu szersza
+    niż w drugim — `Schronisko dla Zwierząt` obejmuje `Zwierząt` tam, gdzie
+    wyrażenie przyimkowe wisi przy schronisku, i nie obejmuje go tam, gdzie wisi
+    przy orzeczeniu — a rzecz jest w obu czytaniach jedna.
+    """
+    return any(a[0] < rozpiętość[1] and rozpiętość[0] < a[1] for a in rozpiętości)
+
+
+def _głowy(drzewa: Iterable[Tree]) -> Iterator[_Głowa]:
     """Głowy najszerszych grup imiennych, w kolejności zdania.
 
     Bierze i listę czytań, i córki węzła, bo zejście jest w obu wypadkach to samo.
@@ -267,7 +310,7 @@ def _głowy(drzewa: Iterable[Tree]) -> Iterator[Leaf]:
         if drzewo.label == DEKLARACJA.grupa_imienna:
             głowa = drzewo.liść_głowy()
             if _imienne(głowa):
-                yield głowa
+                yield _Głowa(drzewo.span, głowa)
             continue
         yield from _głowy(drzewo.children)
 
