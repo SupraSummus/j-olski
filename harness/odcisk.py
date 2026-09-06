@@ -13,11 +13,11 @@ tu nie wystarcza — wypisuje głowę i ciało, a przemilcza cechy, koszty i lem
 terminala — a :func:`wypisz` pyta o pola samą klasę.
 
 Kolejność produkcji jest kolejnością gramatyki, a nie posortowaną, bo gramatyka
-tę kolejność widzi: czytania o równym koszcie idą tak, jak ``for_head`` oddaje
-produkcje (:meth:`olski.parse.Las.wyprowadzenia`), więc samo przestawienie
-dopisań rusza kolejność czytań i ma się w odcisku pokazać. Zbiór wypisuje się za
-to posortowany, bo hasze napisów są losowane przy starcie i nieposortowany
-pokazywałby różnicę, której nie ma.
+tę kolejność widzi: czytania o równym koszcie idą kolejnością dopisywania
+(:meth:`olski.parse.Las.wyprowadzenia`),
+więc samo przestawienie dopisań rusza kolejność czytań i ma się w odcisku pokazać.
+Zbiór wypisuje się za to posortowany, bo hasze napisów są losowane przy starcie
+i nieposortowany pokazywałby różnicę, której nie ma.
 
 Dwa drzewa robocze stawia się przy tym obok siebie, a nie jedno po drugim, tak
 samo jak przy zmianie, która ma tylko przyspieszyć:

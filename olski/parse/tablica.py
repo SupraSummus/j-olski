@@ -69,17 +69,23 @@ class _Tablica:
         self.stany: dict[int, dict[_Stan, set[tuple[int, Pozycja]]]] = {
             k: {} for k in self.pozycje_grafu
         }
-        #: Pozycja grafu → symbol → stany, które na ten symbol tu czekają.
-        self._oczekujące: dict[int, dict[str, list[_Stan]]] = {k: {} for k in self.pozycje_grafu}
+        #: Pozycja grafu → symbol → część ciała za tym symbolem → stany, które tu czekają.
+        #: Pod częścią, bo po niej odsiewa domknięcie (:meth:`_zamknij`);
+        #: ciało kończące się tym symbolem stoi pod ``None``, bo odsiewu nie przechodzi.
+        self._oczekujące: dict[int, dict[str, dict[Part | None, list[_Stan]]]] = {
+            k: {} for k in self.pozycje_grafu
+        }
         #: Pozycja grafu → symbole, które się w niej zamknęły o zerowej rozpiętości.
         #: Bez tego produkcja o pustym ciele przepada dla stanu dopisanego po niej,
         #: bo ten nie ma już czego dokończyć.
         self._puste: dict[int, set[str]] = {}
         #: Konstytuenty, o które posunięto już czekające na nie stany (:meth:`_zamknij`).
         #: Nie to samo co domknięte produkcje: tych jest pod jednym konstytuentem kilka,
-        #: i czyta je :meth:`zamknięte`.
+        #: i czyta je :meth:`domknięte`.
         self._posunięte: set[Pozycja] = set()
         self._zaczynane = grammar.zaczynane()
+        #: Pozycja grafu → (symbol, źródło) → produkcje, które się tu domknęły.
+        self._domknięcia_memo: dict[int, dict[tuple[str, int], tuple[Production, ...]]] = {}
         #: Pozycja grafu → terminal → krawędzie, które on w niej bierze.
         self._brane_memo: dict[int, dict[Word, tuple[Segment, ...]]] = {}
         #: Pozycja grafu → części ciała, którymi da się w niej zacząć córkę.
@@ -154,13 +160,15 @@ class _Tablica:
         Lista powstaje przed rozwinięciem, bo rozwinięcie schodzi po pierwszych
         córkach i przy gramatyce lewostronnie rekurencyjnej wraca po ten sam symbol.
         """
+        production, kropka, _źródło = stan
+        po = production.body[kropka + 1] if kropka + 1 < len(production.body) else None
         oczekujące = self._oczekujące[k]
-        czekający = oczekujące.get(część.name)
-        if czekający is None:
-            oczekujące[część.name] = [stan]
+        grupy = oczekujące.get(część.name)
+        if grupy is None:
+            oczekujące[część.name] = {po: [stan]}
             self._rozwiń(k, część.name, kolejka)
         else:
-            czekający.append(stan)
+            grupy.setdefault(po, []).append(stan)
         if część.name in self._puste.get(k, ()):
             self._posuń(k, [stan], k, Pozycja(część.name, (k, k)), kolejka)
 
@@ -169,7 +177,7 @@ class _Tablica:
 
         Stan o kropce na zerze do tablicy nie wchodzi, bo nie niesie nic
         poza zapisem, że produkcję w tej pozycji przewidziano,
-        a zapis ten niosą już :attr:`_oczekujące` wraz z :meth:`Grammar.for_head`.
+        a zapis ten niosą już :attr:`_oczekujące` wraz z produkcjami symbolu.
         Produkcja zaczynana terminalem przechodzi więc od razu formą,
         a zaczynana symbolem wchodzi wprost na listę oczekujących,
         i tablica trzyma same stany, które już coś przeszły.
@@ -181,15 +189,26 @@ class _Tablica:
         bo każde piętro rozwija inny symbol: rozwiniętego drugi raz się nie rozwija.
 
         Ciało puste jest wyjątkiem i do tablicy wchodzi,
-        bo tam kropka zerowa jest domknięciem, a domknięcia czyta :meth:`zamknięte`.
+        bo tam kropka zerowa jest domknięciem, a domknięcia czyta :meth:`domknięte`.
+
+        Pytanie o pierwszą córkę pada raz na jej kształt, a nie raz na produkcję:
+        produkcje ma symbol pogrupowane po tej córce
+        (:meth:`Grammar.po_pierwszej_części`), a ``orzeczenie`` ma ich setki
+        przy rząd wielkości mniejszej liczbie różnych początków.
         """
-        for production in self.grammar.for_head(symbol):
-            stan = (production, 0, k)
-            if not production.body:
-                if self._dodaj(k, stan, None):
-                    self._krok(k, stan, kolejka)
-            elif production.body[0] in self.możliwe(k):
-                self._krok(k, stan, kolejka)
+        grupy = self.grammar.po_pierwszej_części().get(symbol)
+        if not grupy:
+            return
+        możliwe = self.możliwe(k)
+        for część, produkcje in grupy.items():
+            if część is None:
+                for production in produkcje:
+                    stan = (production, 0, k)
+                    if self._dodaj(k, stan, None):
+                        self._krok(k, stan, kolejka)
+            elif część in możliwe:
+                for production in produkcje:
+                    self._krok(k, (production, 0, k), kolejka)
 
     def _wczytaj(self, k: int, stan: _Stan, terminal: Word) -> None:
         """Przejdź każdą krawędzią grafu, którą ten terminal bierze."""
@@ -259,13 +278,20 @@ class _Tablica:
         który już stoi. Bez tego warunku schodzi tędy przeszło trzecia część
         wszystkich wpisów do tablicy, bo produkcji ma symbol nawet setki.
         Czytań to nie zabiera: stan domknięty stoi w :attr:`stany` niezależnie
-        od tego przejścia, a wyprowadzenia czytają właśnie stany (:meth:`zamknięte`).
+        od tego przejścia, a wyprowadzenia czytają właśnie stany (:meth:`domknięte`).
 
         Lista oczekujących po pierwszym domknięciu nie rośnie:
         pisze do niej :meth:`_przewiduj` w pozycji ``źródło``,
         a ta jest przy ``k`` dalszym niż ``źródło`` przejechana do końca.
         Przy ``k`` równym ``źródło`` rośnie, a stan dopisany po domknięciu
         posuwa sobie samo :meth:`_przewiduj` przez :attr:`_puste`.
+
+        Stan, którego następna część nie ma tutaj od czego się zacząć, schodzi
+        z listy tu, a nie przy wpisywaniu: stany są pod tę część pogrupowane
+        (:attr:`_oczekujące`), więc jedno pytanie zdejmuje całą grupę, a bez tego
+        schodzi tędy przeszło połowa posuwanych stanów, każdy za cenę wołania.
+        Warunek jest ten sam, którym odsiewa :meth:`_dodaj`, i tam zostaje,
+        bo tam ma jednego właściciela, a wzięty stąd miałby dwóch.
         """
         production, _kropka, źródło = stan
         symbol = production.head
@@ -275,7 +301,17 @@ class _Tablica:
         if pozycja in self._posunięte:
             return
         self._posunięte.add(pozycja)
-        self._posuń(k, list(self._oczekujące[źródło].get(symbol, ())), źródło, pozycja, kolejka)
+        grupy = self._oczekujące[źródło].get(symbol)
+        if not grupy:
+            return
+        możliwe = self.możliwe(k)
+        czekający = [
+            oczekujący
+            for po, lista in grupy.items()
+            if po is None or po in możliwe
+            for oczekujący in lista
+        ]
+        self._posuń(k, czekający, źródło, pozycja, kolejka)
 
     def _posuń(
         self, k: int, stany: list[_Stan], j: int, dziecko: Pozycja, kolejka: list[_Stan]
@@ -288,9 +324,29 @@ class _Tablica:
 
     # -- czytanie ----------------------------------------------------------- #
 
-    def zamknięte(self, production: Production, źródło: int, k: int) -> bool:
-        """Czy ta produkcja doszła w tablicy do końca ciała na tej rozpiętości."""
-        return (production, len(production.body), źródło) in self.stany[k]
+    def domknięte(self, symbol: str, źródło: int, k: int) -> tuple[Production, ...]:
+        """Produkcje tego symbolu, które doszły do końca ciała na tej rozpiętości.
+
+        Domyka się rzadziej niż co dziesiąta, a pytana o każdą z osobna
+        odpowiadałaby tyle razy, ile symbol ma produkcji.
+        Odpowiedź składa się więc raz na pozycję grafu, z jej własnych stanów,
+        i kosztuje potem jedno spojrzenie do słownika.
+        Pozycję liczymy przy pierwszym pytaniu, bo o część pozycji nie pyta nikt.
+
+        Kolejność jest kolejnością stanów tablicy, a nie gramatyki, więc czytania
+        o równym koszcie porządkuje u wołającego numer produkcji
+        (:meth:`Grammar.numery`).
+        """
+        gotowe = self._domknięcia_memo.get(k)
+        if gotowe is None:
+            zebrane: dict[tuple[str, int], list[Production]] = {}
+            for production, kropka, skąd in self.stany[k]:
+                if kropka == len(production.body):
+                    zebrane.setdefault((production.head, skąd), []).append(production)
+            gotowe = self._domknięcia_memo[k] = {
+                klucz: tuple(produkcje) for klucz, produkcje in zebrane.items()
+            }
+        return gotowe.get((symbol, źródło), ())
 
     def ciała(
         self, production: Production, kropka: int, źródło: int, k: int

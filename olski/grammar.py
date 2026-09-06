@@ -330,8 +330,12 @@ class Grammar:
         self.productions: list[Production] = []
         self._by_head: dict[str, list[Production]] = {}
         self._po_części_mowy: dict[str, tuple[Word, ...]] | None = None
+        self._po_pierwszej_części: dict[str, dict[Part | None, tuple[Production, ...]]] | None = (
+            None
+        )
         self._zaczynane: dict[Word | None, frozenset[Part]] | None = None
         self._nieokreślone: frozenset[str] | None = None
+        self._numery: dict[Production, int] | None = None
 
     def rule(
         self, head: str, body: list[Part | Głowa], koszty: tuple[str, ...] = (), **features
@@ -373,11 +377,56 @@ class Grammar:
         self.productions.append(production)
         self._by_head.setdefault(production.head, []).append(production)
         #  Wszystko, co gramatyka policzyła o sobie, przestaje być prawdą.
-        self._po_części_mowy = self._zaczynane = self._nieokreślone = None
+        self._po_części_mowy = self._po_pierwszej_części = None
+        self._zaczynane = self._nieokreślone = self._numery = None
         return production
 
     def for_head(self, head: str) -> list[Production]:
         return self._by_head.get(head, [])
+
+    def numery(self) -> dict[Production, int]:
+        """Produkcja → miejsce, na którym ją dopisano.
+
+        Czytania o równym koszcie idą kolejnością dopisywania, a las bierze
+        produkcje z tablicy, która porządkuje je swoimi stanami.
+        Numer wnosi tę kolejność do sortowania;
+        właścicielem tej reguły jest :meth:`olski.parse.Las.wyprowadzenia`.
+        """
+        if self._numery is None:
+            self._numery = {production: numer for numer, production in enumerate(self.productions)}
+        return self._numery
+
+    def po_pierwszej_części(self) -> dict[str, dict[Part | None, tuple[Production, ...]]]:
+        """Symbol → pierwsza część ciała → produkcje, które się od niej zaczynają.
+
+        Rozwinięcie symbolu w pozycji grafu odsiewa jego produkcje po tej jednej
+        części (``olski/parse/tablica.py``), a ``orzeczenie`` ma ich setki przy
+        rząd wielkości mniejszej liczbie różnych początków, więc bez tego indeksu
+        rozbiór zadaje to samo pytanie kilkadziesiąt razy na symbol.
+
+        Ciało puste stoi pod ``None``, bo pierwszej części nie ma, a odsiewu i tak
+        nie przechodzi: wchodzi zawsze.
+
+        Kolejności gramatyki indeks nie zachowuje, i to jest jego cena:
+        w obrębie grupy zostaje, ale grupa późniejsza czeka na wszystkie produkcje
+        wcześniejszej, więc rozbiór odwiedza je przestawione.
+        Czytania o równym koszcie idą kolejnością dopisywania, więc wnosi ją
+        tam osobno numer produkcji (:meth:`numery`).
+
+        Indeks stoi w gramatyce, choć pyta o niego jeden rozbiór: liczy się go z
+        samych produkcji, a gramatyka powstaje raz na przebieg, gdy tablica
+        powstaje raz na zdanie.
+        """
+        if self._po_pierwszej_części is None:
+            zebrane: dict[str, dict[Part | None, list[Production]]] = {}
+            for production in self.productions:
+                pierwsza = production.body[0] if production.body else None
+                zebrane.setdefault(production.head, {}).setdefault(pierwsza, []).append(production)
+            self._po_pierwszej_części = {
+                head: {część: tuple(produkcje) for część, produkcje in grupy.items()}
+                for head, grupy in zebrane.items()
+            }
+        return self._po_pierwszej_części
 
     def licencjonuje(
         self,
@@ -762,8 +811,21 @@ class Env:
         return None
 
     def bind(self, name: str, values: frozenset[str]) -> Env:
-        kept = frozenset((n, v) for n, v in self.bindings if n != name)
-        return Env(kept | {(name, values)})
+        """Środowisko z tą zmienną związaną tymi wartościami.
+
+        Związana już tak dostaje to samo środowisko, a nie równe, i wolno tak,
+        bo środowisko jest niezmienne. Przypadek jest częsty, bo zgodność sprawdza
+        się na każdej córce z osobna, a druga zawęża zwykle do tego, co związała
+        pierwsza; odpada wtedy budowanie zbioru i przybywa trafień w pamięciach,
+        których kluczem jest środowisko (``_domknięcia`` w ``olski/parse/las.py``).
+        """
+        for związana, stare in self.bindings:
+            if związana == name:
+                if stare == values:
+                    return self
+                reszta = frozenset((n, v) for n, v in self.bindings if n != name)
+                return Env(reszta | {(name, values)})
+        return Env(self.bindings | {(name, values)})
 
     def resolve(self, spec: Spec) -> frozenset[str] | None:
         """The values a spec stands for, or None if a variable is still free."""
