@@ -23,6 +23,8 @@ Ruchem jest cięcie jako jedyny klucz tego sortowania.
 Zdejmuje ono naraz `koszt_morfologii`, `_koszty` i strażnika cyklu `_liczone`
 w tym samym module, a z nimi zejście po całym poddrzewie,
 którym `wyprowadzenia` płaci dziś za wycenę jednej pozycji.
+Zejście jest przy tym spamiętane i czasu nie waży:
+zdjęte kupuje dwudziestą część opkodów, a zegar milczy.
 Przeszkodą jest pomiar: remis rozstrzygany dziś kosztem ciała
 wpuszcza przodem ciało tańsze, a po tej zmianie wpuści to o późniejszym cięciu,
 i nie wiadomo, ile takich remisów pada.
@@ -63,17 +65,24 @@ bo `najdalszy` w `olski/parse/las.py` przechodzi tablicę drugi raz
 i unifikuje przy tym przebyte ciała, czego samo jej budowanie nie robi wcale.
 Pomija je ten, kto go nie czyta (`werdykt` w `olski/werdykt/zdanie.py`),
 więc do potanienia zostaje samo drugie przejście.
+Płaci w nim `_prefiks`, a nie kolejka nad nim.
 Kolejka w `_przed_formą` dostaje przy ożywieniu symbolu wszystkie jego produkcje,
 a tablica ma stan dla mniejszości z nich,
-więc ponad połowa par schodzi z kolejki, nie robiąc nic.
-Ruchem jest kolejka symboli w miejsce kolejki par:
-rozwinięty symbol brałby wtedy z tablicy same stany o tej głowie,
-a produkcje czekające na pierwszą córkę wchodziłyby tak,
-jak wchodzą do tablicy — przez `możliwe` tej pozycji, a nie przez przejrzenie wszystkich.
-Przybliżenie tańsze od tego, czyli najdalsza pozycja o jakimkolwiek stanie tablicy,
-jest zmierzone i odpada: myli się w co czwartym zdaniu, i to w obie strony,
+więc ponad połowa par schodzi z niej, nie robiąc nic —
+i odsianie ich przy wkładaniu nie zdejmuje ani setnej części opkodów.
+Kolejka symboli w miejsce kolejki par kupuje przez to tyle samo, czyli nic, i odpada.
+Przybliżenie tańsze od całego przejścia, czyli najdalsza pozycja o jakimkolwiek
+stanie tablicy, jest zmierzone i odpada tak samo:
+myli się w co czwartym zdaniu, i to w obie strony,
 bo tablica trzyma stan bez oglądania się na unifikację i na to,
 czy analiza częściowa ten stan w ogóle przewidziała.
+Ruchem, który został, jest klucz spamiętywania `_prefiks`:
+stoi w nim produkcja, a odpowiedź zależy od samego przebytego ciała i rozpiętości,
+bo stan o tym ciele odsiewa na każdym piętrze ten sam warunek (`_dodaj`),
+więc dwie produkcje o wspólnym początku dochodzą tu tymi samymi drogami.
+Produkcji o wspólnym początku ciała ma `orzeczenie` wiele,
+więc kluczy ubywa przeszło dwukrotnie,
+a opkodów przeszło dwunastą część.
 Do przeczytania jest `_przed_formą` wraz z `_prefiks` w `olski/parse/las.py`:
 to one są tym drugim przejściem, a warunek na analizę częściową opisuje pierwsze.
 
@@ -91,7 +100,7 @@ Ceny nie widać z góry i to jest tu przeszkoda:
 `_sposoby` leży na najgorętszej ścieżce parsera —
 woła je liczenie klas, wyliczanie drzew i to drugie przejście —
 więc wyniesienie ich za granicę modułu żąda pomiaru czasu, a nie samego odcisku.
-Do przeczytania jest wpis o kolejce symboli w `_przed_formą`:
+Do przeczytania jest wpis o kluczu `_prefiks`:
 rusza ten sam kod, więc oba ruchy wolno zrobić jednym.
 
 Pozycja `opuszczony podmiot` w cenniku płaci także tam,
@@ -116,3 +125,40 @@ więc pytanie jest o to, czy czasownik bez tej pozycji da się odróżnić
 przed rozbiorem, czy dopiero unifikacja to rozstrzyga.
 Przedtem warto policzyć, ile takich zdań pada nad Składnicą,
 bo nad tą prozą pada jedno.
+
+Lista oczekujących trzyma stany, którym domknięcie i tak nic nie da.
+`_zamknij` w `olski/parse/tablica.py` posuwa każdy stan czekający na ten symbol,
+a `_dodaj` odsiewa potem przeszło połowę, bo część, której stan zażąda po posunięciu,
+nie ma w tej pozycji od czego się zacząć (`możliwe`).
+Ruchem jest lista dzielona po tej właśnie części:
+`_przewiduj` wie ją w chwili wpisywania stanu, a domknięcie brałoby wtedy same grupy,
+które ta pozycja przepuszcza.
+Zdejmuje to przeszło dwudziestą część opkodów.
+Drugie tyle leży w `_posuń` wpisującym do tablicy samodzielnie,
+bo po tej zmianie warunek jest sprawdzony przed wołaniem,
+i tego drugiego kawałka nie warto brać: kosztuje przeszło czterdziestą część,
+a warunek na wejście stanu ma dziś jednego właściciela i miałby dwóch.
+
+Rozwinięcie symbolu przegląda wszystkie jego produkcje, a wpuszcza garść.
+`_rozwiń` w `olski/parse/tablica.py` pyta `możliwe` o pierwszą część każdej z nich,
+a `orzeczenie` ma ich setki, przy rząd wielkości mniejszej liczbie
+różnych pierwszych części.
+Ruchem jest indeks pierwszych części, po symbolu, liczony raz z gramatyki:
+przecięcie jego kluczy z `możliwe` tej pozycji oddaje same produkcje, które wejdą.
+Zdejmuje to przeszło trzydziestą część opkodów.
+Do przeczytania jest, czy indeks należy do gramatyki, czy do tablicy:
+liczy się go z samej gramatyki, a pyta o niego jeden rozbiór.
+
+Wyprowadzenia pod pozycją przeglądają wszystkie produkcje jej symbolu.
+`wyprowadzenia` w `olski/parse/las.py` pyta `zamknięte` o każdą z nich,
+a domyka się rzadziej niż co dziesiąta.
+Ruchem jest indeks domknięć w tablicy: pozycja grafu → symbol i źródło → produkcje,
+składany raz z jej stanów.
+Produkcje trzyma się w nim wszystkie, a nie po jednej na konstytuent:
+`_posunięte` w tym samym module ma po jednym wpisie na konstytuent i wygląda jak
+gotowy indeks, a wzięty za niego zabiera czytania
+(`tests/gramatyka/test_gramatyka.py` nazywa tę granicę).
+Kolejność wchodzi wtedy do sortowania wprost, bo indeks powstaje z tablicy,
+a czytania o równym koszcie idą kolejnością gramatyki
+(`docs/disambiguation.md`), więc produkcja potrzebuje w gramatyce numeru.
+Zdejmuje to przeszło trzydziestą część opkodów.

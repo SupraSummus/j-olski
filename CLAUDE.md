@@ -871,6 +871,14 @@ werdykt, liczba czytań i punkt, na którym stanęło odrzucenie, zdanie po zdan
 Suita tego nie łapie, bo kolejność czytań i nazwę gospodarza sprawdza na garści zdań,
 a rusza je każda zmiana porządku, w jakim rozbiór odwiedza produkcje.
 
+Zanim się mierzy zegarem, licznik opkodów mówi, czy jest czego szukać
+(`harness/opkody.py`).
+Liczba wykonanych opkodów jest w każdym przebiegu ta sama,
+więc dwa drzewa robocze porównuje się jednym przebiegiem każdego,
+a różnica poniżej procenta jest w niej różnicą, a nie szumem.
+Zegara nie zastępuje: opkod tani i opkod drogi liczą się w niej jednakowo,
+więc zmiana przenosząca robotę do C wychodzi w niej lepiej niż na zegarze.
+
 **Zmianę, która ma nie ruszyć niczego, dowodzi sam odcisk.**
 Przestawienie kodu między modułami czasu nie obiecuje,
 więc nie ma tu czego mierzyć na przemian;

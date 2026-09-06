@@ -133,6 +133,22 @@ def test_węzeł_bez_dzieci_zna_swoją_rozpiętość():
     assert puste.span == (0, 0)
     assert reading.span == (0, 2)
 
+
+def test_symbol_domknięty_dwiema_produkcjami_wydaje_oba_czytania():
+    #  Czekające stany posuwa `_zamknij` raz na konstytuent, a nie raz na produkcję
+    #  (``olski/parse/tablica.py``); czytania idą za to z domkniętych stanów,
+    #  których jest tyle, ile produkcji. Indeks domknięć zbudowany z jednego wpisu
+    #  na konstytuent zetrze tę granicę i zabierze czytanie drugie.
+    grammar = Grammar(start="A")
+    grammar.rule("A", [Głowa(nt("B")), word("interp")])
+    grammar.rule("B", [word("subst")])
+    grammar.rule("B", [nt("C")])
+    grammar.rule("C", [word("subst")])
+    czytania = parse(grammar, morphology("plik.")).readings
+    assert len(czytania) == 2
+    assert sum(bool(czytanie.find("C")) for czytanie in czytania) == 1
+
+
 def test_a_grammar_referring_to_a_symbol_it_never_defines_is_refused():
     grammar = Grammar(start="A")
     grammar.rule("A", [nt("Nieznane")])
