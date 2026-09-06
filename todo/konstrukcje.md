@@ -94,7 +94,7 @@ tyle że tam brakująca pozycja zostawiała zdanie odrzucone, a tu przyjęte,
 więc po werdykcie nie widać jej wcale.
 Ruchem jest produkcja apozycji, czyli człon, przecinek i drugi człon
 w tym samym przypadku, i cena jest widoczna przed pomiarem:
-przecinek jest już znakiem koordynacji na pięciu poziomach
+przecinek spina już koordynację na każdym poziomie tej gramatyki
 ([`docs/subset.md`](../docs/subset.md#what-the-grammar-covers)),
 więc apozycja dokłada czytanie każdemu ciągowi rozdzielonemu przecinkiem.
 Apozycję z przecinkiem niesie 217 zdań Składnicy z 13035 mających drzewo wzorcowe

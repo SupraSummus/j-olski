@@ -852,3 +852,68 @@ więc `Ustawa, którą organ gminy może wydać, jest tania.` jest dalej odrzuco
 ([podrzędność.md](podrzędność.md#zdanie-względne-niesie-liczbę-i-rodzaj-swojego-zaimka)),
 i to zdanie zostaje tym jednym, które kupuje cecha przeciągana
 ([design-notes.md](../design-notes.md#lukę-zmierzono-i-olski-jej-nie-bierze)).
+
+## Ciąg bezokoliczników zajmuje każde miejsce frazy pojedynczej
+
+```text
+Jan chce czytać i pisać.
+Trzeba czytać, pisać i słuchać.
+```
+
+Poziom jest szósty, obok zdania, grupy imiennej, grupy przymiotnikowej,
+przydawki i wyrażenia przyimkowego
+([grupa-imienna.md](grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna)).
+Bez niego jedna głowa bierze jeden bezokolicznik i ani jednego więcej,
+więc analiza staje na bezokoliczniku drugim.
+Ciąg wychodzi z tego symbolu, którym wychodziła fraza pojedyncza,
+więc bierze go każdy, kto brał ją: forma osobowa, predykatyw, `winien`,
+forma nieosobowa oraz spójnik trybu (`Zapisano to, żeby czytać i pisać.`).
+Kształt ten pisze i ten rejestr, i cudza dokumentacja techniczna:
+dwa zdania korpusu usterek mają go w środku.
+
+Symbole są dwa, człon i ciąg nad nim, i wybrano je dla liczby czytań,
+tak samo jak przy grupie imiennej
+([grupa-imienna.md](grupa-imienna.md#nothing-above-a-coordination-distributes-into-it)):
+ciało rekurencyjne pod jedną nazwą wypuszczałoby ciąg trzech członów
+dwoma wyprowadzeniami jednej struktury, po jednym na nawiasowanie.
+Trzeciego symbolu ten poziom nie ma, choć ma go poziom przyimkowy:
+tamten trzeci jest nazwą roli, a fraza bezokolicznikowa rolą nie jest,
+tylko pozycją ramy.
+Gospodarzem okolicznika stojącego w członie jest przez to cały ciąg,
+nazwany głową członu pierwszego.
+
+**Negacja idzie przez oba człony jedną zmienną.**
+Dopełniacza żąda cząstka stojąca przy formie osobowej i żąda go
+[ponad bezokolicznikiem](#negacja-żąda-dopełniacza-i-żąda-go-ponad-bezokolicznikiem),
+a ciąg tej drogi nie przerywa:
+`Program nie pozwala zapisać ustawień ani czytać książki.` wyprowadza się,
+a ten sam napis z biernikiem w członie drugim jest odrzucony.
+Człon, który przeczy sam, tej cechy nie wypuszcza wcale i tym zamyka żądanie
+z góry, dokładnie tak, jak zamyka je fraza pojedyncza:
+`Program ma nie zapisywać ustawień i czytać książkę.` wyprowadza się.
+
+**Spinacze są dwa i oba zarabiają na siebie nad polską prozą.**
+Nad prozą tego repozytorium ciąg wyciąga z odrzucenia kilka zdań,
+a jedno z nich wylicza bezokoliczniki przecinkami i spina dopiero ostatni:
+`gonić, zapisywać, sprawdzać ani zasłaniać` w
+[disambiguation.md](../disambiguation.md#kontekst-rozstrzyga-wykluczeniem-a-nie-rankingiem).
+Jednoznaczności nie odbiera nad tą prozą ani jednemu zdaniu
+i nie rusza ani jednego werdyktu, który stał przedtem.
+
+Nad bankiem drzew wyciąga z odrzucenia dwadzieścia kilka zdań
+i wyciąga tyle pod obiema morfologiami, złotą i żywą.
+Zdania przyjętego nie traci ani jedno i nie traci jednoznaczności ani jedno:
+zdań wieloznacznych i jednoznacznych przybywa dokładnie o te nowo przyjęte.
+Zgodność z drzewem wzorcowym zostaje pod złotą morfologią ta sama
+co do dziesiątej części procenta,
+a złote czytanie ocala się w tylu zdaniach wieloznacznych, w ilu ocalało przedtem,
+i traci je jedno z nowo przyjętych.
+W kolejce blokerów wiersz `inf` schodzi o kilkadziesiąt zdań,
+czyli o więcej, niż ta pozycja przyjmuje:
+zdanie zdjęte z tego wiersza staje potem na wierszu innym
+([corpus.md](../corpus.md#kolejka-obiecuje-więcej-niż-pozycja-oddaje)).
+
+Skład tego poziomu nie ma: `olski/skład/rozbiór.py` schodzi przez ciąg
+do jedynego członu, a ciąg o kilku członach zgłasza brakiem kategorii.
+Jest to ta sama cena, którą tamten kierunek płaci za każdy nowy poziom
+([grupa-imienna.md](grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna)).

@@ -30,6 +30,7 @@ from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
     CIĄG_PRZYIMKOWY,
     CZĄSTKA_ZDANIA,
+    CZŁON_BEZOKOLICZNIKOWY,
     CZŁON_PRZYIMKOWY,
     DEKLARACJA,
     GRUPA_PYTAJNA,
@@ -189,6 +190,7 @@ __all__ = [
     "CZĄSTKA_ZDANIA",
     "CZĄSTKI",
     "CZĄSTKI_STOPNIA",
+    "CZŁON_BEZOKOLICZNIKOWY",
     "CZŁON_PRZYIMKOWY",
     "DEKLARACJA",
     "GRAMMAR",

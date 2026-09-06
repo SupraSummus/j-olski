@@ -475,9 +475,10 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     grammar.rule(CZŁON_PRZYIMKOWY, [Głowa(PRZYIMEK), ZWROTNY])
 
     # Ciąg współrzędny wyrażeń przyimkowych: `Leksykon mówi o bierniku i o
-    # bezokoliczniku.` Poziom jest piąty i ostatni z tych, które polszczyzna
-    # koordynuje, a olski miał cztery
-    # (docs/konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it).
+    # bezokoliczniku.` Poziom jest piąty z tych, które polszczyzna koordynuje,
+    # a olski miał cztery; szósty jest przy frazie bezokolicznikowej
+    # (docs/konstrukcje-gramatyczne/orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej
+    # oraz docs/konstrukcje-gramatyczne/grupa-imienna.md#nothing-above-a-coordination-distributes-into-it).
     #
     # Symbole są trzy. Człon i ciąg nad nim wybrano dla liczby czytań, tak samo jak
     # przy grupie imiennej (dokument wyżej). Trzeci jest rolą i stoi nad ciągiem,
@@ -488,8 +489,8 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # co ciąg zajmuje (:data:`NIE_WYPUSZCZANE`) — więc dwa człony pod różnymi
     # przyimkami stoją w jednym ciągu.
     #
-    # Spinacze są dwa, po jednym ciele na każdy, tak samo jak na czterech poziomach
-    # obok, i cena każdego jest osobną liczbą. Przecinek bierze przy tym zarazem
+    # Spinacze są dwa, po jednym ciele na każdy, tak samo jak na poziomach obok,
+    # i cena każdego jest osobną liczbą. Przecinek bierze przy tym zarazem
     # zawężenie — `Działa w Polsce, w okolicach Kielc.` — czyli apozycję, której
     # olski nie ma, i jest to ta sama zamiana co na poziomie imiennym; ile który
     # spinacz kupuje, mierzy

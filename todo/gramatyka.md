@@ -60,10 +60,12 @@ Miejsc bywa przy tym więcej niż cztery, i pokazuje to imiesłów przysłówkow
 dochodzą przy nim wpis wśród gospodarzy oraz wpis w `NIE_WYPUSZCZANE`,
 a ciała ma w dwóch miejscach jednej sekcji, bo głowa stoi osobno od swoich pozycji.
 
-`fraza_bezokolicznikowa` w `olski/subset/zdanie.py` ma ciała w dwóch sekcjach,
+`człon_bezokolicznikowy` w `olski/subset/zdanie.py` ma ciała w dwóch sekcjach,
 i jako jedyny z czterech takich symboli nie ma po temu powodu:
 bezokolicznik bez wypełnienia wpisano przy grupie orzeczenia, a z wypełnieniem
 przy orzeczeniu, i rozdziela je sama kolejność, w jakiej powstawały.
+Ciąg współrzędny nad tym członem stoi przy grupie orzeczenia razem z pierwszym
+z nich, więc przeniesienie obejmuje oba albo rozdziela ciąg od jego członu.
 Ruchem jest przeniesienie tego pierwszego do drugiej sekcji.
 Ceną jest pomiar: przeniesienie rusza kolejność wpisywania produkcji,
 a tę widać po czytaniach (docstring `build`),

@@ -74,6 +74,7 @@ from olski.skład.składnia import (
 from olski.skład.spójniki import SPÓJNIKI
 from olski.subset import (
     CIĄG_PRZYIMKOWY,
+    CZŁON_BEZOKOLICZNIKOWY,
     CZŁON_PRZYIMKOWY,
     GRAMMAR,
     OKOLICZNIK_NARZĘDNIKOWY,
@@ -493,17 +494,33 @@ def _pozycje_bezokolicznika(drzewo: Node) -> Iterator[tuple[str, Leaf | Node]]:
     wykonawcę wskazuje czasownik nad nią, więc podmiot przychodzi z góry
     tak samo jak po opuszczeniu, o którym rozstrzyga ``pomijalny``.
 
-    Pozycją czasownika jest tu cała fraza, a nie jej głowa,
-    bo w ciele frazy cząstka przecząca poprzedza formę tak samo jak w ciele ``orzeczenie``,
+    Pozycją czasownika jest tu cały człon, a nie jego głowa,
+    bo w ciele członu cząstka przecząca poprzedza formę tak samo jak w ciele ``orzeczenie``,
     i ten sam :func:`_czasowniki` czyta oba.
-    Resztę fraza trzyma pod symbolem grupującym,
+    Resztę człon trzyma pod symbolem grupującym,
     więc te pozycje wychodzą tą samą drogą co w zdaniu osobowym,
     a węzeł innego kształtu zgłasza się tam, zamiast wypadać po cichu.
     """
-    yield "orzeczenie", drzewo
-    for dziecko in drzewo.children:
+    człon = _człon_bezokolicznikowy(drzewo)
+    yield "orzeczenie", człon
+    for dziecko in człon.children:
         if isinstance(dziecko, Node):
             yield from _pozycje(dziecko)
+
+
+def _człon_bezokolicznikowy(drzewo: Node) -> Node:
+    """Jedyny człon tego ciągu; ciąg o kilku członach zgłasza brak kategorii.
+
+    Gramatyka koordynuje frazy bezokolicznikowe
+    (``docs/konstrukcje-gramatyczne/orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej``),
+    a ten zapis stawia zdarzenia w ciągu nad zdaniem
+    (:class:`olski.skład.składnia.Ciąg`), nie pod pozycją ramy.
+    Cisza jest ta sama, co przy ciągu wyrażeń przyimkowych (:func:`_okoliczniki`).
+    """
+    [dziecko, *reszta] = drzewo.children
+    if reszta or isinstance(dziecko, Leaf) or _etykieta(dziecko) != CZŁON_BEZOKOLICZNIKOWY:
+        raise PozaZapisem(f"{_nazwa(drzewo)} nie jest tu jedną frazą bezokolicznikową")
+    return dziecko
 
 
 def _treści(drzewo: Node) -> tuple[Treść, ...]:

@@ -168,7 +168,9 @@ ile to ciało kosztuje, trzyma `todo/`.
 
 `Leksykon mówi o bierniku i o bezokoliczniku.`,
 `Program zapisuje ustawienia w pliku i w katalogu.`
-Poziom jest piąty, obok zdania, grupy imiennej, grupy przymiotnikowej i przydawki.
+Poziom jest piąty, obok zdania, grupy imiennej, grupy przymiotnikowej i przydawki,
+a szósty stoi przy frazie bezokolicznikowej
+([orzeczenie.md](orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej)).
 Bez tego poziomu przyimek pada w takim napisie raz — `o bierniku i bezokoliczniku` —
 a jest to jedno wyrażenie z ciągiem imiennym w środku,
 czyli inna konstrukcja i inny napis.

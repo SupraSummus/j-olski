@@ -727,13 +727,18 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
   `Jego skutki są znane.`, `Ich cena jest niska.`
   ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#zaimek-dzierżawczy-jest-dopełniaczem-przed-rzeczownikiem))
 - Coordination, of noun phrases, of adjective phrases, of attributes,
-  of prepositional phrases and of clauses, joined by a conjunction or by a comma.
+  of prepositional phrases, of infinitive phrases and of clauses,
+  joined by a conjunction or by a comma.
   The conjunction is the one Polish writes without a comma in front of it,
-  on all five levels, so `Plik jest nowy ale duży.` has no derivation
+  on all six levels, so `Plik jest nowy ale duży.` has no derivation
 - Ciąg współrzędny wyrażeń przyimkowych, czyli piąty z tych poziomów,
   z przyimkiem powtórzonym przed każdym członem:
   `Leksykon mówi o bierniku i o bezokoliczniku.`
   ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna))
+- Ciąg współrzędny fraz bezokolicznikowych, czyli szósty z tych poziomów,
+  w każdym miejscu, które ma fraza pojedyncza:
+  `Jan chce czytać i pisać.`, `Trzeba czytać, pisać i słuchać.`
+  ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej))
 - Przydawka złożona z kilku przymiotników, w obu szykach przydawki,
   wraz z tym szykiem, w którym człony dzielą między siebie rzeczownik:
   `Nowy i tani parser zapisuje ustawienia.`, `Warstwy trzecia i czwarta pracują.`

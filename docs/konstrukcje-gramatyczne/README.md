@@ -42,7 +42,7 @@ który czyta i prozę, i cytaty z kodu.
 - [orzeczenie.md](orzeczenie.md) — formy czasownika, czas, tryb,
   cząstka zwrotna i przeczenie,
   a wraz z nimi pozycje ramy: predykatyw, łącznik `to`, czasownik nieosobowy
-  i dopełnienie wysunięte przed formę osobową.
+  dopełnienie wysunięte przed formę osobową i ciąg współrzędny bezokoliczników.
 - [zdanie-złożone.md](zdanie-złożone.md) — czym wypowiedzenie spina dwa zdania
   i co obejmuje znak: interpunkcja zdaniowa i obejmująca,
   spójnik na czele zdania i wewnątrz niego,

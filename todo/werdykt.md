@@ -358,3 +358,19 @@ Ruchem jest więc najpierw ta informacja przeniesiona przez ekstrakcję,
 a dopiero po niej kryterium, którego dowodem jest zero trafień nad prozą repozytorium:
 bez wyjątków strzela ono na pierwszych zdaniach akapitów kilkadziesiąt razy
 i ani razu trafnie.
+
+Dopełnienia dwóch członów ciągu bezokoliczników streszczają się jednym wierszem roli.
+`Jan chce czytać książkę i pisać list.` wychodzi jako `dopełnienie: książkę + list`,
+a `książkę` bierze `czytać`, `list` zaś `pisać`
+([`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej)).
+Znak `+` łączy wypełnienia jednej roli i mówi prawdę tam, gdzie wszystkie
+należą do jednego czasownika — tak stoi para wypełnień — a przy tym ciągu
+łączy wypełnienia dwóch czasowników i nie mówi, które do którego.
+Czytań to nie ukrywa, bo zdanie takie wychodzi jednoznaczne,
+więc cena jest w tym, ile czytelnik odtwarza sam.
+Ruchem jest gospodarz przy wypełnieniu, czyli to, co streszczenie daje już
+rolom przyłączanym (`gospodarz` w `olski/parse/streszczenie.py`),
+a przeciw niemu jest to, że rola wypełniająca gospodarza nie wybiera:
+bierze ją czasownik, pod którym stoi, i w zdaniu bez ciągu jest on jeden.
+Do przeczytania jest `_streszcz` w tym samym module,
+bo to on rozdziela rolę przyłączaną od wypełniającej.
