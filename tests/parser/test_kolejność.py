@@ -33,7 +33,7 @@ from olski.cennik import (
     OPUSZCZONY_PODMIOT,
     razem,
 )
-from olski.grammar import Grammar, Głowa, nt, word
+from olski.grammar import Grammar, Głowa, V, nt, word
 from olski.parse import parse
 from olski.parse.las import _iloczyn
 from olski.rejestr import POZA_REJESTREM, pozycje
@@ -130,6 +130,26 @@ def test_produkcja_tańsza_wydaje_swoje_czytanie_wcześniej():
     """Czytania idą od najtańszego, więc tańsza produkcja korzenia wychodzi pierwsza."""
     assert _kolejność_czytań(zdanie_prawe=(OKOLICZNIK,)) == ["lewe", "prawe"]
     assert _kolejność_czytań(zdanie_lewe=(OKOLICZNIK,)) == ["prawe", "lewe"]
+
+
+def test_remis_kosztu_rozstrzyga_kolejność_dopisania_a_nie_kolejność_tablicy():
+    """Produkcje jednego ciała idą kolejnością gramatyki, choć wychodzą z tablicy.
+
+    Trzy produkcje składają tu jedno ciało i jeden kształt, więc drzewo wychodzi
+    jedno i bierze głowę z pierwszej, która w wyprowadzeniach stanie.
+    Pierwsza dopisana płaci, więc remisują dwie następne, a różni je głowa —
+    i do tablicy wchodzą one odwrotnie, niż je dopisano, bo rozbiór odwiedza
+    produkcje pogrupowane po pierwszej córce (``Grammar.po_pierwszej_części``),
+    a trzecia dzieli tę córkę z pierwszą.
+    """
+    grammar = Grammar(start="zdanie")
+    grammar.rule("zdanie", [Głowa(nt("lewe")), nt("prawe")], koszty=(OKOLICZNIK,))
+    grammar.rule("zdanie", [nt("lewe", case="nom"), Głowa(nt("prawe"))])
+    grammar.rule("zdanie", [Głowa(nt("lewe")), nt("prawe")])
+    grammar.rule("lewe", [Głowa(word("subst", case=V("c")))], case=V("c"))
+    grammar.rule("prawe", [Głowa(word("interp"))])
+    (drzewo,) = parse(grammar, morphology("plik.")).readings
+    assert drzewo.głowa == 1
 
 
 def test_iloczyn_wydaje_najtańsze_kombinacje_i_nie_tyka_reszty():

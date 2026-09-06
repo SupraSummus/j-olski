@@ -306,12 +306,13 @@ class Las:
         a rozstrzyga o niej samo :func:`_cięcie`: koszt ciała ważyłby tu już tylko
         w remisie sumy, którą i tak zlicza kolejka nad całym drzewem
         (docs/disambiguation.md).
-        Nieposortowane szłyby tak, jak ``for_head`` oddaje produkcje,
-        czyli w kolejności dopisywania ich do gramatyki (tamże).
-
         Produkcje jednego ciała porządkuje za to koszt, bo wyliczanie bierze stąd
         pierwszą, która wypuszcza żądane cechy, a jej koszt płaci cały kształt
         (:meth:`_z_krawędzi`).
+        Remis kosztu rozstrzyga kolejność dopisywania do gramatyki
+        (docs/disambiguation.md), a wchodzi tu numerem produkcji
+        (:meth:`Grammar.numery`), bo produkcje przychodzą z tablicy,
+        uporządkowane jej stanami.
         """
         gotowe = self._wyprowadzenia.get(pozycja)
         if gotowe is not None:
@@ -319,13 +320,12 @@ class Las:
         znalezione: dict[tuple[Pozycja, ...], list[Production]] = {}
         if not pozycja.liść:
             źródło, k = pozycja.span
-            for production in self.grammar.for_head(pozycja.label):
-                if not self._tablica.zamknięte(production, źródło, k):
-                    continue
+            for production in self._tablica.domknięte(pozycja.label, źródło, k):
                 for ciało in self._tablica.ciała(production, len(production.body), źródło, k):
                     znalezione.setdefault(ciało, []).append(production)
+        numery = self.grammar.numery()
         zebrane = {
-            ciało: tuple(sorted(znalezione[ciało], key=lambda p: p.koszt))
+            ciało: tuple(sorted(znalezione[ciało], key=lambda p: (p.koszt, numery[p])))
             for ciało in sorted(znalezione, key=_cięcie)
         }
         self._wyprowadzenia[pozycja] = zebrane
@@ -490,6 +490,14 @@ class Las:
 
         Liczy się przejście terminalem, bo bloker ma nazwać formę z tego miejsca zdania,
         a czym jest tu analiza częściowa, mówi :meth:`_przed_formą`.
+
+        Odpowiedź żąda drugiego przejścia po tablicy
+        i nad zdaniem odrzuconym kosztuje więcej niż jej zbudowanie,
+        bo unifikuje przebyte ciała, czego budowanie nie robi wcale.
+        Przybliżenie tańsze — najdalsza pozycja o jakimkolwiek stanie tablicy —
+        jest zmierzone i odpada: myli się w co czwartym zdaniu, i to w obie strony,
+        bo tablica trzyma stan bez oglądania się na unifikację
+        i na to, czy analiza częściowa ten stan przewidziała.
         """
         if self._najdalszy is not None:
             return self._najdalszy
@@ -550,6 +558,18 @@ class Las:
         a analizą częściową on bywa, bo czeka na pierwszą formę swojego ciała.
         Wychodzi tu więc z pary, a nie z tablicy (:meth:`_zaczyna_się_tu`),
         i pierwszy warunek spełnia zawsze, bo przebyte ciało ma puste.
+
+        Płaci tu pierwszy warunek, a nie kolejka nad nim ani wykaz kropek pod nią;
+        odsiew w każdym z tych dwóch miejsc jest zmierzony i odrzucony.
+        Ponad połowa par schodzi z kolejki, nie robiąc nic,
+        bo ożywienie wkłada wszystkie produkcje symbolu,
+        a tablica ma stan dla mniejszości z nich;
+        odsianie ich przy wkładaniu nie zdejmuje ani setnej części opkodów,
+        więc kolejka symboli w miejsce kolejki par nie kupuje nic.
+        Wykaz kropek powstaje za to nad wszystkimi stanami pozycji,
+        a czyta się z niego same pary żywe;
+        odsianie martwych przy zbieraniu dokłada setną część opkodów,
+        bo żywa jest tu większość stanów, a warunek kosztuje przy każdym.
         """
         żywe = {
             (production, self._tablica.początek)
@@ -574,13 +594,16 @@ class Las:
                 if self._zaczyna_się_tu(production, źródło, k):
                     miejsca = (0, *miejsca)
                 for kropka in miejsca:
+                    część = production.body[kropka]
+                    #  Symbol rozwinięty w tej pozycji nie rusza już ani kolejki,
+                    #  ani żywych, więc pytanie o przebyte ciało nic tu nie zmienia,
+                    #  a jest najdroższym pytaniem tej pętli.
+                    if isinstance(część, Sym) and (część.name, k) in rozwinięte:
+                        continue
                     if not self._prefiks(production, kropka, źródło, k):
                         continue
-                    część = production.body[kropka]
                     if not isinstance(część, Sym):
                         yield k, (production, kropka, źródło)
-                        continue
-                    if (część.name, k) in rozwinięte:
                         continue
                     rozwinięte.add((część.name, k))
                     for przewidziana in self.grammar.for_head(część.name):
@@ -614,10 +637,21 @@ class Las:
         bo terminal następujący po córce dostaje jej zawężenie.
         Córka wchodzi tu wszystkimi swoimi klasami naraz,
         bo pytanie nie dotyczy jednego kształtu.
+
+        Kluczem spamiętywania jest przebyte ciało, a nie produkcja, która je przebyła:
+        dwie produkcje o wspólnym początku ciała dochodzą tu tymi samymi drogami,
+        bo stan o tym ciele odsiewa na każdym piętrze ten sam warunek
+        (:meth:`_Tablica._dodaj` pyta o część następną, a ta jest tu wspólna),
+        a domknięcie posuwa je obie jedną listą oczekujących.
+        Produkcji o wspólnym początku ciała ma ``orzeczenie`` wiele,
+        więc kluczy ubywa przeszło dwukrotnie.
+        Wolno tak dlatego, że pytają tu same stany, które w tablicy stoją:
+        stan odsiany zabiera swojej produkcji całą tę drogę,
+        a nie jedno jej piętro, więc pytanie o niego nigdy nie pada.
         """
         if kropka == 0:
             return frozenset({EMPTY}) if źródło == k else frozenset()
-        klucz = (production, kropka, źródło, k)
+        klucz = (production.body[:kropka], źródło, k)
         gotowe = self._prefiksy.get(klucz)
         if gotowe is not None:
             return gotowe
