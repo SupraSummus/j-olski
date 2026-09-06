@@ -736,6 +736,9 @@ Zdania do tego korpusu bierze się z wycinka cudzej prozy przeczytanego w cało�
 a wyznacza go `python3 -m harness.wycinek --następny`.
 Przeczytany wycinek wpisuje się do `próba/przeczytane.txt`,
 także ten, w którym usterki nie było ani jednej.
+Wycinek czyta się dwa razy i niezależnie,
+a wpisem zostaje zdanie, które potwierdza czytanie drugie;
+czemu tak, mówi nagłówek `próba/usterki.txt`.
 Ten korpus ustawia kolejkę toru gramatycznego, a nie kolejka blokerów
 ([`docs/roadmap.md`](docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)),
 więc produkcję i wykrywacz dopisuje się dla zdania, które w nim stoi.

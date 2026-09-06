@@ -420,6 +420,12 @@ Wyznacza go więc `python3 -m harness.wycinek --następny`,
 a przeczytany wpisuje się do `próba/przeczytane.txt`.
 Wpisuje się tam także wycinek, w którym usterki nie było ani jednej,
 bo bez niego rejestr mówiłby, ile ktoś znalazł, a nie ile przeczytał.
+Wycinek czyta się dwa razy, a wpisem zostaje usterka, którą potwierdza czytanie drugie.
+Nad prozą pisaną przypada wtedy jedna usterka kształtu zdania
+na kilkadziesiąt zdań, a staranność redakcji jej częstości nie rusza.
+W wycinku zapisanej rozmowy nie ma jej ani razu,
+więc populacją tego narzędzia jest tekst pisany.
+Większości zdań wziętych z tych wycinków gramatyka nie wyprowadza.
 
 **Wzorzec prozy ma wykrywacz, a repozytorium jest od niego czyste.**
 Wzorce, których w prozie nie chcemy — zdanie echo, wzmacniacz bez treści,
@@ -594,6 +600,9 @@ analiza dochodzi do końca zdania, a nic go nie domyka.
 Ta grupa żąda produkcji na kształt całego zdania, a nie na formę w jego środku.
 Produkcja, której żąda któraś z tych grup, ma pierwszeństwo przed produkcją,
 która kupuje kilkadziesiąt zdań banku drzew bez ani jednej usterki.
+Pozycja zmierzona sondą i odrzucona pierwszeństwa tego nie ma:
+wraca dopiero przy progu wpisów, który nazywa jej wpis
+w [subset.md](subset.md#what-it-does-not-cover-yet).
 
 Zdania, którego polszczyzna nie ma, nie wpuszcza za to żadna produkcja
 i wpuścić go nie wolno, więc wpis o nim nazywa naprawę:

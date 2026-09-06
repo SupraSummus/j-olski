@@ -27,6 +27,12 @@ WYRAŻENIE_PRZYIMKOWE = "wyrażenie_przyimkowe"
 GRUPA_IMIENNA = "grupa_imienna"
 
 
+#: Człon, z którego składa się grupa imienna: `analizę wyników` w `analizę wyników
+#: badań`. Rolą nie jest tak samo jak :data:`GRUPA_IMIENNA`; do czego jest pytany,
+#: mówi :attr:`olski.parse.Deklaracja.człon_imienny`.
+CZŁON_IMIENNY = "człon_imienny"
+
+
 #: Człon ciągu współrzędnego wyrażeń przyimkowych: `o bierniku` w `Leksykon mówi
 #: o bierniku i o bezokoliczniku.` Rolą ta nazwa nie jest, bo rolą jest cały ciąg,
 #: tak samo jak przy członie imiennym: werdykt nazywa wyrażenie przyimkowe wraz
@@ -396,6 +402,7 @@ DEKLARACJA = Deklaracja(
         własna_rama=("fraza_bezokolicznikowa", FRAZA_BEZOKOLICZNIKOWA_OTWARTA),
     ),
     grupa_imienna=GRUPA_IMIENNA,
+    człon_imienny=CZŁON_IMIENNY,
 )
 
 
@@ -418,6 +425,7 @@ MIJANE = (
     # więc streszczenie nazywa ją i tak.
     "człon_imienny",
     "człon_przymiotnikowy",
+    CZŁON_BEZOKOLICZNIKOWY,
     # Konstytuent, w którym okolicznik nie określa jego samego: w wypełnieniu
     # roli określa czasownik stojący nad nim, a nad ciągiem zdań współrzędnych
     # nie ma gospodarza i zostaje przy całym czytaniu.

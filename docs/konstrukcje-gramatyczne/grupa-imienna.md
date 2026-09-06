@@ -574,8 +574,10 @@ którą dostaje forma, o której słownik milczy
 o przypadku, rodzaju ani liczbie nie mówi tu nic ani cyfra, ani skrót.
 Granicą jest tag, a nie znaczenie słowa:
 `14 dni` ma po cyfrze rzeczownik i pada dalej,
-a skrót pisany z kropką — `7 proc.`, `2 tys.` — zostaje na zewnątrz,
-bo jego kropkę bierze już koniec zdania i pary nie ma wtedy czym domknąć.
+a skrót pisany z kropką — `7 proc.`, `2 tys.` — zostaje na zewnątrz:
+w środku zdania skleja się on ze swoją kropką i skrótem już nie jest
+([warstwa-leksykalna.md](../warstwa-leksykalna.md#skrót-zakończony-kropką-zajmuje-pozycję-swojego-rozwinięcia)),
+a na końcu zdania kropkę bierze koniec zdania i pary nie ma wtedy czym domknąć.
 
 Cenę tej pozycji płaci werdykt nad zdaniem odrzuconym.
 Cyfra ma odtąd terminal, więc nie jest już formą, o której werdykt mówi,

@@ -201,6 +201,41 @@ Czytania są dwa i oba polszczyzna nad tym zdaniem ma,
 a streszczenie rozdziela je nazwaniem tej roli albo przemilczeniem jej:
 okolicznik doszedł do zdania streszczanego albo do tego, które stoi pod `że`.
 
+## Spójnik złożony jest parą terminali, a nie lematem
+
+Ten sam okolicznik otwiera `mimo że`, czyli spójnik o dwóch wyrazach.
+
+```text
+Mimo że linter sprawdza dokumentację, program zapisuje ustawienia.
+Program zapisuje ustawienia, mimo że linter sprawdza dokumentację.
+```
+
+Lista lematów obejmuje spójnik wtedy, gdy słownik daje mu czytanie spójnikowe,
+a `mimo` czyta Morfeusz jako przyimek, przysłówek i rzeczownik.
+Warunek na lemat `comp` tej pary przez to nie dosięga
+i ciała są własne, tak samo jak własne ciała bierze przysłówek względny
+([niżej](#przysłówek-względny-otwiera-okolicznik-i-nie-określa-zdania)).
+Człon pierwszy stoi w nich przyimkiem, bo tym `mimo` jest w `mimo deszczu`,
+a spójnik złożony jest tym samym przyimkiem ze zdaniem pod sobą zamiast grupy imiennej.
+Miejsca są dwa, tak jak przy spójniku wysuwanym, bo polszczyzna stawia to zdanie
+po obu stronach nadrzędnego.
+
+Cena wychodzi zerowa i wynika z kształtu pary, a nie z przebiegu:
+`że` postawione tuż za `mimo` nie zajmuje w tej gramatyce żadnej innej pozycji,
+bo przyimek żąda pod sobą grupy imiennej,
+a [zdanie z `że`](#zdanie-z-że-jest-pozycją-ramy-a-nie-konstrukcją-obok-niej)
+żąda przecinka przed spójnikiem.
+Napis z tą parą nie miał więc przedtem ani jednego czytania,
+a `mimo to` para nie tyka, bo `to` zdaniem nie jest.
+
+Pozycja ogólna — dowolny przyimek przed dowolnym spójnikiem — kupowałaby obok
+`mimo że` także `podczas gdy` i `chyba że`, a wraz z nimi `o gdy` oraz `w jeśli`,
+czyli napisy, których polszczyzna nie ma.
+Spójnik złożony jest faktem o dwóch wyrazach, tak samo jak wysunięcie jest faktem
+o jednym ([wyżej](#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania)),
+więc para stoi wypisana i każda następna jest osobną robotą:
+człon pierwszy ma w każdej inne czytania i każdy z nich wycenia się osobno.
+
 ## Przysłówek względny otwiera okolicznik i nie określa zdania
 
 Okolicznik wyrażony zdaniem

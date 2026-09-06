@@ -116,10 +116,34 @@ Psuje ją wreszcie werdykt mówiący o gramatyce, a nie o zdaniu:
 zdanie odrzucone jest dla niej zdaniem bez odpowiedzi, a nie usterką.
 
 **Obsadza ją** sesja agenta nad prozą, którą pisze do tego repozytorium,
-oraz autor nad korpusem usterek,
-bo każde zdanie tego korpusu napisał jako czytelnik, który by je poprawił.
+oraz [czytelnik cudzej prozy](#czytelnik-cudzej-prozy) nad korpusem usterek,
+bo każdy wpis tego korpusu jest zdaniem, które czytelnik by poprawił.
 Autor z zewnątrz tej roli nie obsadza, bo wydania nie ma,
 i to jest rola, dla której wydanie by powstało.
+
+## Czytelnik cudzej prozy
+
+Pyta, które zdanie tego wycinka redaktor by przepisał,
+a nad zgłoszeniem olskiego, czy poprawiłby to, co zgłoszenie wskazuje.
+Tekstu nie pisał i olskiego nie zna; czyta jak redaktor, nie jak gramatyk.
+Wchodzi przez `python3 -m harness.wycinek --następny` i przez nagłówek `próba/usterki.txt`,
+który mówi, co jest wpisem, a co nie.
+Nad zgłoszeniami wchodzi przez `harness/sądy.py` i nagłówek `próba/nkjp-sądy.txt`.
+Co z jego czytania wynika dla toru gramatycznego, mówi
+[roadmap.md](../docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów).
+
+**Psuje ją** czytanie, które szuka usterek:
+znajduje ich kilka razy więcej, niż potwierdza czytelnik czytający raz,
+i dlatego wycinek czyta się dwa razy, a drugi czytelnik dostaje powody odrzuceń poprzedniego.
+Psuje ją też zdanie skrócone względem źródła,
+bo wpis ma nieść zdanie w całości, a skrót zabiera albo dokłada usterkę.
+Psuje ją wreszcie sąd bez powodu, bo takiego sądu nikt nie sprawdzi.
+
+**Obsadzają ją** sesje agenta, po dwie na wycinek,
+a ile taki sąd jest wart wobec drugiej sesji, mierzy
+[corpora.md](../docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają).
+Autor tej roli nad korpusem usterek dziś nie obsadza i jest to luka:
+kolejkę toru gramatycznego ustawiają zdania, których nie czytał.
 
 ## Planista
 

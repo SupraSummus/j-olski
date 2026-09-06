@@ -134,3 +134,19 @@ czy różnica jest na tyle duża, że dwa wypisywania są tańsze od jednego z w
 Do przeczytania jest `uruchom` w `harness/__init__.py`
 obok `harness/ustawy.py`, bo ustawa jest drugim formatem, który tam wszedł,
 i mówi, ile tamto rozdanie unosi bez zmiany.
+
+Skrót zakończony kropką nie zamyka zdania w `olski/document.py` (`ABBREVIATIONS`),
+a polszczyzna zamyka nim zdania regularnie: `Ustawa weszła w życie w 2002 r.`
+Docstring tej stałej nazywa to wyborem między dwiema pomyłkami
+i wybiera granicę przeoczoną, bo granica fałszywa wymyśla zdanie, którego nikt nie napisał.
+Ceną, której tamten wybór nie liczył, jest korpus usterek:
+zdanie, przed którym kontekst kończy się takim skrótem, scala się z tym kontekstem,
+`ostatnie` w `harness/usterki.py` odrzuca wtedy wpis,
+i wpisu z takim kontekstem nie da się do `próba/usterki.txt` wpisać wcale.
+Ruchem jest albo drugi warunek w tej stałej — wielka litera po kropce rozdziela
+`w 2002 r. Nikt jej nie czytał.` od `w 2002 r. i obowiązuje do dziś.`,
+a myli się na nazwie własnej, czyli na `w 2002 r. Polska weszła do Unii.` —
+albo zdanie w nagłówku korpusu mówiące, że wpisu z takim kontekstem tam nie ma.
+Do przeczytania jest docstring `ABBREVIATIONS` wraz z jego listą,
+bo ta sama lista wylicza skróty, których gramatyka nie licencjonuje,
+i oba braki spotykają się na jednym wpisie korpusu.

@@ -22,7 +22,8 @@ a nie z samego nieczytania
 
 Zgłoszeniem jest tu wszystko, co ``olski-check`` wypisuje nad zdaniem
 z jakąkolwiek flagą: nazwy z :data:`olski.werdykt.ZGŁOSZENIA`,
-nazwa chwytu spod ``--chwyty`` (``olski/chwyty.py``)
+nazwa chwytu spod ``--chwyty`` (``olski/chwyty.py``),
+łańcuch dopełniaczy spod ``--dopełniacze`` (``olski/dopełniacze.py``)
 i rzecz w pozycji osoby spod ``--osoby``.
 Nazwa, której olski nie wydaje wcale, jest wpisem kolejki i wychodzi ciszą
 albo nieczytaniem, i to jest liczba, po którą się tę sondę puszcza.
@@ -41,6 +42,7 @@ from pathlib import Path
 
 from harness import wpisy
 from olski.chwyty import chwyty
+from olski.dopełniacze import ŁAŃCUCH_DOPEŁNIACZY, łańcuchy
 from olski.werdykt import WIELOZNACZNE, Verdict, Zdanie, nad_tekstem, niespełnione_żądania
 
 #: Korpus usterek.
@@ -151,6 +153,8 @@ def zgłoszenia(zdanie: Zdanie) -> tuple[str, ...]:
     """
     nazwy = list(zdanie.zgłoszenia)
     nazwy += dict.fromkeys(chwyt.nazwa for chwyt in chwyty(zdanie.werdykt.text))
+    if łańcuchy(zdanie.werdykt.result):
+        nazwy.append(ŁAŃCUCH_DOPEŁNIACZY)
     if niespełnione_żądania(zdanie.werdykt):
         nazwy.append(OSOBA)
     return tuple(nazwy)

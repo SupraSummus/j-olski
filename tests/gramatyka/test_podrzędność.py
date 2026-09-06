@@ -713,6 +713,35 @@ def test_zdanie_okolicznikowe_wyprowadza_się_raz_w_obu_pozycjach(zdanie):
 @pytest.mark.parametrize(
     "zdanie",
     [
+        "Mimo że linter sprawdza dokumentację, program zapisuje ustawienia.",
+        "Program zapisuje ustawienia, mimo że linter sprawdza dokumentację.",
+    ],
+)
+def test_spójnik_złożony_otwiera_okolicznik_w_obu_pozycjach(zdanie):
+    #  Para terminali daje jedno wyprowadzenie, a nie dwa: `mimo` wchodzi tu samym
+    #  czytaniem przyimkowym, a `że` samym spójnikowym, więc drugiego kształtu
+    #  ten napis nie ma skąd wziąć.
+    found = verdict(zdanie)
+    assert found.status == "valid", found.explain()
+
+
+def test_spójnik_złożony_żąda_zdania_a_przyimek_dalej_bierze_grupę_imienną():
+    #  Usterka, którą to łapie: człon pierwszy wpuszczony bez swojego zdania,
+    #  czyli `mimo że` postawione przed grupą imienną. Polszczyzna stawia tam sam
+    #  przyimek, a ciało spójnika złożonego ma tego nie brać, i ma zarazem nie
+    #  odbierać przyimkowi jego dopełniacza.
+    złożony = verdict("Mimo że deszczu wyszli.")
+    assert złożony.status == "rejected", złożony.explain()
+    przyimek = verdict("Mimo deszczu wyszli.")
+    assert przyimek.status == "valid", przyimek.explain()
+    assert role(przyimek) == [
+        {"orzeczenie": "wyszli", "wyrażenie_przyimkowe": "Mimo deszczu → wyszli"}
+    ]
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    [
         #  Cztery zdania podrzędne, po jednym na wywołanie `_zamykane`, bo pozycja
         #  dopisana jednemu z nich nie mówi nic o pozostałych trzech.
         "Dokument mówi, że cena jest niska, i liczy cenę.",

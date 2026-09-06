@@ -307,6 +307,92 @@ def _scal(pierwszy: Segment, drugi: Segment) -> Segment:
     )
 
 
+#: Część mowy, pod którą Morfeusz trzyma skrót, wraz z cechą i wartością mówiącą,
+#: że ten skrót żąda kropki za sobą: `ul`, `tzw`, `m.in`. Skrót, który jej nie
+#: żąda — `zł`, `mln` — kropki nie ma i bierze go terminal jednostki
+#: (:data:`olski.subset.słowa.JEDNOSTKA`).
+SKRÓT = "brev"
+KROPKOWOŚĆ = "fullstoppedness"
+Z_KROPKĄ = "pun"
+
+#: Druga połowa takiego skrótu, czyli sama kropka.
+KROPKA = "."
+
+#: Czytanie, jakie dostaje skrót sklejony ze swoją kropką, po jednym na lemat,
+#: którym Morfeusz nazywa jego rozwinięcie: `ul` stoi pod `ulica`, `tzw` pod
+#: `tak_zwany`, `m.in` pod `między_innymi`. Pozycją skrótu jest pozycja tego
+#: rozwinięcia, więc czytanie niesie jego część mowy, a przy rzeczowniku także
+#: rodzaj: `ul. Pabianicka` jest żeńska tak samo jak ulica.
+#:
+#: Przypadka ani liczby czytanie to nie niesie, i jest to ta sama decyzja, którą
+#: niesie :data:`NIEOZNACZONY`: skrót się nie odmienia i stoi w polszczyźnie w
+#: każdym przypadku, a cechy nieobecnej unifikacja nie sprawdza (``unify`` w
+#: ``olski/grammar.py``).
+#:
+#: Tabela jest zamknięta, tak samo jak lista cząstek (``olski/subset/słowa.py``),
+#: bo `brev` niesie całą klasę skrótów naraz, a wpis rozstrzyga o jednej formie.
+#: Kryterium na wejście jest jedno i jest nim świadek: wpis dostaje skrót, który
+#: stoi w zdaniu korpusu usterek. Skrót spoza tabeli zostaje przy tym, co ma, bo
+#: krawędzi bez czytań zostawić nie wolno. Cenę, alternatywę odrzuconą i to, co
+#: zostaje na zewnątrz, trzyma
+#: docs/warstwa-leksykalna.md#skrót-zakończony-kropką-zajmuje-pozycję-swojego-rozwinięcia.
+ROZWINIĘCIA = {
+    "ulica": tag("subst:f"),
+    "tysiąc": tag("subst:m3"),
+    "procent": tag("subst:m3"),
+    "tak_zwany": tag("adj"),
+    "między_innymi": tag("part"),
+}
+
+
+def skrót(segments: list[Segment]) -> list[Segment]:
+    """Sklej skrót zakończony kropką z tą kropką w jedną krawędź.
+
+    Morfeusz czyta `ul.` dwiema krawędziami — skrótem żądającym kropki i samą
+    kropką — a polszczyzna ma tam jeden wyraz. Rozbitego nie bierze nic: po
+    `brev` nie sięga żaden terminal poza jednostką przy liczbie pisanej cyfrą, a
+    kropka w środku zdania jest dla gramatyki końcem zdania, więc zdanie ze
+    skrótem staje albo na skrócie, albo na niej.
+
+    Kropki kończącej zdanie ten warunek nie tyka, i po to pyta o graf, a nie o
+    samą parę: kropka, za którą nic już nie stoi, jest tą, którą ktoś zdanie
+    zamknął — `Ustawa weszła w życie w 2011 r.` — a połknięta zabrałaby zdaniu
+    jedyne domknięcie. Podziału na zdania warunek nie rusza, bo tamten
+    poprzedza analizę i skróty zna sam (``olski/document.py``).
+
+    Sklejona krawędź zastępuje krawędź skrótu wraz z jej czytaniami
+    pozostałymi: `proc` jest u Morfeusza także dopełniaczem mnogim od `proca`,
+    a kto pisze kropkę po tej formie, pisze skrót.
+    """
+    ujście = max((segment.end for segment in segments), default=0)
+    scalone: list[Segment] = []
+    for segment in segments:
+        if scalone and segment.end < ujście:
+            sklejony = _sklejony(scalone[-1], segment)
+            if sklejony is not None:
+                scalone[-1] = sklejony
+                continue
+        scalone.append(segment)
+    return scalone
+
+
+def _sklejony(pierwszy: Segment, kropka: Segment) -> Segment | None:
+    """Te dwie krawędzie jako jedna, albo nic, gdy skrótem z kropką nie są."""
+    if pierwszy.end != kropka.start or kropka.form != KROPKA:
+        return None
+    forma = pierwszy.form + KROPKA
+    czytania = tuple(
+        Reading(forma, reading.lemma, ROZWINIĘCIA[reading.lemma])
+        for reading in pierwszy.readings
+        if reading.tag.pos == SKRÓT
+        and reading.tag.has(KROPKOWOŚĆ, Z_KROPKĄ)
+        and reading.lemma in ROZWINIĘCIA
+    )
+    if not czytania:
+        return None
+    return replace(pierwszy, end=kropka.end, form=forma, readings=czytania)
+
+
 #: Notacja tego rejestru: ścieżka, nazwa pliku, nazwa modułu, nazwa flagi. Człony
 #: spaja ukośnik albo kropka, po której nie ma spacji, człon ma dwa znaki wyrazowe
 #: albo więcej, w całości stoi przynajmniej jedna litera, a łącznik spaja tylko
@@ -457,12 +543,12 @@ def morphology(text: str, słownictwo: Słownictwo = SŁOWNICTWO) -> list[Segmen
     stojącej bez słowa przed sobą, a na końcu napis objęty cudzysłowem dostaje
     czytanie nieodmienne przytoczenia (:func:`przytoczenie`).
 
-    Cztery z tych warunków pytają o sąsiada, a nie o samą formę, więc idą po liście
-    gotowej, a nie po jednym segmencie jak te przed nimi. Złożenie przymiotnikowe
-    (:func:`złożenie`) idzie z nich pierwsze, bo skleja trzy krawędzie w jedną i
-    reszta ma zastać graf gotowy. Przytoczenie idzie ostatnie, bo pyta o czytania,
-    które zostały: ``be`` traci rzeczownik w :func:`admissible` i przytoczenie
-    zastaje tam sam przymiotnik.
+    Pięć z tych warunków pyta o sąsiada, a nie o samą formę, więc idą po liście
+    gotowej, a nie po jednym segmencie jak te przed nimi. Dwa sklejenia idą z nich
+    pierwsze, bo reszta ma zastać graf gotowy: złożenie przymiotnikowe
+    (:func:`złożenie`) i skrót zakończony kropką (:func:`skrót`). Przytoczenie
+    idzie ostatnie, bo pyta o czytania, które zostały: ``be`` traci rzeczownik w
+    :func:`admissible` i przytoczenie zastaje tam sam przymiotnik.
 
     Słownictwo projektu wchodzi tu argumentem, a nie stałą czytaną w dwóch
     warunkach, bo bez tego nie da się przeczytać jednego zdania dwoma
@@ -482,7 +568,7 @@ def morphology(text: str, słownictwo: Słownictwo = SŁOWNICTWO) -> list[Segmen
                 w_słownictwie(
                     admissible(nieznane(projekt.z_leksykonu(segment)), słownictwo), słownictwo
                 )
-                for segment in złożenie(_segmenty(text))
+                for segment in skrót(złożenie(_segmenty(text)))
             ])
         )
     )

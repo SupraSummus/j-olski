@@ -374,7 +374,8 @@ Deklaracją jest `ZGŁOSZENIA` w `olski/werdykt/tekst.py`,
 a wykrywacz dopisany przez nią drugiej listy nie kosztuje:
 sonda usterek liczy jego zgłoszenie bez zmiany w sobie,
 i tak liczy `niejasne odniesienie w zdaniu`, które czeka za flagą.
-Poza tą deklaracją zostają dwa zgłoszenia — chwyt rejestru spod `--chwyty`
+Poza tą deklaracją zostają trzy zgłoszenia — chwyt rejestru spod `--chwyty`,
+łańcuch dopełniaczy spod `--dopełniacze`
 oraz rzecz w pozycji osoby spod `--osoby` —
 i ich nazwy `harness/usterki.py` wypisuje ręką,
 więc zgłoszenie dopisane obok nich sonda przemilcza,

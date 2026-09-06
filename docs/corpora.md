@@ -657,9 +657,23 @@ Odwróci tę decyzję pierwszy wpis, w którym złoto zostawia czytanie inne,
 niż nazywa powód.
 Które wpisy złoto rozstrzyga, wypisuje `python3 -m harness.znaczniki nkjp/ --sądy`,
 a czytanie, które w takim wpisie zostaje, czyta się obok powodu.
-Wąskością zostaje przy tym jeden oceniający, a nie to, kto nim jest:
-poza wpisami rozstrzygniętymi przez złoto drugiej oceny nie ma żadnej,
-więc żadna stopa z tej bazy nie ma błędu pomiaru.
+Wąskością zostaje przy tym jeden oceniający, a nie to, kto nim jest,
+i błąd pomiaru tej bazy zna się z próby, a nie z całości.
+Próbę robi się tak: kilkadziesiąt wpisów bazy, wszystkie trafne i garść fałszywych,
+z zakrytym sądem i powodem, sądzi druga sesja agenta, która bazy nie widziała,
+a potem porównuje się oba sądy wpis po wpisie.
+Przy wpisach zaimkowych i wieloznacznościowych wyszła zgodność
+w około dziewięciu sądach na dziesięć, a rozjazd idzie w jedną stronę:
+druga ocena odrzuca to, co pierwsza uznała, i nie uznaje niczego, co pierwsza odrzuciła.
+Rozjazd siedzi w dwóch miejscach.
+Przy zaimku niezwrotnym pierwsza ocena liczy za usterkę samą normę,
+która żąda `swój`, a druga pyta, czy `jego` myli posiadacza, i tam rozstrzyga rubryka, nie ucho.
+Przy zaimku o dwu kandydatach rzeczowo możliwych rozstrzyga wiedza o świecie,
+i tam druga ocena sama nazwała się niepewną.
+Sądy o wieloznaczności zgodne były wszystkie.
+Wniosek jest praktyczny: sądy o wieloznaczności i odsiew zgłoszeń fałszywych
+wolno zostawić jednej sesji,
+a wpis, który sesja uznała za trafny albo za niepewny, czyta drugi czytelnik.
 
 **Sąd wydaje się nad tekstem czytanym jako informatywny,
 choćby tekst informatywny nie był.**
@@ -726,8 +740,10 @@ zestaw takich ciągów wokół jednego łącznika stoi w `próba/łącznik-odrzu
 a tamten plik nazywa zestaw dla całej gramatyki osobnym przedsięwzięciem.
 Po nazwach typów najbliżej polszczyzny pisanej bez korekty
 są typy konwersacyjny i internetowy,
-a ile w nich usterek, mówi dopiero czytanie,
-którego wycinki stoją w `próba/przeczytane.txt`.
+a czytanie, którego wycinki stoją w `próba/przeczytane.txt`, dzieli tę parę.
+Wycinek konwersacyjny nie daje ani jednej usterki,
+a wycinek internetowy daje ich tyle co warstwy prasowe;
+o samej stopie mówi [roadmap.md](roadmap.md#cele).
 
 ## Not yet decided
 

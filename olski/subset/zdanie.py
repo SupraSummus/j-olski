@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from olski.cennik import (
     CZASOWNIK_PRZED_PODMIOTEM,
+    CZĄSTKA_PRZED_OKOLICZNIKIEM,
     OKOLICZNIK,
     OPUSZCZONY_PODMIOT,
     PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM,
@@ -655,6 +656,30 @@ def _grupa_orzeczenia(
             grammar.rule(
                 CZŁON_BEZOKOLICZNIKOWY, [*przed, *przeczenie, Głowa(głowa), *za], valency="inf"
             )
+
+    # Cząstka przed okolicznikiem swojego bezokolicznika: `musi się bardziej
+    # starać`. Przysłówek określa tam bezokolicznik, a nie formę osobową nad nim,
+    # więc cząstka i jej czasownik stoją w jednym konstytuencie i nieciągłości tu
+    # nie ma (docs/design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze).
+    #
+    # Miejsca tego nie ma ani forma bez cząstki, ani cząstka stojąca za głową, i to
+    # jedno trzyma napis przy jednym wyprowadzeniu: `wypełnienia` formy osobowej
+    # bierze okolicznik przed całą frazą bezokolicznikową, więc bez cząstki przed
+    # nim ten sam przysłówek dochodzi tam, a nie tutaj.
+    #
+    # Ciało płaci, bo tam, gdzie forma osobowa cząstkę bierze — `Nie da się szybko
+    # oszukać.` — jeden napis dostaje dwa czytania, a zwyklejsze jest to, w którym
+    # cząstka stoi przy formie tuż przed sobą (:data:`CZĄSTKA_PRZED_OKOLICZNIKIEM`).
+    grammar.rule(
+        CZŁON_BEZOKOLICZNIKOWY,
+        [
+            CZĄSTKA_ZWROTNA,
+            nt(OKOLICZNIK_PRZYSŁÓWKOWY),
+            Głowa(word("inf", bez_lematu_formy=KOPULA)),
+        ],
+        valency="inf",
+        koszty=(CZĄSTKA_PRZED_OKOLICZNIKIEM,),
+    )
 
     # Ciąg współrzędny fraz bezokolicznikowych: `Jan chce czytać i pisać.`
     # Symbole są dwa i spinacze są dwa, tak jak na poziomach obok; wywód i cenę

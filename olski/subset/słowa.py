@@ -81,6 +81,22 @@ SPÓJNIKI_PO_ZDANIU = frozenset({"bo", "gdyż", "albowiem", "aż"})
 SPÓJNIKI_OKOLICZNIKOWE = SPÓJNIKI_WYSUWANE | SPÓJNIKI_PO_ZDANIU
 
 
+#: Spójnik złożony z dwóch wyrazów: `mimo że`. Parą terminali, a nie lematem
+#: dopisanym do listy wyżej, bo Morfeusz czyta `mimo` jako przyimek, przysłówek
+#: i rzeczownik, a spójnikiem nie czyta go wcale, więc warunek na lemat `comp`
+#: tej pary nie dosięga — tak samo jak nie dosięga przysłówka względnego
+#: (:data:`PRZYSŁÓWEK_WZGLĘDNY`).
+#:
+#: Człon pierwszy stoi tu przyimkiem, bo tym `mimo` jest w `mimo deszczu`,
+#: a spójnik złożony jest tym samym przyimkiem ze zdaniem pod sobą zamiast grupy
+#: imiennej. Cenę i to, kto zostaje poza tą parą, trzyma
+#: docs/konstrukcje-gramatyczne/podrzędność.md#spójnik-złożony-jest-parą-terminali-a-nie-lematem.
+SPÓJNIK_ZŁOŻONY: tuple[Part, ...] = (
+    word("prep", lemma="mimo"),
+    word("comp", lemma=SPÓJNIK_DOPEŁNIENIOWY),
+)
+
+
 #: Przysłówek względny, którym ten rejestr dopowiada miejsce: `Wchodzi w
 #: subset.md, gdzie produkcje stoją jedna pod drugą.` Morfeusz daje mu `adv`, a
 #: nie `comp`, więc pozycji spójnika nie dosięga i bierze go ciało osobne.
@@ -259,8 +275,10 @@ LICZBA = word("dig")
 
 
 #: Jednostka pisana skrótem, czyli drugi człon tej pary. Skrót pisany z kropką —
-#: `np.`, `godz.`, `tys.` — zostaje na zewnątrz warunkiem na ``npun``, bo jego
-#: kropkę bierze już koniec zdania, a wtedy pary nie ma czym domknąć.
+#: `np.`, `godz.`, `tys.` — zostaje na zewnątrz warunkiem na ``npun``: w środku
+#: zdania skleja się on ze swoją kropką i skrótem już nie jest (``ROZWINIĘCIA``
+#: w ``olski/segmentacja.py``), a na końcu zdania kropkę bierze koniec zdania,
+#: a wtedy pary nie ma czym domknąć.
 JEDNOSTKA = word("brev", fullstoppedness="npun")
 
 
@@ -583,12 +601,16 @@ FORMA_POPRZYIMKOWA = word("adjp")
 #: listy bez przecinka (:data:`SPÓJNIKI_PRZECINKOWE`).
 #: `prawie` niesie obok cząstki miejscownik od `prawo` i wchodzi mimo to,
 #: bo tego przypadku bez przyimka przed sobą nie bierze żadna rola.
+#: `między_innymi` wchodzi jedynym czytaniem, jakie warstwa leksykalna daje
+#: skrótowi `m.in.` sklejonemu ze swoją kropką (``ROZWINIĘCIA`` w
+#: ``olski/segmentacja.py``), więc napisu, o który kryterium pyta, Morfeusz nie
+#: widzi wcale i drugiego wyprowadzenia ten lemat nie ma skąd wziąć.
 #: Kto zostaje poza listą, kto wchodzi z drugim czytaniem i za ile, wylicza
 #: docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę.
 CZĄSTKI = frozenset({
     "już", "jeszcze", "dopiero", "także", "również", "nawet", "zarazem", "naprawdę",
     "znowu", "wreszcie", "ponadto", "jedynie", "niemal", "niespełna", "zresztą", "przynajmniej",
-    "prawie",
+    "prawie", "między_innymi",
 })
 
 

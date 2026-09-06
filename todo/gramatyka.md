@@ -78,6 +78,28 @@ Ceną jest pomiar: przeniesienie rusza kolejność wpisywania produkcji,
 a tę widać po czytaniach (docstring `build`),
 więc zmiana żąda odcisku prozy repozytorium, a nie samej zielonej suity.
 
+Cząstka zwrotna wysunięta przed okolicznik bezokolicznika nie bierze wypełnień.
+`Uczeń musi się bardziej starać o wynik.` ma jedno czytanie i `o wynik` stoi w nim
+przy `musi`, a czytania z `o wynik` przy `starać` nie ma wcale,
+bo ciało `człon_bezokolicznikowy` z cząstką przed okolicznikiem
+w `olski/subset/zdanie.py` bierze samą głowę.
+Ciała z wypełnieniami pisze w tym samym module pętla po klasach walencyjnych,
+a klas zwrotnych jest kilkanaście,
+więc domknięcie żąda po jednym ciele na klasę.
+Ruchem jest ten szyk dopisany do tamtej pętli
+albo decyzja, że pozycja zostaje bez wypełnień.
+Do przeczytania jest to ciało wraz z komentarzem nad nim,
+sekcja o cząstce zwrotnej w
+[`docs/konstrukcje-gramatyczne/orzeczenie.md`](../docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika),
+która mówi, czemu okolicznik zostaje przy bezokoliczniku,
+oraz zdanie korpusu usterek, które to ciało kupiło:
+`Nauczyciel powiedział uczniowi, że musi się bardziej starać.`
+Ceną jest kilkanaście ciał w miejscu jednego oraz drugie czytanie tam,
+gdzie wypełnienie pasuje i do formy osobowej, i do bezokolicznika pod nią,
+czyli dwóch gospodarzy dla `o wynik` w zdaniu wyżej.
+Wpis o dwóch sekcjach `człon_bezokolicznikowy` obejmuje przy tym to ciało,
+bo pętla klas jest w tej drugiej z nich.
+
 Okolicznik wyrażony zdaniem stoi w gramatyce przed swoim zdaniem i za nim,
 a polszczyzna stawia go też w środku:
 `Program, gdy linter sprawdza tekst, zapisuje ustawienia.` jest zdaniem odrzuconym.

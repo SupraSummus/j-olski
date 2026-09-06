@@ -155,6 +155,12 @@ class Deklaracja:
     #: Rolą ten symbol nie jest, bo rzecz nazwana stoi w każdej z ról imiennych
     #: i pod przyimkiem także, a pytanie jest o nią samą, a nie o jej pozycję.
     grupa_imienna: str
+    #: Symbol członu, z którego składa się ta grupa.
+    #: Pyta o niego warstwa licząca łańcuch dopełniaczy (``olski/dopełniacze.py``):
+    #: grupa imienna stojąca pod tym symbolem jest dopełniaczem, którego żąda głowa
+    #: członu, a stojąca pod grupą imienną jest członem ciągu współrzędnego
+    #: albo apozycją i przypadek ma ten sam, co głowa nad nią.
+    człon_imienny: str
 
 
 @dataclass

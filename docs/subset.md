@@ -678,7 +678,9 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
   `Wejściem jest zwykły tekst polski.`
 - Reflexive verbs, with `się` in either position beside the verb it belongs to,
   finite or not: `Rachunek zwraca się.`, `Rachunek się zwraca.`,
-  `Cena zaczyna się otwierać.`
+  `Cena zaczyna się otwierać.`,
+  and in front of an infinitive's own adverbial adjunct:
+  `Cena musi się bardziej otwierać.`
   ([konstrukcje-gramatyczne/orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika))
 - An agreeing predicative, under the copula and under a verb that is not one:
   `Ludzie są wolni.`, `Ludzie rodzą się wolni.`
@@ -729,6 +731,9 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
   ([konstrukcje-gramatyczne/grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii))
 - Złożenie przymiotnikowe pisane łącznikiem: `Kościół ewangelicko-reformowany rośnie.`
   ([warstwa-leksykalna.md](warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja))
+- Skrót zakończony kropką, sklejony z nią i stojący pozycją swojego rozwinięcia:
+  `Sklep stoi przy ul. Pabianickiej.`
+  ([warstwa-leksykalna.md](warstwa-leksykalna.md#skrót-zakończony-kropką-zajmuje-pozycję-swojego-rozwinięcia))
 - Myślnik pisany łącznikiem, czyli tak, jak pisze go klawiatura:
   `Cena jest niska - gramatyka jest bezkontekstowa.`
   ([warstwa-leksykalna.md](warstwa-leksykalna.md#notację-i-łącznik-rozstrzyga-segmentacja))
@@ -846,6 +851,10 @@ więc reguła czekająca na awans musi mieć czym trafienia wydać
 - Okolicznik wyrażony zdaniem, przed swoim zdaniem i za nim:
   `Program zapisuje ustawienia, gdy linter sprawdza tekst.`
   ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#okolicznik-wyrażony-zdaniem-nie-jest-pozycją-ramy-i-dochodzi-do-zdania))
+- Ten sam okolicznik pod spójnikiem złożonym `mimo że`, w obu tych pozycjach:
+  `Mimo że linter sprawdza dokumentację, program zapisuje ustawienia.`
+  Para stoi wypisana, bo `mimo` nie ma czytania spójnikowego
+  ([konstrukcje-gramatyczne/podrzędność.md](konstrukcje-gramatyczne/podrzędność.md#spójnik-złożony-jest-parą-terminali-a-nie-lematem))
 - A relative clause on a noun phrase, agreeing with it in number and gender,
   with the pronoun standing for the subject, for the object,
   for the object in the genitive its verb's frame demands
@@ -1254,6 +1263,10 @@ Every one of these is a sentence that gets rejected and should not be:
   Bilans jest ujemny w każdym z trzech przebiegów, i to jest cała odpowiedź:
   konstrukcję tę pisze ten rejestr zdanie po zdaniu,
   a płaci za nią autor przepisaniem.
+  Odwraca tę odpowiedź korpus usterek (`próba/usterki.txt`),
+  kiedy zbierze pięć wpisów, których ta pozycja nie wpuszcza.
+  Próg bierze się z ceny: ciało dokłada czytanie każdej grupie
+  złożonej z samego przymiotnika, więc kilka wpisów jej nie równoważy.
 - Forma przyimkowa zaimka w drugim członie ciągu pod jednym przyimkiem:
   `Program zapisuje ustawienia dla niego i niej.` jest odrzucone,
   gdzie `Program zapisuje ustawienia dla niego.` wyprowadza się,
