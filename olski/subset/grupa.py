@@ -21,6 +21,7 @@ from olski.subset.deklaracja import (
 from olski.subset.słowa import (
     AGREE,
     BEZ_ROZDZIELNEJ,
+    BEZ_STOPNIA,
     CUDZYSŁÓW_OTWIERAJĄCY,
     CUDZYSŁÓW_ZAMYKAJĄCY,
     CZĄSTKA,
@@ -33,13 +34,15 @@ from olski.subset.słowa import (
     PIĘCIE,
     PRZECINEK,
     PRZYIMEK,
-    PRZYSŁÓWEK,
+    PRZYSŁÓWEK_BEZ_STOPNIA,
     PRZYSŁÓWEK_STOPNIA,
     PRZYSŁÓWEK_WZGLĘDNY,
+    PRZYSŁÓWEK_ZE_STOPNIEM,
     ROZDZIELNA,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_SKORELOWANY,
     SPÓJNIK_WEWNĘTRZNY,
+    STOPNIUJĄCY,
     ZAIMEK_DZIERŻAWCZY,
     ZAIMEK_PYTAJNO_RZECZOWNY,
     ZAIMEK_PYTAJNO_WZGLĘDNY,
@@ -506,7 +509,15 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # Przysłówek zdania jako konstytuent, a nie jako słowo w liście okoliczników,
     # bo bez tego symbolu okolicznik przysłówkowy nie ma węzła, który werdykt nazwie
     # (:data:`OKOLICZNIK_PRZYSŁÓWKOWY`).
-    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYSŁÓWEK])
+    #
+    # Ciała są dwa, po jednym na to, czy forma niesie stopień, i pyta o to lista
+    # okoliczników: stopnia nie niosą `tam` ani `wcale`, więc żaden z nich nie
+    # określi przysłówka stojącego za nim, a stojąc przed nim nie jest nacechowany
+    # (:data:`Z_PRZYSŁÓWKIEM` w ``_lista_okoliczników``). Żądanie ujemne pisze się
+    # pustym zbiorem (:data:`NIE_NIESIE`), bo cechy nieobecnej unifikacja nie
+    # sprawdza.
+    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYSŁÓWEK_ZE_STOPNIEM], stopniujący=STOPNIUJĄCY)
+    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYSŁÓWEK_BEZ_STOPNIA], stopniujący=BEZ_STOPNIA)
     # Przysłówek przed przysłówkiem, czyli gospodarz trzeci: `bardzo szybko`.
     # Stopnia żąda od córki lewej z tego samego powodu, z którego żąda go pozycja
     # przy przymiotniku: `tu szybko` nie jest niczym. Bez tej pozycji `bardzo`
@@ -517,7 +528,11 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # Córka prawa jest tym samym symbolem, a nie słowem, bo `wyjątkowo bardzo
     # szybko` jest tą samą pozycją postawioną dwa razy, a nad Składnicą oba ciała
     # wypadły tą samą ceną: ciało rekurencyjne bierze łańcuch za darmo.
-    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYSŁÓWEK_STOPNIA, Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY))])
+    grammar.rule(
+        OKOLICZNIK_PRZYSŁÓWKOWY,
+        [PRZYSŁÓWEK_STOPNIA, Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY))],
+        stopniujący=BEZ_STOPNIA,
+    )
     # Cząstka stopnia przed tym samym symbolem: `Testy trwają za długo.`
     # Ciało jest osobne od tego wyżej, bo `za` jest u Morfeusza cząstką i terminal
     # stopnia go nie bierze, a nie dlatego, że stopniuje inaczej. Córka prawa jest
@@ -526,14 +541,19 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     #
     # Granicę, za którą przymiotnik zostaje, oraz jej cenę trzyma
     # docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-za-stopniuje-przysłówek-i-nie-stopniuje-przymiotnika.
-    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [CZĄSTKA_STOPNIA, Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY))])
+    grammar.rule(
+        OKOLICZNIK_PRZYSŁÓWKOWY,
+        [CZĄSTKA_STOPNIA, Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY))],
+        stopniujący=BEZ_STOPNIA,
+    )
     # `gdzie indziej`, czyli para, w której przysłówek względny nie otwiera zdania,
-    # tylko określa drugi przysłówek. Ciało jest osobne, bo terminal okolicznika
-    # ten lemat wyklucza (:data:`PRZYSŁÓWEK`), a bez tego ciała wykluczenie
-    # zabiera zdania, które ta proza pisze: `Cena jest gdzie indziej.`
+    # tylko określa drugi przysłówek. Ciało jest osobne, bo terminale okolicznika
+    # ten lemat wykluczają (``_przysłówek`` w ``olski/subset/słowa.py``), a bez tego
+    # ciała wykluczenie zabiera zdania, które ta proza pisze: `Cena jest gdzie indziej.`
     grammar.rule(
         OKOLICZNIK_PRZYSŁÓWKOWY,
         [word("adv", lemma=PRZYSŁÓWEK_WZGLĘDNY), Głowa(word("adv", lemma="indziej"))],
+        stopniujący=BEZ_STOPNIA,
     )
     # Przyimek z przymiotnikiem w formie poprzyimkowej: `po polsku`, `po cichu`.
     # Okolicznikiem, a nie wyrażeniem przyimkowym, bo `adjp` nie niesie przypadka,
@@ -543,7 +563,9 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # Głową jest forma, a nie przyimek, i z tego samego powodu: głowa wypuszcza
     # swoje cechy w górę (``Grammar._wypuszczane``), więc przyimek wypuszczałby
     # przypadek, którego okolicznik nie ma z czym uzgadniać.
-    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYIMEK, Głowa(FORMA_POPRZYIMKOWA)])
+    grammar.rule(
+        OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYIMEK, Głowa(FORMA_POPRZYIMKOWA)], stopniujący=BEZ_STOPNIA
+    )
 
     # Cząstka przy zdaniu, tym samym prawem co przysłówek nad nią
     # (:data:`CZĄSTKA_ZDANIA`); kryterium na jej listę stoi przy :data:`CZĄSTKI`.

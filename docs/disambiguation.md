@@ -172,6 +172,32 @@ oraz `wysunięte dopełnienie bezokolicznika`.
 go rozwinięcie, i pod wypełnieniami, których rozwinięcie nie pisze;
 dwie nazwy na jedną deklarację rozeszłyby się przy pierwszej przecenie.
 
+Jedna pozycja mówi o gospodarzu zamiast o szyku i nazywa ją ta sama deklaracja:
+`przysłówek przed przysłówkiem` wycenia czytanie, w którym dwa przysłówki obok
+siebie są dwoma okolicznikami zdania, choć pierwszy z nich określa drugi
+([okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+
+**Nazwa jest kluczem cennika, bo przeżywa zmianę gramatyki, a produkcja nie.**
+Liczba wpisana wprost przy produkcji zdejmuje całą tabelę,
+a wraz z nią kalibrację robioną w jednym miejscu
+oraz nazwę, którą czytelnik czyta pod czytaniem na stronie i pod flagą `--koszt`.
+Identyfikator produkcji, któremu cenę wylicza warstwa czytająca gramatykę,
+wskazuje za to rzecz nietrwałą: wzięty z kształtu ciała przestaje wskazywać tę samą
+produkcję, kiedy ciało zmienia kształt z powodu niezwiązanego z ceną,
+a wzięty z kolejności dopisań znaczy tyle, ile jeden przebieg.
+Nazwa konstrukcji wskazuje polszczyznę, więc `okolicznik` znaczy to samo
+w ciele dopisanym rok później, a nazwa nieznana podnosi wyjątek
+zamiast kosztować zero (`cena` w `olski/cennik.py`).
+Podziału drobniejszego to nie odbiera:
+nazwa użyta przy jednym ciele mówi o nim tyle, co identyfikator tego ciała.
+
+Warstwa wyliczająca cenę z kształtu ciała kupowałaby przy tym jedną rzecz,
+której dziś nie ma: odpowiedź o każdą produkcję,
+więc ciała nienacechowanego nie dałoby się pomylić z przeoczonym.
+Byłby to jednak sąd o polszczyźnie wydany z kształtu ciała,
+czyli stamtąd, skąd nie widać, czemu ciało ten kształt ma,
+a gdzie ceny brakuje, mówi taniej remis dwóch najtańszych czytań (niżej w tej sekcji).
+
 Cennik mówi o produkcji, a nie o czasowniku, który w niej stoi,
 i tam trafia na własny wyjątek:
 `brakuje` żąda dopełniacza i podmiotu mieć nie może,
@@ -306,6 +332,24 @@ a pod złotą traci kilkanaście zdań zamiast wychodzić na zero.
 Remisów jest przy tym więcej niż rozstrzygnięć:
 suma nie rozstrzyga w przeszło połowie zdań wieloznacznych,
 i tak pod jedną morfologią, i pod drugą (`harness/skala.py`).
+
+**Remis jest w większości odmową wyboru, a nie luką w cenniku.**
+Czym różnią się dwa najtańsze czytania takiego zdania, wypisuje `harness/remis.py`:
+ciałami, które stoją w jednym z nich i nie stoją w drugim.
+Czoło tej tabeli jest nad bankiem drzew i nad prozą tego repozytorium to samo,
+a stoją w nim dwie pary i żadna nie czeka na cenę.
+Pierwszą jest przyłączenie wyrażenia przyimkowego, czyli wybór, którego olski
+rozmyślnie nie robi
+([subset.md](subset.md#przyłączanie-wyrażeń-przyimkowych-olski-nie-wybiera)):
+cena postawiona nad taką parą odwraca tamtą decyzję, zamiast zapełniać dziurę.
+Drugą jest para, w której to samo dwuwyrazowe wyrażenie ma głowę raz po lewej,
+a raz po prawej, bo obu formom polszczyzna daje obie części mowy;
+rozstrzyga tam znaczenie słowa, a nie szyk, więc nie ma czego nacechować.
+Licznik produkcji nieopłaconych mierzy przy tym co innego, niż wygląda:
+produkcji jest tysiąc kilkaset, a pozycję płaci mniej niż co czwarta,
+tyle że większość z nich wychodzi z iloczynu klas walencyjnych, form i przeczenia,
+czyli nie konkuruje o żaden napis i rozstrzyga o niej unifikacja, a nie cena.
+Konkurują ciała jednej pozycji grafu, i tych ta sonda pyta.
 
 Suma jest liczbą, którą czytelnik widzi: wypisuje ją pod rachunkiem `--koszt`
 i oddaje odpowiedź witryny ([witryna.md](witryna.md#co-witryna-pokazuje)).

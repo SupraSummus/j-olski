@@ -11,6 +11,7 @@ from olski.cennik import (
     CZASOWNIK_PRZED_PODMIOTEM,
     OKOLICZNIK,
     OPUSZCZONY_PODMIOT,
+    PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM,
     WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA,
     WYSUNIĘTY_ORZECZNIK,
 )
@@ -46,6 +47,8 @@ from olski.subset.rama import (
 from olski.subset.słowa import (
     BEZ_CZOŁA,
     BEZ_KOPULI,
+    BEZ_PRZYSŁÓWKA,
+    BEZ_STOPNIA,
     CZĄSTKA_ZWROTNA,
     DOSTAWKA,
     GRUPA_ORZECZENIA_ODWRÓCONA,
@@ -62,8 +65,10 @@ from olski.subset.słowa import (
     RZECZOWNIK_ORZEKAJĄCY,
     SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_ELIPSY,
+    STOPNIUJĄCY,
     SZYKI_CZĄSTKI,
     TRYB_OZNAJMUJĄCY,
+    Z_PRZYSŁÓWKIEM,
     ŁĄCZNIK,
 )
 from olski.walencja import KOPULA
@@ -817,24 +822,74 @@ def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
     # okolicznikami zdania obok siebie; ile takich czytań zostaje, mierzy
     # docs/konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę.
     #
-    # Cząstka stoi w tej liście obok przysłówka, bo pozycję w zdaniu ma tę samą, i
-    # dlatego oba wypisuje jedna pętla; rolą jest przy tym każde z nich osobno,
-    # bo cząstka przysłówkiem nie jest (:data:`CZĄSTKA_ZDANIA`).
+    # Cząstka stoi w tej liście obok przysłówka, bo pozycję w zdaniu ma tę samą;
+    # rolą jest przy tym każde z nich osobno, bo cząstka przysłówkiem nie jest
+    # (:data:`CZĄSTKA_ZDANIA`). Ciała mają osobne, bo o ogon pyta ciało
+    # przysłówkowe i tylko ono.
     #
     # Cechę `kopula` wypuszcza ta lista stamtąd, gdzie stoi w niej okolicznik
     # narzędnikowy, i tylko stamtąd (:data:`BEZ_KOPULI`). Ogon niesie ją zmienną
     # wspólną, bo okolicznik ten bywa w liście drugi: `zwraca się dotąd ręką`.
+    #
+    # Cechę `czoło_listy` niesie ta lista po to, żeby ciało z przysłówkiem umiało
+    # zapytać, czy za tym przysłówkiem stoi drugi: dwa przysłówki obok siebie są
+    # tym czytaniem, o którym mówi sekcja o liście płaskiej, a cena jest jego
+    # miejscem w kolejce (:data:`olski.cennik.PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM`).
+    # Wartość ogłasza każde ciało tej listy, bo cecha przemilczana przechodziłaby
+    # obu ciałom przysłówkowym niżej i żadne z nich nie płaciłoby wtedy nic.
     ogon = nt("okoliczniki", kopula=V("k"))
-    grammar.rule("okoliczniki", [nt("wyrażenie_przyimkowe")])
-    grammar.rule("okoliczniki", [Głowa(nt("wyrażenie_przyimkowe")), ogon], kopula=V("k"))
-    for przy_zdaniu in (OKOLICZNIK_PRZYSŁÓWKOWY, CZĄSTKA_ZDANIA):
-        grammar.rule("okoliczniki", [nt(przy_zdaniu)])
-        grammar.rule("okoliczniki", [Głowa(nt(przy_zdaniu)), ogon], kopula=V("k"))
+    grammar.rule("okoliczniki", [nt("wyrażenie_przyimkowe")], czoło_listy=BEZ_PRZYSŁÓWKA)
+    grammar.rule(
+        "okoliczniki",
+        [Głowa(nt("wyrażenie_przyimkowe")), ogon],
+        kopula=V("k"),
+        czoło_listy=BEZ_PRZYSŁÓWKA,
+    )
+    grammar.rule("okoliczniki", [nt(CZĄSTKA_ZDANIA)], czoło_listy=BEZ_PRZYSŁÓWKA)
+    grammar.rule(
+        "okoliczniki",
+        [Głowa(nt(CZĄSTKA_ZDANIA)), ogon],
+        kopula=V("k"),
+        czoło_listy=BEZ_PRZYSŁÓWKA,
+    )
+    grammar.rule("okoliczniki", [nt(OKOLICZNIK_PRZYSŁÓWKOWY)], czoło_listy=Z_PRZYSŁÓWKIEM)
+
+    def przysłówek_przed(lewy: str, ogon_listy: Sym, koszty: tuple[str, ...] = ()) -> None:
+        grammar.rule(
+            "okoliczniki",
+            [Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY, stopniujący=lewy)), ogon_listy],
+            kopula=V("k"),
+            czoło_listy=Z_PRZYSŁÓWKIEM,
+            koszty=koszty,
+        )
+
+    # Ciała są trzy i płaci jedno z nich: to, w którym przysłówek stopniowalny
+    # stoi tuż przed drugim przysłówkiem, a mimo to go nie określa. Pozostałe dwa
+    # są tym samym ciałem bez jednego z dwóch warunków, bo `tam wcale` nie ma
+    # czytania z frazą — `tam` stopnia nie niesie (:data:`STOPNIUJĄCY`) — więc
+    # cena postawiona i tam wyceniałaby samą liczbę okoliczników w liście.
+    # Ciało z przysłówkiem niestopniowalnym o ogon nie pyta, bo jego cena jest ta
+    # sama pod każdym ogonem.
+    przysłówek_przed(
+        STOPNIUJĄCY,
+        nt("okoliczniki", kopula=V("k"), czoło_listy=Z_PRZYSŁÓWKIEM),
+        (PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM,),
+    )
+    przysłówek_przed(STOPNIUJĄCY, nt("okoliczniki", kopula=V("k"), czoło_listy=BEZ_PRZYSŁÓWKA))
+    przysłówek_przed(BEZ_STOPNIA, ogon)
     # Ogona te dwa ciała nie pytają o nic, bo wartość ogłaszają same i ogłaszają ją
     # niezależnie od tego, co stoi w liście za nimi.
-    grammar.rule("okoliczniki", [nt(OKOLICZNIK_NARZĘDNIKOWY)], kopula=BEZ_KOPULI)
     grammar.rule(
-        "okoliczniki", [Głowa(nt(OKOLICZNIK_NARZĘDNIKOWY)), okoliczniki], kopula=BEZ_KOPULI
+        "okoliczniki",
+        [nt(OKOLICZNIK_NARZĘDNIKOWY)],
+        kopula=BEZ_KOPULI,
+        czoło_listy=BEZ_PRZYSŁÓWKA,
+    )
+    grammar.rule(
+        "okoliczniki",
+        [Głowa(nt(OKOLICZNIK_NARZĘDNIKOWY)), okoliczniki],
+        kopula=BEZ_KOPULI,
+        czoło_listy=BEZ_PRZYSŁÓWKA,
     )
 
     # Spójnik wewnętrzny wchodzi tą samą listą i tyle wystarcza, żeby stanął tam,
@@ -843,8 +898,10 @@ def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
     # ta lista nie daje. Do pętli wyżej ten symbol przez to nie wchodzi: ona daje
     # także czoło, a czoło dałoby `Cena jest niska, więc gramatyka jest tania.`
     # drugie czytanie tego samego kształtu.
-    grammar.rule("okoliczniki", [nt(SPÓJNIK)])
-    grammar.rule("okoliczniki", [Głowa(nt(SPÓJNIK)), ogon], kopula=V("k"))
+    grammar.rule("okoliczniki", [nt(SPÓJNIK)], czoło_listy=BEZ_PRZYSŁÓWKA)
+    grammar.rule(
+        "okoliczniki", [Głowa(nt(SPÓJNIK)), ogon], kopula=V("k"), czoło_listy=BEZ_PRZYSŁÓWKA
+    )
 
     # Wtrącenie w parze myślników wchodzi tą samą listą, bo pyta o to samo: o
     # miejsce, w którym coś staje obok zdania, nie zajmując w nim pozycji. Lista
@@ -855,8 +912,13 @@ def _lista_okoliczników(grammar: Grammar, okoliczniki: Sym) -> None:
     #
     # Cechy `kopula` to ciało nie ogłasza, tak samo jak przysłówek wyżej: para nie
     # jest narzędnikiem, więc kopuli nie zamyka.
-    grammar.rule("okoliczniki", [nt(WTRĄCENIE_MYŚLNIKOWE)])
-    grammar.rule("okoliczniki", [Głowa(nt(WTRĄCENIE_MYŚLNIKOWE)), ogon], kopula=V("k"))
+    grammar.rule("okoliczniki", [nt(WTRĄCENIE_MYŚLNIKOWE)], czoło_listy=BEZ_PRZYSŁÓWKA)
+    grammar.rule(
+        "okoliczniki",
+        [Głowa(nt(WTRĄCENIE_MYŚLNIKOWE)), ogon],
+        kopula=V("k"),
+        czoło_listy=BEZ_PRZYSŁÓWKA,
+    )
 
 
 def _orzecznik(grammar: Grammar) -> None:

@@ -444,7 +444,7 @@ MIJANE = (
 #: Rola nie niesie przypadka, bo sama go ustala.
 #: Cecha o kształcie wewnątrz konstytuenta — `czoło` wypełnienia,
 #: `accommodability` liczebnika, `dostawka` zdania,
-#: `fullstoppedness` skrótu jednostki — kończy się na nim.
+#: `stopniujący` okolicznika, `fullstoppedness` skrótu jednostki — kończy się na nim.
 #:
 #: Żadnego z tych wpisów nie widać po werdykcie i nie jest to przypadek:
 #: o cechę, którą wpis zatrzymuje, nie pyta nad tym symbolem ani jedna produkcja
@@ -468,5 +468,6 @@ NIE_WYPUSZCZANE = {
     CZŁON_PRZYIMKOWY: ("case",),
     **{rodzina.modyfikator: ("case",) for rodzina in RODZINY},
     "wypełnienia": ("czoło", "kopula"),
+    "okoliczniki": ("stopniujący",),
     "człon_imienny": ("accommodability", "fullstoppedness"),
 }

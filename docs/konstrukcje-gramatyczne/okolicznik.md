@@ -491,6 +491,41 @@ Nad rejestrem ustaw ani jedno zdanie przyjęte płaskiego czytania nie dostaje,
 więc konstrukcja jest tu droga w rejestrze,
 który olskiemu ustawia kolejkę, a nie w tym, o który mu chodzi.
 
+Ze zdań przyjętych jednym czytaniem gospodarze dalsi płaskie czytanie zdjęli,
+a o pierwsze miejsce konkurowało ono dalej:
+zdanie wieloznaczne ma je obok czytania z frazą,
+oba płaciły jeden okolicznik,
+więc rozstrzygało między nimi cięcie, a nie deklaracja o polszczyźnie.
+Odtąd płaskie płaci pozycję `przysłówek przed przysłówkiem` (`olski/cennik.py`)
+i stoi pod tamtym, bo przysłówek stopniowalny stojący tuż przed drugim
+przysłówkiem zwykle go określa.
+`Program zapisuje ustawienia bardzo szybko.` wychodzi przez to czytaniem,
+w którym `bardzo szybko` jest jednym okolicznikiem,
+i to zdanie trzyma `tests/parser/test_kolejność.py`.
+
+Warunki są dwa i płaci ciało, które spełnia oba:
+ogon listy zaczyna się przysłówkiem,
+a przysłówek stojący przed nim niesie stopień.
+Drugi warunek nie jest ozdobą, bo bez niego cena wycenia samą liczbę okoliczników:
+`Wiersz żądania nie idzie tam wcale.` czytania z frazą nie ma —
+`tam` stopnia nie niesie — więc płaskie jest tam jedynym prawdziwym,
+a cena spycha je pod czytanie z `tam` w dopełnieniu.
+Obie cechy kończą się na liście okoliczników, bo wyżej nie pyta o nie nikt,
+a cecha niesiona bez czytelnika rozdziela klasy pozycji w lesie;
+rozbiór README kosztują poniżej pół procenta opkodów (`harness/opkody.py`).
+
+Nad bankiem drzew pozycja nie rusza złotego czytania pierwszego
+pod żadną z dwóch morfologii i nie ma czym ruszyć:
+instrument porównuje podmiot i dopełnienie, a nie miejsce okolicznika (wyżej).
+Nad prozą tego repozytorium nie rusza czytania pierwszego w ani jednym zdaniu
+(`python3 -m harness.cena --pozycja "przysłówek przed przysłówkiem"`),
+bo zgadza się tam z cięciem, które rozstrzygało przed nią,
+a para tych dwóch czytań schodzi za to z czoła tabeli `python3 -m harness.remis`
+nad oboma korpusami.
+Zostaje mimo to i jest to decyzja, a nie odczyt:
+cięcie zgadza się tu z deklaracją przypadkiem,
+a w rejestrze, w którym wypadnie inaczej, zgadzać się nie musi.
+
 ## Cząstka `za` stopniuje przysłówek i nie stopniuje przymiotnika
 
 `Testy trwają za długo.` ma tę samą budowę co `Testy trwają bardzo długo.`,

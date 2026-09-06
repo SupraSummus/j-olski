@@ -35,6 +35,7 @@ WYSUNIĘTY_ORZECZNIK = "wysunięty orzecznik"
 CZASOWNIK_PRZED_PODMIOTEM = "czasownik przed podmiotem"
 OPUSZCZONY_PODMIOT = "opuszczony podmiot"
 WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA = "wysunięte dopełnienie bezokolicznika"
+PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM = "przysłówek przed przysłówkiem"
 FORMA_SPOZA_REJESTRU = "forma spoza rejestru"
 
 #: Nazwa pozycji i jej cena. Nazwa jest po polsku i wychodzi na wierzch — pod
@@ -49,6 +50,11 @@ FORMA_SPOZA_REJESTRU = "forma spoza rejestru"
 #: do którego z nich należy
 #: (``docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie``).
 #:
+#: Nie o każdej z nich mówi szyk. `Przysłówek przed przysłówkiem` mówi o
+#: gospodarzu: przysłówek stojący tuż przed drugim przysłówkiem zwykle go
+#: określa, więc czytanie, w którym oba określają zdanie, jest nacechowane
+#: (``docs/konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę``).
+#:
 #: Jednostką jest sto, a nie jeden, i kupuje to miejsce na cenę pośrednią:
 #: konstrukcja wyceniona kiedyś między okolicznikiem a opuszczonym podmiotem
 #: dostaje sto pięćdziesiąt, zamiast każąc przenumerować cały cennik.
@@ -61,6 +67,7 @@ CENNIK: dict[str, int] = {
     OKOLICZNIK: 100,
     WYSUNIĘTY_ORZECZNIK: 100,
     CZASOWNIK_PRZED_PODMIOTEM: 100,
+    PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM: 100,
     OPUSZCZONY_PODMIOT: 200,
     WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA: 200,
     FORMA_SPOZA_REJESTRU: 100,

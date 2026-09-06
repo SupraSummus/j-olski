@@ -11,7 +11,7 @@ a wywód wraz z ceną trzyma docs/subset.md.
 
 from __future__ import annotations
 
-from olski.grammar import Part, V, word
+from olski.grammar import NIE_NIESIE, Part, V, word
 from olski.lematy import (
     LEMAT_PRZECZENIA,
     LEMAT_ZWROTNY,
@@ -363,6 +363,18 @@ KOPULARNY = "jest"
 BEZ_KOPULI = "brak"
 
 
+#: Czym zaczyna się lista okoliczników. Pyta o to ciało z przysłówkiem w czole
+#: (``_lista_okoliczników`` w ``olski/subset/zdanie.py``), bo przysłówek stojący
+#: tuż przed drugim przysłówkiem zwykle go określa, więc czytanie, w którym oba
+#: określają zdanie, płaci pozycję cennika. Wartości są dwie, a nie tyle, ile
+#: lista bierze konstytuentów: pytanie jest o sam przysłówek, a wszystko inne
+#: jest tu jedną odpowiedzią.
+Z_PRZYSŁÓWKIEM = "przysłówek"
+
+
+BEZ_PRZYSŁÓWKA = "inne"
+
+
 #: Przecinek jako znak koordynacji. Warunek na lemat, a nie sama część mowy, bo
 #: ``interp`` niesie całą interpunkcję naraz, a każdy znak, który ten podzbiór
 #: bierze, stoi tu osobnym terminalem i osobno się o jego cenę pyta.
@@ -507,18 +519,50 @@ SPÓJNIK_NA_CZELE = word(
 PRZYIMEK = word("prep", bez_lematu=PRZYIMEK_ROZDZIELAJĄCY, case=V("c"))
 
 
-#: Przysłówek w okoliczniku: cała część mowy bez przysłówka względnego i bez
-#: pytajnych. Stopnia nie żąda, bo `teraz` stopnia nie niesie, a `bardzo` niesie
-#: `pos`, i oba są okolicznikami zdania.
+def _przysłówek(**warunki) -> Part:
+    """Przysłówek bez przysłówka względnego i bez pytajnych, pod tymi warunkami.
+
+    Wykluczenie stoi tu z tego samego powodu, z którego pozycji rzeczownej nie mają
+    `kto` i `co` (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`): okolicznikiem zdania
+    oznajmującego żaden z tych lematów nie bywa, a wpuszczony tutaj daje każdemu
+    zdaniu z nim czytanie ciągu współrzędnego, w którym przysłówek określa człon
+    drugi. Czytania tego polszczyzna nie ma, a jest ono jedynym, jakie te formy
+    dostają bez własnych ciał (:data:`PRZYSŁÓWEK_WZGLĘDNY`,
+    :data:`PRZYSŁÓWKI_PYTAJNE`), więc każde wykluczenie i jego ciało wchodzą razem.
+
+    Funkcją, bo terminale niżej różnią się samym stopniem i wykluczenie ma być
+    w każdym z nich to samo.
+    """
+    return word("adv", bez_lematu=PRZYSŁÓWKI_PYTAJNE | {PRZYSŁÓWEK_WZGLĘDNY}, **warunki)
+
+
+#: Przysłówek, któremu stopień jest obojętny: `teraz` go nie niesie, `bardzo`
+#: niesie `pos`, a wtrącenie w nawiasie bierze jeden i drugi.
+PRZYSŁÓWEK = _przysłówek()
+
+
+#: Ten sam przysłówek rozdzielony po stopniu, bo o stopień pyta lista okoliczników:
+#: przysłówek, który stopnia nie niesie, nie określi przysłówka stojącego za nim,
+#: więc stojąc przed nim nie jest nacechowany (``_lista_okoliczników``
+#: w ``olski/subset/zdanie.py``). Od :data:`PRZYSŁÓWEK_STOPNIA` różni je pozycja:
+#: tamten terminal stopniuje przymiotnik i przysłówek, a te dwa stoją tam, gdzie
+#: okolicznik zdania, więc niosą jego wykluczenia.
 #:
-#: Wykluczenie stoi tu z tego samego powodu, z którego pozycji rzeczownej nie mają
-#: `kto` i `co` (:data:`ZAIMEK_PYTAJNO_RZECZOWNY`): okolicznikiem zdania
-#: oznajmującego żaden z tych lematów nie bywa, a wpuszczony tutaj daje każdemu
-#: zdaniu z nim czytanie ciągu współrzędnego, w którym przysłówek określa człon
-#: drugi. Czytania tego polszczyzna nie ma, a jest ono jedynym, jakie te formy
-#: dostają bez własnych ciał (:data:`PRZYSŁÓWEK_WZGLĘDNY`,
-#: :data:`PRZYSŁÓWKI_PYTAJNE`), więc każde wykluczenie i jego ciało wchodzą razem.
-PRZYSŁÓWEK = word("adv", bez_lematu=PRZYSŁÓWKI_PYTAJNE | {PRZYSŁÓWEK_WZGLĘDNY})
+#: Żądanie ujemne pisze się pustym zbiorem (:data:`olski.grammar.NIE_NIESIE`),
+#: bo cechy nieobecnej unifikacja nie sprawdza, a dodatnie jest o samą obecność,
+#: bo `degree` niesie i forma stopnia równego, i wyższego.
+PRZYSŁÓWEK_ZE_STOPNIEM = _przysłówek(niesie="degree")
+
+
+PRZYSŁÓWEK_BEZ_STOPNIA = _przysłówek(degree=NIE_NIESIE)
+
+
+#: Czy okolicznik przysłówkowy niesie stopień, czyli czy może określić przysłówek
+#: stojący za nim. Pyta o to lista okoliczników i nikt poza nią.
+STOPNIUJĄCY = "stopień"
+
+
+BEZ_STOPNIA = "bez stopnia"
 
 
 #: Przysłówek, którym zaczyna się pytanie o okoliczność (:data:`PRZYSŁÓWKI_PYTAJNE`).

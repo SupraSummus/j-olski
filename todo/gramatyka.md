@@ -31,6 +31,13 @@ z terminalem pytającym o listę lematów.
 Do rozstrzygnięcia jest, czy lista jest tu właściwym przyrządem:
 sąsiednie ciało rozdziela przysłówki cechą, a nie lematem,
 i pytanie brzmi, ilu przysłówkom Morfeusz odmawia stopnia mimo tego, że stopniują.
+Ta sama cecha rozstrzyga cenę, więc ciało dopisane samą listą lematów zostawia
+robotę w połowie: `zbyt długo` dostałoby czytanie z frazą, a czytanie płaskie
+stałoby obok niego nienacechowane, bo pozycja `przysłówek przed przysłówkiem`
+pyta o stopień niesiony przez formę
+([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+O kolejności tych dwóch czytań rozstrzygałoby wtedy cięcie, tak jak przy
+`bardzo długo` przed dopisaniem tej pozycji.
 
 `olski/subset/` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
 rozkłada się w nim na cztery miejsca, i po podziale na moduły są to cztery pliki:

@@ -31,6 +31,7 @@ from olski.cennik import (
     CZASOWNIK_PRZED_PODMIOTEM,
     OKOLICZNIK,
     OPUSZCZONY_PODMIOT,
+    PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM,
     razem,
 )
 from olski.grammar import Grammar, Głowa, nt, word
@@ -278,6 +279,26 @@ def test_podmiot_za_czasownikiem_wychodzi_przed_czytaniem_bez_podmiotu():
     assert werdykt.rachunki == [
         ((CZASOWNIK_PRZED_PODMIOTEM, 1),),
         ((OPUSZCZONY_PODMIOT, 1),),
+    ]
+
+
+def test_przysłówek_określający_przysłówek_wychodzi_przed_czytaniem_płaskim():
+    """Dwa przysłówki obok siebie czyta się jedną frazą, zanim czyta się dwoma okolicznikami.
+
+    `Program zapisuje ustawienia bardzo szybko.` czyta się dwojako, bo lista
+    okoliczników jest płaska: `bardzo szybko` stoi w niej raz jedną frazą, a raz
+    dwoma okolicznikami zdania, gdzie `bardzo` nie określa niczego pod sobą.
+    Bez ceny oba czytania płaciły sam okolicznik, więc o pierwszym miejscu
+    rozstrzygało cięcie, a nie deklaracja o polszczyźnie.
+    """
+    (werdykt,) = check("Program zapisuje ustawienia bardzo szybko.")
+    assert [zdanie["okolicznik_przysłówkowy"] for (zdanie,) in werdykt.readings] == [
+        "bardzo szybko → zapisuje",
+        "bardzo → zapisuje",
+    ]
+    assert werdykt.rachunki == [
+        ((OKOLICZNIK, 1),),
+        ((OKOLICZNIK, 1), (PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM, 1)),
     ]
 
 
