@@ -37,6 +37,7 @@ from olski.subset.słowa import (
     SPÓJNIK_DOPEŁNIENIOWY,
     SPÓJNIK_PRZECINKOWY,
     SPÓJNIK_PYTAJNY,
+    SPÓJNIK_ZŁOŻONY,
     SPÓJNIKI_OKOLICZNIKOWE,
     SPÓJNIKI_TRYBU,
     SPÓJNIKI_WYSUWANE,
@@ -286,6 +287,25 @@ def _zdania_podrzędne(grammar: Grammar) -> None:
     grammar.rule(
         OKOLICZNIK_ZDANIOWY,
         [word("comp", lemma=SPÓJNIKI_WYSUWANE), Głowa(nt("zdanie")), PRZECINEK],
+        pozycja="przed",
+    )
+
+    # Ten sam okolicznik pod spójnikiem złożonym (:data:`SPÓJNIK_ZŁOŻONY`):
+    # `Mimo że zasób jest zarządzany, odśmiecacz go nie czyści.` Ciała są osobne
+    # od dwóch wyżej, bo `mimo` czytania spójnikowego u Morfeusza nie ma, więc
+    # warunek na lemat `comp` tej pary nie dosięga.
+    #
+    # Miejsca są dwa, tak samo jak przy spójniku wysuwanym, bo polszczyzna stawia
+    # to zdanie i przed nadrzędnym, i za nim: `Wyszli, mimo że padało.`
+    _zamykane(
+        grammar,
+        OKOLICZNIK_ZDANIOWY,
+        [PRZECINEK, *SPÓJNIK_ZŁOŻONY, Głowa(nt("zdanie"))],
+        pozycja="za",
+    )
+    grammar.rule(
+        OKOLICZNIK_ZDANIOWY,
+        [*SPÓJNIK_ZŁOŻONY, Głowa(nt("zdanie")), PRZECINEK],
         pozycja="przed",
     )
 

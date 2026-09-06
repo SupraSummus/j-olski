@@ -255,8 +255,35 @@ Nad prozą tych dokumentów zdejmuje z odrzuconych garść zdań —
 `Komentarz mieszczący się w jednym wierszu zostaje w jednym wierszu.` —
 a nad README nie rusza ani jednego werdyktu.
 
+Przed bezokolicznikiem cząstka wysuwa się ponad jego okolicznik przysłówkowy:
+`Nauczyciel powiedział uczniowi, że musi się bardziej starać.`
+`bardziej` określa tam `starać się`, a nie `musi`,
+więc cząstka i jej czasownik stoją w jednym konstytuencie.
+Miejsce to ma sama cząstka wysunięta, a nie ma go ani forma bez niej,
+ani cząstka stojąca za głową,
+i to jedno trzyma napis przy jednym wyprowadzeniu:
+okolicznik postawiony przed frazą bezokolicznikową bez cząstki przed sobą
+dochodzi do formy osobowej, bo tam bierze go jej wypełnienie.
+`Cena musi bardziej się otwierać.` i `Cena musi się bardziej otwierać.`
+mają przez to po jednym czytaniu i mają je różne.
+Pozycja bierze sam przysłówek i stoi przy samym bezokoliczniku;
+okolicznik innego rodzaju jest osobnym ciałem i osobną liczbą,
+a przy formie osobowej pozycji tej nie ma wcale.
+
+Płaci ona tam, gdzie cząstkę bierze i forma osobowa nad bezokolicznikiem:
+`Nie da się szybko oszukać.` ma odtąd dwa czytania,
+bo `dać się` bezokolicznik bierze, więc cząstka pasuje do obu ciał.
+Oba czytania polszczyzna ma, a zwyklejsze jest to,
+w którym cząstka stoi przy formie tuż przed sobą,
+więc ciało jest nacechowane i płaci `cząstka przed okolicznikiem`
+([disambiguation.md](../disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+Nad prozą tego repozytorium płaci tak jedno zdanie —
+`ciało z nazwą po rzeczowniku da się dziś napisać` — któremu czytań przybywa,
+a werdyktu nie traci ani nie zmienia ani jedno.
+
 Ceną jest garstka odrzuceń i wszystkie stoją na jednym:
 cząstka odgrodzona od swojego czasownika słowem,
+dla którego miejsca między nimi nie ma,
 czyli [nieciągłość](../design-notes.md#nieciągłość-zmierzono-i-olski-jej-nie-bierze),
 a nie brak pozycji.
 `Rachunek się dotąd nie zwraca.` pada, `Rachunek dotąd się nie zwraca.` przechodzi,

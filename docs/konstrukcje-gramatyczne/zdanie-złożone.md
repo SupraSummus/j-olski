@@ -399,7 +399,7 @@ o której słownik milczy, a która przypadka nie niesie wcale
 Nazwa litery zapisana słownie wyprowadza się bez tej pozycji,
 bo `wu` i `ce` słownik daje jako rzeczowniki nieodmienne,
 a litera zapisana znakiem jest u słownika skrótem — `B` pod lematem `bajt` —
-i skrótów ta gramatyka nie ma.
+i pozycji na skrót stojący sam ta gramatyka nie ma.
 
 Licencji udziela cudzysłów po obu stronach napisu,
 tak samo jak przyimek udziela jej formie przyimkowej

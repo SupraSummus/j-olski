@@ -172,10 +172,13 @@ oraz `wysunięte dopełnienie bezokolicznika`.
 go rozwinięcie, i pod wypełnieniami, których rozwinięcie nie pisze;
 dwie nazwy na jedną deklarację rozeszłyby się przy pierwszej przecenie.
 
-Jedna pozycja mówi o gospodarzu zamiast o szyku i nazywa ją ta sama deklaracja:
-`przysłówek przed przysłówkiem` wycenia czytanie, w którym dwa przysłówki obok
+Dwie pozycje mówią o gospodarzu zamiast o szyku i nazywa je ta sama deklaracja.
+`Przysłówek przed przysłówkiem` wycenia czytanie, w którym dwa przysłówki obok
 siebie są dwoma okolicznikami zdania, choć pierwszy z nich określa drugi
 ([okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę)).
+`Cząstka przed okolicznikiem` wycenia czytanie, w którym cząstka zwrotna stojąca
+za formą osobową należy do bezokolicznika za okolicznikiem, a nie do tej formy
+([orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika)).
 
 **Nazwa jest kluczem cennika, bo przeżywa zmianę gramatyki, a produkcja nie.**
 Liczba wpisana wprost przy produkcji zdejmuje całą tabelę,

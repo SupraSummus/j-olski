@@ -438,6 +438,47 @@ def test_cząstka_należy_do_bezokolicznika_a_nie_do_formy_osobowej_przy_nim(tex
     assert role(verdict(text)) == [role_zdania]
 
 
+def test_cząstka_zwrotna_wysuwa_się_przed_okolicznik_swojego_bezokolicznika():
+    #  Przysłówek określa tu bezokolicznik, więc cząstka i jej czasownik stoją w
+    #  jednym konstytuencie: bez tej pozycji zdanie nie ma ani jednego czytania.
+    wysunięta = verdict("Cena musi się bardziej otwierać.")
+    assert role(wysunięta) == [
+        {
+            "podmiot": "Cena",
+            "orzeczenie": "musi",
+            "okolicznik_przysłówkowy": "bardziej → otwierać",
+        }
+    ]
+
+
+def test_okolicznik_przed_bezokolicznikiem_bez_cząstki_dochodzi_do_formy_osobowej():
+    #  Usterka, którą to łapie: pozycja wyżej wpisana bez cząstki. Okolicznik
+    #  stojący przed frazą bezokolicznikową bierze wtedy dwóch gospodarzy, choć
+    #  napis nie mówi, przy którym z dwóch czasowników cząstka stoi, więc jeden
+    #  napis wychodzi dwoma czytaniami tam, gdzie polszczyzna ma jedno.
+    bez_cząstki = verdict("Cena musi bardziej otwierać.")
+    assert role(bez_cząstki) == [
+        {"podmiot": "Cena", "orzeczenie": "musi", "okolicznik_przysłówkowy": "bardziej → musi"}
+    ]
+
+
+def test_cząstka_wysunięta_przed_okolicznik_idzie_za_cząstką_przy_formie_osobowej():
+    #  Usterka, którą to łapie: ciało wpisane bez pozycji cennika. Tam, gdzie
+    #  cząstkę bierze i forma osobowa — `dać się` bezokolicznik bierze — jeden
+    #  napis dostaje dwa czytania, oba prawdziwe, a zwyklejsze jest to, w którym
+    #  cząstka stoi przy formie tuż przed sobą.
+    assert role(verdict("Nie da się szybko oszukać.")) == [
+        {"orzeczenie": "Nie da się", "okolicznik_przysłówkowy": "szybko → da"},
+        {"orzeczenie": "Nie da", "okolicznik_przysłówkowy": "szybko → oszukać"},
+    ]
+
+
+def test_cząstka_zwrotna_nie_wysuwa_się_przed_okolicznik_swojej_formy_osobowej():
+    #  Pozycja wyżej jest przy bezokoliczniku i tylko przy nim: przy formie
+    #  osobowej cząstka odgrodzona od niej słowem zostaje nieciągłością.
+    assert verdict("Cena się bardziej otwiera.").status == "rejected"
+
+
 def test_leksykon_zostawia_bezokolicznik_czasownikowi_zwrotnemu_który_go_bierze():
     #  Odjęcie bezokolicznika ramie zwrotnej daje zdaniu wyżej jedno odczytanie
     #  zamiast dwóch, a bierze je z leksykonu, a nie z całej klasy: bez tego wpisu

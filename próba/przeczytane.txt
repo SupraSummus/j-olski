@@ -16,3 +16,39 @@
 
 od: typ_publ/120-2-000001/txt_25-div.txt 1
 do: typ_publ/120-2-000001/txt_36-div.txt 8
+
+od: typ_konwers/720-3-000157/txt_1-div.txt 1
+do: typ_konwers/720-3-000159/txt_2-div.txt 7
+
+od: typ_net_nieinterakt/620-3-010000058/txt_8-div.txt 1
+do: typ_net_nieinterakt/620-3-010000060/txt_11-div.txt 5
+
+od: typ_publ/NIE/txt_434-div.txt 1
+do: typ_publ/NIE/txt_453-div.txt 5
+
+od: typ_publ/120-2-910000011/txt_33-div.txt 1
+do: typ_publ/120-2-910000011/txt_55-div.txt 3
+
+od: typ_publ/130-2-910000006/txt_49-div.txt 1
+do: typ_publ/130-2-910000006/txt_69-div.txt 3
+
+od: typ_publ/130-5-000001040/txt_1-div.txt 1
+do: typ_publ/130-5-000001067/txt_1-div.txt 3
+
+od: typ_inf-por/330-2-000000214/txt_6-div.txt 1
+do: typ_inf-por/330-2-000000215/txt_2-div.txt 4
+
+od: typ_publ/130-3-900001/txt_64-div.txt 1
+do: typ_publ/130-3-900001/txt_82-div.txt 2
+
+od: typ_publ/120-2-000006/txt_191-div.txt 1
+do: typ_publ/120-2-000006/txt_24-div.txt 3
+
+od: typ_publ/SuperExpress/txt_190-div.txt 1
+do: typ_publ/SuperExpress/txt_205-div.txt 5
+
+od: typ_publ/120-2-900092/txt_5-div.txt 1
+do: typ_publ/120-2-900094/txt_8-div.txt 4
+
+od: typ_publ/120-2-000007/txt_39-div.txt 1
+do: typ_publ/120-2-000007/txt_63-div.txt 3

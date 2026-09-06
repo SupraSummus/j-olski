@@ -677,3 +677,19 @@ czy zostaje jak jest, bo poprawka ma mówić, co poprawiłby czytelnik,
 a nie co wyprowadza gramatyka.
 Do przeczytania są zdania tych wpisów obok swoich poprawek,
 bo od odległości między nimi zależy, którą z tych trzech dróg wybrać.
+
+`ostatnie` w `harness/usterki.py` wywraca cały przebieg na jednym wpisie
+i żąda przy tym od poprawki jednego zdania.
+Funkcja podnosi `ValueError`, kiedy napis wpisu nie jest ostatnim zdaniem swojego akapitu,
+`zbadaj` woła ją i nad zdaniem, i nad poprawką,
+a `main` wyjątku nie łapie, więc jeden wpis niedopasowany zabiera wydruk nad wszystkimi.
+Drugą połową jest poprawka rozbita na dwa zdania:
+funkcja pyta o zdanie ostatnie, więc `Nie pisz sprawozdań. Sprawozdanie skreśl.`
+poprawką być nie może, choć rozbicie zdania jest zwykłą naprawą wtrącenia
+i zdania spakowanego ([`CLAUDE.md`](../CLAUDE.md#katalog-chwytów-rejestru)).
+Ruchem jest wynik zamiast wyjątku — wpis niedopasowany wychodzi własną klasą,
+tak jak wychodzi nią wpis nieczytany — oraz poprawka pytana całym swoim akapitem;
+razem z drugą połową idzie zdanie w nagłówku korpusu, bo mówi ono o jednym zdaniu.
+Do przeczytania są dwa wpisy tego pliku o klasach tej sondy,
+ten o wpisie bez poprawki i ten o poprawce nieczytanej,
+bo trzy ruchy dokładają klasę tej samej funkcji i wydruk ma je wyliczać razem.

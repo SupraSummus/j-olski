@@ -21,6 +21,7 @@ from typing import TypeVar
 
 from olski.cennik import cena, razem
 from olski.chwyty import chwyty
+from olski.dopełniacze import NAPRAWA_ŁAŃCUCHA, łańcuchy
 from olski.odniesienia import Odniesienie
 from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
 from olski.wejście import proza
@@ -57,6 +58,8 @@ KLASA_NIENAZWANA = "klasy, której olski nie nazywa"
 #: Znak przed wierszem o chwycie rejestru. Werdyktem ten wiersz nie jest tak
 #: samo jak :data:`DOMYSŁ`, a z innego powodu: werdykt mówi o polszczyźnie
 #: zdania, a chwyt o rejestrze, w którym je napisano (``olski/chwyty.py``).
+#: Tym samym znakiem otwiera się wiersz o łańcuchu dopełniaczy
+#: (``olski/dopełniacze.py``), bo i on mówi o rejestrze.
 CHWYT = "~"
 
 #: Czym tryb ścisły otwiera wiersz o zdaniu, którego gramatyka nie wyprowadza;
@@ -278,6 +281,13 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
         yield from (
             f"{CHWYT} „{chwyt.forma}” {chwyt.naprawa}" for chwyt in chwyty(verdict.text)
         )
+    #  Łańcuch dopełniaczy obok chwytu i z tego samego powodu, a osobną flagą,
+    #  bo czyta się go z rozbioru, a nie z morfologii (``olski/dopełniacze.py``).
+    if args.dopełniacze:
+        yield from (
+            f"{CHWYT} „{łańcuch.grupa}”: łańcuch dopełniaczy długości {łańcuch.ile}, {NAPRAWA_ŁAŃCUCHA}"
+            for łańcuch in łańcuchy(verdict.result)
+        )
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -323,6 +333,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--chwyty",
         action="store_true",
         help="pokaż chwyty rejestru, których w prozie tego repozytorium nie chcemy",
+    )
+    parser.add_argument(
+        "--dopełniacze",
+        action="store_true",
+        help="pokaż grupy imienne, w których dopełniacz stoi pod dopełniaczem",
     )
     parser.add_argument(
         "--zatrzymania",

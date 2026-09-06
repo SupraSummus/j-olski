@@ -207,6 +207,61 @@ def test_złożenie_przymiotnikowe_zgadza_się_swoim_członem_drugim():
     assert verdict("Kościoły ewangelicko-reformowany rosną.").status == "rejected"
 
 
+@pytest.mark.parametrize(
+    "zdanie, formy",
+    [
+        #  W środku zdania skrót i jego kropka są jedną krawędzią, bo polszczyzna
+        #  ma tam jeden wyraz, a rozbitego nie bierze żadna produkcja.
+        (
+            "Sklep stoi przy ul. Pabianickiej.",
+            ["Sklep", "stoi", "przy", "ul.", "Pabianickiej", "."],
+        ),
+        #  Kropka, za którą nic już nie stoi, zamyka zdanie i zostaje przy nim:
+        #  połknięta zabrałaby zdaniu jedyne domknięcie.
+        ("Koszt wynosi 4 tys.", ["Koszt", "wynosi", "4", "tys", "."]),
+    ],
+)
+def test_skrót_skleja_się_z_kropką_poza_tą_która_zamyka_zdanie(zdanie, formy):
+    assert [segment.form for segment in morphology(zdanie)] == formy
+
+
+def test_skrót_na_końcu_zdania_nie_scala_go_z_następnym():
+    #  Usterka, którą to łapie: sklejenie postawione przed podziałem na zdania
+    #  albo sięgające po kropkę zamykającą. Scalone zdania nie mówią o sobie tego
+    #  w żadnym wydruku, więc widać je dopiero po rachubie.
+    assert sentences("Koszt wynosi 4 tys. zł. Drugie zdanie stoi obok.") == [
+        "Koszt wynosi 4 tys. zł.",
+        "Drugie zdanie stoi obok.",
+    ]
+
+
+def test_sklejony_skrót_stoi_pozycją_rozwinięcia_a_nie_rzeczownika_nieoznaczonego():
+    #  Usterka, którą to łapie: sklejony skrót czytany rzeczownikiem
+    #  nieoznaczonym, czyli wariantem tańszym o tabelę rozwinięć. `m.in.`
+    #  rzeczownikiem nie jest, a rzeczownik bez przypadka staje wszędzie tam,
+    #  gdzie staje jakikolwiek, więc pod tamtym wariantem ten skrót wychodzi
+    #  podmiotem albo przydawką dopełniaczową.
+    [segment] = [s for s in morphology("Wykłady wygłoszą m.in. prawnicy.") if s.form == "m.in."]
+    assert [(r.lemma, r.tag.raw) for r in segment.readings] == [("między_innymi", "part")]
+
+
+@pytest.mark.parametrize(
+    "zdanie",
+    ["Sklep stoi przy ul. Pabianickiej.", "Wykłady wygłoszą m.in. prawnicy."],
+)
+def test_zdanie_ze_skrótem_dostaje_odczytanie(zdanie):
+    #  Bez sklejenia oba te zdania padają: pierwsze na kropce po skrócie, drugie
+    #  na samym skrócie, po którym nie sięga tam żadna produkcja.
+    assert verdict(zdanie).status != "rejected"
+
+
+def test_forma_skrótu_pisana_bez_kropki_zostaje_swoim_rzeczownikiem():
+    #  Usterka, którą to łapie: sklejenie pytające o samą formę zamiast o kropkę
+    #  za nią. `ul` bez kropki jest domem pszczół, a czytania `brev` Morfeusz mu
+    #  tam nie daje wcale.
+    assert verdict("Ul jest pusty.").status == "valid"
+
+
 def test_czytania_nieoznaczonego_nie_dostaje_forma_którą_słownik_czyta():
     #  Usterka, którą to łapie: warunek postawiony na samym piśmie formy. `NIE`
     #  słownik czyta jako cząstkę przeczącą, a czytanie rzeczownikowe postawione

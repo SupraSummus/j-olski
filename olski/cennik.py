@@ -36,6 +36,7 @@ CZASOWNIK_PRZED_PODMIOTEM = "czasownik przed podmiotem"
 OPUSZCZONY_PODMIOT = "opuszczony podmiot"
 WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA = "wysunięte dopełnienie bezokolicznika"
 PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM = "przysłówek przed przysłówkiem"
+CZĄSTKA_PRZED_OKOLICZNIKIEM = "cząstka przed okolicznikiem"
 FORMA_SPOZA_REJESTRU = "forma spoza rejestru"
 
 #: Nazwa pozycji i jej cena. Nazwa jest po polsku i wychodzi na wierzch — pod
@@ -54,6 +55,10 @@ FORMA_SPOZA_REJESTRU = "forma spoza rejestru"
 #: gospodarzu: przysłówek stojący tuż przed drugim przysłówkiem zwykle go
 #: określa, więc czytanie, w którym oba określają zdanie, jest nacechowane
 #: (``docs/konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę``).
+#: `Cząstka przed okolicznikiem` mówi o gospodarzu tak samo: cząstka zwrotna
+#: stojąca tuż za formą osobową zwykle należy do niej, więc czytanie, w którym
+#: należy do bezokolicznika za okolicznikiem, jest nacechowane
+#: (``docs/konstrukcje-gramatyczne/orzeczenie.md#cząstka-zwrotna-należy-do-swojego-czasownika``).
 #:
 #: Jednostką jest sto, a nie jeden, i kupuje to miejsce na cenę pośrednią:
 #: konstrukcja wyceniona kiedyś między okolicznikiem a opuszczonym podmiotem
@@ -68,6 +73,7 @@ CENNIK: dict[str, int] = {
     WYSUNIĘTY_ORZECZNIK: 100,
     CZASOWNIK_PRZED_PODMIOTEM: 100,
     PRZYSŁÓWEK_PRZED_PRZYSŁÓWKIEM: 100,
+    CZĄSTKA_PRZED_OKOLICZNIKIEM: 100,
     OPUSZCZONY_PODMIOT: 200,
     WYSUNIĘTE_DOPEŁNIENIE_BEZOKOLICZNIKA: 200,
     FORMA_SPOZA_REJESTRU: 100,

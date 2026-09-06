@@ -246,7 +246,16 @@ def test_cząstka_w_grupie_imiennej_przepuszcza_osobę_zaimka():
 CZĄSTKA_Z_DRUGIM_CZYTANIEM = frozenset({"prawie"})
 
 
-@pytest.mark.parametrize("lemat", sorted(CZĄSTKI - CZĄSTKA_Z_DRUGIM_CZYTANIEM))
+#: Lemat, którego napisu nikt nie pisze, bo cząstka ta stoi w tekście skrótem:
+#: czytanie dostaje `m.in.` sklejone ze swoją kropką (``ROZWINIĘCIA`` w
+#: ``olski/segmentacja.py``), a samego lematu Morfeusz nie czyta wcale, więc
+#: czytania konkurującego ten lemat nie ma skąd wziąć.
+CZĄSTKA_PISANA_SKRÓTEM = frozenset({"między_innymi"})
+
+
+@pytest.mark.parametrize(
+    "lemat", sorted(CZĄSTKI - CZĄSTKA_Z_DRUGIM_CZYTANIEM - CZĄSTKA_PISANA_SKRÓTEM)
+)
 def test_cząstka_z_listy_nie_ma_czytania_branego_gdzie_indziej(lemat):
     #  Kryterium na wejście do tej listy, postawione lemat po lemacie: cząstka,
     #  której inne czytanie gramatyka bierze, daje jednemu napisowi dwa

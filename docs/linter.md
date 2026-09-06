@@ -184,7 +184,7 @@ bo pyta się tu o to, czy przymiotnik jest głową grupy, czy orzecznikiem,
 a tego morfologia nie mówi.
 Tej głębokości żąda [cel o żądaniu pozycji](roadmap.md#cele) i tam ten predykat wraca.
 
-Dwie kandydatki z korpusu usterek przeczytano tak samo, a wykrywacza nie ma żadna.
+Dwie kandydatki z korpusu usterek przeczytano tak samo, a wykrywacz wyszedł z jednej.
 Orzeczenie bez wykonawcy brane z samej formy nieosobowej
 trafia nad tą prozą w co kilkadziesiąte zdanie,
 a trafienia są w większości czasownikiem, który czynność orzeka —
@@ -199,7 +199,8 @@ bo dopełniacz jest zlany z innymi przypadkami:
 `zdania tego jednego pliku` wychodzi łańcuchem czterech,
 a sekcje angielskie dokładają trafienia bez ani jednego dopełniacza,
 bo Morfeusz czyta ich słowa jako polskie formy.
-Reguła ta żąda rozbioru i wraca z nim.
+Reguła ta pyta przez to o rozbiór i liczy w nim przydawki, a nie formy
+([niżej](#czwarty-wykrywacz-zgłasza-łańcuch-dopełniaczy)).
 
 Liczb tu nie ma, bo rusza je przeredagowanie akapitu;
 kto chce dzisiejszych, pisze predykat na nowo i puszcza go.
@@ -347,6 +348,54 @@ tu i w `olski/chwyty.py`, i jest to ta sama pozostałość, którą ma reguła o
 ```sh
 python3 -m olski.check --chwyty CLAUDE.md README.md docs/*.md docs/*/*.md warsztat/*.md todo/*.md
 python3 -m olski.check --chwyty $(find olski harness tests witryna opowieści -name '*.py')
+```
+
+## Czwarty wykrywacz zgłasza łańcuch dopełniaczy
+
+`Raport zawiera analizę wyników badań skuteczności metod leczenia pacjentów oddziału.`
+każe czytelnikowi zgadywać, co do czego należy:
+każda z tych form określa formę stojącą przed nią,
+a zdanie nie mówi, która z nich określa którą.
+Naprawą jest czasownik, a nie łańcuch krótszy:
+`Raport analizuje, jak skutecznie oddział leczy pacjentów.`
+Wykrywa łańcuch `olski/dopełniacze.py`, a wypisuje flaga `--dopełniacze`.
+Regułę tę postawił [korpus usterek](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów),
+tak samo jak regułę o czasowniku pustym wyżej.
+
+Głębokością jest rozbiór i tym reguła ta różni się od trzech wyżej.
+Dopełniacz jest u Morfeusza zlany z innymi przypadkami,
+więc łańcuch czytany ze znaczników liczy formy zamiast przydawek:
+`zdania tego jednego pliku` ma cztery formy w dopełniaczu i jedną przydawkę.
+Przydawkę od członu ciągu współrzędnego i od apozycji rozdziela przy tym drzewo,
+a nie znacznik: `pliki i katalogi` oraz `Stilo, model Fiata`
+mają przypadek ten sam, co głowa nad nimi.
+Ceną rozbioru jest milczenie nad zdaniem, którego gramatyka nie wyprowadza:
+chwyt rejestru pada i tam, a ta reguła nie ma wtedy czego policzyć.
+Na [pozostałych osiach](#cztery-osie-każdej-reguły)
+kształtem jest werdykt o zdaniu, populacją nasza własna proza,
+a pytanie jest o strukturę.
+
+Próg reguła ta ma i są nim cztery przydawki stojące jedna pod drugą.
+Łańcuch trzech stoi w polszczyźnie, której czytelnik nie poprawia —
+`model środka gamy Fiata` — a zdanie z korpusu usterek przekracza próg o kilka przydawek.
+Progu tego nikt nie skalibrował nad cudzym tekstem,
+więc zgłoszenie czeka za flagą: do wydruku domyślnego i do kodu wyjścia
+wchodzi po sądach czytelnika
+([krok piąty](#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
+
+Myli się ta reguła w stronę milczenia, czego żąda krok szósty listy wyżej:
+zdanie wieloznaczne dostaje wiersz o tym łańcuchu,
+który stoi w każdym jego czytaniu, a nie o najdłuższym z nich,
+i grupa stojąca w środku grupy dłuższej nie dostaje wiersza drugiego.
+Nad polskim zdaniem tej prozy reguła milczy,
+a zgłasza zdanie z korpusu usterek przytoczone wyżej w tej sekcji
+oraz zdania sekcji angielskich:
+Morfeusz czyta ich słowa jako polskie formy,
+więc wychodzi z nich grupa dopełniaczowa bez ani jednego dopełniacza.
+Odróżnić ich nie ma czym, dopóki ekstrakcja nie mówi, w jakim języku zdanie stoi.
+
+```sh
+python3 -m olski.check --dopełniacze CLAUDE.md README.md docs/*.md docs/*/*.md warsztat/*.md todo/*.md
 ```
 
 ## Reguła o imiesłowie bez podmiotu myliła się w każdym trafieniu

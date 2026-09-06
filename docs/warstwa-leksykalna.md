@@ -453,6 +453,61 @@ a odebranego czytania nie ma w niej ani jednego.
 Nad prozą tego repozytorium złożenie pada natomiast rzadziej niż raz na tysiąc zdań,
 więc pozycja ta jest wpuszczona dla polszczyzny prasowej, a nie dla tego rejestru.
 
+## Skrót zakończony kropką zajmuje pozycję swojego rozwinięcia
+
+`ul.`, `m.in.`, `tzw.`, `tys.` i `proc.` Morfeusz oddaje dwiema krawędziami:
+skrótem, który żąda kropki za sobą, i samą kropką.
+Po pierwszą nie sięga tu żaden terminal poza jednostką przy liczbie pisanej cyfrą
+([grupa-imienna.md](konstrukcje-gramatyczne/grupa-imienna.md#cyfry-olski-nie-bierze-bo-cyfra-nie-niesie-morfologii)),
+a kropka w środku zdania jest dla gramatyki końcem zdania,
+więc zdanie ze skrótem staje albo na nim, albo na kropce po nim.
+Sklejenie zdejmuje oba te zatrzymania naraz
+i stoi za analizą, tak samo jak sklejenie złożenia przymiotnikowego
+([wyżej](#notację-i-łącznik-rozstrzyga-segmentacja)).
+
+Pozycję bierze forma sklejona od swojego rozwinięcia,
+czyli od lematu, którym Morfeusz ten skrót nazywa:
+`ul.` jest rzeczownikiem żeńskim `ulica`, `tzw.` przymiotnikiem `tak_zwany`,
+a `m.in.` cząstką `między_innymi`, dopisaną do listy cząstek
+([okolicznik.md](konstrukcje-gramatyczne/okolicznik.md#cząstka-ma-dwóch-gospodarzy-i-przy-jednym-dostaje-etykietę)).
+Przypadka ani liczby czytanie to nie niesie,
+bo skrót się nie odmienia i stoi w polszczyźnie w każdym z nich,
+a cechy nieobecnej unifikacja nie sprawdza —
+czyli tą samą drogą, którą idzie rzeczownik nieoznaczony
+([wyżej](#forma-o-której-słownik-milczy-jest-rzeczownikiem-nieoznaczonym)).
+Rodzaj zostaje, bo o nim rozwinięcie mówi:
+`ul. Pabianicka` jest żeńska tak samo jak ulica.
+
+**Rzeczownik nieoznaczony byłby tańszy o tabelę i orzekałby nieprawdę.**
+Wariant ten czyta każdy sklejony skrót tak, jak czyta `Robocopy`,
+i kosztuje jedno czytanie zamiast wpisu na każdy lemat.
+Płaci za to czytaniem, którego polszczyzna nie ma:
+`m.in.` rzeczownikiem nie jest,
+a rzeczownik bez przypadka staje wszędzie tam, gdzie staje jakikolwiek rzeczownik,
+więc werdykt nazywałby ten skrót podmiotem albo przydawką dopełniaczową
+([roadmap.md](roadmap.md#kierunek-werdykt-ma-mówić-prawdę-o-tekście)).
+
+**Kropki, którą ktoś zamknął zdanie, sklejenie nie tyka.**
+`Ustawa weszła w życie w 2011 r.` ma jedną kropkę w dwóch rolach naraz,
+a połknięta zabrałaby zdaniu jedyne domknięcie i nie powiedziałaby tego w żadnym wydruku.
+Warunek pyta więc o graf, a nie o samą parę:
+kropka, za którą nic już nie stoi, zostaje krawędzią osobną,
+i skrótu przed nią gramatyka dalej nie bierze.
+Podziału na zdania sklejenie nie rusza, bo tamten poprzedza analizę
+i skróty zna sam (`olski/document.py`).
+
+**Skrót spoza tabeli zostaje przy tym, co ma.**
+Tabela jest zamknięta tak samo jak lista cząstek i lista predykatywów
+(`olski/subset/słowa.py`),
+bo znacznik skrótu niesie całą klasę naraz,
+a wpis rozstrzyga, którą pozycję ta jedna forma zajmuje.
+Kryterium na wejście jest jedno i jest nim świadek:
+wpis dostaje skrót, który stoi w zdaniu korpusu usterek
+([roadmap.md](roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów)).
+Skrótu, którego słownik nie zna wcale — `cf.`, `zał.` — nie ratuje przy tym żaden wpis:
+Morfeusz oddaje taki napis jako `ign`,
+więc rozwinięcia nie ma tam czym nazwać, a kropka zostaje krawędzią osobną.
+
 ## Leksykon projektu wpuszcza polskie słowo, którego słownik nie ma
 
 `olski`, `commitów`, `Pythonem` — SGJP nie ma ani jednego z tych słów,

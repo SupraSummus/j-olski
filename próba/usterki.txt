@@ -46,6 +46,15 @@
 # a ze składu Markdown zostaje sam tekst.
 # Cudze zdanie niesie czasem kilka usterek, a wpis nazywa jedną.
 # Zdanie bez komentarza nad grupą jest pisane ręką pod ten plik.
+#
+# Zdanie z NKJP bierze się z wycinka przeczytanego w całości,
+# a wycinki przeczytane wylicza `próba/przeczytane.txt`
+# wraz z poleceniem, które wyznacza następny.
+# Wycinek czyta się dwa razy i niezależnie, a wpisem zostaje zdanie,
+# które potwierdza czytanie drugie,
+# bo czytanie szukające usterek znajduje ich kilka razy więcej,
+# niż potwierdza czytelnik czytający raz.
+#
 # Wyboru zdań nikt nie losował, więc rozkładu rejestru ten plik nie mierzy;
 # mierzy go baza sądów.
 
@@ -300,3 +309,189 @@ zdanie: Program można zamówić w sklepie internetowym: store.britannica.com (d
 usterka: podmiot domyślny wtrącenia pasuje do programu i do sklepu, a stoi zaraz po adresie sklepu
 zgłoszenie: niejasny podmiot domyślny
 poprawka: Program zamówiony w sklepie internetowym store.britannica.com dociera do Polski po kilku tygodniach.
+
+# NKJP 1.2, typ_net_nieinterakt/620-3-010000058/txt_8-div.txt
+
+zdanie: Sądzę, że warto też zastanowić się nad potrzebą wypracowania konsensusu politycznego co do sformułowania przejrzystych procedur i mechanizmów konsultacji w kwestii obsadzania tych stanowisk w instytucjach Unii Europejskiej, co do których kompetencja przypadać będzie Radzie Ministrów.
+usterka: „co do których” pasuje do stanowisk i do instytucji, a stoi przy instytucjach
+zgłoszenie: niejasny poprzednik zdania względnego
+poprawka: Sądzę, że warto też zastanowić się nad potrzebą wypracowania konsensusu politycznego co do sformułowania przejrzystych procedur i mechanizmów konsultacji w kwestii obsadzania w instytucjach Unii Europejskiej tych stanowisk, co do których kompetencja przypadać będzie Radzie Ministrów.
+
+# NKJP 1.2, typ_net_nieinterakt/620-3-010000059/txt_1-div.txt
+
+zdanie: Dodam tylko, że pułkownik Konstanty Miodowicz też uważa, że pan Nowek powinien się podać do dymisji i zakończmy już tę sprawę.
+usterka: „i” spina zdanie podrzędne po „że” z trybem rozkazującym, który do tego „że” nie należy
+zgłoszenie: niezgodne człony szeregu
+poprawka: Dodam tylko, że pułkownik Konstanty Miodowicz też uważa, że pan Nowek powinien się podać do dymisji, i proponuję zakończyć już tę sprawę.
+
+# NKJP 1.2, typ_net_nieinterakt/620-3-010000060/txt_10-div.txt
+
+kontekst: Osoby pełniące funkcje publiczne powinny być poza wszelkimi podejrzeniami.
+zdanie: Jeśli takowe się pojawiają, to samo w sobie jest oburzające.
+usterka: „to” czyta się jako korelat po „jeśli” i jako podmiot zdania nadrzędnego
+zgłoszenie: korelat czytany jako podmiot
+poprawka: Jeśli takowe się pojawiają, jest to samo w sobie oburzające.
+
+# NKJP 1.2, typ_net_nieinterakt/620-3-010000060/txt_11-div.txt
+
+zdanie: W takiej sytuacji staram się zamieszczać sprostowanie, czy jakiś artykuł, czy polemizować z tym.
+usterka: „czy” spina rzeczownik z bezokolicznikiem, więc drugi człon wisi przy innym orzeczeniu niż pierwszy
+zgłoszenie: niezgodne człony szeregu
+poprawka: W takiej sytuacji staram się zamieszczać sprostowanie czy jakiś artykuł albo z tym polemizować.
+
+# NKJP 1.2, typ_publ/NIE/txt_438-div.txt
+
+zdanie: To znaczy nie żebym miał przed tym specjalne opory moralne, rzecz jednak w tym, że to, co leży na moim stole, nie dotyczy jakiegoś barona SLD, członka gabinetu politycznego ministra Janika, zboczonego księdza ani nawet oszusta z PSL.
+usterka: „członka gabinetu politycznego ministra Janika” czyta się jako apozycja barona i jako drugi człon szeregu
+zgłoszenie: apozycja czytana jako człon szeregu
+poprawka: To znaczy nie żebym miał przed tym specjalne opory moralne, rzecz jednak w tym, że to, co leży na moim stole, nie dotyczy ani jakiegoś barona SLD, ani członka gabinetu politycznego ministra Janika, ani zboczonego księdza, ani nawet oszusta z PSL.
+
+# NKJP 1.2, typ_publ/NIE/txt_440-div.txt
+
+zdanie: Na obszarach, na których dokonano masowych bombardowań, wzrosła zachorowalność na białaczkę i inne formy nowotworowe wśród dzieci - z 20 do 500 przypadków rocznie, czyli o 2500 proc. (!).
+usterka: „dokonano” nie orzeka niczego poza rzeczownikiem odczasownikowym, który stoi za nim
+zgłoszenie: czasownik pusty
+poprawka: Na obszarach masowo bombardowanych wzrosła zachorowalność na białaczkę i inne formy nowotworowe wśród dzieci - z 20 do 500 przypadków rocznie, czyli o 2500 proc. (!).
+
+# NKJP 1.2, typ_publ/120-2-910000011/txt_34-div.txt
+
+zdanie: W związku z koniecznością wniesienia do sądu tzw. pozwu wzajemnego w sprawie budowy oczyszczalni ścieków wobec wykonawcy robót, wyrażono zgodę na pokrycie kosztów w wysokości około 4 tys. zł z tytułu udzielenia pełnomocnictwa prawnikom, którzy będą reprezentować interesy gminy.
+usterka: „wobec wykonawcy robót” należy do pozwu, a stoi za oczyszczalnią ścieków i czyta się przy niej
+zgłoszenie: przydawka odsunięta od swojego rzeczownika
+poprawka: W związku z koniecznością wniesienia do sądu tzw. pozwu wzajemnego wobec wykonawcy robót w sprawie budowy oczyszczalni ścieków wyrażono zgodę na pokrycie kosztów w wysokości około 4 tys. zł z tytułu udzielenia pełnomocnictwa prawnikom, którzy będą reprezentować interesy gminy.
+
+# NKJP 1.2, typ_publ/120-2-910000011/txt_5-div.txt
+
+zdanie: Do domu weszli przez pomieszczenia gospodarcze, po wyjęciu z futryn okna.
+usterka: między „wyjęciu” a jego dopełniaczem stoi wyrażenie przyimkowe, więc „z futryn okna” czyta się jako jedna grupa
+zgłoszenie: wtrącenie między orzeczeniem a dopełnieniem
+poprawka: Do domu weszli przez pomieszczenia gospodarcze, po wyjęciu okna z futryn.
+
+# NKJP 1.2, typ_publ/120-2-910000011/txt_50-div.txt
+
+zdanie: Każda władza jest odpowiedzialna nie tylko przed wyborcami, ale i pokoleniami i zdaje sprawę z włodarstwa swego.
+usterka: człon po „ale i” zgubił przyimek i czyta się jako narzędnik przy orzeczeniu
+zgłoszenie: człon współrzędny bez przyimka
+poprawka: Każda władza jest odpowiedzialna nie tylko przed wyborcami, ale i przed pokoleniami i zdaje sprawę z włodarstwa swego.
+
+# NKJP 1.2, typ_publ/120-2-910000011/txt_53-div.txt
+
+zdanie: Już jesienią w ośrodku biathlonowym w Kirach zamontowany zostanie nowoczesny elektroniczny system tarcz do strzelania niemieckiej firmy HoRa 2000 E.
+usterka: „niemieckiej firmy” należy do systemu, a stoi za strzelaniem i czyta się przy nim
+zgłoszenie: przydawka odsunięta od swojego rzeczownika
+poprawka: Już jesienią w ośrodku biathlonowym w Kirach zamontowany zostanie nowoczesny elektroniczny system tarcz strzeleckich niemieckiej firmy HoRa 2000 E.
+
+# NKJP 1.2, typ_publ/130-2-910000006/txt_58-div.txt
+
+kontekst: Zareagowali na to sędziowie Trybunału.
+kontekst: Zapowiedzieli, że lekarzom nie należą się zaległe pieniądze, bo prawo nie działa wstecz.
+zdanie: Mogą jedynie domagać się wynagrodzeń po wydaniu orzeczenia.
+usterka: podmiot domyślny bierze się z sędziów, którzy są podmiotem zdania obok, a zdanie mówi o lekarzach
+zgłoszenie: niejasny podmiot domyślny
+poprawka: Lekarze mogą jedynie domagać się wynagrodzeń po wydaniu orzeczenia.
+
+# NKJP 1.2, typ_publ/130-2-910000006/txt_68-div.txt
+
+zdanie: Tymczasem, jak przyznają policjanci, coraz częściej zatrzymują ludzi, od których nie czuć alkoholu, alkomat również nic nie wykazuje, ale wyraźnie jest z nimi "coś nie tak" - mają powiększone źrenice, są nadpobudliwi.
+usterka: podmiot orzeczenia „zatrzymują” stoi tylko we wtrąceniu, a wtrącenie zdania nie obsadza
+zgłoszenie: podmiot tylko we wtrąceniu
+poprawka: Tymczasem policjanci przyznają, że coraz częściej zatrzymują ludzi, od których nie czuć alkoholu, alkomat również nic nie wykazuje, ale wyraźnie jest z nimi "coś nie tak" - mają powiększone źrenice, są nadpobudliwi.
+
+# NKJP 1.2, typ_publ/130-5-000001041/txt_1-div.txt
+
+zdanie: Właścicielka sklepu z ul. Pabianickiej została pobita i skopana przez dwie kobiety w zaawansowanej ciąży.
+usterka: „w zaawansowanej ciąży” czyta się przy dwóch kobietach i przy właścicielce
+zgłoszenie: przydawka odsunięta od swojego rzeczownika
+poprawka: Właścicielka sklepu z ul. Pabianickiej, będąca w zaawansowanej ciąży, została pobita i skopana przez dwie kobiety.
+
+# NKJP 1.2, typ_publ/130-5-000001045/txt_1-div.txt
+
+zdanie: Obok towarów z zezwoleniem GIS i atestem Instytutu Matki i Dziecka sprzedaje się artykuły, których etykieta sugeruje, że są przeznaczone dla małego dziecka, a nie przeszły procedury uzyskania atestu - mówiono na konferencji prasowej w Instytucie Matki i Dziecka.
+usterka: „a” spina zdanie po „że” ze zdaniem względnym, a oba są innego rzędu
+zgłoszenie: niezgodne człony szeregu
+poprawka: Obok towarów z zezwoleniem GIS i atestem Instytutu Matki i Dziecka sprzedaje się artykuły, których etykieta sugeruje, że są przeznaczone dla małego dziecka, a które nie przeszły procedury uzyskania atestu - mówiono na konferencji prasowej w Instytucie Matki i Dziecka.
+
+# NKJP 1.2, typ_publ/130-5-000001047/txt_1-div.txt
+
+kontekst: Dopiero przy bliższych oględzinach okazało się, że szkielet to nie szczątki ofiary morderstwa, lecz osadzona na statywie... pomoc naukowa.
+zdanie: Kto ostatni z niej korzystał, a potem porzucił na pastwę pająków i wilgoci?
+usterka: „porzucił” żąda dopełnienia, a zdanie ma na tym miejscu tylko dopełniacz przy poprzednim orzeczeniu
+zgłoszenie: orzeczenie bez żądanego dopełnienia
+poprawka: Kto ostatni z niej korzystał, a potem porzucił ją na pastwę pająków i wilgoci?
+
+# NKJP 1.2, typ_publ/130-5-000001048/txt_1-div.txt
+
+zdanie: Okazało się, że to oszuści włamywali się do automatów, podłączali i "nabijali" rachunki.
+usterka: „rachunki” stoi przy dwóch czasownikach naraz, a „podłączali” żąda czego innego
+zgłoszenie: dwa czasowniki przy jednym dopełnieniu
+poprawka: Okazało się, że to oszuści włamywali się do automatów, podłączali się i "nabijali" rachunki.
+
+# NKJP 1.2, typ_publ/130-5-000001049/txt_1-div.txt
+
+zdanie: Wykłady o zagrożeniach terroryzmem wygłoszą m.in. Wojciech Wróblewski, wiceminister spraw wewnętrznych, przedstawiciele KG Policji i prawnicy.
+usterka: „wiceminister spraw wewnętrznych” czyta się jako apozycja Wróblewskiego i jako drugi człon szeregu
+zgłoszenie: apozycja czytana jako człon szeregu
+poprawka: Wykłady o zagrożeniach terroryzmem wygłoszą m.in. wiceminister spraw wewnętrznych Wojciech Wróblewski, przedstawiciele KG Policji i prawnicy.
+
+# NKJP 1.2, typ_inf-por/330-2-000000214/txt_7-div.txt
+
+zdanie: W przypadku pleców okrągłych zarówno dziecku, jak i rodzicom należy uzmysłowić, jakie są tego konsekwencje, zachęcać i przekonywać do podjęcia trudu pracy korekcyjnej.
+usterka: celownik przy „uzmysłowić” zostaje jedynym dopełnieniem także dla „zachęcać” i „przekonywać”, a te żądają biernika
+zgłoszenie: dwa czasowniki przy jednym dopełnieniu
+poprawka: W przypadku pleców okrągłych zarówno dziecku, jak i rodzicom należy uzmysłowić, jakie są tego konsekwencje, a dziecko i rodziców zachęcać i przekonywać do podjęcia trudu pracy korekcyjnej.
+
+# NKJP 1.2, typ_inf-por/330-2-000000214/txt_8-div.txt
+
+zdanie: Rękę zginamy łukowato w dłoni tak, aby piąta kość śródręcza leżała w poprzek kości krzyżowej, a cisk wykonuje się ku przodowi.
+usterka: „a” spina zdanie celowe po „aby” ze zdaniem oznajmującym, więc czytelnik przenosi „aby” na „wykonuje się” i wraca
+zgłoszenie: niezgodne człony szeregu
+poprawka: Rękę zginamy łukowato w dłoni tak, aby piąta kość śródręcza leżała w poprzek kości krzyżowej, a cisk wykonujemy ku przodowi.
+
+# NKJP 1.2, typ_publ/130-3-900001/txt_82-div.txt
+
+zdanie: W ministerstwie specjalny zespół przejrzał do tej pory ok. 2,6 tys. akt osobowych sędziów w stanie spoczynku, z czego 150 może stracić przywilej wyższej emerytury.
+usterka: „z czego” dzieli liczbę stojącą przy aktach, a przywilej emerytalny traci sędzia, nie akta
+zgłoszenie: niejasny poprzednik zdania względnego
+poprawka: W ministerstwie specjalny zespół przejrzał do tej pory ok. 2,6 tys. akt osobowych sędziów w stanie spoczynku, a 150 z tych sędziów może stracić przywilej wyższej emerytury.
+
+# NKJP 1.2, typ_publ/120-2-000006/txt_196-div.txt
+
+zdanie: Unia Europejska, opowiadająca się za ograniczaniem różnych dotacji i subwencji, akceptuje wspieranie przez rządy centralne niektórych regionów.
+usterka: między „wspieranie” a jego dopełniaczem stoi wyrażenie przyimkowe, więc „rządy centralne niektórych regionów” składa się w jedną grupę
+zgłoszenie: wtrącenie między orzeczeniem a dopełnieniem
+poprawka: Unia Europejska, opowiadająca się za ograniczaniem różnych dotacji i subwencji, akceptuje wspieranie niektórych regionów przez rządy centralne.
+
+# NKJP 1.2, typ_publ/120-2-000006/txt_206-div.txt
+
+zdanie: W umowie koalicyjnej zapisano, że 49 kandydatów na wojewodów proponuje AWS, a 49 chętnych do przejęcia stanowiska wicewojewodów UW.
+usterka: drugi człon zgubił orzeczenie, więc „wicewojewodów UW” składa się w jedną grupę dopełniaczową zamiast rozpaść się na dopełnienie i podmiot
+zgłoszenie: elipsa orzeczenia scalająca dwa człony
+poprawka: W umowie koalicyjnej zapisano, że 49 kandydatów na wojewodów proponuje AWS, a 49 chętnych do przejęcia stanowiska wicewojewodów proponuje UW.
+
+# NKJP 1.2, typ_publ/120-2-000006/txt_197-div.txt
+
+zdanie: Jeśli Zbigniew Lew-Starowicz stwierdzi, że pozycja "69" uspokaja, Mariusz Walter nada nową formułę telewizji, Maciej Kuroń pokroi ziemniaki w kostkę, Roman Kluska zaproponuje tani szkolny komputer, gotowy do natychmiastowego podłączenia do Internetu, zaś Zbigniew Boniek zagra w boule - to Polacy ich propozycje przyjmą co najmniej z zainteresowaniem.
+usterka: dalsze człony szeregu wiszą przy „jeśli” i przy „że”, a „zaś” zamyka szereg, którego nadrzędnika czytelnik do myślnika nie zna
+zgłoszenie: niejasny zakres spójnika
+poprawka: Jeśli Mariusz Walter nada nową formułę telewizji, Maciej Kuroń pokroi ziemniaki w kostkę, Roman Kluska zaproponuje tani szkolny komputer, gotowy do natychmiastowego podłączenia do Internetu, Zbigniew Boniek zagra w boule, zaś Zbigniew Lew-Starowicz stwierdzi, że pozycja "69" uspokaja - to Polacy ich propozycje przyjmą co najmniej z zainteresowaniem.
+
+# NKJP 1.2, typ_publ/SuperExpress/txt_191-div.txt
+
+zdanie: Janusz Salomonik z Legionowa koło swojego letniego domu w Arciechowie postawił szklanki i butelki z sokiem i cukrem.
+usterka: okolicznik stoi między podmiotem a orzeczeniem, więc „z Legionowa koło swojego letniego domu w Arciechowie” czyta się jako jeden opis pochodzenia
+zgłoszenie: wtrącenie między podmiotem a orzeczeniem
+poprawka: Janusz Salomonik z Legionowa postawił koło swojego letniego domu w Arciechowie szklanki i butelki z sokiem i cukrem.
+
+# NKJP 1.2, typ_publ/120-2-900094/txt_8-div.txt
+
+zdanie: Niektóre z tych wehikułów potrzebują pięciu minut na przelot nad dwiema czy trzema przepaściami, to wymagałoby dziesięciu godzin wędrówki pieszej.
+usterka: „to” podejmuje przelot, bo pieszego pokonania przepaści zdanie nie nazywa, a przelot dziesięciu godzin wędrówki nie wymaga
+zgłoszenie: zaimek bez poprzednika
+poprawka: Niektóre z tych wehikułów potrzebują pięciu minut na przelot nad dwiema czy trzema przepaściami, których pokonanie pieszo wymagałoby dziesięciu godzin wędrówki.
+
+# NKJP 1.2, typ_publ/120-2-000007/txt_51-div.txt
+
+zdanie: Pomijam w mojej wypowiedzi słuszne zdziwienie pani G. Nowak w związku z posiadaniem przez jeńców "płótna, pędzli i farby", natomiast chciałbym przyczynić się i pobudzić do rozwikłania niejasności podając, że w prywatnym domu u pana sędziego Przyszlakowskiego w Londynie (parafia polska Brockley-Lewisham), znajduje się obraz również pod nazwą Matki Boskiej Kozielskiej i jak podaje p. sędzia Przyszlakowski wykonany w obozie jeńców polskich w Kozielsku.
+usterka: „pobudzić” żąda biernika osoby, a dostaje samo „do rozwikłania niejasności”, które dzieli z „przyczynić się”
+zgłoszenie: orzeczenie bez żądanego dopełnienia
+poprawka: Pomijam w mojej wypowiedzi słuszne zdziwienie pani G. Nowak w związku z posiadaniem przez jeńców "płótna, pędzli i farby", natomiast chciałbym przyczynić się do rozwikłania niejasności i pobudzić do niego innych, podając, że w prywatnym domu u pana sędziego Przyszlakowskiego w Londynie (parafia polska Brockley-Lewisham), znajduje się obraz również pod nazwą Matki Boskiej Kozielskiej i jak podaje p. sędzia Przyszlakowski wykonany w obozie jeńców polskich w Kozielsku.
