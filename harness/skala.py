@@ -14,6 +14,12 @@ czytania mają jedną sumę, zostawia całą decyzję remisowi.
 **Rozstęp sum** mówi, co znaczy różnica: przy jakim rozstępie między najtańszą
 sumą a następną najtańsze czytanie bywa złotym.
 
+**Wariant sprawdzający sondę** to cały cennik pomnożony przez stałą: mnoży on
+każdą sumę tym samym, więc wydruk ma wyjść ten sam co bez przeceny
+(``tests/parser/test_kolejność.py`` pilnuje tego nad zdaniem).
+Wydruk różny mówi, że przecena nie objęła całego przebiegu (:func:`zmierz`),
+a nie że wysokość stawek coś kupiła.
+
 Morfologia rozstrzyga, którą rodzinę cennika ten przebieg w ogóle widzi.
 Pod złotą pozycja morfologii jest zerem przy każdej formie, bo odczytanie wzięte
 z drzewa kwalifikatora nie niesie, więc wycenia ją dopiero żywa.

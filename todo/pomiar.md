@@ -34,18 +34,6 @@ Do przeczytania jest przedtem
 [`docs/corpus.md`](../docs/corpus.md#what-morphological-ambiguity-costs),
 bo to ta sekcja jest właścicielem tego, co przebieg nad żywą morfologią mówi.
 
-Zdanie o tym, że cena niesie sam znak, stoi na pomiarze spod morfologii złotej
-i spod porządku, który suma zastąpiła.
-Pozycja podniesiona ponad dzisiejszą cenę nie ruszała tam ani jednego zdania,
-bo ciała jednej pozycji lasu różnią się zwykle jedną pozycją cennika
-([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Pod morfologią żywą czytań jest więcej i płacą kilkoma pozycjami naraz,
-więc suma bierze na zdaniu więcej wartości
-i wysokość ma tam czym rozstrzygać, a nie wiadomo, czy rozstrzyga.
-Ruchem jest ten sam wariant zadany pod `--morfologia żywa` w `harness/skala.py`.
-Do przeczytania jest przedtem czas przebiegu: wariant spychający złote czytanie
-w dół każe wyliczać cały las, więc kosztuje wielokrotnie więcej niż cennik dzisiejszy.
-
 Wiersz zdań bez struktury nad całością ma nad Składnicą przeszło tysiąc zdań
 i przeczytana jest z nich garść.
 Nazywa on zdarzenie, a nie konstrukcję — analiza wzięła każdą formę zdania
