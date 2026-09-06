@@ -4,7 +4,7 @@ Legenda o potworze z piwnicy, o córce krawca, która zeszła tam po kufer,
 i o czeladniku, który zszedł tam z lustrem,
 stoi tu jako drzewa w kategoriach ``olski.skład``,
 a polski tekst jest tym, co z nich wychodzi.
-Tekst ten trzyma ``tests/test_opowieść.py``,
+Tekst ten trzyma ``tests/skład/test_opowieść.py``,
 znak w znak z tym, co ten moduł wypuszcza.
 
 Legendę tę Warszawa opowiada w wielu wersjach

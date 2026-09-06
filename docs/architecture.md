@@ -151,7 +151,7 @@ obieg zamknięty pyta, czy z napisu wraca drzewo, które ten napis wypuściło.
 O jedno znaczenie zdania obieg nie pyta.
 
 Granica pakietu jest tu rozstrzygnięciem, a nie przypadkiem,
-i pilnuje go `tests/test_rozbiór.py`.
+i pilnuje go `tests/skład/test_rozbiór.py`.
 Moduł czyta gramatykę, a gramatyka buduje się przy imporcie.
 Po wpisaniu tego modułu do `olski/skład/__init__.py`
 gramatykę budowałby każdy import samego kompilatora.

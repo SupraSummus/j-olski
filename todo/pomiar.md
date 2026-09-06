@@ -425,7 +425,7 @@ Trzecia kolumna dopiero po nim, bo Concraft to binarium Haskella
 i model stumegabajtowy, czyli zależność pomiaru z fetchem, jak Składnica i Walenty,
 a takiej nie warto zaciągać pod przebieg, który nie ruszy ani jednego zdania.
 Po stronie złotej morfologii pytanie wygląda na zamknięte:
-`terminal` w `tests/test_corpus.py` pisze `subst:sg:nom:m3` z jedną wartością,
+`terminal` w `tests/korpusy/test_corpus.py` pisze `subst:sg:nom:m3` z jedną wartością,
 a docstring tego pliku ręczy, że format przepisano z wydania z 2018.
 Ręczy jedna osoba i żaden plik banku, więc gdyby Concraft wypadł ciekawie,
 sprawdź to na wydaniu, zanim trzecia liczba wejdzie do dokumentu.
@@ -523,7 +523,7 @@ choć wyprowadzają się: pierwsze stoi mianownikiem osobnego leksemu
 (`kota subst:sg:nom:f`), drugie tym, że ciało bezczasownikowe zgodności liczby
 nie żąda i żądać nie może, a trzecie ma kształt, który polszczyzna ma —
 `Rodzina to są ludzie.` — i złe jest w nim znaczenie, a nie składnia.
-Asercja w `tests/test_orzeczenie.py` może stanąć obok pliku i nic nie kosztuje,
+Asercja w `tests/gramatyka/test_orzeczenie.py` może stanąć obok pliku i nic nie kosztuje,
 bo łapie inną awarię — ta pilnuje każdego commita, a sonda wyboru wariantu.
 
 Sekcja zgodności ról nie pojawiła się w wydruku `harness/pomiar.py`
@@ -571,7 +571,7 @@ Czytnik jest, odkąd `olski-check` bierze moduł
 więc zostaje samo zejście.
 Do przeczytania są trzy miejsca, które tę listę wołają, bo każde chce czego innego:
 `harness/cena.py` i `harness/cytaty.py` chcą prozy, nad którą liczy się werdykt,
-a `tests/test_docs.py` chce dokumentów, bo sprawdza nagłówki i wskazania między nimi.
+a `tests/dokumenty/test_docs.py` chce dokumentów, bo sprawdza nagłówki i wskazania między nimi.
 Rozstrzygnąć trzeba, czy moduły wchodzą do tej jednej listy,
 czy dostają drugą obok niej,
 i osobno, czy nazwa sekcji cytowana w docstringu wchodzi pod ten test:

@@ -21,7 +21,7 @@ Walenty opisuje czasowniki, a nie przyimki, więc nie ma stąd czego wygenerowa�
 Połowa wpisu ma jednak świadka w słowniku:
 Morfeusz znakuje przyimek przypadkami, którymi ten przyimek rządzi,
 więc przypadek wypisany tutaj przy przyimku, który go nie bierze,
-zgłasza się w ``tests/test_przyimki.py``.
+zgłasza się w ``tests/skład/test_przyimki.py``.
 Czego ten świadek nie sprawdza, jest doborem:
 który z przypadków należy się której relacji, rozstrzyga ten plik i nic poza nim.
 

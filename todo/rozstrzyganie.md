@@ -240,7 +240,7 @@ a `po_przyimku` pyta o sąsiada, którego przy gospodarzu wziętym z werdyktu ni
 
 Ile wyborów werdykty stawiają nad korpusem audytowym, mówią trzy miejsca w dwóch
 wartościach: `docs/rozstrzyganie.md` pisze przy losowaniu wzorca 49 wyborów na 2 915 zdań,
-a `harness/wieloznaczność.py` i `tests/test_powtórzenie.py` piszą 38 na tyle samo zdań.
+a `harness/wieloznaczność.py` i `tests/pomiar/test_powtórzenie.py` piszą 38 na tyle samo zdań.
 Jedna z nich jest sprzed zmiany w gramatyce albo w szukaczu pozycji
 i nie widać której, bo żadna nie mówi, którym przebiegiem padła.
 Dowodem do przeczytania jest liczba dzisiejsza:

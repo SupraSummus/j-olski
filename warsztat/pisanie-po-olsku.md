@@ -114,7 +114,7 @@ Płaci tu autor i ten rachunek się zwraca.
 Zdania te były niepoprawne przed olskim i nikt tego nie zauważył:
 reguły prozy o interpunkcji nie mówią,
 `markdownlint` czyta Markdown, a nie polszczyznę,
-a `tests/test_docs.py` sprawdza nazwy plików i sekcji.
+a `tests/dokumenty/test_docs.py` sprawdza nazwy plików i sekcji.
 O tym przecinku powiedział w tym repozytorium tylko werdykt `rejected`.
 
 Odpowiada to na zarzut, że

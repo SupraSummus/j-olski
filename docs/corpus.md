@@ -68,7 +68,7 @@ Where such a reading stands in this document,
 it stands as the class it found and not as the count.
 
 The tests do not need any of this.
-They use hand-written forests in `tests/test_corpus.py`,
+They use hand-written forests in `tests/korpusy/test_corpus.py`,
 so the suite stays offline and the corpus stays out of a repository
 that ships under different terms
 ([README.md](../README.md#licencja)).

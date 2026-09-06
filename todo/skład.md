@@ -6,7 +6,7 @@ Ruchem jest napisać najpierw polski tekst oddający wstęp `README.md`,
 potem drzewa pod niego, a różnicę między jednym a drugim przeczytać,
 bo dopiero ona mówi, czego tym kategoriom brakuje.
 Wtedy ten napis dostaje właściciela i wchodzi do testu tak,
-jak `BAZYLISZEK` stoi w `tests/test_opowieść.py`;
+jak `BAZYLISZEK` stoi w `tests/skład/test_opowieść.py`;
 dziś nie trzyma go nic i `README.py` mówi w nagłówku, dlaczego.
 Kryterium wyjścia toru składu to i tak nie jest
 ([`docs/roadmap.md`](../docs/roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)),
@@ -30,7 +30,7 @@ a ma wpis w `olski/skład/spójniki.py`, więc wychodzi zdaniem i nie wychodzi f
 `Dlaczego.bo(zdarzenie)` składa się, a `Dlaczego.dla(rzecz)` zgłasza `PozaRamą`.
 Jest to jedyna z tych trzech pozycji, przy której skład ma pół konstrukcji, a nie zero.
 Do przeczytania przy niej jest ten leksykon obok
-`tests/test_przyimki.py`, który świadkuje przypadkom, a nie doborowi relacji.
+`tests/skład/test_przyimki.py`, który świadkuje przypadkom, a nie doborowi relacji.
 
 Komunikat werdyktu jest napisem wpisanym w kod, a repozytorium ma tor,
 który polskie zdanie składa z drzewa,
@@ -75,7 +75,7 @@ README pisze `kontrolowanych języków naturalnych`,
 a to samo drzewo wypuszcza `kontrolowany naturalny język`.
 Po drugiej stronie stoi to jako czytanie, które z
 [obiegu](../docs/po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma)
-nie wraca żadnym drzewem, i trzyma to `tests/test_rozbiór.py`.
+nie wraca żadnym drzewem, i trzyma to `tests/skład/test_rozbiór.py`.
 Do przeczytania jest ta para wraz z tym,
 co [`docs/sklad.md`](../docs/sklad.md#czwarta-architektura-poziom-dziedziny-a-nie-poziom-języka)
 mówi o tym, czego drzewo nie niesie.
@@ -318,7 +318,7 @@ Ruchem jest ten pomiar, a nie wiersz dopisany bez niego,
 i tym różni się ta połowa od tamtej: tam cena wychodziła z własności,
 a tu wychodzi z przebiegu.
 Do przeczytania jest `test_żadnej_formy_leksykonu_słownik_nie_zna`
-w `tests/test_projekt.py`, bo wiersz na `agent` wywraca właśnie ten test,
+w `tests/warstwa-leksykalna/test_projekt.py`, bo wiersz na `agent` wywraca właśnie ten test,
 i rozstrzygnąć trzeba, czy test ten zostaje z wyjątkiem wypisanym obok,
 czy schodzi razem z własnością.
 
@@ -333,7 +333,7 @@ ma tylko własne zdanie i nie ma go z czym porównać;
 tym różni się ten wpis od tych, które nazywają brak po jednej stronie.
 Wywód trzyma
 [`docs/po-wypisaniu.md`](../docs/po-wypisaniu.md#czytanie-parsera-wraca-drzewem-a-jedno-czytanie-kilkoma),
-a odmowę jako powód sprawdza `tests/test_rozbiór.py`.
+a odmowę jako powód sprawdza `tests/skład/test_rozbiór.py`.
 Do przeczytania jest, co `harness/walenty.py` bierze z Walentego przy pozycji `infp`,
 bo pytanie jest o to, czy słownik tego lematu z bezokolicznikiem nie ma,
 czy ma go w kształcie, którego ten przekład nie bierze,
@@ -475,4 +475,4 @@ i to jest cała trudność tego wpisu: dwa tory nazywają jedną konstrukcję in
 a obieg żąda, żeby napis wrócił tym drzewem, z którego wyszedł.
 Do przeczytania jest `_okolicznikowe` w tym samym pliku,
 czyli droga, którą wraca `bo`, i `test_zdanie_spoza_gramatyki_mówi_o_gramatyce_a_nie_o_brakującej_kategorii`
-w `tests/test_rozbiór.py`, który stał na tym zdaniu i stoi teraz na narzędniku.
+w `tests/skład/test_rozbiór.py`, który stał na tym zdaniu i stoi teraz na narzędniku.

@@ -744,7 +744,7 @@ class Las:
         Zawężenia to nie luzuje: ``dozwolone`` jest tu tym samym, czym w
         :meth:`_wsparte`, więc ciało, które przy tych cechach się nie domyka, nie
         dokłada ani jednego odczytania.
-        Że suma nie sięga dalej niż kształt, sprawdza ``tests/test_las.py``,
+        Że suma nie sięga dalej niż kształt, sprawdza ``tests/parser/test_las.py``,
         zawężając zdanie do odczytań, które liście niosą.
 
         Zapamiętana, bo pyta o nią każde drzewo tej pozycji, czyli nad zdaniem

@@ -30,7 +30,7 @@ Kot to zwierzęcia.
 
 # Kopula zgadzająca się z grupą, z którą zgadzać się nie ma;
 # `Te książki to są skarb.` jest parą do `Te książki to jest skarb.`,
-# którą gramatyka wyprowadza i której pilnuje `tests/test_subset.py`
+# którą gramatyka wyprowadza i której pilnuje `tests/gramatyka/test_subset.py`
 
 Te książki to są skarb.
 To są kot.

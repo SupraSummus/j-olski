@@ -13,7 +13,7 @@ Konfiguracja nosi adres jeden raz, w `mkdocs.yml`:
 plik `CNAME`, którego żąda GitHub Pages, wychodzi z tamtego wiersza przebiegiem.
 Poza konfiguracją adres jest linkiem dla czytelnika,
 w [README](../README.md#co-działa) i w stopce demo (`witryna/strona.html`).
-Kopie adresu utrzymuje równe `tests/test_docs.py`,
+Kopie adresu utrzymuje równe `tests/dokumenty/test_docs.py`,
 więc adres zmieniony w konfiguracji wywraca suitę, dopóki nie wejdzie do nich.
 
 Samą prozę GitHub renderuje już dziś, w tej konwencji kotwic,
@@ -37,7 +37,7 @@ więc plik dopisany do korzenia nie wchodzi tam sam.
 
 Ceną jest zakaz: prozie wydawanej pod adresem nie wolno linkować tej warstwy,
 bo martwy link wywraca budowanie strony.
-Zakaz ten obowiązuje i bez strony, więc pilnuje go także `tests/test_docs.py`:
+Zakaz ten obowiązuje i bez strony, więc pilnuje go także `tests/dokumenty/test_docs.py`:
 dokument ma sens bez warstwy roboczej, a ona bez dokumentu sensu nie ma.
 
 ## Domyślny Jekyll kasuje diakrytyki z kotwic
@@ -52,7 +52,7 @@ Większość kotwic w tym repozytorium niesie diakrytyk,
 więc na domyślnym Jekyllu większość linków między dokumentami prowadzi w pustkę.
 Awaria jest przy tym cicha z dwóch stron naraz.
 Kramdown kotwicy nie zgłasza, bo wystawia własną.
-Suita jej nie zgłasza, bo `anchor_of` w `tests/test_docs.py`
+Suita jej nie zgłasza, bo `anchor_of` w `tests/dokumenty/test_docs.py`
 pilnuje konwencji GitHuba, a nie tego, co wystawi strona.
 
 ## Korzeniem strony jest korzeń repozytorium
@@ -74,7 +74,7 @@ właścicielem jest sama proza, a lista obok niej rozjeżdżałaby się z nią p
 Kotwice liczy `slugify` z pymdown-extensions, wołany z `mkdocs.yml`.
 Na nagłówkach tego repozytorium daje on to samo, co `github-slugger`,
 czyli ta sama kotwica działa w obu miejscach i linku nie trzeba pisać dwa razy.
-Tak samo liczy ją suita (`anchor_of` w `tests/test_docs.py`).
+Tak samo liczy ją suita (`anchor_of` w `tests/dokumenty/test_docs.py`).
 
 Sprawdza to `mkdocs build --strict`:
 mkdocs porównuje każdą kotwicę z tym, co naprawdę wystawił,

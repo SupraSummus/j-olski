@@ -197,11 +197,11 @@ class Zdejmowanie:
 
     :attr:`grupa` odpowiada, do której grupy należy produkcja, a ``None`` znaczy,
     że do żadnej i że zostaje w każdym wariancie. Wariant ostatni dostaje
-    wszystkie, czyli jest dokładnie olskim, i tego pilnuje ``tests/test_ruch.py``.
+    wszystkie, czyli jest dokładnie olskim, i tego pilnuje ``tests/pomiar/test_ruch.py``.
 
     Klasą, a nie funkcją zwracającą domknięcie, bo :func:`przebieg` posyła sondę
     do procesu roboczego, a domknięcia posłać nie sposób. Pilnuje tego
-    ``tests/test_ruch.py``, bo w jednym procesie sonda z domknięciem liczy to samo
+    ``tests/pomiar/test_ruch.py``, bo w jednym procesie sonda z domknięciem liczy to samo
     i o tej granicy nie mówi.
     """
 

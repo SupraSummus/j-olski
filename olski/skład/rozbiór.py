@@ -43,7 +43,7 @@ więc wpisany tam kazałby ją zbudować każdemu, kto sięga po sam kompilator,
 i parser przestałby być świadkiem, a stałby się zależnością.
 Rozstrzygnięcie obejmuje tak samo ``olski/__init__.py``,
 bo import podpakietu przechodzi przez pakiet nadrzędny.
-Trzyma to ``tests/test_rozbiór.py``.
+Trzyma to ``tests/skład/test_rozbiór.py``.
 """
 
 from __future__ import annotations

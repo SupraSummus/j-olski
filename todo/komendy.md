@@ -38,7 +38,7 @@ albo zdanie mówiące, czemu te dwie nazwy zostają.
 Cena pierwszego ruchu jest w tym, że kształt ostatniego wiersza zaczyna zależeć
 od flagi: liczbę fragmentów cytuje z niego
 [`docs/extraction.md`](../docs/extraction.md#what-the-numbers-here-were-run-over),
-a formatu pilnuje `tests/test_check.py`.
+a formatu pilnuje `tests/komendy/test_check.py`.
 Do przeczytania jest przebieg `--ścisły` nad `docs/`, bo dopiero nad tekstem
 z oboma wierszami widać, czy czytelnik te dwie nazwy w ogóle zestawia.
 
@@ -108,7 +108,7 @@ bo brak konfiguracji jest odpowiedzią, a nie milczeniem.
 Do przeczytania jest przedtem, czy `render` jest tu właściwym miejscem:
 czyta go i pomiar nad korpusem, i `olski-pokrycie` nad jednym plikiem,
 a wiersz dopisany rusza każdy blok, który stoi w dokumencie pod tą komendą
-(`tests/test_wydruki.py`).
+(`tests/dokumenty/test_wydruki.py`).
 
 `olski` chodził po katalogu, a `olski-check` bierze tylko pliki.
 Widać to w poleceniu, którym
@@ -244,7 +244,7 @@ a stojące obok niej `--rozstrzygaj` i `--zatrzymania` po polsku,
 choć [reguła językowa](../CLAUDE.md#piszemy-po-polsku-także-w-kodzie)
 obejmuje nazwy flag tak samo jak komunikaty, które komenda drukuje.
 Ruchem jest `--odczytania` wraz z każdym wywołaniem w dokumentach;
-bloki nad wydrukami pilnuje `tests/test_wydruki.py`, bo puszcza to, co w nich stoi,
+bloki nad wydrukami pilnuje `tests/dokumenty/test_wydruki.py`, bo puszcza to, co w nich stoi,
 a wystąpień w prozie nie pilnuje nic i te trzeba przejść grepem.
 Do przeczytania jest przy tym
 [`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej),
@@ -284,7 +284,7 @@ drugie nie naprawia nic, tylko pokazuje, i to wystarcza,
 bo błąd jest w tym, że rozjazdu nie widać.
 Do przeczytania jest `Podsumowanie` w `olski/werdykt/tekst.py`,
 bo wiersz o konfiguracji stanąłby obok liczby zdań,
-a `tests/test_wydruki.py` puszcza każdy blok tego wydruku w dokumentach.
+a `tests/dokumenty/test_wydruki.py` puszcza każdy blok tego wydruku w dokumentach.
 
 Wydruk `olski-check` nazywa plik, a proza modułu leży w nim kawałkami,
 więc autor dostaje zdanie i szuka go potem po całym module.
@@ -295,7 +295,7 @@ Do przeczytania jest `main` w `olski/check.py`,
 gdzie nagłówek wiersza jest nazwą źródła,
 a wcięcie wierszy pod nim liczy się z jej długości,
 więc numer dopisany do nagłówka rusza każdy blok wydruku w dokumentach,
-a te pilnuje `tests/test_wydruki.py`.
+a te pilnuje `tests/dokumenty/test_wydruki.py`.
 Do rozstrzygnięcia jest, czy numer idzie do nagłówka przy każdym pliku,
 czy tylko tam, gdzie proza przyszła kawałkami:
 `proza` w `olski/wejście.py` wydaje dziś napis i o kawałkach nie mówi nic.

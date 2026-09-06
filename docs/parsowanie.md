@@ -311,8 +311,8 @@ i nikt tego nie zauważy, a znacznik przesuwa się razem ze swoją częścią.
 Ciało o kilku częściach bez znacznika nie powstaje wcale,
 więc produkcja dopisana bez głowy przerywa budowanie gramatyki na swoim wierszu,
 zamiast nazwać gospodarza pierwszą córką, którąkolwiek by ona była.
-Odmowę sprawdza `tests/test_gramatyka.py`,
-a oba zdania z tymi werdyktami `tests/test_las.py`.
+Odmowę sprawdza `tests/gramatyka/test_gramatyka.py`,
+a oba zdania z tymi werdyktami `tests/parser/test_las.py`.
 
 Las jest przy tym jeden, a werdykty są nad nim różnymi podsumowaniami:
 czy cokolwiek się wyprowadza, ile się wyprowadza, czy najwyżej dwa,
@@ -426,7 +426,7 @@ Liczby niżej są ceną, za jaką odrzucono rozszczepienie,
 i nie ma ich po co przeliczać:
 sonda, która je wzięła, poszła razem z enumeratorem będącym jej miarą,
 a wariant, który mierzyła, nie stoi w kodzie i nie ma jak się zmienić.
-Zdania, na których widać oba nadmiary, trzyma `tests/test_las.py`,
+Zdania, na których widać oba nadmiary, trzyma `tests/parser/test_las.py`,
 więc podstawa tego wywodu nie zniknie po cichu.
 
 Nad 13025 zdaniami Składnicy pod morfologią własną

@@ -283,7 +283,7 @@ nieprawdziwy, a wybór między tymi dwiema liczbami rozstrzyga kierunek
 Okolicznik narzędnikowy nie ma pozycji przed zdaniem, a polszczyzna go tam stawia:
 `Wieczorem wziął lustro.` pada, `Wziął lustro wieczorem.` przechodzi,
 i pierwszy szyk wypisuje tor składu, więc obieg na nim nie zamyka się
-(`tests/test_rozbiór.py`).
+(`tests/skład/test_rozbiór.py`).
 Ciało zmierzono i odrzucono, bo grupa wysunięta jest wtedy jedyną grupą przed
 czasownikiem, tak samo jak w szyku od czasownika i w zdaniu o opuszczonym podmiocie
 ([`docs/konstrukcje-gramatyczne/okolicznik.md`](../docs/konstrukcje-gramatyczne/okolicznik.md#narzędnik-bez-przyimka-jest-okolicznikiem-obok-orzecznika)).

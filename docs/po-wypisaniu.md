@@ -105,7 +105,7 @@ bo `mysz` niesie mianownik i biernik dwoma osobnymi wpisami,
 podczas gdy `ogon` niesie oba jednym.
 Porównanie napisów o wpisy nie pyta i widzi ją bez żadnego warunku,
 więc `_obojętny` w tamtym module pyta dziś o segment, a nie o czytanie.
-Że obie strony widzą tę parę, sprawdza `tests/test_przegląd.py`.
+Że obie strony widzą tę parę, sprawdza `tests/skład/test_przegląd.py`.
 Skład jest tu zatem świadkiem dla parsera, a nie parser dla składu,
 co jest tą samą wymianą, którą zapowiada
 [niezmiennik obiegu](design-notes.md#the-round-trip-invariant):
@@ -119,7 +119,7 @@ więc `Kufer zasłaniał lustro.` ma role przypięte,
 a `Kufer zasłania lustro.` nie ma ich wcale.
 Rodzaj przypina je także tam, gdzie podmiot z tekstu wypadł,
 i to on jest powodem, dla którego opuszczenia tej legendy nic nie kosztują.
-Trzyma to `tests/test_przegląd.py` i trzyma mimo swojej zerowej liczby,
+Trzyma to `tests/skład/test_przegląd.py` i trzyma mimo swojej zerowej liczby,
 bo liczba ta jest tu odpowiedzią, a nie brakiem przypadków.
 
 Klasa jest jedna z dwóch, które ta wieloznaczność ma nad polszczyzną.
@@ -257,7 +257,7 @@ Pyta o to samo, co `explain` w `olski/werdykt/zdanie.py` po tamtej stronie,
 i jest potrzebne z tego samego powodu:
 lista wylicza przyczyny, a nie mówi, na którą trafiło to jedno zdanie.
 Rozdziela ona przy tym dwie pustki, których nazwać inaczej nie ma czym,
-i o to rozdzielenie prosi też `tests/test_rozbiór.py`,
+i o to rozdzielenie prosi też `tests/skład/test_rozbiór.py`,
 stawiając werdykt gramatyki obok każdego zdania, którego ten kierunek nie mówi:
 zdanie bez czytań wraca powodem o olskim, a nie o brakującej tu kategorii.
 
@@ -373,7 +373,7 @@ i ten sam nie wypada dwa razy pod rząd.
 Kształty te wyczerpują przy tym kategorie, które ten zapis niesie,
 i to jest drugie żądanie, osobne od rytmu:
 makieta pokazuje, co kompilator umie, więc kategoria pominięta w niej jest długiem.
-Trzyma to `tests/test_makieta.py`, bo po samym tekście takiego długu nie widać —
+Trzyma to `tests/skład/test_makieta.py`, bo po samym tekście takiego długu nie widać —
 tak wypadł dopełniacz, którego nie wystawiał żaden kształt,
 choć `Czyj` w składni jest od początku.
 Obsadę akapitu niosą `Postać`, bo dopiero one pozwalają opuścić podmiot,

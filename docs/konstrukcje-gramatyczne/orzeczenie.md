@@ -44,7 +44,7 @@ i cząstkę dostaje ten czas i tylko on, bo tak stawia ją polszczyzna:
 Ceny w czytaniach ta cząstka nie ma żadnej i wynika to z gramatyki, nie z przebiegu:
 formy `by` nie bierze przy czasowniku żaden inny terminal,
 więc zdanie z nią albo wyprowadza się tymi dwoma ciałami, albo nie ma czytania wcale.
-Niezmiennika pilnuje `tests/test_subset.py`, gdzie zdanie z tą cząstką stoi wśród
+Niezmiennika pilnuje `tests/gramatyka/test_subset.py`, gdzie zdanie z tą cząstką stoi wśród
 przyjmowanych: `by` dopisane do listy cząstek daje mu drugie czytanie i wywraca test.
 Ciało z aglutynantem nie rusza przy tym nad prozą tego repozytorium
 ani jednego werdyktu: ten rejestr pisze `odzyskałby`, a nie `odzyskałbym`.
@@ -79,7 +79,7 @@ polszczyzna ma `żebym napisał`.
 Ceną jest ta cecha w każdej produkcji zdania.
 Cechy, której konstytuent nie niesie, unifikacja nie sprawdza,
 więc ciało, które trybu nie przepuści, wpuszcza pod ten spójnik każdy tryb.
-Niezmiennika pilnuje `tests/test_orzeczenie.py`:
+Niezmiennika pilnuje `tests/gramatyka/test_orzeczenie.py`:
 ciało zdania bez tej cechy wywraca suitę,
 bo pojedyncze zdanie tego nie łapie, a ciał zdania jest kilkadziesiąt.
 
@@ -432,7 +432,7 @@ nie takie, które orzekają kategorię.
 Przekład wykonuje `olski/werdykt/zdanie.py`, czyli warstwa za pomiarem,
 więc liczby wyżej biorą się sprzed niego i żadna z nich się nie rusza;
 sąd, który on wykonuje, wypisuje `NAZWY_SZKOLNE` w `olski/subset/deklaracja.py`.
-Struktura zostaje ta, którą wybrał pomiar, i pilnuje jej `tests/test_orzeczenie.py`,
+Struktura zostaje ta, którą wybrał pomiar, i pilnuje jej `tests/gramatyka/test_orzeczenie.py`,
 pytając o streszczenie sprzed przekładu.
 
 Grupa przed łącznikiem dostaje własną rolę,

@@ -42,7 +42,7 @@ suma sięgająca do klasy obok mówi, że forma stoi tu pod ramą,
 której rodzic nie wziął, a suma w obrębie klasy tego nie mówi.
 Wpis zamyka się też przez to, że tak zostaje, i wtedy powód idzie do
 `Las._wsparte_kształtu`, bo dziś stoi tam granica bez wywodu.
-Sondą jest warunek, który `tests/test_las.py` sprawdza na garści zdań —
+Sondą jest warunek, który `tests/parser/test_las.py` sprawdza na garści zdań —
 zdanie zawężone do odczytań liści wyprowadza ten sam kształt —
 puszczony nad całym README, bo w tamtej garści tej klasy nie ma.
 

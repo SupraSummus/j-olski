@@ -16,14 +16,14 @@ a nie przebieg po całym wierzchu.
 Podejmuje go dopiero sesja, która tej warstwie dopisuje moduł
 albo i tak przemianowuje jej ścieżki.
 Cena jest w ścieżkach: moduły morfologii nazywa z dokumentów i rejestru
-kilkanaście plików, a każdą taką nazwę pilnuje `tests/test_docs.py`.
+kilkanaście plików, a każdą taką nazwę pilnuje `tests/dokumenty/test_docs.py`.
 Do przeczytania przed ruchem są importy `olski/segmentacja.py`,
 bo czyta on `olski/grammar.py`, więc morfologia nie leży pod formalizmem, tylko obok niego,
 i pakiet tę zależność albo przyjmuje, albo przecina.
 
 `witryna/skrypt.js` jest jedynym plikiem w repozytorium, którego nic nie uruchamia.
 Suita pyta o niego z zewnątrz jedno — czy strona woła trasy, które serwer ma
-(`tests/test_witryna.py`) — a samego skryptu nie wykonuje,
+(`tests/dokumenty/test_witryna.py`) — a samego skryptu nie wykonuje,
 bo w [bloku checków](../CLAUDE.md#checks) nie ma node'a
 i dopisanie go tam kosztuje drugie środowisko w workflowie.
 Decyzja robi się potrzebna wtedy, gdy skrypt zacznie cokolwiek liczyć;
@@ -34,7 +34,7 @@ Ruchy są dwa i różnią się tym, co przyjmują za granicę:
 albo node wchodzi do checków wraz z jednym testem strony w przeglądarce bezgłowej,
 albo skrypt zostaje bez testu, a regułą staje się to,
 że logika nie schodzi do przeglądarki.
-Przeczytaj przed decyzją `tests/test_wydruki.py`,
+Przeczytaj przed decyzją `tests/dokumenty/test_wydruki.py`,
 bo pokazuje on, ile pilnowania da się zrobić bez drugiego środowiska.
 
 `ruff format` nie stoi w [bloku checków](../CLAUDE.md#checks),

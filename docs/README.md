@@ -9,7 +9,7 @@ Dzielimy go po torach, bo czytelnik przychodzi po jeden tor.
 Dokument dostaje tu zdanie albo dwa i nie powtarza swoich liczb,
 bo właścicielem faktu jest ten dokument, a nie spis.
 Dokument, którego tu nie ma, nie leży na niczyjej drodze,
-więc `tests/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
+więc `tests/dokumenty/test_docs.py` żąda wiersza dla każdego pliku tego katalogu.
 
 ## Tor gramatyczny
 

@@ -22,7 +22,7 @@ tak samo jak przypadek jest faktem o przyimku.
 
 Świadek w słowniku jest tu pełniejszy niż tam i sięga tylko pierwszej kolumny.
 SGJP znakuje spójnik podrzędny jako ``comp`` i rozdziela go od współrzędnego,
-więc słowo wypisane tutaj, a tak nieznakowane, zgłasza się w ``tests/test_spójniki.py``.
+więc słowo wypisane tutaj, a tak nieznakowane, zgłasza się w ``tests/gramatyka/test_spójniki.py``.
 Doboru relacji ten świadek nie sprawdza, tak jak przy przyimkach,
 a o szyku nie mówi nic, bo ``więc`` znakuje tak samo jak ``bo``,
 więc rozstrzyga o obu ten plik i nic poza nim.

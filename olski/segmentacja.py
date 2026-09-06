@@ -18,7 +18,7 @@ Wejściem obu jest graf, a nie napis, i dlatego stoją tutaj.
 
 Gramatyki moduł ten nie czyta, tylko bierze ją argumentem tych dwóch pytań,
 więc kto chce samej morfologii, nie buduje gramatyki;
-pilnuje tego ``tests/test_segmentacja.py``.
+pilnuje tego ``tests/warstwa-leksykalna/test_segmentacja.py``.
 
 Warstwę tę wraz z typem, którym oddaje wynik następnej, wylicza docs/architecture.md.
 """
