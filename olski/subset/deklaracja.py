@@ -190,6 +190,15 @@ ELIPSA = "elipsa"
 PARA_WYPEŁNIEŃ = "para_wypełnień"
 
 
+#: Człon ciągu współrzędnego fraz bezokolicznikowych: `opakować zasób` w `Możesz
+#: użyć uchwytu, aby opakować zasób lub zastąpić metodę.` Rolą ta nazwa nie jest
+#: i nie jest nią też ciąg nad nią: fraza bezokolicznikowa jest pozycją ramy
+#: (:attr:`olski.parse.Obsada.własna_rama`), więc symbole są tu dwa, a nie trzy
+#: jak przy członie przyimkowym. Wywód trzyma
+#: docs/konstrukcje-gramatyczne/orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej.
+CZŁON_BEZOKOLICZNIKOWY = "człon_bezokolicznikowy"
+
+
 #: Symbol frazy bezokolicznikowej, której pozycji ramy nie wypełnia nic w jej
 #: środku: wypełnia ją konstytuent stojący przed formą osobową, która tę frazę
 #: bierze — `większości` w `premier większości nie może ruszyć`. Rama idzie z tej

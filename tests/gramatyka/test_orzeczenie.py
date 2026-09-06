@@ -827,3 +827,57 @@ def test_okolicznik_przy_wysuniętym_dopełnieniu_nazywa_swojego_gospodarza():
     #  który to zdanie zostawia.
     found = verdict("Premier większości nie może ruszyć szybko.")
     assert len({tuple(sorted(s.items())) for s in role(found)}) == found.result.ile
+
+
+# --------------------------------------------------------------------------- #
+# Ciąg współrzędny fraz bezokolicznikowych
+# --------------------------------------------------------------------------- #
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Jan chce czytać i pisać.",
+        "Można opakować zasób lub zastąpić metodę.",
+        "Trzeba czytać, pisać i słuchać.",
+        "Jan chce czytać i pisać i słuchać.",
+    ],
+)
+def test_ciąg_bezokoliczników_wyprowadza_każdą_swoją_długość_raz(text):
+    #  Głowa nad ciągiem jest raz formą osobową, a raz predykatywem, i spinaczem
+    #  jest raz spójnik, a raz przecinek; bez ciał ciągu analiza staje na
+    #  bezokoliczniku drugim.
+    #
+    #  Jedno czytanie, a nie samo przyjęcie, bo po to symbole są dwa: ciało
+    #  rekurencyjne pod jedną nazwą dałoby ciągowi trzech członów dwa
+    #  wyprowadzenia jednej struktury, po jednym na nawiasowanie.
+    found = verdict(text)
+    assert found.result.ile == 1, found.explain()
+
+
+def test_negacja_z_formy_osobowej_sięga_pod_każdy_człon_ciągu():
+    #  Dopełniacza żąda cząstka stojąca przy formie osobowej i żąda go ponad
+    #  bezokolicznikiem, więc człony ciągu biorą tę cechę jedną zmienną: człon
+    #  drugi z biernikiem znaczy, że któryś z nich zmiennej nie zawiązał.
+    found = verdict("Program nie pozwala zapisać ustawień ani czytać książki.")
+    assert found.status == "valid", found.explain()
+    assert verdict("Program nie pozwala zapisać ustawień ani czytać książkę.").status == "rejected"
+
+
+def test_człon_przeczący_sam_zamyka_żądanie_z_góry_tak_jak_bez_ciągu():
+    #  Człon z własną cząstką tej cechy nie wypuszcza wcale, więc zdanie
+    #  nadrzędne, które nie przeczy, nie żąda od niego biernika, i ciąg tego nie
+    #  zmienia (`test_przeczenie_przy_bezokoliczniku_zamyka_żądanie_z_góry` wyżej).
+    found = verdict("Program ma nie zapisywać ustawień i czytać książkę.")
+    assert found.status == "valid", found.explain()
+
+
+def test_okolicznik_w_członie_nazywa_gospodarzem_cały_ciąg():
+    #  Człon w `gospodarze` (`DEKLARACJA`) nie stoi, bo zejście od okolicznika
+    #  zatrzymuje się na ciągu, a ten wychodzi w górę głową członu pierwszego.
+    #  Bez wpisu o ciągu okolicznik dostałby gospodarza spoza frazy — `chce` —
+    #  czyli werdykt orzekłby o tym zdaniu rzecz nieprawdziwą.
+    found = verdict("Jan chce czytać szybko i pisać.")
+    assert role(found) == [
+        {"podmiot": "Jan", "orzeczenie": "chce", "okolicznik_przysłówkowy": "szybko → czytać"}
+    ], found.explain()

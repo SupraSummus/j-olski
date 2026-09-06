@@ -18,6 +18,7 @@ from olski.grammar import NIE_NIESIE, Grammar, Głowa, Sym, V, Var, nt, word
 from olski.precedencja import Rozwinięcie
 from olski.subset.deklaracja import (
     CZĄSTKA_ZDANIA,
+    CZŁON_BEZOKOLICZNIKOWY,
     ELIPSA,
     FRAZA_BEZOKOLICZNIKOWA_OTWARTA,
     OKOLICZNIK_NARZĘDNIKOWY,
@@ -59,6 +60,7 @@ from olski.subset.słowa import (
     PRZECZENIE,
     PRZYSŁÓWEK,
     RZECZOWNIK_ORZEKAJĄCY,
+    SPÓJNIK_BEZ_PRZECINKA,
     SPÓJNIK_ELIPSY,
     SZYKI_CZĄSTKI,
     TRYB_OZNAJMUJĄCY,
@@ -634,7 +636,7 @@ def _grupa_orzeczenia(
     # Fraza bezokolicznikowa niesie pozycję ramy, którą zajmuje, tak samo jak
     # dopełnienie i orzecznik, więc żądanie wobec czasownika stoi raz, na niej, a
     # nie w każdym ciele, w którym stoi ona. Łańcuch nie potrzebuje przy tym
-    # własnej produkcji, bo fraza_bezokolicznikowa → inf wypełnienia wraca do ciał niżej
+    # własnej produkcji, bo człon_bezokolicznikowy → inf wypełnienia wraca do ciał niżej
     # i ma pomagać pisać wychodzi z tych dwóch.
     #
     # Cząstka zwrotna stoi przy tej głowie tak samo jak przy formie osobowej
@@ -646,8 +648,30 @@ def _grupa_orzeczenia(
         głowa = word("inf", bez_lematu_formy=KOPULA) if zwrotne else word("inf")
         for przeczenie, _ in PRZECZENIA:
             grammar.rule(
-                "fraza_bezokolicznikowa", [*przed, *przeczenie, Głowa(głowa), *za], valency="inf"
+                CZŁON_BEZOKOLICZNIKOWY, [*przed, *przeczenie, Głowa(głowa), *za], valency="inf"
             )
+
+    # Ciąg współrzędny fraz bezokolicznikowych: `Jan chce czytać i pisać.`
+    # Symbole są dwa i spinacze są dwa, tak jak na poziomach obok; wywód i cenę
+    # trzyma
+    # docs/konstrukcje-gramatyczne/orzeczenie.md#ciąg-bezokoliczników-zajmuje-każde-miejsce-frazy-pojedynczej.
+    #
+    # Negacja idzie przez oba człony jedną zmienną, bo bierze ją każdy z nich od
+    # tej samej formy osobowej: `Nie chcę czytać książki ani pisać listu.` żąda
+    # dopełniacza pod jednym bezokolicznikiem i pod drugim. Człon, który przeczy
+    # sam, tej cechy nie niesie wcale i zmiennej nie wiąże, więc `Program ma nie
+    # zapisywać ustawień i czytać książkę.` przeczy dalej samemu pierwszemu członowi.
+    #
+    # Pozycję ramy i negację wypuszcza tu głowa sama, więc ciała ich nie wypisują:
+    # ciąg zajmuje jedną pozycję, choćby członów miał kilka.
+    człon_bezokolicznika = nt(CZŁON_BEZOKOLICZNIKOWY, valency="inf", negacja=V("z"))
+    ciąg_bezokoliczników = nt("fraza_bezokolicznikowa", valency="inf", negacja=V("z"))
+    grammar.rule("fraza_bezokolicznikowa", [człon_bezokolicznika])
+    for spinacz in (SPÓJNIK_BEZ_PRZECINKA, PRZECINEK):
+        grammar.rule(
+            "fraza_bezokolicznikowa",
+            [Głowa(człon_bezokolicznika), spinacz, ciąg_bezokoliczników],
+        )
 
 
 def _wypełnienia(
@@ -932,7 +956,7 @@ def _orzeczenie(grammar: Grammar, okoliczniki: Sym) -> None:
             #  każde jego ciało i milczeniem nie odróżniłby jednej klasy od drugiej.
             żądana = NIE_NIESIE if druga == frozenset({BEZ_DRUGIEJ}) else druga
             grammar.rule(
-                "fraza_bezokolicznikowa",
+                CZŁON_BEZOKOLICZNIKOWY,
                 [
                     *przed,
                     Głowa(word("inf", **warunek)),
@@ -943,7 +967,7 @@ def _orzeczenie(grammar: Grammar, okoliczniki: Sym) -> None:
                 negacja=V("z"),
             )
             grammar.rule(
-                "fraza_bezokolicznikowa",
+                CZŁON_BEZOKOLICZNIKOWY,
                 [
                     *przed,
                     PRZECZENIE,

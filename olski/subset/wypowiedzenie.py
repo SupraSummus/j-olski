@@ -89,7 +89,7 @@ def _koordynacja_zdań(grammar: Grammar) -> None:
     # a różni je liczba czytań ciągu współrzędnego.
     # Symbol wspólny na spójnik i na przecinek powiedziałby to samo raz,
     # ale przecinek przestałby stać przy swoim poziomie,
-    # a cena i zakup każdego z czterech poziomów są osobnymi liczbami,
+    # a cena i zakup każdego z tych poziomów są osobnymi liczbami,
     # które wzięto zdejmowaniem po jednej.
     # Zasięg koordynacji wywodzi docs/subset.md pod „Nothing above a
     # coordination distributes into it”.
