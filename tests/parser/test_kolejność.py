@@ -75,23 +75,33 @@ def test_kolejność_czytań_nie_zależy_od_kolejności_dopisania_produkcji(seed
     assert _czytania(_potasowana(seed)) == _czytania(build())
 
 
-def test_produkcja_tańsza_wydaje_swoje_czytanie_wcześniej():
-    """Koszt rozstrzyga przed cięciem, więc tańsze ciało wychodzi z lasu pierwsze.
+def _kolejność_czytań(
+    zdanie_lewe: tuple[str, ...] = (),
+    zdanie_prawe: tuple[str, ...] = (),
+    lewe: tuple[str, ...] = (),
+    prawe: tuple[str, ...] = (),
+) -> list[str]:
+    """Etykiety czytań gramatyki, w której cena stoi pod tymi produkcjami.
 
-    Gramatyka jest napisana pod tę jedną własność: dwa ciała o córkach tej samej
-    rozpiętości zostawiają kosztowi całą decyzję, a nad zdaniem olskiego
-    rozstrzygnęłoby ją zwykle cięcie i test nie mierzyłby kosztu.
+    Gramatyka jest napisana pod trzy testy, które ją wołają, i tylko pod nie:
+    `lewe` i `prawe` biorą ten sam napis tymi samymi córkami, więc cięcie jest
+    w obu to samo i całą decyzję zostawia cenie. Nad zdaniem olskiego ustawić
+    się tego nie da, bo tam cięcie rozstrzyga wcześniej.
+    Miejsca ceny są cztery, bo o to właśnie idzie pytanie: czy waży to, ile
+    czytanie płaci, czy to, gdzie pod drzewem płaci.
     """
-    kolejność = []
-    for lewe, prawe in (((), (OKOLICZNIK,)), ((OKOLICZNIK,), ())):
-        grammar = Grammar(start="zdanie")
-        grammar.rule("zdanie", [Głowa(nt("lewe"))], koszty=lewe)
-        grammar.rule("zdanie", [Głowa(nt("prawe"))], koszty=prawe)
-        grammar.rule("lewe", [Głowa(word("subst")), word("interp")])
-        grammar.rule("prawe", [Głowa(word("subst")), word("interp")])
-        czytania = parse(grammar, morphology("plik.")).readings
-        kolejność.append([drzewo.children[0].label for drzewo in czytania])
-    assert kolejność == [["lewe", "prawe"], ["prawe", "lewe"]]
+    grammar = Grammar(start="zdanie")
+    grammar.rule("zdanie", [Głowa(nt("lewe"))], koszty=zdanie_lewe)
+    grammar.rule("zdanie", [Głowa(nt("prawe"))], koszty=zdanie_prawe)
+    grammar.rule("lewe", [Głowa(word("subst")), word("interp")], koszty=lewe)
+    grammar.rule("prawe", [Głowa(word("subst")), word("interp")], koszty=prawe)
+    return [drzewo.children[0].label for drzewo in parse(grammar, morphology("plik.")).readings]
+
+
+def test_produkcja_tańsza_wydaje_swoje_czytanie_wcześniej():
+    """Czytania idą od najtańszego, więc tańsza produkcja korzenia wychodzi pierwsza."""
+    assert _kolejność_czytań(zdanie_prawe=(OKOLICZNIK,)) == ["lewe", "prawe"]
+    assert _kolejność_czytań(zdanie_lewe=(OKOLICZNIK,)) == ["prawe", "lewe"]
 
 
 def test_iloczyn_wydaje_najtańsze_kombinacje_i_nie_tyka_reszty():
@@ -136,20 +146,22 @@ def test_czytania_wychodzą_od_najtańszego():
 
 
 def test_koszt_córki_waży_nad_rodzicem():
-    """Kolejność rozstrzyga suma po całym drzewie, więc płaci się i za poddrzewo.
+    """Suma idzie po całym drzewie, więc cena spod korzenia porządkuje tak samo.
 
-    Gramatyka jest napisana pod tę jedną własność: `lewe` i `prawe` mają córki
-    tej samej rozpiętości, a ciała `zdania` kosztują tyle samo, więc bez sumy
-    rozstrzygałby o kolejności alfabet etykiet i przodem szłoby `lewe`.
-    Widać tę różnicę tylko po kolejności: czytań nie ubywa.
+    Bez niej rozstrzygałby tu alfabet etykiet i przodem szłoby `lewe`.
     """
-    grammar = Grammar(start="zdanie")
-    grammar.rule("zdanie", [Głowa(nt("lewe"))])
-    grammar.rule("zdanie", [Głowa(nt("prawe"))])
-    grammar.rule("lewe", [Głowa(word("subst")), word("interp")], koszty=(OKOLICZNIK,))
-    grammar.rule("prawe", [Głowa(word("subst")), word("interp")])
-    czytania = parse(grammar, morphology("plik.")).readings
-    assert [drzewo.children[0].label for drzewo in czytania] == ["prawe", "lewe"]
+    assert _kolejność_czytań(lewe=(OKOLICZNIK,)) == ["prawe", "lewe"]
+
+
+def test_remis_sumy_rozstrzyga_cięcie_a_nie_koszt_ciała():
+    """Cena stojąca niżej pod korzeniem nie wypuszcza swojego czytania przodem.
+
+    Oba czytania płacą po jednym okoliczniku, więc suma ich nie rozdziela.
+    Kluczem posortowanym kosztem ciała przodem szłoby `prawe`, bo jego ciało
+    pod korzeniem jest darmowe; cięcie jest w obu to samo, więc rozstrzyga
+    etykieta i przodem idzie `lewe`.
+    """
+    assert _kolejność_czytań(zdanie_lewe=(OKOLICZNIK,), prawe=(OKOLICZNIK,)) == ["lewe", "prawe"]
 
 
 def test_każdą_pozycję_cennika_ktoś_płaci():
@@ -205,11 +217,12 @@ def test_okolicznik_kosztuje_tyle_samo_obok_wypełnienia_co_bez_niego():
 
 
 def test_czytanie_oparte_na_formie_spoza_rejestru_wychodzi_z_lasu_później():
-    """Koszt morfologii idzie w górę, aż trafi na ciała, które się nim różnią.
+    """Koszt formy waży nad korzeniem, choć płaci go liść trzy pozycje niżej.
 
     `Wszystko` jest u Morfeusza i rzeczownikiem, i przysłówkiem regionalnym
     (``olski/rejestr.py``), a czytania te różnią się dopiero pod `zdanie_składowe`.
-    Koszt liczony na miejscu nie ruszyłby więc żadnego z nich.
+    Kolejność rozstrzyga tu więc suma po całym drzewie, a nie porządek ciał
+    jednej pozycji: ten pyta o samo cięcie, a cięcie jest w obu to samo.
     Czytań przy tym nie ubywa i werdykt zostaje ten sam.
     """
     (werdykt,) = check("Wszystko jest podmiotem.")

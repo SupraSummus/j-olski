@@ -71,7 +71,3 @@ def pozycje(kwalifikatory: Iterable[str]) -> tuple[str, ...]:
     a to, które kwalifikatory odsyłają, ten plik.
     """
     return (cennik.FORMA_SPOZA_REJESTRU,) if poza_rejestrem(kwalifikatory) else ()
-
-
-def koszt(kwalifikatory: Iterable[str]) -> int:
-    return cennik.suma(pozycje(kwalifikatory))

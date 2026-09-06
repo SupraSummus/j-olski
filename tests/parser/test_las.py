@@ -390,6 +390,18 @@ def test_gospodarza_nazywa_jego_głowa_a_nie_materiał_przed_modyfikatorem(
     assert przyłączenie.gospodarze == gospodarze
 
 
+def test_gospodarz_o_dwóch_głowach_wchodzi_do_wyboru_raz():
+    """Wieloznaczność wewnątrz gospodarza nie jest drugim miejscem przyłączenia.
+
+    `małej litery` wychodzi też kształtem z głową `małej`, a werdykt wypisuje tę
+    wieloznaczność osobnym wierszem. Nazwa brana z pierwszej klasy z brzegu
+    robiła z niej to drugie: jeden gospodarz wchodził tu pod dwiema nazwami.
+    """
+    found = verdict("Odrzucenie nie widzi małej litery na początku zdania.")
+    [przyłączenie] = found.result.przyłączenia
+    assert przyłączenie.gospodarze == ("widzi", "litery")
+
+
 def test_werdykt_nazywa_konstytuent_gdy_dwa_czytania_mają_jedno_streszczenie():
     """Dwa czytania o jednym napisie mają zostać nazwane, a nie zostać samą liczbą.
 

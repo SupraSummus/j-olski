@@ -4,8 +4,8 @@ Czytanie pierwsze buduje najtańsze drzewo każdej pary, a wystarczyłby jego ko
 `_iloczyn` w `olski/parse/las.py` żąda od każdego strumienia córek pierwszego drzewa,
 zanim wyda pierwszą kombinację, więc porządek po sumie schodzi po całym lesie
 i składa tam węzły, po które nikt potem nie sięgnie.
-Kosztu najtańszego drzewa nie trzeba przy tym budować: liczy się go od dołu,
-jedną wartością na parę, tak jak dziś liczy się koszt morfologii.
+Kosztu najtańszego drzewa nie trzeba przy tym budować:
+liczy się go od dołu, jedną wartością na parę.
 Ruchem jest wskaźnik w kolejce wyceniany tym kosztem,
 a drzewo składane dopiero przy zdjęciu z kolejki.
 Nad prozą tego repozytorium czas przebiegu tego nie widać
@@ -13,33 +13,6 @@ Nad prozą tego repozytorium czas przebiegu tego nie widać
 więc pomiarem, który to odwraca, jest zdanie o lesie na dziesiątki tysięcy czytań
 ([`docs/ustawy.md`](../docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem)),
 a nie proza.
-
-Ciała jednej pozycji porządkuje koszt, choć rozstrzyga on już w sumie czytania.
-`wyprowadzenia` w `olski/parse/las.py` sortuje ciała kosztem, a pod nim cięciem,
-i kolejność ta rozstrzyga dziś sam remis sumy
-([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
-bo pozycję policzoną gdziekolwiek pod korzeniem suma i tak bierze.
-Ruchem jest cięcie jako jedyny klucz tego sortowania.
-Zdejmuje ono naraz `koszt_morfologii`, `_koszty` i strażnika cyklu `_liczone`
-w tym samym module, a z nimi zejście po całym poddrzewie,
-którym `wyprowadzenia` płaci dziś za wycenę jednej pozycji.
-Zejście jest przy tym spamiętane i czasu nie waży:
-zdjęte kupuje dwudziestą część opkodów, a zegar milczy.
-Przeszkodą jest pomiar: remis rozstrzygany dziś kosztem ciała
-wpuszcza przodem ciało tańsze, a po tej zmianie wpuści to o późniejszym cięciu,
-i nie wiadomo, ile takich remisów pada.
-Do przeczytania jest przedtem `harness/skala.py` nad Składnicą,
-bo pomiar, którym wybrano sumę, brał tamtą kolejność za rozstrzygającą remisy.
-
-Przedstawiciel pozycji może stać w klasie, której żadne czytanie nie bierze.
-`_przedstawiciel` w `olski/parse/las.py` bierze pierwsze drzewo pozycji bez odsiewu po
-klasach żywych, a `_kształty` obok niego ten odsiew ma, więc nazwa konstytuenta
-bierze się czasem z kształtu, którego werdykt nie liczy.
-Rozpiętość jest w obu ta sama, więc formy różni w nich tylko podział na segmenty.
-Ruchem jest `next(self._kształty(pozycja))` w miejsce tamtej pętli, a przeszkodą
-pozycja bez ani jednej klasy żywej: dziś oddaje nazwę, a wtedy podniosłaby wyjątek.
-Do przeczytania jest, czy nad Składnicą taka pozycja pada i czy pada z innymi formami,
-bo od tego zależy, czy to usterka, czy sam porządek w kodzie.
 
 Wykaz morfologii sumuje odczytania po ciałach jednej klasy, a klasy sąsiedniej nie widzi.
 `Las._wsparte_kształtu` w `olski/parse/las.py` idzie po produkcjach spakowanych
