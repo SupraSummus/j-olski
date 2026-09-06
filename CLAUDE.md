@@ -907,6 +907,10 @@ bo dopisanie bywa naprawą tego zdania, a bywa unieważnieniem tamtego akapitu.
 Zmiany ceny ten wydruk nie widzi, bo cena nie rusza ani werdyktu, ani liczby czytań.
 Kolejność porównuje się przez to wydrukiem `--readings` nad całą prozą repozytorium,
 znów między dwoma drzewami roboczymi, a zdanie przestawione czyta się ręką.
+Prozę bierze się w obu przebiegach z drzewa zmienionego, podając jego ścieżki
+drugiemu wprost: proza drzewa bazowego jest inna, więc diff pokazuje wtedy
+własne zdania sesji, a nie kolejność, i przesuwa się w nim każdy wiersz,
+bo wydruk odmierza wcięcie długością ścieżki.
 
 **Plik, który czyta sam kod, powstaje przebiegiem i nie poprawia się go ręką.**
 `olski/leksykon.txt` jest leksykonem walencyjnym,

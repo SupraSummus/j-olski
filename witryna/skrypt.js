@@ -106,17 +106,22 @@ function podpisOdczytania(numer) {
 //  Rachunek mówi, czym odczytanie jest nacechowane i ile to kosztuje.
 //  Odczytanie, które nie płaci nic, mówi to słowem. Wiersz pusty pod jednym
 //  czytaniem, a wypełniony pod drugim, czytałby się jak brak danych.
+//  Suma zamyka rachunek, bo to ona stawia czytanie tam, gdzie ono stoi. Zamyka
+//  każdy, także ten o jednej pozycji, gdzie powtarza jej liczbę: czyta się ją
+//  między odczytaniami, więc suma stojąca pod jednym rachunkiem, a pod drugim
+//  nie, kazałaby najpierw zgadnąć regułę. Tak samo wypisuje ją komenda.
 function podpisRachunku(rachunek) {
-  if (!rachunek.length) return "bez nacechowania";
-  return rachunek
-    .map((wpis) => `${wpis.pozycja}${wpis.ile > 1 ? ` ×${wpis.ile}` : ""}: ${wpis.koszt}`)
-    .join(" · ");
+  if (!rachunek.pozycje.length) return "bez nacechowania";
+  const pozycje = rachunek.pozycje.map(
+    (wpis) => `${wpis.pozycja}${wpis.ile > 1 ? ` ×${wpis.ile}` : ""}: ${wpis.koszt}`,
+  );
+  return [...pozycje, `razem: ${rachunek.suma}`].join(" · ");
 }
 
 //  Rachunki albo żadne: zdanie, którego ani jedno czytanie nic nie płaci, dostawałoby
 //  pod każdym z nich ten sam wiersz bez treści.
 function rachunkiCzytań(dane) {
-  return dane.koszty.some((rachunek) => rachunek.length) ? dane.koszty : null;
+  return dane.koszty.some((rachunek) => rachunek.pozycje.length) ? dane.koszty : null;
 }
 
 function wierszMorfologii(wiersz) {

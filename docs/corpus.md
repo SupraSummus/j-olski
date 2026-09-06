@@ -815,13 +815,15 @@ czytanie pierwsze, czyli to, które czytelnik widzi na górze wydruku,
 a reszta stoi niżej.
 Jedno jedyne wypada poza wypisywane czytania i wypada głęboko:
 stoi kilkakrotnie dalej niż granica wydruku, więc na wydruku go nie ma.
-Numer jest zarazem ceną, bo wyliczanie buduje tyle drzew, ile on wynosi:
+Numer jest zarazem ceną, bo wyliczanie przystaje na tym czytaniu:
 rusza dopiero po odpowiedzi lasu, że takie czytanie tam jest,
-i przystaje na pierwszym takim drzewie.
+i buduje tyle drzew, ile numer, a pod nimi najtańsze drzewo każdej pary lasu,
+której porządek po sumie musi dotknąć
+(`czytania` w `olski/parse/las.py`).
 Zdanie z wiersza `lost` nie buduje więc ani jednego drzewa,
 a granica z `MAX_READINGS` nie jest wyliczaniu potrzebna.
-Numer nie rośnie przy tym z wielkością lasu:
-złote czytanie największego z tych lasów jest w nim pierwsze.
+Zdanie o najgłębszym numerze jest przy tym tym samym, które ma las największy,
+i jest zarazem tym jedynym zza granicy wydruku.
 
 Drzewo wzorcowe obsadza zaimkiem `który` podmiot albo dopełnienie zdania względnego,
 a olski wyprowadza te zdania dokładnie tak, jak czyta je bank drzew,

@@ -9,6 +9,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 
+from olski import cennik, rejestr
 from olski.morph import Reading, Segment
 
 
@@ -69,6 +70,24 @@ class Leaf:
     @property
     def span(self) -> tuple[int, int]:
         return (self.segment.start, self.segment.end)
+
+    @property
+    def koszty(self) -> tuple[str, ...]:
+        """Pozycje cennika, którymi płaci ta forma: najtańsze z jej odczytań.
+
+        Najtańsze, bo forma, którą ten kształt bierze i w rejestrze, i poza nim,
+        nie płaci nic (``olski/rejestr.py``).
+
+        Nazwa jest ta sama, co u węzła (:attr:`Node.koszty`), bo pytanie jest
+        jedno: ile płaci to czytanie. Odpowiedź czyta rachunek pod wydrukiem
+        i kolejność czytań w lesie, a dwa odczyty tej reguły rozeszłyby się
+        po cichu.
+        """
+        return min(
+            (rejestr.pozycje(odczytanie.kwalifikatory) for odczytanie in self.odczytania),
+            key=cennik.suma,
+            default=(),
+        )
 
     def signature(self):
         """Liść jest swoją rozpiętością i niczym więcej.

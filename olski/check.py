@@ -19,7 +19,7 @@ from collections.abc import Callable, Iterator, Sequence
 from pathlib import Path
 from typing import TypeVar
 
-from olski.cennik import cena
+from olski.cennik import cena, razem
 from olski.chwyty import chwyty
 from olski.odniesienia import Odniesienie
 from olski.rozstrzyganie import Rozstrzygnięcie, domyślni, rozstrzygnij
@@ -145,6 +145,17 @@ def _wiersz_pozycji(wpis: tuple[str, int], wcięcie: str) -> str:
     return f"{wcięcie}{nazwa}{razy}: {cena(nazwa) * ile}"
 
 
+def _wiersz_sumy(tabela: Sequence[tuple[str, int]], wcięcie: str) -> str:
+    """Suma rachunku, czyli liczba, po której to odczytanie stoi tam, gdzie stoi.
+
+    Zamyka każdy wypisany rachunek, także ten o jednej pozycji, gdzie powtarza
+    jej liczbę: czyta się ją między odczytaniami, więc suma stojąca pod jednym
+    rachunkiem, a pod drugim nie, kazałaby najpierw zgadnąć regułę.
+    Strona wypisuje ją pod tą samą (``witryna/skrypt.js``).
+    """
+    return f"{wcięcie}razem: {razem(tabela)}"
+
+
 def _wiersz_osoby(wiersz: Żądanie) -> str:
     """Żądanie osoby, którego wypełnienie nie spełnia, jako wiersz wydruku.
 
@@ -165,7 +176,11 @@ def _wiersz_osoby(wiersz: Żądanie) -> str:
     )
 
 
-def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> Iterator[str]:
+def _wykaz(
+    tabele: Sequence[Sequence[T]],
+    wiersz: Callable[[T, str], str],
+    stopka: Callable[[Sequence[T], str], str] | None = None,
+) -> Iterator[str]:
     """Wykaz na odczytanie, numerowany tak, jak ``--readings`` numeruje odczytania.
 
     Każda flaga, która ten wykaz drukuje, bierze tę samą listę streszczeń
@@ -176,15 +191,21 @@ def _wykaz(tabele: Sequence[Sequence[T]], wiersz: Callable[[T, str], str]) -> It
     (``Verdict.morfologia`` mówi, co taki wpis niesie).
     Wpis pusty nie dostaje nawet numeru, bo nagłówek bez wierszy pod sobą
     zapowiada wykaz, którego nie ma.
+
+    Stopka mówi o całym wpisie, a nie o jednym wierszu, i ma ją jeden wykaz:
+    rachunek, bo pod pozycjami stoi ich suma (:func:`_wiersz_sumy`).
     """
     numerowane = len(tabele) > 1
     for numer, tabela in enumerate(tabele, start=1):
         if not tabela:
             continue
+        wcięcie = "  " if numerowane else ""
         if numerowane:
             yield f"odczytanie {numer}:"
         for wpis in tabela:
-            yield wiersz(wpis, "  " if numerowane else "")
+            yield wiersz(wpis, wcięcie)
+        if stopka is not None:
+            yield stopka(tabela, wcięcie)
 
 
 def _dalsze(verdict: Verdict) -> Iterator[str]:
@@ -240,7 +261,7 @@ def _wiersze(zdanie: Zdanie, args: argparse.Namespace, świadkowie) -> Iterator[
         yield from _czytania(verdict)
     #  Rachunek zaraz za czytaniami, bo mówi o kolejności, w jakiej one stoją.
     if args.koszt:
-        yield from _wykaz(verdict.rachunki, _wiersz_pozycji)
+        yield from _wykaz(verdict.rachunki, _wiersz_pozycji, _wiersz_sumy)
     #  Morfologię wypisujemy za czytaniami, bo jest tym, z czego wyszły.
     if args.morfologia:
         yield from _wykaz(verdict.morfologia, _wiersz_formy)

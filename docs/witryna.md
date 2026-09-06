@@ -213,13 +213,16 @@ curl -s localhost:8000/werdykt -H 'Content-Type: application/json' \
     ]
    ],
    "koszty": [
-    [
-     {
-      "pozycja": "opuszczony podmiot",
-      "ile": 1,
-      "koszt": 200
-     }
-    ]
+    {
+     "pozycje": [
+      {
+       "pozycja": "opuszczony podmiot",
+       "ile": 1,
+       "koszt": 200
+      }
+     ],
+     "suma": 200
+    }
    ],
    "liczba_czytań": 1,
    "urwane": false,
@@ -286,13 +289,14 @@ Strona zwija to do podpisu i rozwija jednym kliknięciem,
 czego wydruk w terminalu nie umie.
 Pod `koszty` idzie wpis na każde streszczenie z `czytania`,
 a w nim pozycje cennika, którymi to czytanie płaci,
-każda wraz z liczbą wystąpień i tym, ile te wystąpienia kosztują.
-Liczy tę cenę serwer, bo cennik jest w `olski/cennik.py`,
-a strona licząca ją sama miałaby drugą kopię tabeli cen.
-Sumy na czytanie odpowiedź nie podaje, bo kolejność czytań rozstrzyga koszt
-czytany od góry drzewa, a nie suma rachunku
+każda wraz z liczbą wystąpień i tym, ile te wystąpienia kosztują,
+oraz ich suma.
+Suma jest tam dlatego, że czytania idą uporządkowane nią
 ([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
-więc suma czytałaby się na miejsce w kolejce, którym nie jest.
+więc same pozycje mówiłyby, za co czytanie płaci,
+i przemilczały, czemu stoi tam, gdzie stoi.
+Liczy jedno i drugie serwer, bo cennik jest w `olski/cennik.py`,
+a strona licząca to sama miałaby drugą kopię tabeli cen.
 Granicę znaków oddaje sama odpowiedź, bo licznik pod polem liczy przy niej.
 Granica wpisana w skrypcie byłaby drugą kopią liczby z serwera.
 

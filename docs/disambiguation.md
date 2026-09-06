@@ -128,12 +128,21 @@ i to jest ta część pytania, o której najłatwiej zapomnieć.
 ### Kolejność czytań ustala koszt i późne domknięcie
 
 Kolejność, którą mierzy sekcja wyżej, jest deklaracją.
-Las porządkuje ciała jednej pozycji trzema rzeczami po kolei
-(`wyprowadzenia` w `olski/parse/las.py`):
-kosztem, potem miejscem cięcia, a na końcu etykietą córki.
-Werdyktu żadna z nich nie rusza — czytań jest tyle samo i mówią to samo —
-więc rozstrzygają one o tym, co czytelnik widzi u góry wydruku
+Czytania idą od najtańszego, a kosztem czytania jest suma cennika po całym drzewie
+(`czytania` w `olski/parse/las.py`).
+Remis rozstrzyga kolejność ciał jednej pozycji, a pod nią kolejność kombinacji córek.
+Ciała porządkuje las trzema rzeczami po kolei (`wyprowadzenia` w tym samym module):
+kosztem ciała, potem miejscem cięcia, a na końcu etykietą córki.
+
+Czytań to nie rusza — jest ich tyle samo i mówią to samo —
+więc kolejność rozstrzyga o tym, co czytelnik widzi u góry wydruku
 i co mieści się w czytaniach wypisywanych przed granicą wyliczania.
+Werdyktu rusza jedno: konstytuent nazywa się głową swojego pierwszego drzewa
+(`_przedstawiciel` w `olski/parse/las.py`),
+więc przyłączenie, którego dwaj gospodarze nosili jedną nazwę, dostaje po
+przestawieniu dwie i wychodzi na wierzch jako wybór.
+Nad prozą tego repozytorium pada tak jedno zdanie na blisko trzy tysiące,
+a nazwany w nim wybór czytania naprawdę zostawiają.
 
 Koszt jest liczbą całkowitą i mówią o nim dwie rzeczy naraz:
 produkcja, którą ciało złożono, oraz morfologia, na której ono stoi.
@@ -182,14 +191,11 @@ wywód tego podziału wraz z ceną trzyma
 [formy-i-leksemy.md](formy-i-leksemy.md#kwalifikator-mówi-o-formie-dwie-rzeczy-i-tylko-jedna-jest-rejestrem),
 a tę samą listę czyta synteza, która formę odesłaną zdejmuje zamiast liczyć ją kosztem.
 
-Koszt morfologii idzie w górę, a koszt produkcji zostaje przy swoim ciele,
-i jest to ten sam warunek czytany dwa razy:
-koszt rozstrzyga między ciałami jednej pozycji,
-więc zostaje tam, gdzie konkurencja jest, a idzie wyżej, gdy jej nie ma.
-Ciała córki rozstrzygnęła sama córka,
-a czytania formy nie rozstrzyga nikt, bo liść ciał nie ma:
-dwa czytania jednej formy są jednym liściem (`Pozycja` w `olski/parse/czytanie.py`).
-Koszt morfologii liczony na miejscu nie ruszyłby przez to ani jednego zdania.
+Sumie obojętne jest, gdzie pod drzewem pozycja stoi,
+więc koszt morfologii i koszt produkcji różni tylko to, co robią w remisie:
+morfologia idzie w górę, aż trafi na ciała, które się nią różnią,
+a produkcja zostaje przy swoim ciele,
+bo ciała córki rozstrzygnęła już sama córka.
 
 Cięcie rozstrzyga ciała jednego kosztu i idzie rozpiętością malejąco,
 czyli przepuszcza przodem to czytanie, w którym wyrażenie dołączyło
@@ -212,11 +218,15 @@ Pozycja podniesiona ponad dzisiejszą cenę nie rusza ani jednego zdania;
 rusza dopiero zejście do zera i przejście na wartość ujemną.
 Ciała jednej pozycji lasu różnią się zwykle jedną pozycją cennika,
 więc wysokość nie ma tam czego rozstrzygnąć.
+Zmierzono to porządkiem, który suma zastąpiła, i nad morfologią złotą,
+gdzie suma bierze na zdaniu zwykle dwie wartości.
+Pod żywą bierze ich kilka, więc wysokość ma tam czym rozstrzygać;
+czy rozstrzyga, nie jest zmierzone.
 
 Zostały mimo to i jest to decyzja, a nie odczyt.
 Rozstrzygają zdania, o których ten korpus nie ma zdania:
-bez kosztu szyku `Janek lubi piwo.`, a bez kosztu wysunięcia `On jest wolny.`
-wychodzą pierwszym czytaniem odwróconym,
+bez kosztu szyku wychodzi pierwszym czytaniem odwróconym `Janek lubi piwo.`,
+a bez kosztu wysunięcia `Nowe jest to, czemu ta wartość przeczy.`,
 bo ciała o córkach tej samej rozpiętości rozstrzyga wtedy alfabet etykiet.
 Bank drzew ma oba szyki i koszt wygrywa nad nim tyle zdań, ile traci,
 więc pomiar milczy i rozstrzyga sama deklaracja:
@@ -242,14 +252,13 @@ i nie została z tego powodu: nacechowywała jedną z czterech rodzin ciał,
 czyli tę, w której konkurencja zwykle pada,
 więc trafność brała z dopasowania do korpusu, a nie z deklaracji o polszczyźnie.
 
-**Suma kosztów całego drzewa zmierzona jest wobec dzisiejszej leksykografii
-i pod morfologią żywą wypada od niej lepiej.**
-Kolejność czytań jest leksykograficzna, bo drzewa wychodzą wyliczaniem w głąb,
-a ciała porządkuje koszt pozycji:
-koszt przy korzeniu waży więcej niż każdy koszt pod nim, choćby ich było kilka.
-Porządek po sumie, z dzisiejszą kolejnością rozstrzygającą remisy,
-wygrywa pod morfologią żywą kilkanaście zdań na dwa i pół tysiąca,
-a pod złotą tyleż traci na tysiąc kilkaset.
+**Czytania porządkuje suma po całym drzewie, bo zmierzono ją wobec leksykografii,
+którą zastąpiła, i pod morfologią żywą wypada od niej lepiej.**
+Leksykograficzna była tamta kolejność dlatego, że drzewa wychodziły wyliczaniem
+w głąb, a ciała porządkuje koszt pozycji:
+koszt przy korzeniu ważył więcej niż każdy koszt pod nim, choćby ich było kilka.
+Porządek po sumie wygrywa pod morfologią żywą kilkadziesiąt zdań
+na dwa i pół tysiąca, a pod złotą wygrywa tyle, ile traci.
 Zyskuje tam, gdzie czytanie płaci kilkoma pozycjami naraz:
 pod złotą suma bierze na zdaniu zwykle dwie wartości, a pod żywą kilka.
 Rozstrzyga przez to morfologia żywa, bo rejestrem olskiego jest tekst,
@@ -258,6 +267,33 @@ a złota mówi o samej gramatyce, wyjętej spod wieloznaczności analizatora
 ([corpus.md](corpus.md#what-the-corpus-contains)).
 Miara płaska zbudowana z odległości przyłączenia traci wielokrotnie więcej,
 i to w obie strony, którymi ją mierzono nad morfologią złotą.
+
+Co suma kupuje, widać nad prozą tego repozytorium na jednej klasie zdań.
+Czytanie pierwsze zmienia się w stu kilkudziesięciu zdaniach,
+w przeszło połowie z nich podmiot przestaje być opuszczony,
+a nie traci go ani jedno:
+`Rozstrzyga o tym brak liczby i rodzaju.` wychodziło z nazwą braku w dopełnieniu,
+a wychodzi z nią w podmiocie.
+Płaci za to garść zdań, w których podmiot autor naprawdę opuścił:
+tam suma wyjmuje formę z wyrażenia przyimkowego i stawia ją w podmiocie.
+
+Remis sumy rozstrzyga kolejność, w jakiej wychodzą kombinacje córek
+(`_iloczyn` w `olski/parse/las.py`), a nie kolejność dawna, i tak jest lepiej.
+Wariant z remisem po dawnemu — ten, którym sumę mierzono, zanim weszła —
+wygrywa pod morfologią żywą o połowę mniej,
+a pod złotą traci kilkanaście zdań zamiast wychodzić na zero.
+Remisów jest przy tym więcej niż rozstrzygnięć:
+suma nie rozstrzyga w przeszło połowie zdań wieloznacznych,
+i tak pod jedną morfologią, i pod drugą (`harness/skala.py`).
+
+Suma jest liczbą, którą czytelnik widzi: wypisuje ją pod rachunkiem `--koszt`
+i oddaje odpowiedź witryny ([witryna.md](witryna.md#co-witryna-pokazuje)).
+Rachunek bez niej mówił, za co czytanie płaci, i przemilczał, czemu stoi tam,
+gdzie stoi.
+Płaci za nią wyliczanie: minimum po sumie żąda kolejki nad lasem zamiast
+przejścia w głąb, więc czytanie pierwsze kosztuje najtańsze drzewo każdej pary,
+do której las schodzi, a nie jedną gałąź w dół
+(`czytania` w `olski/parse/las.py`).
 
 **Koszt morfologii wycenia ten sam pomiar, a widzi go tylko morfologia żywa.**
 Odczytanie wzięte z drzewa wzorcowego kwalifikatora nie niesie,
@@ -287,13 +323,13 @@ Kierunku sonda nie podaje nad tą prozą, bo drzewa wzorcowego ona nie niesie �
 wypisuje oba czytania pierwsze, a czyta je człowiek.
 
 Pozycje ważą nad tą prozą nierówno.
-Przestawienie rusza przeszło dwieście zdań wieloznacznych,
-opuszczony podmiot blisko sto, okolicznik kilkadziesiąt,
-czasownik przed podmiotem kilkanaście, wysunięty orzecznik dwa,
-a wysunięte dopełnienie bezokolicznika ani jednego.
+Opuszczony podmiot rusza przeszło czterysta zdań wieloznacznych,
+przestawienie niewiele mniej, okolicznik przeszło sto,
+czasownik przed podmiotem kilkadziesiąt, wysunięty orzecznik kilka,
+a wysunięte dopełnienie bezokolicznika jedno.
 Ostatnia została mimo to, bo tamtego szyku żąda bank drzew
 ([orzeczenie.md](konstrukcje-gramatyczne/orzeczenie.md#dopełnienie-bezokolicznika-wysuwa-się-przed-formę-osobową-która-go-bierze)),
-a zero nad jednym rejestrem nie jest przeciw niemu dowodem.
+a jedno zdanie nad jednym rejestrem nie jest za nim dowodem ani przeciw.
 
 **Tą sondą wyceniono opuszczenie podmiotu w szyku, w którym za czasownikiem coś stoi**,
 i wpuszczono cenę, której to ciało wcześniej nie płaciło
@@ -491,27 +527,22 @@ To zastosowanie jest przyjęte i opisuje je
 ## Miara porównywalna nad czytaniami
 
 Sekcja wyżej odrzuca ranking wydający odpowiedź i tego nie odwraca.
-Przyjęte jest to, o co tamta zahacza ostatnim akapitem, i w kodzie jeszcze nie stoi:
+Przyjęte jest to, o co tamta zahacza ostatnim akapitem:
 czytanie ma dostać liczbę, którą wolno porównać z liczbą czytania obok,
 a werdykt zdania wieloznacznego ma zostać wieloznaczny.
 Zdanie o dwóch czytaniach wychodzi dalej z obydwoma i autor dalej wybiera sam
 ([README](../README.md)).
 
 Liczba ma mówić nie tylko, które czytanie jest tańsze, ale i o ile.
-Dzisiejsza kolejność mówi samo pierwsze, bo jest leksykograficzna
-i na żadnej skali nie leży
+Sumą rachunku stoi w kodzie połowa pierwsza:
+czytania idą od najtańszej sumy, a wydruk pokazuje ją pod rachunkiem
 ([wyżej](#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Bez drugiego nie odróżni się czytania o wiele zwyklejszego od sąsiada
+Drugiej nie ma, bo wysokość ceny nie jest zmierzona i suma na żadnej skali nie leży:
+nie odróżni się przez to czytania o wiele zwyklejszego od sąsiada
 od takiego, które wyprzedza go o włos,
 a próg między jednym a drugim jest decyzją, którą stawia się dopiero nad wielkością.
-
-Rachunek czytania jest zalążkiem tej liczby i po dopisaniu ceny okolicznika
-rozróżnia większość zdań wieloznacznych (tamże).
-Wychodzą z niego nazwy pozycji, a nie ich suma, i suma wyjść nie może,
-póki kolejność jej nie czyta: dwie liczby w jednym wydruku, z których jedna
-przeczy drugiej, są gorsze od jednej
-(`Verdict.rachunki` w `olski/werdykt/zdanie.py`).
-Ile kosztuje przestawienie kolejności na sumę, jest zmierzone, więc cena tego kroku jest znana.
+Rozstęp między najtańszą sumą a następną wypisuje `harness/skala.py`,
+więc pytanie o tę wielkość ma już przyrząd.
 
 Dowód mocniejszy od ceny niosą świadkowie warstwy rozstrzygającej,
 bo o przyłączeniu mówią wprost i mają zmierzoną częstość pomyłek
