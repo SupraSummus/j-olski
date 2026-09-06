@@ -212,16 +212,18 @@ a wyjątkiem jest sam znak kosztu okolicznika:
 czytanie z okolicznikiem postawione przed czytaniem bez niego
 traci prawie tyle, co odwrócone cięcie.
 
-**Cena niesie sam znak, a wysokości nie niesie**, i mówi to ta sama sonda
-zadana wariantami cennika (`harness/skala.py`).
-Pozycja podniesiona ponad dzisiejszą cenę nie rusza ani jednego zdania;
-rusza dopiero zejście do zera i przejście na wartość ujemną.
-Ciała jednej pozycji lasu różnią się zwykle jedną pozycją cennika,
-więc wysokość nie ma tam czego rozstrzygnąć.
-Zmierzono to porządkiem, który suma zastąpiła, i nad morfologią złotą,
-gdzie suma bierze na zdaniu zwykle dwie wartości.
-Pod żywą bierze ich kilka, więc wysokość ma tam czym rozstrzygać;
-czy rozstrzyga, nie jest zmierzone.
+**Cena niesie porządek pozycji, a nie ich wysokość**, i mówi to ta sama sonda
+zadana wariantami cennika (`harness/skala.py`), pod obiema morfologiami.
+Stawka przeceniona w granicach swojego miejsca w tym porządku
+nie rusza pod morfologią złotą ani jednego zdania,
+a pod żywą rusza garść zdań na dwa i pół tysiąca, i to w obie strony.
+Wysokość waży tyle, bo pod złotą czytanie płaci zwykle jedną pozycją,
+a suma ma czym rozstrzygać dopiero tam, gdzie płaci kilkoma.
+Pozycja podniesiona ponad wszystkie pozostałe traci pod żywą kilkanaście zdań,
+a `czasownik przed podmiotem` podniesiony ponad `opuszczony podmiot` kilkadziesiąt,
+bo odwraca, którą z dwóch nacechowanych rzeczy gramatyka przepuszcza przodem.
+Pod morfologią złotą kilka zdań traci ten jeden wariant,
+a pozostałe nie ruszają ani jednego.
 
 Zostały mimo to i jest to decyzja, a nie odczyt.
 Rozstrzygają zdania, o których ten korpus nie ma zdania:
@@ -324,6 +326,10 @@ a kilkaset zdań wypada wtedy z mianownika,
 bo olski dzieli je na segmenty inaczej niż bank drzew na terminale.
 Nad tym, co zostaje, pozycja ta wypuszcza złote czytanie na pierwsze miejsce
 w kilkunastu zdaniach na dwa i pół tysiąca i żadnego werdyktu nie rusza.
+Wyceniona wyżej niż jedna nacechowana rzecz zdania kupuje jeszcze dwa zdania
+i więcej nie kupuje, choćby ją podnieść dziesięciokrotnie.
+Została przy stawce, którą jej zadeklarowano,
+bo dwa zdania na dwa i pół tysiąca deklaracji nie odwracają.
 Dwa przebiegi nie mierzą przy tym jednego zbioru zdań:
 pod żywą dochodzą te, które wieloznaczne robią się dopiero z Morfeuszem,
 a wypadają te dzielone inaczej niż w drzewie.
@@ -556,12 +562,20 @@ Liczba ma mówić nie tylko, które czytanie jest tańsze, ale i o ile.
 Sumą rachunku stoi w kodzie połowa pierwsza:
 czytania idą od najtańszej sumy, a wydruk pokazuje ją pod rachunkiem
 ([wyżej](#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Drugiej nie ma, bo wysokość ceny nie jest zmierzona i suma na żadnej skali nie leży:
-nie odróżni się przez to czytania o wiele zwyklejszego od sąsiada
-od takiego, które wyprzedza go o włos,
-a próg między jednym a drugim jest decyzją, którą stawia się dopiero nad wielkością.
-Rozstęp między najtańszą sumą a następną wypisuje `harness/skala.py`,
-więc pytanie o tę wielkość ma już przyrząd.
+Połowa druga stoi w pomiarze i nie stoi w kodzie.
+Wielkością jest w niej rozstęp, czyli o ile najtańsza suma jest tańsza od następnej,
+a nie sama suma: przecena stawki w granicach jej miejsca w cenniku
+nie kupuje nad bankiem drzew nic (tamże).
+Rozstęp kupuje. Pod morfologią żywą złote czytanie jest najtańszym
+w sześciu zdaniach na dziesięć przy rozstępie jednej jednostki cennika,
+w przeszło ośmiu przy dwóch, a przy trzech i wyżej w każdym takim zdaniu,
+i takich zdań jest garść.
+Kierunek ten przechodzi przez warianty cennika, więc mówi o rozstępie,
+a nie o dzisiejszych stawkach.
+Pod morfologią złotą rozstęp jest prawie zawsze jednostkowy i nie mówi nic.
+Wypisuje te liczby `harness/skala.py`.
+Nie ma decyzji, co werdykt miałby z progiem nad rozstępem zrobić,
+bo rozstępu nie czyta dziś wcale.
 
 Dowód mocniejszy od ceny niosą świadkowie warstwy rozstrzygającej,
 bo o przyłączeniu mówią wprost i mają zmierzoną częstość pomyłek

@@ -52,9 +52,9 @@ ZDANIA = [
 ]
 
 
-def _czytania(grammar: Grammar) -> list[list[str]]:
+def _czytania(grammar: Grammar, zdania: list[str] = ZDANIA) -> list[list[str]]:
     """Czytania każdego z tych zdań, w kolejności, w jakiej widzi je czytelnik."""
-    werdykty = check("\n\n".join(ZDANIA), grammar)
+    werdykty = check("\n\n".join(zdania), grammar)
     assert all(werdykt.readings for werdykt in werdykty), "zdanie bez czytań nic tu nie mierzy"
     return [[str(streszczenie) for streszczenie in werdykt.readings] for werdykt in werdykty]
 
@@ -73,6 +73,34 @@ def _potasowana(seed: int) -> Grammar:
 @pytest.mark.parametrize("seed", [1, 2, 3])
 def test_kolejność_czytań_nie_zależy_od_kolejności_dopisania_produkcji(seed: int):
     assert _czytania(_potasowana(seed)) == _czytania(build())
+
+
+def _czytania_pod_mnożnikiem(mnożnik: int, zdania: list[str]) -> list[list[str]]:
+    """Czytania tych zdań pod cennikiem pomnożonym w całości przez tę stałą.
+
+    Przecena obejmuje wyliczanie, a nie samo budowanie gramatyki, bo cenę czyta
+    i produkcja przy powstaniu, i liść przy wyliczaniu drzewa.
+    """
+    stare = dict(CENNIK)
+    CENNIK.update({nazwa: cena * mnożnik for nazwa, cena in stare.items()})
+    try:
+        return _czytania(build(), zdania)
+    finally:
+        CENNIK.clear()
+        CENNIK.update(stare)
+
+
+def test_kolejność_czytań_nie_zależy_od_skali_cennika():
+    """Cennik pomnożony w całości przez stałą nie przestawia ani jednego czytania.
+
+    Suma mnoży się wtedy tym samym, więc porządek wychodzi z arytmetyki:
+    pyta się tu o to, czy któraś droga kosztu nie zestawia sumy z liczbą spoza
+    cennika. Na tej niezmienności stoi wariant, którym sprawdza się sondę skali
+    (`harness/skala.py`), więc bez niej wariant ten sprawdzałby ją pozornie.
+    Zdanie z formą spoza rejestru dokłada drugą rodzinę kosztu, bo tę płaci liść.
+    """
+    zdania = [*ZDANIA, "Wszystko jest podmiotem."]
+    assert _czytania_pod_mnożnikiem(3, zdania) == _czytania(build(), zdania)
 
 
 def _kolejność_czytań(

@@ -13,8 +13,9 @@ Cena jest deklaracją o polszczyźnie, a nie częstością wziętą z korpusu:
 mówi, że jedno czytanie tego samego napisu jest zwyklejsze od drugiego.
 Czytania porządkuje suma pozycji po całym drzewie (:func:`razem`),
 więc pozycja policzona przy korzeniu waży tyle samo, co pozycja spod niego.
-Zmierzony jest sam znak ceny, a wysokość nie,
-i zmierzono to porządkiem, który suma zastąpiła.
+Rozstrzyga przy tym porządek, w jakim pozycje stoją, a nie wysokość stawek,
+i mówi to pomiar wariantami tej tabeli
+(``docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie``).
 
 Obie rodziny pozycji płaci się na miejscu:
 pozycję produkcji ciało, które ją nosi,
