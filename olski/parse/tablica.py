@@ -76,6 +76,10 @@ class _Tablica:
         #: Bez tego produkcja o pustym ciele przepada dla stanu dopisanego po niej,
         #: bo ten nie ma już czego dokończyć.
         self._puste: dict[int, set[str]] = {}
+        #: Konstytuenty, o które posunięto już czekające na nie stany (:meth:`_zamknij`).
+        #: Nie to samo co domknięte produkcje: tych jest pod jednym konstytuentem kilka,
+        #: i czyta je :meth:`zamknięte`.
+        self._posunięte: set[Pozycja] = set()
         self._zaczynane = grammar.zaczynane()
         #: Pozycja grafu → terminal → krawędzie, które on w niej bierze.
         self._brane_memo: dict[int, dict[Word, tuple[Segment, ...]]] = {}
@@ -273,11 +277,30 @@ class _Tablica:
         return gotowe
 
     def _zamknij(self, k: int, stan: _Stan, kolejka: list[_Stan]) -> None:
+        """Posuń o ten konstytuent stany, które na niego czekały; raz na konstytuent.
+
+        Domknięć jest tyle, ile produkcji ten symbol na tej rozpiętości złożyło,
+        a konstytuent wychodzi z nich jeden, bo :class:`Pozycja` produkcji nie widzi:
+        drugie domknięcie posuwa te same stany o tę samą córkę i dokłada wpis,
+        który już stoi. Bez tego warunku schodzi tędy przeszło trzecia część
+        wszystkich wpisów do tablicy, bo produkcji ma symbol nawet setki.
+        Czytań to nie zabiera: stan domknięty stoi w :attr:`stany` niezależnie
+        od tego przejścia, a wyprowadzenia czytają właśnie stany (:meth:`zamknięte`).
+
+        Lista oczekujących po pierwszym domknięciu nie rośnie:
+        pisze do niej :meth:`_przewiduj` w pozycji ``źródło``,
+        a ta jest przy ``k`` dalszym niż ``źródło`` przejechana do końca.
+        Przy ``k`` równym ``źródło`` rośnie, a stan dopisany po domknięciu
+        posuwa sobie samo :meth:`_przewiduj` przez :attr:`_puste`.
+        """
         production, _kropka, źródło = stan
         symbol = production.head
         if źródło == k:
             self._puste.setdefault(k, set()).add(symbol)
         pozycja = Pozycja(symbol, (źródło, k))
+        if pozycja in self._posunięte:
+            return
+        self._posunięte.add(pozycja)
         self._posuń(k, list(self._oczekujące[źródło].get(symbol, ())), źródło, pozycja, kolejka)
 
     def _posuń(
