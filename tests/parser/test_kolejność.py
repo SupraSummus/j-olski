@@ -17,6 +17,7 @@ import os
 import random
 import subprocess
 import sys
+from itertools import islice
 from pathlib import Path
 
 import pytest
@@ -25,9 +26,16 @@ pytest.importorskip("morfeusz2")
 
 from harness.kolejność import INNY_KONSTYTUENT, TRAFNA, osądź
 from harness.wybory import Wybór
-from olski.cennik import CENNIK, CZASOWNIK_PRZED_PODMIOTEM, OKOLICZNIK, OPUSZCZONY_PODMIOT
+from olski.cennik import (
+    CENNIK,
+    CZASOWNIK_PRZED_PODMIOTEM,
+    OKOLICZNIK,
+    OPUSZCZONY_PODMIOT,
+    razem,
+)
 from olski.grammar import Grammar, Głowa, nt, word
 from olski.parse import parse
+from olski.parse.las import _iloczyn
 from olski.rejestr import POZA_REJESTREM, pozycje
 from olski.segmentacja import morphology
 from olski.subset import build
@@ -86,14 +94,54 @@ def test_produkcja_tańsza_wydaje_swoje_czytanie_wcześniej():
     assert kolejność == [["lewe", "prawe"], ["prawe", "lewe"]]
 
 
-def test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica():
-    """Ciała córki rozstrzygnęła córka, więc jej koszt nie waży już nad rodzicem.
+def test_iloczyn_wydaje_najtańsze_kombinacje_i_nie_tyka_reszty():
+    """Kombinacje idą od najtańszej, a ze strumieni schodzi tylko tyle, ile trzeba.
+
+    Iloczyn kartezjański z biblioteki materializuje swoje wejścia, więc granica
+    `MAX_READINGS` przestałaby nad zdaniem wieloznacznym cokolwiek ograniczać.
+    Remis rozstrzygają wskaźniki i to jest tu pomyłka prawdopodobna:
+    kombinacji o jednym koszcie nie odróżni nic poza kolejnością, bo czytań nie ubywa.
+    """
+    pobrane = [0, 0]
+
+    def strumień(miejsce: int):
+        for numer, koszt in enumerate([0, 100, 200, 300, 400]):
+            pobrane[miejsce] = numer + 1
+            yield koszt, f"{miejsce}{numer}"
+
+    wydane = list(islice(_iloczyn([strumień(0), strumień(1)]), 3))
+    assert wydane == [
+        (0, ("00", "10")),
+        (100, ("00", "11")),
+        (100, ("01", "10")),
+    ]
+    #  Iloczyn z biblioteki zszedłby po oba strumienie do końca, czyli [5, 5],
+    #  a każde drzewo, po które sięga strumień, kosztuje całe swoje poddrzewo.
+    assert pobrane == [2, 3]
+
+
+def test_czytania_wychodzą_od_najtańszego():
+    """Suma rachunku nie maleje wzdłuż listy odczytań, bo to ona ją porządkuje.
+
+    Zdanie o siedmiu przyłączeniach płaci od zera do siedmiu okoliczników,
+    więc lista porządkowana czymkolwiek innym wychodzi tu nieposortowana.
+    Sumę liczymy z rachunku, czyli z tego, co widzi czytelnik pod czytaniem
+    (`_wiersz_sumy` w `olski/check.py`): las porządkujący po innej liczbie niż
+    ta wypisana byłby dwiema odpowiedziami o jednym czytaniu.
+    """
+    (werdykt,) = check(SIEDEM_PRZYŁĄCZEŃ)
+    sumy = [razem(rachunek) for rachunek in werdykt.rachunki]
+    assert len(set(sumy)) > 1, "jedna suma na całe zdanie nie ma czego porządkować"
+    assert sumy == sorted(sumy)
+
+
+def test_koszt_córki_waży_nad_rodzicem():
+    """Kolejność rozstrzyga suma po całym drzewie, więc płaci się i za poddrzewo.
 
     Gramatyka jest napisana pod tę jedną własność: `lewe` i `prawe` mają córki
-    tej samej rozpiętości i kosztują tyle samo, więc o kolejności rozstrzyga
-    alfabet etykiet, a koszt zsumowany po poddrzewie wpuszczałby przodem `prawe`.
-    Sumowanie jest tu pomyłką prawdopodobną, bo tak właśnie sumuje się koszt
-    morfologii, a widać ją tylko po kolejności: czytań nie ubywa.
+    tej samej rozpiętości, a ciała `zdania` kosztują tyle samo, więc bez sumy
+    rozstrzygałby o kolejności alfabet etykiet i przodem szłoby `lewe`.
+    Widać tę różnicę tylko po kolejności: czytań nie ubywa.
     """
     grammar = Grammar(start="zdanie")
     grammar.rule("zdanie", [Głowa(nt("lewe"))])
@@ -101,7 +149,7 @@ def test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica():
     grammar.rule("lewe", [Głowa(word("subst")), word("interp")], koszty=(OKOLICZNIK,))
     grammar.rule("prawe", [Głowa(word("subst")), word("interp")])
     czytania = parse(grammar, morphology("plik.")).readings
-    assert [drzewo.children[0].label for drzewo in czytania] == ["lewe", "prawe"]
+    assert [drzewo.children[0].label for drzewo in czytania] == ["prawe", "lewe"]
 
 
 def test_każdą_pozycję_cennika_ktoś_płaci():

@@ -34,7 +34,8 @@ Do przeczytania jest przedtem
 [`docs/corpus.md`](../docs/corpus.md#what-morphological-ambiguity-costs),
 bo to ta sekcja jest właścicielem tego, co przebieg nad żywą morfologią mówi.
 
-Zdanie o tym, że cena niesie sam znak, stoi na pomiarze spod morfologii złotej.
+Zdanie o tym, że cena niesie sam znak, stoi na pomiarze spod morfologii złotej
+i spod porządku, który suma zastąpiła.
 Pozycja podniesiona ponad dzisiejszą cenę nie ruszała tam ani jednego zdania,
 bo ciała jednej pozycji lasu różnią się zwykle jedną pozycją cennika
 ([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).

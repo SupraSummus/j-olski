@@ -11,10 +11,9 @@ from __future__ import annotations
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field, replace
 
-from olski import cennik, rejestr
 from olski.lematy import LEMAT_PRZECZENIA, LEMAT_ZWROTNY
 from olski.morph import Reading, Segment
-from olski.parse import Leaf, Node, Tree, liście, sklej_formy, w_zakresie, zakresy
+from olski.parse import Node, Tree, liście, sklej_formy, w_zakresie, zakresy
 from olski.segmentacja import morphology
 from olski.subset import DEKLARACJA
 from olski.walencja import BIERNIK, CZASOWNIK, CZASOWNIK_ZWROTNY, DOPEŁNIACZ, PODMIOT
@@ -102,20 +101,13 @@ def _morfologia_zdania(zdanie: str) -> tuple[OdczytaniaFormy, ...]:
 def koszty_drzewa(drzewo: Tree) -> Iterator[str]:
     """Pozycje cennika, którymi płaci to drzewo: węzeł swoją produkcją, liść swoją formą.
 
-    Liść płaci najtańszym ze swoich odczytań, bo tak liczy go las
-    (:meth:`olski.parse.Las.koszt_morfologii`): forma, którą ten kształt bierze
-    i w rejestrze, i poza nim, nie płaci nic.
+    Pytanie jest do obu jedno, więc i pole jest jedno (:attr:`olski.parse.Leaf.koszty`),
+    a suma stąd jest tą liczbą, po której las porządkuje czytania.
     """
-    if isinstance(drzewo, Leaf):
-        yield from min(
-            (rejestr.pozycje(czytanie.kwalifikatory) for czytanie in drzewo.odczytania),
-            key=cennik.suma,
-            default=(),
-        )
-        return
     yield from drzewo.koszty
-    for dziecko in drzewo.children:
-        yield from koszty_drzewa(dziecko)
+    if isinstance(drzewo, Node):
+        for dziecko in drzewo.children:
+            yield from koszty_drzewa(dziecko)
 
 
 @dataclass(frozen=True)

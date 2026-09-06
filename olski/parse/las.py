@@ -6,14 +6,16 @@ Decyzje, których czytania nie rozstrzygają, liczy z tego lasu ``olski.parse.de
 
 from __future__ import annotations
 
+import heapq
 import math
 from collections.abc import Iterable, Iterator, Mapping, Sequence
 from dataclasses import replace
 from itertools import product
 
+from olski import cennik
 from olski.grammar import EMPTY, Env, Part, Production, Sym, Word, bierze, features_of, unify
 from olski.morph import Reading, Segment
-from olski.parse.czytanie import Cykl, Leaf, Node, Pozycja
+from olski.parse.czytanie import Cykl, Leaf, Node, Pozycja, Tree
 from olski.parse.tablica import _Stan, _Tablica
 
 #: Cechy, z jakimi konstytuent wychodzi do rodzica, w postaci dającej się zahaszować.
@@ -96,6 +98,85 @@ def _z_odczytaniami(
         else wybór
         for miejsce, wybór in enumerate(wybory)
     )
+
+
+def _koszt_pary(para: tuple[int, Tree]) -> int:
+    """Koszt z pary, po którym kolejka scala strumienie drzew."""
+    return para[0]
+
+
+def _pamiętane(
+    źródło: Iterator[tuple[int, Node]], wydane: list[tuple[int, Node]]
+) -> Iterator[tuple[int, Node]]:
+    """Ten strumień wydany każdemu, kto pyta, a liczony raz.
+
+    Pytających jest tyle, ile krawędzi, w których ciałach ta para stoi
+    (:meth:`Las._drzewa`), a każdy zaczyna od początku i schodzi zwykle o kilka
+    drzew. Wspólna lista wydanych zdejmuje z nich liczenie: źródło rusza dopiero
+    tam, gdzie ktoś zaszedł dalej niż wszyscy przed nim.
+    """
+    numer = 0
+    while True:
+        if numer == len(wydane):
+            następne = next(źródło, None)
+            if następne is None:
+                return
+            wydane.append(następne)
+        yield wydane[numer]
+        numer += 1
+
+
+def _iloczyn(
+    strumienie: Sequence[Iterator[tuple[int, Tree]]],
+) -> Iterator[tuple[int, tuple[Tree, ...]]]:
+    """Po jednym drzewie z każdego strumienia: kombinacje wraz z kosztem, od najtańszej.
+
+    Strumień wydaje drzewa od najtańszego, więc najtańsza kombinacja bierze z
+    każdego pierwsze, a każda następna powstaje z którejś już wydanej przez
+    podniesienie jednego wskaźnika o jeden: kombinacja tańsza od wszystkich,
+    które czekają w kolejce, sąsiaduje z którąś wydaną, bo koszt drzewa nie ubywa.
+    Tyle wystarcza, żeby wydać kilkadziesiąt najtańszych, nie tykając reszty
+    iloczynu, i tym różni się ta funkcja od iloczynu z biblioteki.
+
+    Remis rozstrzygają wskaźniki: przodem idzie kombinacja o wskaźniku niższym,
+    a przy kilku różnicach ta, której niższy stoi bardziej z lewej.
+    Wskaźnik liczy się przy tym w strumieniu uporządkowanym kosztem, więc remis
+    dwóch czytań o jednej sumie pada tu czasem inaczej, niż padał przy przejściu
+    w głąb, gdzie córki szły kolejnością ciał.
+    Ile takich remisów to rusza, mówi
+    docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie.
+    """
+    wydane: list[list[tuple[int, Tree]]] = [[] for _ in strumienie]
+
+    def weź(miejsce: int, numer: int) -> tuple[int, Tree] | None:
+        """Drzewo tego numeru z tego strumienia; ``None``, gdy strumień tyle nie ma."""
+        lista = wydane[miejsce]
+        while len(lista) <= numer:
+            następne = next(strumienie[miejsce], None)
+            if następne is None:
+                return None
+            lista.append(następne)
+        return lista[numer]
+
+    for miejsce in range(len(strumienie)):
+        #  Strumień pusty zabiera całą krawędź: kombinacji bez jednej córki nie ma.
+        if weź(miejsce, 0) is None:
+            return
+    początek = tuple(0 for _ in strumienie)
+    kolejka = [(sum(lista[0][0] for lista in wydane), początek)]
+    widziane = {początek}
+    while kolejka:
+        koszt, wskaźniki = heapq.heappop(kolejka)
+        yield koszt, tuple(wydane[miejsce][i][1] for miejsce, i in enumerate(wskaźniki))
+        for miejsce, i in enumerate(wskaźniki):
+            dalej = (*wskaźniki[:miejsce], i + 1, *wskaźniki[miejsce + 1 :])
+            if dalej in widziane:
+                continue
+            następne = weź(miejsce, i + 1)
+            if następne is None:
+                continue
+            widziane.add(dalej)
+            heapq.heappush(kolejka, (koszt - wydane[miejsce][i][0] + następne[0], dalej))
 
 
 #: Rozpiętości ról jednego czytania: jedna pozycja na etykietę,
@@ -200,6 +281,9 @@ class Las:
         #: Kluczem jest całe ciało, a nie jedna córka,
         #: bo o czytaniu jednego liścia rozstrzyga unifikacja z pozostałymi.
         self._wybory_ciał: dict[tuple, tuple[Wybór, ...] | None] = {}
+        #: (pozycja, klasa, cechy żądane, cechy dozwolone) → wyliczanie drzew tej
+        #: pary wraz z tymi, które już wydało (:meth:`_drzewa`).
+        self._strumienie: dict[tuple, tuple[Iterator[tuple[int, Node]], list]] = {}
         self._przedstawiciele: dict[Pozycja, Node] = {}
         self._najdalszy: int | None = None
 
@@ -602,19 +686,24 @@ class Las:
     # -- wyliczanie drzew --------------------------------------------------- #
 
     def czytania(self) -> Iterator[Node]:
-        """Czytania jako drzewa, po jednym na kształt.
+        """Czytania jako drzewa, po jednym na kształt, od najtańszego.
 
-        Kolejność, w jakiej wychodzą, ustala :meth:`_Tablica.ciała`.
+        Kosztem czytania jest suma cennika po całym drzewie, a remis rozstrzyga
+        kolejność krawędzi, którą ustala :meth:`wyprowadzenia`, i pod nią
+        kolejność kombinacji córek (:func:`_iloczyn`)
+        (docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie).
 
         Każda gałąź kończy się czytaniem,
         bo ``klasy`` odsiały już kombinacje, których unifikacja nie przepuszcza.
-        Dlatego urwanie po :data:`MAX_READINGS` kosztuje tyle, ile wypisane drzewa,
-        i nic ponad to.
+        Urwanie po :data:`MAX_READINGS` kosztuje przez to wypisane drzewa
+        oraz najtańsze drzewo każdej pary, do której las z korzenia schodzi:
+        czytanie najtańsze wisi czasem pod krawędzią, którą przejście w głąb
+        odwiedzało ostatnią, więc porządek po sumie musi tamtędy zajrzeć.
         """
         return self._kształty(self.korzeń)
 
     def _kształty(self, pozycja: Pozycja) -> Iterator[Node]:
-        """Drzewa tego konstytuentu, po jednym na kształt.
+        """Drzewa tego konstytuentu, po jednym na kształt, od najtańszego.
 
         Klasa, której żaden rodzic nie przyjmuje, nie wchodzi (:meth:`_żywe`),
         więc drzew wychodzi tyle, ile czytań ten konstytuent ma w czytaniach zdania:
@@ -622,16 +711,25 @@ class Las:
         a w żadnym czytaniu zdania nie stoją.
         Korzeń przechodzi przez ten odsiew bez straty, bo jego klasy są żywe wszystkie,
         i dlatego czytania zdania idą tą samą drogą.
+
+        Każda klasa wydaje swoje drzewa uporządkowane, a uporządkowane mają być
+        czytania zdania, więc klasy scala kolejka. Remis rozstrzyga kolejność klas,
+        bo scalanie z biblioteki wydaje przy równym koszcie ten strumień,
+        który dostało wcześniej.
         """
         żywe = self._żywe()
-        for klasa in self.klasy(pozycja):
-            if (pozycja, klasa) in żywe:
-                yield from self._drzewa(pozycja, klasa, _jedne(klasa), klasa)
+        strumienie = [
+            self._drzewa(pozycja, klasa, _jedne(klasa), klasa)
+            for klasa in self.klasy(pozycja)
+            if (pozycja, klasa) in żywe
+        ]
+        for _koszt, drzewo in heapq.merge(*strumienie, key=_koszt_pary):
+            yield drzewo
 
     def _drzewa(
         self, pozycja: Pozycja, klasa: Klasa, wymagane: Cechy, dozwolone: Klasa
-    ) -> Iterator[Node]:
-        """Drzewa tej pozycji, wypuszczające te cechy: po jednym na kształt pod tą klasą.
+    ) -> Iterator[tuple[int, Node]]:
+        """Drzewa tej pary wraz z kosztem, od najtańszego, liczone raz na las.
 
         Cechy przychodzą z góry, bo tylko rodzic wie, których żąda:
         klasa zbiera wszystkie, na jakie ten kształt przechodzi,
@@ -642,21 +740,45 @@ class Las:
         Drzew jest tyle, ile kształtów, niezależnie od żądanych cech:
         każda kombinacja z tej klasy wypuszcza każde cechy tej klasy,
         bo klasą jest dokładnie zbiór cech tej kombinacji.
-        Dwie produkcje o jednym ciele są jednym kształtem, więc wychodzi z nich jedno drzewo,
-        i bierzemy tę, która żądane cechy wypuszcza.
 
         ``dozwolone`` są cechy, jakie ten kształt wolno tu wypuścić, czyli zwykle
         cała klasa, i idą osobno od żądanych, bo osobno od kształtu liczą się
         odczytania form pod nim (:meth:`_wsparte_kształtu`).
+
+        Liczone raz, bo najtańsze drzewo każdej krawędzi trzeba policzyć, zanim
+        wyjdzie z niej pierwsze (:func:`_iloczyn`), a jedna para stoi w wielu
+        krawędziach: bez pamięci jedna odpowiedź liczyłaby się tyle razy, iloma
+        drogami las do tej pary schodzi, czyli wykładniczo z głębokością.
+        Wolno tak, bo pozycja nie stoi pod sobą (:meth:`klasy`), więc strumienia
+        nie pyta nikt, kto sam go w tej chwili wydaje.
         """
+        klucz = (pozycja, klasa, wymagane, dozwolone)
+        if klucz not in self._strumienie:
+            self._strumienie[klucz] = (
+                self._z_krawędzi(pozycja, klasa, wymagane, dozwolone),
+                [],
+            )
+        return _pamiętane(*self._strumienie[klucz])
+
+    def _z_krawędzi(
+        self, pozycja: Pozycja, klasa: Klasa, wymagane: Cechy, dozwolone: Klasa
+    ) -> Iterator[tuple[int, Node]]:
+        """Drzewa tej pary spod wszystkich jej krawędzi, scalone kolejką po koszcie.
+
+        Dwie produkcje o jednym ciele są jednym kształtem, więc wychodzi z nich
+        jedno drzewo, i bierzemy tę, która żądane cechy wypuszcza.
+        """
+        strumienie = []
         for kombinacja, produkcje in self._krawędzie((pozycja, klasa)).items():
             wsparte = self._wsparte_kształtu(produkcje, kombinacja, dozwolone)
             for production in produkcje:
                 wybory = self._wybory_ciała(production, kombinacja, wymagane)
                 if wybory is None:
                     continue
-                yield from self._z_córek(
-                    pozycja, production, kombinacja, _z_odczytaniami(wybory, wsparte), wsparte, ()
+                strumienie.append(
+                    self._z_córek(
+                        pozycja, production, kombinacja, _z_odczytaniami(wybory, wsparte), wsparte
+                    )
                 )
                 break
             else:
@@ -664,6 +786,7 @@ class Las:
                     f"{pozycja} nie wypuszcza {_klucz_cech(wymagane)} "
                     "ciałem, które stoi w jej klasie"
                 )
+        yield from heapq.merge(*strumienie, key=_koszt_pary)
 
     def _z_córek(
         self,
@@ -672,36 +795,33 @@ class Las:
         kombinacja: tuple,
         wybory: tuple[Wybór, ...],
         wsparte: tuple[frozenset, ...],
-        zebrane: tuple,
-    ) -> Iterator[Node]:
-        """Drzewa, jakie z tych córek wychodzą, budowane od lewej i po jednym.
+    ) -> Iterator[tuple[int, Node]]:
+        """Drzewa, jakie z tych córek wychodzą, wraz z kosztem i od najtańszego.
 
-        Iloczyn kartezjański z biblioteki materializuje swoje wejścia,
-        więc granica z :data:`MAX_READINGS` przestałaby cokolwiek ograniczać:
-        zdanie o dziesiątkach tysięcy czytań wypisałoby je wszystkie,
-        żeby oddać sześćdziesiąt cztery.
-        Tutaj każde drzewo kosztuje osobno.
+        Koszt drzewa jest sumą: płaci produkcja tego węzła, płaci forma pod
+        każdym liściem i płaci każda córka tym, co kosztuje jej własne drzewo.
+        Liść wchodzi do iloczynu strumieniem o jednym drzewie, bo drzewem liścia
+        jest on sam; kosztuje najtańsze ze swoich odczytań (:attr:`Leaf.koszty`).
+
+        Iloczyn kartezjański z biblioteki materializuje swoje wejścia i o koszcie
+        nie wie, więc kombinacje wydaje :func:`_iloczyn`: po jednej, od najtańszej.
         """
-        if len(zebrane) == len(kombinacja):
-            yield Node(
-                label=pozycja.label or "",
-                children=zebrane,
-                span=pozycja.span,
-                głowa=production.głowa,
-                koszty=production.koszty,
-            )
-            return
-        miejsce = len(zebrane)
-        dziecko, córka = kombinacja[miejsce]
-        wybór = wybory[miejsce]
-        córki = (
-            [wybór]
+        strumienie = [
+            iter([(cennik.suma(wybory[miejsce].koszty), wybory[miejsce])])
             if dziecko.liść
-            else self._drzewa(dziecko, córka, wybór, wsparte[miejsce])
-        )
-        for drzewo in córki:
-            yield from self._z_córek(
-                pozycja, production, kombinacja, wybory, wsparte, (*zebrane, drzewo)
+            else self._drzewa(dziecko, córka, wybory[miejsce], wsparte[miejsce])
+            for miejsce, (dziecko, córka) in enumerate(kombinacja)
+        ]
+        for koszt, córki in _iloczyn(strumienie):
+            yield (
+                production.koszt + koszt,
+                Node(
+                    label=pozycja.label or "",
+                    children=córki,
+                    span=pozycja.span,
+                    głowa=production.głowa,
+                    koszty=production.koszty,
+                ),
             )
 
     def _wybory_ciała(
@@ -1013,7 +1133,7 @@ class Las:
         if gotowe is not None:
             return gotowe
         for klasa in self.klasy(pozycja):
-            for drzewo in self._drzewa(pozycja, klasa, _jedne(klasa), klasa):
+            for _koszt, drzewo in self._drzewa(pozycja, klasa, _jedne(klasa), klasa):
                 self._przedstawiciele[pozycja] = drzewo
                 return drzewo
         raise AssertionError(f"pozycja {pozycja} stoi w lesie bez ani jednego drzewa")

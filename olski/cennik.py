@@ -6,20 +6,20 @@ Koszt porządkuje czytania i werdyktu nie rusza; czym jest i czego nie robi, mó
 Produkcja nazywa tutaj pozycje, którymi płaci, a ceny nie wypisuje
 (:attr:`olski.grammar.Production.koszty`).
 Kalibracja jest przez to edycją jednego pliku,
-a czytelnik strony dostaje pod czytaniem nie liczbę bez nazwy,
-tylko to, za co ono płaci (``witryna/skrypt.js``).
+a czytelnik strony dostaje pod czytaniem nazwy obok liczb:
+to, za co ono płaci, i to, ile płaci razem (``witryna/skrypt.js``).
 
 Cena jest deklaracją o polszczyźnie, a nie częstością wziętą z korpusu:
 mówi, że jedno czytanie tego samego napisu jest zwyklejsze od drugiego.
-Zmierzony jest sam jej znak, a wysokość nie:
-pozycja podniesiona ponad dzisiejszą cenę nie rusza nad bankiem drzew
-ani jednego czytania pierwszego, a zejście do zera i zmiana znaku ruszają
-(``harness/skala.py``).
+Czytania porządkuje suma pozycji po całym drzewie (:func:`razem`),
+więc pozycja policzona przy korzeniu waży tyle samo, co pozycja spod niego.
+Zmierzony jest sam znak ceny, a wysokość nie,
+i zmierzono to porządkiem, który suma zastąpiła.
 
-Pozycje dzielą się na dwie rodziny i różni je to, dokąd cena sięga.
-Pozycję produkcji płaci ciało i płaci ją na miejscu:
-rozstrzyga ona między ciałami jednej pozycji lasu, a nad rodzicem już nie waży
-(``test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica``).
+Ciała jednej pozycji lasu rozstrzygają remis sumy i tam obie rodziny pozycji
+różni to, dokąd cena sięga.
+Pozycję produkcji płaci ciało i płaci ją na miejscu, bo ciała córki
+rozstrzygnęła sama córka.
 Pozycję morfologii płaci forma, a cena idzie w górę,
 aż trafi na ciała, które się nią różnią (``koszt_morfologii`` w ``olski/parse/las.py``).
 """
@@ -83,6 +83,17 @@ def cena(nazwa: str) -> int:
 def suma(koszty: Iterable[str]) -> int:
     """Ile płaci ten, kto płaci tymi pozycjami; pozycja powtórzona płaci tyle razy."""
     return sum(cena(nazwa) for nazwa in koszty)
+
+
+def razem(policzone: Iterable[tuple[str, int]]) -> int:
+    """Ile płaci czytanie o tym rachunku (:func:`rachunek`).
+
+    Liczba ta jest miejscem w kolejce: las porządkuje czytania sumą cennika po
+    całym drzewie (``docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie``),
+    więc rachunek wypisany bez niej mówi, za co czytanie płaci, i przemilcza,
+    czemu stoi tam, gdzie stoi.
+    """
+    return sum(cena(nazwa) * ile for nazwa, ile in policzone)
 
 
 def rachunek(koszty: Iterable[str]) -> tuple[tuple[str, int], ...]:

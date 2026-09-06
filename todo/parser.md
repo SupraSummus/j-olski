@@ -1,21 +1,33 @@
 # Parser, las i koszt
 
-Suma rachunku nie wychodzi z werdyktu, bo kolejność czytań jej nie czyta.
-Rachunek wypisuje nazwy pozycji przy każdym czytaniu i po dopisaniu ceny okolicznika
-rozróżnia większość zdań wieloznacznych, ale sumy nie wydaje
-(`Verdict.rachunki` w `olski/werdykt/zdanie.py`),
-bo kolejność jest leksykograficzna i suma czytałaby się na miejsce w kolejce, którym nie jest.
-Wystawienie liczby i przestawienie kolejności są przez to jedną zmianą, a nie dwiema
-([`docs/disambiguation.md`](../docs/disambiguation.md#miara-porównywalna-nad-czytaniami)).
-Cena jest zmierzona i pod morfologią żywą wychodzi ujemna, czyli porządek po sumie
-kupuje zdania, zamiast je tracić
+Czytanie pierwsze buduje najtańsze drzewo każdej pary, a wystarczyłby jego koszt.
+`_iloczyn` w `olski/parse/las.py` żąda od każdego strumienia córek pierwszego drzewa,
+zanim wyda pierwszą kombinację, więc porządek po sumie schodzi po całym lesie
+i składa tam węzły, po które nikt potem nie sięgnie.
+Kosztu najtańszego drzewa nie trzeba przy tym budować: liczy się go od dołu,
+jedną wartością na parę, tak jak dziś liczy się koszt morfologii.
+Ruchem jest wskaźnik w kolejce wyceniany tym kosztem,
+a drzewo składane dopiero przy zdjęciu z kolejki.
+Nad prozą tego repozytorium czas przebiegu tego nie widać
+(zmierzony naprzemiennie, 0,94–1,03× wobec kolejności sprzed sumy),
+więc pomiarem, który to odwraca, jest zdanie o lesie na dziesiątki tysięcy czytań
+([`docs/ustawy.md`](../docs/ustawy.md#wieloznaczność-jest-tu-odczytem-z--6-ale-nie-jest-zarzutem)),
+a nie proza.
+
+Ciała jednej pozycji porządkuje koszt, choć rozstrzyga on już w sumie czytania.
+`wyprowadzenia` w `olski/parse/las.py` sortuje ciała kosztem, a pod nim cięciem,
+i kolejność ta rozstrzyga dziś sam remis sumy
 ([`docs/disambiguation.md`](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)),
-więc zostaje przeszkoda po stronie kodu.
-Jest nią wyliczanie: minimum po sumie żąda kolejki nad lasem
-zamiast przejścia w głąb i zdejmuje leniwość, na której stoi `numer_czytania`
-w `olski/parse/las.py`, bo ono przystaje dziś na pierwszym drzewie, które trafia.
-Kolejność czyta przy tym dwóch — wydruk przez `podsumuj` w `olski/parse/__init__.py`
-oraz `numer_czytania` — a posortowanie samej listy wypisywanej rozjechałoby pomiar z wydrukiem.
+bo pozycję policzoną gdziekolwiek pod korzeniem suma i tak bierze.
+Ruchem jest cięcie jako jedyny klucz tego sortowania.
+Zdejmuje ono naraz `koszt_morfologii`, `_koszty` i strażnika cyklu `_liczone`
+w tym samym module, a z nimi zejście po całym poddrzewie,
+którym `wyprowadzenia` płaci dziś za wycenę jednej pozycji.
+Przeszkodą jest pomiar: remis rozstrzygany dziś kosztem ciała
+wpuszcza przodem ciało tańsze, a po tej zmianie wpuści to o późniejszym cięciu,
+i nie wiadomo, ile takich remisów pada.
+Do przeczytania jest przedtem `harness/skala.py` nad Składnicą,
+bo pomiar, którym wybrano sumę, brał tamtą kolejność za rozstrzygającą remisy.
 
 Przedstawiciel pozycji może stać w klasie, której żadne czytanie nie bierze.
 `_przedstawiciel` w `olski/parse/las.py` bierze pierwsze drzewo pozycji bez odsiewu po

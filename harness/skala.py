@@ -1,16 +1,15 @@
 """Czy koszt czytania jest skalą, czy samym porządkiem, liczone nad bankiem drzew.
 
-Kolejność czytań ustala dziś koszt czytany od korzenia w dół, a nie suma po
-drzewie (``wyprowadzenia`` w ``olski/parse/las.py``), więc o wielkości różnicy
-między dwoma czytaniami nie orzeka nic. Ta sonda pyta, ile ta wielkość jest
-warta, i pyta o to trzema wydrukami, bo trzy różne rzeczy mogą ją unieważnić.
+Kolejność czytań ustala suma cennika po całym drzewie (``czytania`` w
+``olski/parse/las.py``), a o wielkości różnicy między dwiema sumami nie orzeka
+nic. Ta sonda pyta, ile ta wielkość jest warta, i pyta o to trzema wydrukami, bo
+trzy różne rzeczy mogą ją unieważnić.
 
 **Wariant cennika** mówi, ile pozycja kupuje: cena zmieniona, a pod nią złote
 czytanie pierwsze.
 
-**Porządek po sumie** mówi, ile kosztuje spłaszczenie hierarchii do liczby:
-złote czytanie pierwsze pod sumą po całym drzewie wobec tego samego pod
-porządkiem dzisiejszym.
+**Liczba różnych sum** mówi, ile suma ma czym rozstrzygać: zdanie, którego
+czytania mają jedną sumę, zostawia całą decyzję remisowi.
 
 **Rozstęp sum** mówi, co znaczy różnica: przy jakim rozstępie między najtańszą
 sumą a następną najtańsze czytanie bywa złotym.
@@ -59,10 +58,9 @@ MORFOLOGIE = (ZŁOTA, ŻYWA)
 #: jednej nazwie.
 ROLE = ("podmiot", "dopełnienie")
 
-#: Ile czytań zdania wolno wyliczyć. Suma złotego czytania porównuje się tu z
-#: sumami wszystkich pozostałych, więc czytania pominąć nie wolno: pominięte
-#: bywa tańsze i numer wychodzi wtedy za niski. Zdanie o lesie większym od tej
-#: granicy wypada więc z mianownika i wydruk je liczy osobno.
+#: Ile czytań zdania wolno wyliczyć. Tabela liczy sumy różne, a numer złotego
+#: czytania kosztuje wyliczenie wszystkiego, co przed nim stoi, więc zdanie o
+#: lesie większym od tej granicy wypada z mianownika i wydruk liczy je osobno.
 GRANICA = 3000
 
 
@@ -99,7 +97,7 @@ def gramatyka(wariant: tuple[tuple[str, int], ...]):
 class Zdanie:
     """Jedno zdanie banku drzew zmierzone pod jednym wariantem."""
 
-    #: Numer złotego czytania w kolejności dzisiejszej, licząc od jednego.
+    #: Numer złotego czytania w kolejności lasu, licząc od jednego.
     numer: int
     #: Suma cennika każdego czytania, w tej samej kolejności.
     sumy: tuple[int, ...]
@@ -109,19 +107,8 @@ class Zdanie:
         return self.sumy[self.numer - 1]
 
     @property
-    def pierwsze_dziś(self) -> bool:
+    def pierwsze(self) -> bool:
         return self.numer == 1
-
-    @property
-    def pierwsze_pod_sumą(self) -> bool:
-        """Czy złote czytanie wyszłoby pierwsze, gdyby porządkowała suma.
-
-        Remis rozstrzyga kolejność dzisiejsza, więc czytanie o tej samej sumie
-        stojące dziś wcześniej wyprzedza złote i tutaj.
-        """
-        tańsze = any(suma < self.złota for suma in self.sumy)
-        równe_przed = any(suma == self.złota for suma in self.sumy[: self.numer - 1])
-        return not tańsze and not równe_przed
 
     @property
     def rozstęp(self) -> int | None:
@@ -238,8 +225,7 @@ def _tabela_rozstępu(zdania: Sequence[Zdanie]) -> list[str]:
 def wydruk(raport: Raport, nagłówek: str) -> str:
     """Trzy odpowiedzi tej sondy, w kolejności, w jakiej się je czyta."""
     zdania = raport.zdania
-    dziś = sum(zdanie.pierwsze_dziś for zdanie in zdania)
-    pod_sumą = sum(zdanie.pierwsze_pod_sumą for zdanie in zdania)
+    pierwsze = sum(zdanie.pierwsze for zdanie in zdania)
     wartości = collections.Counter(len(set(zdanie.sumy)) for zdanie in zdania)
     wiersze = [
         nagłówek,
@@ -249,8 +235,7 @@ def wydruk(raport: Raport, nagłówek: str) -> str:
         f"  złote czytanie przepadło: {raport.bez_złotego}",
         f"  segmentacja rozeszła się z terminalami: {raport.inna_segmentacja}",
         "",
-        f"złote czytanie pierwsze, porządek dzisiejszy: {dziś}",
-        f"złote czytanie pierwsze, porządek po sumie:   {pod_sumą}",
+        f"złote czytanie pierwsze: {pierwsze}",
         "",
         "ile różnych sum ma zdanie:",
         *(f"  {ile:>3}: {zdań}" for ile, zdań in sorted(wartości.items())),

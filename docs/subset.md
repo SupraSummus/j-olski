@@ -380,7 +380,7 @@ a oba te zdania olski czyta jednym odczytaniem.
 Wyróżnić naprawę mogłaby miara jej naturalności, a kandydat jest jeden:
 koszt, po którym las porządkuje czytania
 ([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
-Suma kosztów całego drzewa, o którą pyta `todo/parser.md`,
+Suma kosztów całego drzewa, czyli ta sama liczba, która czytania porządkuje,
 nie postawiła naprawy prawdziwej za żadną konkurentką ani raz,
 a wyróżniła ją rzadziej niż raz na pięćdziesiąt zdań:
 jest bezpieczna i prawie bezczynna.

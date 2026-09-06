@@ -266,10 +266,9 @@ class Verdict:
     def rachunki(self) -> list[tuple[tuple[str, int], ...]]:
         """Za co płaci każde odczytanie: wpis na streszczenie z :attr:`readings`.
 
-        Wychodzą stąd pozycje policzone, a nie ich suma, bo kolejność czytań
-        rozstrzyga koszt czytany od góry drzewa
-        (``test_koszt_produkcji_nie_sumuje_się_do_kosztu_rodzica``),
-        więc suma czytałaby się na miejsce w kolejce, którym nie jest.
+        Wychodzą stąd pozycje policzone, a sumę liczy z nich ten, kto ją pokazuje
+        (:func:`olski.cennik.razem`): jest nią miejsce w kolejce odczytań,
+        bo las porządkuje je sumą cennika po całym drzewie.
 
         Streszczenie zbiera czasem kilka kształtów, a rachunek jest tego, który
         wyszedł z lasu pierwszy, czyli tego, przez którego to streszczenie stoi

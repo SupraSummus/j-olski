@@ -18,7 +18,7 @@ import random
 from dataclasses import asdict
 from typing import Any
 
-from olski.cennik import cena
+from olski.cennik import cena, razem
 from olski.rozstrzyganie import Rozstrzygnięcie, Świadek, domyślni, rozstrzygnij
 from olski.skład.makieta import losuj
 from olski.werdykt import Podsumowanie, Zdanie, dalsze_zatrzymania, nad_tekstem
@@ -69,14 +69,18 @@ def _zdanie(zdanie: Zdanie) -> dict[str, Any]:
         #  listy tego nie widać, bo skraca ją także samo powtórzenie napisu.
         "czytania": verdict.readings,
         #  Czym każde czytanie jest nacechowane, wpis na wpis z ``czytania``
-        #  (``Verdict.rachunki`` w ``olski/werdykt/zdanie.py``). Pozycje policzone, a nie
-        #  jedna suma na czytanie: kolejność rozstrzyga koszt czytany od góry
-        #  drzewa, więc suma czytałaby się na miejsce w kolejce, którym nie jest.
+        #  (``Verdict.rachunki`` w ``olski/werdykt/zdanie.py``), a obok pozycji ich
+        #  suma, bo to ona stawia czytanie tam, gdzie ono w liście stoi.
+        #  Liczy jedno i drugie serwer, bo strona licząca to sama miałaby drugą
+        #  kopię cennika.
         "koszty": [
-            [
-                {"pozycja": nazwa, "ile": ile, "koszt": cena(nazwa) * ile}
-                for nazwa, ile in rachunek
-            ]
+            {
+                "pozycje": [
+                    {"pozycja": nazwa, "ile": ile, "koszt": cena(nazwa) * ile}
+                    for nazwa, ile in rachunek
+                ],
+                "suma": razem(rachunek),
+            }
             for rachunek in verdict.rachunki
         ],
         "liczba_czytań": verdict.result.ile,
