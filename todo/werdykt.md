@@ -260,9 +260,36 @@ Po stronie zaimka takiej sumy cech olski nie liczy,
 i pilnuje tego `tests/rozstrzyganie/test_odniesienia.py`.
 Ruchem jest liczenie rzeczy w czytaniu zamiast nad sumą czytań:
 zgłoszenie pada wtedy, gdy dwie rzeczy zgodne z zaimkiem nazywa jedno czytanie.
-Do przeczytania jest, ile zgłoszeń ta suma dokłada nad NKJP.
-Wśród sądów bazy nie dołożyła ani jednego (`harness/sądy.py`),
-a nad prozą repozytorium przestawia listy kandydatów, nie ruszając liczby zgłoszeń.
+Nad prozą NKJP suma ta dokłada i widać ją w samym wierszu:
+częściej niż co szóste zgłoszenie `niejasne odniesienie` wypisuje kandydata,
+którego forma nie zgadza się z zaimkiem w żadnym swoim czytaniu
+([`docs/subset.md`](../docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem)
+pokazuje to na `dworcu`, który mnogość bierze z `oczach`).
+Scalenie robi tam z dwóch rzeczy jedną, a nie z dwóch głów jednej grupy jedną rzecz,
+i to jest ta sama naprawa, bo w każdym czytaniu z osobna głowa jest jedna.
+Do przeczytania są powody sądów nad tym znaleziskiem w `próba/nkjp-sądy.txt`.
+
+Znalezisko `niejasne odniesienie` ma trzy potwierdzenia na sto trzydzieści pięć sądów,
+czyli mniej, niż kryterium wykrywaczy zostawia w kodzie,
+a stoi w wydruku domyślnym i w kodzie wyjścia (`ZNALEZISKA` w `olski/werdykt/tekst.py`).
+Kryterium postawione przed pomiarem zdejmuje wykrywacz przy mniej niż dziesięciu
+sądach trafnych na trzydzieści
+([`docs/linter.md`](../docs/linter.md#reguła-o-zaimku-niezwrotnym-zeszła-z-kodu-bo-posiadacza-wybiera-znaczenie-słowa)),
+a tamto zdejmowało regułę czekającą za flagą, więc tutaj rozstrzyga się to samo
+nad zgłoszeniem, które autor już dostaje.
+Ruchem jest albo zdjęcie znaleziska do wydruku spod flagi,
+albo trzy zawężenia i drugie czytanie sądów po nich, po jednym na kształt chybienia,
+który zdejmuje się bez znaczenia
+([`docs/subset.md`](../docs/subset.md#zaimek-wskazujący-na-dwie-rzeczy-jest-drugim-znaleziskiem)
+nazywa je wraz z przykładami, a zawężenie na rzecz scaloną ma wpis wyżej).
+Najtańsze jest zawężenie na dwóch kandydatów, których zdanie obok utożsamia:
+utożsamienie widać w składni, a kształt ten wychodzi
+częściej niż w co dwunastym z tych sądów.
+Do przeczytania jest sto trzydzieści pięć powodów w `próba/nkjp-sądy.txt`:
+mówią one, ile chybień po tych zawężeniach zostaje.
+Decyzją jest, czy zawężenia w ogóle pisać:
+zgłoszenie mówi prawdę o zdaniu i przy trafieniu chybionym,
+a płaci za nią autor, który to zdanie czyta drugi raz bez powodu.
 
 Rozszerzenie za flagą `w_zdaniu` ma dwa potwierdzenia,
 a jedno z nich należy do reguły, którą baza sądów już zdjęła,

@@ -553,10 +553,39 @@ bo gramatyka wypisuje wszystkie czytania, jakie zdanie ma.
 Zaimek melduje się rzadko: ta sama komenda puszczona na prozę tego repozytorium
 zgłasza go raz na kilkadziesiąt zdań czytanych,
 bo rzeczy podaje samo zdanie obok, a zaimek rozstrzygnięty na miejscu milczy.
-Sądu czytelnika nad zgłoszeniem, które ta reguła wydaje, baza sądów jeszcze nie ma,
-więc znaleziskiem jest ono na kredyt tej częstości;
-sądy, które w bazie stoją, są o rozszerzeniu tej reguły
+Znaleziskiem jest ono na kredyt tej częstości, a sądy czytelnika tego kredytu nie kryją:
+każde jego zgłoszenie nad podkorpusem milionowym NKJP przeczytano i trafne są trzy
+(`próba/nkjp-sądy.txt`).
+Sądy są tu całą populacją, a nie próbą z niej,
+więc doczytanie tej liczby nie ruszy; ruszy ją dopiero zmiana w gramatyce.
+Częstość mówi więc, jak rzadko zgłoszenie pada, i nie mówi nic o tym, czy pada dobrze.
+
+Chybienia mają cztery kształty, a trzy pierwsze są mechaniczne.
+Kandydatem bywa rzecz scalona z grupą, którą jej własna grupa zawiera.
+Po zdaniu `na dworcu na naszych oczach Niemcy z wagonów wyrzucali Żydów`
+zaimek `nimi` dostaje kandydata `dworcu`, choć dworzec jest jeden,
+a liczbę mnogą bierze ten kandydat z `oczach`,
+więc wiersz pokazuje autorowi formę, która z zaimkiem nie zgadza się wcale
+(`olski/odniesienia.py`).
+Scalenie przemianowuje przy tym i rzecz podejmowaną naprawdę:
+po `dotknął rękami długo szukanych drzwi` zaimek `je` dostaje kandydata `rękami`,
+choć drzwi są tym, co bohater ogląda.
+Kandydatem bywa forma, którą morfologia czyta rzadkim lematem —
+`sobie` przez `soba`, `nic` przez `nica` —
+czyli to, co nad własnym projektem zdejmuje deklaracja lematów pomijanych,
+a nad cudzą prozą nie zdejmuje jej nic
+([warstwa-leksykalna.md](warstwa-leksykalna.md#słownictwo-projektu-orzeka-o-lemacie-w-obie-strony)).
+Kandydatami bywają wreszcie dwie formy, które zdanie obok utożsamia:
+`Stilo to model środka gamy Fiata.` wydaje `Stilo` i `model`,
+a orzeczenie imienne mówi wprost, że rzecz jest jedna, i tak samo mówi apozycja.
+Czwarty kształt jest ten sam, który wstrzymuje awans rozszerzenia za flagą:
+rzecz zgodna, której nikt tu nie podejmuje, bo zdanie orzeka o niej co innego —
+do szpitala odwozi się potrąconego, a nie fiata, który go potrącił.
+Trzy pierwsze zdejmuje zawężenie, a czwartego nie zdejmie żadne,
+bo rozstrzyga o nim znaczenie
 ([niżej](#rzeczy-z-tego-samego-zdania-czekają-za-flagą)).
+W wydruku domyślnym zgłoszenie zostaje do czasu, aż będzie wiadomo,
+ile chybień te trzy zawężenia zabierają.
 
 Kandydatów ubywa przy tym tam, gdzie gramatyka zdania obok nie wyprowadza,
 i ubywa ich wyłącznie w jedną stronę:
@@ -604,14 +633,15 @@ Trafienia te noszą własną nazwę — `niejasne odniesienie w zdaniu` —
 więc baza ocenia dwie reguły osobno i nie miesza ich w jednej liczbie,
 a kod wyjścia nazwy spod flagi nie widzi.
 Fałszywe są w większości jednym z trzech kształtów,
-i to one nazywają, co trzeba zawęzić przed następnym podejściem:
-kandydatem bywa spójnik albo przyimek, który morfologia czyta też jako rzeczownik — `Kiedy`, `Od`;
-bywa nim podmiot własnego składowego, którego zaimek dzierżawczy wyklucza,
-bo o podmiocie mówi się `swój`;
-a bywa nim rzecz, której nikt nie podejmuje, bo zdanie orzeka o niej co innego —
+i to one nazywają, co trzeba zawęzić przed następnym podejściem.
+Dwa dzieli z regułą dzisiejszą: rzadki lemat, tu `Kiedy` i `Od`,
+oraz rzecz, której nikt nie podejmuje —
 `nad ich szczebiotem` po `W gałęziach nawołują ptaki`.
-Dwa pierwsze kształty zdejmuje zawężenie, a trzeci, którym jest ich większość,
-nie schodzi żadnym, bo rozstrzyga o nim znaczenie, a nie zgodność.
+Trzeci jest własny: kandydatem bywa podmiot własnego składowego,
+którego zaimek dzierżawczy wyklucza, bo o podmiocie mówi się `swój`.
+Zawężenie zdejmuje rzadki lemat i ten podmiot,
+a rzeczy, której nikt nie podejmuje, nie zdejmie żadne:
+rozstrzyga o niej znaczenie, a nie zgodność, i ona jest tu większością.
 Potwierdzenia mówią, po co to rozszerzenie wraca:
 `Na centralnie umieszczonym bolcu osadzamy krążek i dopiero wtedy naklejamy na nim
 gotową etykietę.` nie mówi, na czym etykieta staje.

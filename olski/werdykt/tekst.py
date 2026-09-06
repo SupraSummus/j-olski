@@ -25,7 +25,7 @@ ODNIESIENIE = "niejasne odniesienie"
 
 #: Nazwa zgłoszenia spod flagi ``w_zdaniu`` (``olski/odniesienia.py``): rzeczy
 #: stoją w zdaniu zaimka, a nie w zdaniu obok. Nazwa jest osobna, bo baza sądów
-#: ocenia dwie reguły i mieszać ich nie wolno: tamtej sądów jeszcze nie ma,
+#: ocenia dwie reguły i mieszać ich nie wolno: tamta jest znaleziskiem,
 #: a ta czeka na awans. Podsumowanie tego zgłoszenia nie liczy i kod wyjścia go
 #: nie widzi (:data:`ZNALEZISKA`), więc flaga nie rusza ani jednej liczby.
 ODNIESIENIE_W_ZDANIU = "niejasne odniesienie w zdaniu"

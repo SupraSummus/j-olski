@@ -542,9 +542,12 @@ Zera kandydatów nie zgłasza, choć odesłanie bez antecedensu jest usterką,
 bo zdanie obok, którego gramatyka nie wyprowadza, kandydata nie podaje żadnego,
 więc zero znaczy tam co innego niż w tekście przeczytanym w całości (tamże).
 Ta połowa celu wraca razem z pokryciem, a nie osobnym pomysłem.
-Nieosiągnięty zostaje sprawdzian, czyli garść tekstów przeczytana ręką:
+Sprawdzianem jest garść cudzego tekstu przeczytana ręką:
 nad każdym zgłoszonym zaimkiem czytelnik mówi, ilu kandydatów widzi sam,
 a cel jest osiągnięty, gdy zgłoszenie pada tylko tam, gdzie nie ma ich dokładnie jednego.
+Sprawdzian ten wykonano nad NKJP i cel go nie przechodzi:
+zgłoszenie pada prawie wyłącznie tam,
+gdzie czytelnik widzi kandydata jednego (tamże).
 Dwa wzorce z tej listy zeszły, bo zgodność nie ma nad nimi czego liczyć,
 i zgłasza je warstwa obok, innym kształtem.
 „To” w miejscu podmiotu akapitu zeszło, bo zdanie podjęte rzeczą nie jest
