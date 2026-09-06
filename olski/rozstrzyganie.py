@@ -93,7 +93,7 @@ PRÓG = 0.85
 #: w ``harness/attachment.py``, a drugi raz wypisujemy je tutaj,
 #: bo tamten moduł mierzy bank drzew i leży po drugiej stronie granicy pakietu,
 #: z której ``olski`` nie czyta niczego (``harness/__init__.py``).
-#: Że obie pary mówią to samo, trzyma ``tests/test_rozstrzyganie.py``.
+#: Że obie pary mówią to samo, trzyma ``tests/rozstrzyganie/test_rozstrzyganie.py``.
 STRONA_IMIENNA, STRONA_CZASOWNIKOWA = "noun", "clause"
 
 #: Tabela skłonności: ``(przyimek, strona, lemat)`` → ``(w tę stronę, wszystkich)``.

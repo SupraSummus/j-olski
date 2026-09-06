@@ -576,7 +576,7 @@ a bank drzew o takim szyku nie mówi nic.
 
 Blisko dwie trzecie wyborów zostaje nierozstrzygniętych
 i to jest właściwa liczba tej próby.
-Warstwa nie myli się nad nią ani razu, co pilnuje `tests/test_wybory.py`,
+Warstwa nie myli się nad nią ani razu, co pilnuje `tests/pomiar/test_wybory.py`,
 i nie jest to zasługa progów, tylko ich ceny:
 milczenie jest tu odpowiedzią w kilkunastu wypadkach na trzydzieści.
 Trzydzieści wyborów wystarcza, żeby powiedzieć, że warstwa milczy częściej, niż odpowiada,

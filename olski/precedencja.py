@@ -133,7 +133,7 @@ class Rozwinięcie:
         odległy o dwie zamiany jest dwa razy dalej od wypisanego niż szyk odległy
         o jedną. Dwa szyki jednego zdania mają córki tej samej rozpiętości, więc
         bez tej pozycji rozstrzygałby o nich alfabet etykiet i `Janek lubi piwo.`
-        wychodziłoby czytaniem z `piwo` w podmiocie (``tests/test_morfologia.py``).
+        wychodziłoby czytaniem z `piwo` w podmiocie (``tests/werdykt/test_morfologia.py``).
         """
         if precedencja is None:
             yield (), list(córki)

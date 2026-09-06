@@ -76,7 +76,7 @@ Kto chce liczby dzisiejszej, puszcza polecenia z
 
 Dwa symbole zamiast jednego wybrano dla liczby czytań, a nie dla parsera.
 Tablica Earleya bierze rekursję lewostronną,
-co pilnuje test w `tests/test_gramatyka.py`,
+co pilnuje test w `tests/gramatyka/test_gramatyka.py`,
 więc `grupa_imienna → grupa_imienna conj grupa_imienna`
 dałoby się tu wpisać jedną produkcją w miejsce dwóch.
 Powiedziałoby ono o zasięgu dokładnie to samo, bo zawężenie wyżej stoi na rodzaju,
@@ -768,7 +768,7 @@ bo zaimek zgadza się ze swoim poprzednikiem, a ten stoi w zdaniu obok:
 a `Ich cena` ma zaimek mnogi przy rzeczowniku pojedynczym.
 Zmienna wspólna — ta, którą wypuszcza przymiotnik i liczebnik zgodny obok —
 wygląda tu poprawnie i odbiera polszczyźnie prawie każdą taką parę;
-niezmiennik pilnuje test w `tests/test_grupa_imienna.py`.
+niezmiennik pilnuje test w `tests/gramatyka/test_grupa_imienna.py`.
 
 Formę zawężają dwa warunki na cechę, a nie lista lematów:
 lematem każdej z tych form jest `on`, więc lista wpuszczałaby je wszystkie naraz.

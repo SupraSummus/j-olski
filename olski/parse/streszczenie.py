@@ -294,7 +294,7 @@ def ciało_koordynuje(etykieta: str | None, córki: Iterable[str | None]) -> boo
     wybór przemilczany wśród rozbieżności (:meth:`Decyzje._nazwany_gdzie_indziej`)
     i pomiar różnicowy (``koordynuje`` w ``harness/ruch.py``).
     Stoi w jednym, bo rozejście tych trzech widać dopiero w liczbach,
-    a niezmiennik, na którym ono stoi, pilnuje ``tests/test_subset.py``.
+    a niezmiennik, na którym ono stoi, pilnuje ``tests/gramatyka/test_subset.py``.
     """
     nazwy = list(córki)
     return etykieta in nazwy and None in nazwy

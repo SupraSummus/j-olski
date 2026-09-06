@@ -19,7 +19,7 @@ Pełną precyzję ten rejestr miał i zszedł z niej dlatego,
 że nie pilnuje jej żaden check: cenę przelicza przebieg nad korpusem,
 a korpus jest archiwem, którego suita nie pobiera.
 Wróci ona wtedy, gdy cenę będzie przeliczał check —
-tak jak `tests/test_wydruki.py` przelicza blok wydruku.
+tak jak `tests/dokumenty/test_wydruki.py` przelicza blok wydruku.
 
 Konstrukcja dostaje w tym rejestrze sekcję, bo sekcja jest jego jednostką.
 Podsekcję dostaje to, co kwalifikuje cenę jednej konstrukcji,
@@ -34,7 +34,7 @@ w której warstwie sekcja stoi.
 Sekcja przeniesiona między te pliki unieważnia przez to każde wskazanie na siebie,
 a przeniesienie kosztuje tyle, ile jest tych wskazań.
 Cichym rozjazdem to nie grozi:
-każde takie wskazanie przechodzi przez `tests/test_docs.py`,
+każde takie wskazanie przechodzi przez `tests/dokumenty/test_docs.py`,
 który czyta i prozę, i cytaty z kodu.
 
 ## Który plik czytać

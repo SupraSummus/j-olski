@@ -41,7 +41,7 @@ więc gdzie polszczyzna nazwy nie ma, zdanie mówi, co się robi.
 sprawdzamy ją w przeglądzie zmian, a nie w testach.
 Tak jest z każdą regułą prozy, która pyta o treść zdania;
 co rozstrzyga się mechanicznie — nazwa, wskazanie, jego kierunek —
-pilnuje `tests/test_docs.py`.
+pilnuje `tests/dokumenty/test_docs.py`.
 Gramatyka olskiego takim checkiem nie jest i nie ma być:
 wyprowadza znacznie mniej, niż te dokumenty zawierają.
 
@@ -358,7 +358,7 @@ Skraca ten, kto to ciało czyta, i robi to bez pytania.
 
 Zdanie w dokumencie opiera się zwykle na czymś poza sobą.
 Nazwa pliku i nagłówek sekcji są publiczne i wolno się na nich oprzeć:
-kto je zmieni, dostanie czerwone `tests/test_docs.py`.
+kto je zmieni, dostanie czerwone `tests/dokumenty/test_docs.py`.
 Reszta jest prywatna —
 nazwa funkcji w module, kolejność pozycji na liście,
 liczba, przykład, format wydruku —
@@ -369,7 +369,7 @@ nazwa modułu zamiast nazwy funkcji w środku,
 nazwa reguły z linkiem zamiast miejsca w kolejności.
 
 Na rzecz prywatną wolno się oprzeć tam, gdzie pilnuje jej test:
-blok wydruku wszedł do dokumentu dlatego, że `tests/test_wydruki.py`
+blok wydruku wszedł do dokumentu dlatego, że `tests/dokumenty/test_wydruki.py`
 puszcza komendę i porównuje wiersze.
 
 ## Dokument i kod nie wskazują na warstwę roboczą
@@ -415,7 +415,7 @@ zostaje samo skreślenie
 
 Wskazaniem jest w dokumencie link, bo tylko link prowadzi czytelnika dalej,
 a w module sam cytat, bo modułu nikt nie czyta w przeglądarce.
-Pilnuje tego `tests/test_docs.py` i on wypisuje wyjątki.
+Pilnuje tego `tests/dokumenty/test_docs.py` i on wypisuje wyjątki.
 
 ## Documents describe the present; git owns the past
 
@@ -774,7 +774,7 @@ Gdzie jego wheel się nie buduje,
 każdy plik testowy dochodzący do analizatora jest pomijany,
 zamiast wywracać zbiórkę,
 więc przebieg melduje testy stojące obok niego, a nie zero testów.
-Pilnuje tego `tests/test_zbiórka.py`, bo dochodzi się tam
+Pilnuje tego `tests/pakiet/test_zbiórka.py`, bo dochodzi się tam
 przez cudzy import i pominięcia brakującego nie widać w przebiegu z Morfeuszem.
 Przebieg zielony w takim środowisku nie sprawdza niczego,
 co do analizatora dochodzi, i widać to po liczbie pominięć.
@@ -785,7 +785,7 @@ i to on sprawdza złożenie dwóch sesji, które się nie widziały.
 Jego krok instalacyjny bierze Morfeusza z PyPI i wywraca zadanie, kiedy to zawiedzie,
 więc ostatni commit gałęzi nie opiera się nigdy na samym przebiegu częściowym.
 Lista poleceń wyżej i kroki workflowu są dwiema kopiami,
-a `tests/test_docs.py` utrzymuje je równe,
+a `tests/dokumenty/test_docs.py` utrzymuje je równe,
 więc check dopisany do jednej wywraca suitę, dopóki nie znajdzie się w drugiej.
 Workflow nie nosi znaczka.
 
@@ -833,7 +833,7 @@ Po której stronie ją postawić, rozstrzyga pomiar, a nie życzenie.
 `Złote czytanie ocalało w 613 z 673 zdań wieloznacznych` był taki,
 a jedna zmiana w gramatyce przemianowała go, jego anchor
 i siedem plików, które go linkowały,
-z `tests/test_docs.py` wywracającym się na każdym po kolei.
+z `tests/dokumenty/test_docs.py` wywracającym się na każdym po kolei.
 W nagłówku wolno napisać rząd wielkości albo kierunek,
 a stosunek wolno napisać zgrubny, bo dokładny rusza się jak liczba:
 sekcja o złotym czytaniu w `docs/corpus.md` nosi
@@ -890,15 +890,15 @@ a także rachunek czytania: rusza go i cena przestawiona w `olski/cennik.py`,
 i pozycja cennika dopisana do produkcji;
 i wtedy każdy taki blok bierze się ręką.
 Który to blok, mówią dwa testy.
-`tests/test_wydruki.py` puszcza komendę stojącą nad wydrukiem
+`tests/dokumenty/test_wydruki.py` puszcza komendę stojącą nad wydrukiem
 i żąda, żeby komenda drukowała każdy wypisany wiersz i drukowała je w tej kolejności,
-a `tests/test_witryna.py` żąda tego samego od bloku JSON stojącego pod curlem
+a `tests/dokumenty/test_witryna.py` żąda tego samego od bloku JSON stojącego pod curlem
 w [`docs/witryna.md`](docs/witryna.md).
 Blok bez takiej komendy rozjeżdża się po cichu, więc go nie wklejamy.
 Arytmetyki pod nim test nie widzi:
 dokument mówiący, ile z czytań zdania werdykt wyjaśnia, liczy wiersze sam.
 
-Zdania zacytowanego w backtickach nie pilnuje ani ten test, ani `tests/test_docs.py`,
+Zdania zacytowanego w backtickach nie pilnuje ani ten test, ani `tests/dokumenty/test_docs.py`,
 a zmienia je dopisanie do gramatyki.
 Werdykt i liczbę czytań każdego takiego zdania wypisuje `harness/cytaty.py`,
 znów do porównania między dwoma drzewami roboczymi;
@@ -927,7 +927,7 @@ Nagłówek nie jest wpisem i reguła tam nie sięga.
 Sekcję cytowaną w nagłówku przemianowujesz w generatorze i w pliku jednym commitem,
 bo przebieg żąda cudzego zasobu,
 a plik czekałby z martwym wskazaniem do następnego pobrania.
-Że nagłówek cytuje sekcję żywą, pilnuje `tests/test_docs.py`.
+Że nagłówek cytuje sekcję żywą, pilnuje `tests/dokumenty/test_docs.py`.
 
 Plik wyprowadzony z cudzego zasobu podlega warunkom tego zasobu,
 więc dostaje własny wpis w [`REUSE.toml`](REUSE.toml).
@@ -1055,7 +1055,7 @@ it costs a read, it has to be kept working,
 and it demonstrates a property nobody doubted.
 The tests worth writing are the ones
 that would have caught a mistake somebody could plausibly make,
-which is what `tests/test_subset.py` and `tests/test_segmentacja.py`
+which is what `tests/gramatyka/test_subset.py` and `tests/warstwa-leksykalna/test_segmentacja.py`
 spend their length on:
 a production that admits a phrase nothing should derive,
 a segmentation graph stitched together one node out,
@@ -1157,7 +1157,7 @@ a których nie zadaje żadna sekcja wyżej.
   więc bez tego pytania nie przeczyta go nikt.
   Jaki nagłówek jest zły, mówi
   [katalog chwytów rejestru](#katalog-chwytów-rejestru).
-- **Poza zasięgiem suity.** Czego `tests/test_docs.py` nie sprawdzi:
+- **Poza zasięgiem suity.** Czego `tests/dokumenty/test_docs.py` nie sprawdzi:
   nazwy napisanej bez backticków, nazwy sekcji
   ([na czym wolno oprzeć zdanie](#na-czym-wolno-oprzeć-zdanie))
   i przykładu, który przestał pasować do reguły cytującej go.

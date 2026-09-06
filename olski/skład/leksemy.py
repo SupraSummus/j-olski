@@ -26,7 +26,7 @@ leksemy jednego lematu, które w żądanej komórce nie zgadzają się co do for
 
 Świadka ma ten plik w słowniku i jest to świadek połowy wpisu.
 Leksem, którego SGJP nie zna, nie ma ani jednej formy,
-więc literówka w identyfikatorze zgłasza się w ``tests/test_leksemy.py``,
+więc literówka w identyfikatorze zgłasza się w ``tests/skład/test_leksemy.py``,
 a nie na zdaniu, które z tego wpisu wyjdzie.
 Czego świadek nie sprawdza, jest doborem, tak jak w ``olski/skład/przyimki.py``:
 że goła nazwa ``oko`` znaczy oko, a nie oczko w sieci,

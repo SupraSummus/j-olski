@@ -2,7 +2,7 @@
 #  with no description, a table nobody would lay out that way. It is input to a
 #  program rather than prose anybody reads, so the prose linter has nothing to
 #  say about it.
-tests/fixtures/
+tests/komendy/fixtures/
 
 #  Kopia prozy, z której `python3 -m dokumentacja` buduje stronę. Check puszczony
 #  po budowaniu zgłaszałby każdą usterkę dwa razy, raz w oryginale i raz w kopii.

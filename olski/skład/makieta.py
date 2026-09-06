@@ -245,7 +245,7 @@ CZYNY_ZE_ZDANIEM = (
 #: `od sąsiada` i `od studni` stoją w jednej relacji, a druga z tych par
 #: nie jest tym, czego szuka zdanie o tym, skąd ktoś coś wziął.
 #: Para słowa z relacją ma świadka w ``olski/skład/przyimki.py``,
-#: więc wiersz, który tam nie stoi, zgłasza się w ``tests/test_makieta.py``.
+#: więc wiersz, który tam nie stoi, zgłasza się w ``tests/skład/test_makieta.py``.
 #: Czas stoi osobno, bo przyjmuje go każde zdarzenie, a miejsca i celu nie:
 #: `wrócił wieczorem` mówi to samo przy ruchu i przy staniu.
 OKOLICZNOŚCI_CZASU = (

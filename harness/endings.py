@@ -79,7 +79,7 @@ class Probe:
 
     The classes are ordered and a word falls into the first that holds, so the
     order is part of the declaration. The last one holds unconditionally, which
-    ``tests/test_endings.py`` requires: a word the analyser read and no class
+    ``tests/pomiar/test_endings.py`` requires: a word the analyser read and no class
     claimed would otherwise leave the report summing to less than its own total.
     """
 
@@ -204,7 +204,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     # Imported here and not at the top so that the probes and their test run
-    # where the Morfeusz wheel does not build, as tests/test_morph.py already
+    # where the Morfeusz wheel does not build, as tests/warstwa-leksykalna/test_morph.py already
     # needs.
     import morfeusz2
 

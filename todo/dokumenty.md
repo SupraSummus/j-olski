@@ -4,7 +4,7 @@ Wskazania między `docs/konstrukcje-gramatyczne/` i `olski/subset/`
 idą w obie strony,
 a pilnowane są tylko w jedną.
 Ćwierć wskazań z `olski/subset/` nie ma anchora,
-więc `tests/test_docs.py` sprawdza przy nich sam plik,
+więc `tests/dokumenty/test_docs.py` sprawdza przy nich sam plik,
 a kilka zdań dokumentu opiera się na nazwie w środku modułu,
 której nie pilnuje nic ([CLAUDE.md](../CLAUDE.md#na-czym-wolno-oprzeć-zdanie)).
 Ruchem jest anchor przy każdym wskazaniu z kodu,
@@ -34,12 +34,12 @@ Liczby, którymi
 opisuje `olski/leksykon.txt`, przeliczają się z tego pliku jednym `cut`-em,
 a trzy z nich rozeszły się z nim w commicie, który pisał obie strony;
 znalazło je dopiero przeliczenie ręką.
-`tests/test_docs.py` pilnuje nazw plików i sekcji,
-`tests/test_wydruki.py` bloków stojących pod komendą,
+`tests/dokumenty/test_docs.py` pilnuje nazw plików i sekcji,
+`tests/dokumenty/test_wydruki.py` bloków stojących pod komendą,
 a liczby wziętej z pliku nie pilnuje nic
 ([CLAUDE.md](../CLAUDE.md#na-czym-wolno-oprzeć-zdanie)).
 Ruchem jest check przeliczający je z tego pliku, wzorowany na tym,
-czym `tests/test_docs.py` trzyma [blok checków](../CLAUDE.md#checks) równy workflowowi.
+czym `tests/dokumenty/test_docs.py` trzyma [blok checków](../CLAUDE.md#checks) równy workflowowi.
 Do rozstrzygnięcia jest, czy warto: klasa jest dziś tą jedną sekcją
 i jedną liczbą poza nią, czyli `998 par` w
 [`docs/rozstrzyganie.md`](../docs/rozstrzyganie.md#zalążek-odpowiada-obok-werdyktu-i-nazywa-swoją-częstość-pomyłek),
@@ -76,7 +76,7 @@ a nie tylko że konstytuent stoi wysunięty.
 
 Dawną nazwę odczytania — `czytanie` — noszą pozostałe dokumenty,
 nazwy w kodzie i nazwy plików
-`harness/czytania.py` oraz `tests/test_czytania.py`.
+`harness/czytania.py` oraz `tests/werdykt/test_czytania.py`.
 Nazwę rozstrzyga
 [sekcja o tym, co się liczy jako jedno odczytanie](../docs/subset.md#co-się-liczy-jako-jedno-odczytanie).
 Ruchem jest poprawianie reszty w miejscu ruszanym z innego powodu,
@@ -96,7 +96,7 @@ which is about one of the corpora the second surveys.
 The move is to rename `docs/corpus.md` to `docs/skladnica.md`,
 which says what it holds and matches `docs/swigra.md` beside it,
 and to carry the rename through every file that names it.
-`tests/test_docs.py` catches the Markdown links and the citations in code,
+`tests/dokumenty/test_docs.py` catches the Markdown links and the citations in code,
 and nothing catches the plain-prose mentions,
 so those are the ones to grep for.
 That name lands beside `docs/sklad.md`, which is the compiler and not the treebank,
@@ -270,7 +270,7 @@ i to one mówią, ile ten przekład kosztuje.
 Wpisu tego nie zamyka commit tamtego: tamten przekłada jedno słowo,
 a ten cały wydruk innej komendy,
 a bloków w dokumentach `olski-pokrycie` nie ma,
-bo `tests/test_wydruki.py` pilnuje tylko tych, które odtwarzają się bez korpusu.
+bo `tests/dokumenty/test_wydruki.py` pilnuje tylko tych, które odtwarzają się bez korpusu.
 
 Docstring modułu bywa dłuższy od sekcji dokumentu i niesie wywód sięgający kilku
 modułów, którego właścicielem jest według
@@ -367,7 +367,7 @@ a sesja, która pójdzie za tamtym zdaniem, wyniesie z dokumentu nazwy,
 których używa kod.
 
 Bloki Markdowna czyta w tym repozytorium jeden program wzorcem, a drugi parserem.
-`_ogrodzone` w `tests/test_wydruki.py` szuka ogrodzeń po wierszach,
+`_ogrodzone` w `tests/dokumenty/test_wydruki.py` szuka ogrodzeń po wierszach,
 bo `_wydruki` obok potrzebuje numeru wiersza:
 paruje blok poleceń z wydrukiem stojącym pod nim.
 `wstawki` w `harness/cytaty.py` pyta o to samo `markdown_it`,
@@ -450,7 +450,7 @@ docstring czyta się przede wszystkim w edytorze i w `help()`,
 gdzie link jest dłuższy od napisu i niesie ścieżkę dwa razy,
 a strona modułu leży w innym katalogu niż moduł,
 więc ścieżka dobra dla jednego z nich jest martwa u drugiego.
-Do przeczytania jest `CITED_DOCUMENT` w `tests/test_docs.py`:
+Do przeczytania jest `CITED_DOCUMENT` w `tests/dokumenty/test_docs.py`:
 przekład ma brać ten sam cytat, który pilnuje suita,
 bo inaczej referencja linkuje do kotwicy, której nie sprawdza nikt.
 
@@ -468,7 +468,7 @@ gdzie zdanie bez tej klauzuli mówi to samo, klauzula schodzi,
 a gdzie nazwa jest tematem zdania, zostaje.
 Do przeczytania jest przy każdym zdaniu jedno pytanie:
 co czytelnik z tą nazwą zrobi, jeżeli rejestru nie otworzy.
-Po takim przebiegu `LINK_WARSTWY` w `tests/test_docs.py` może pytać
+Po takim przebiegu `LINK_WARSTWY` w `tests/dokumenty/test_docs.py` może pytać
 o samą nazwę, a nie o link, i dopiero teraz może:
 dokument orzekający o regułach prozy stoi w warsztacie,
 o który ten wzorzec nie pyta, więc nazwa zostaje tam, gdzie jest usterką.

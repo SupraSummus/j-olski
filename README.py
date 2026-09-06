@@ -11,10 +11,10 @@ README repozytorium jest dalej tamten plik i nic tutaj tego nie zmienia.
 
 Napisu tego nie trzyma żaden test, i jest to brak nazwany, a nie przeoczony.
 Literał skopiowany z wyjścia zgadza się z nim zawsze i nie orzeka nic,
-czego nie orzekł git, a maszyneria pod tymi drzewami ma w ``tests/test_skład.py``
+czego nie orzekł git, a maszyneria pod tymi drzewami ma w ``tests/skład/test_skład.py``
 własności nazwane po imieniu.
 Władzę nad napisem ma tekst napisany pierwszy, i tak stoi ``BAZYLISZEK``
-w ``tests/test_opowieść.py``, gdzie literał jest celem, a drzewa próbą w niego trafienia.
+w ``tests/skład/test_opowieść.py``, gdzie literał jest celem, a drzewa próbą w niego trafienia.
 
 **Kryterium wyjścia toru składu to nie jest.**
 Tamto żąda, żeby każde zdanie ``README.md`` wyszło z drzewa znak w znak,

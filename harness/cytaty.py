@@ -2,8 +2,8 @@
 
 Zdanie wklejone w dokument jako przykład zmienia się razem z gramatyką, a nie
 zmienia się razem z nim akapit nad nim: przykład przestaje wtedy pokazywać to, o
-czym tamten akapit mówi, i nie widzi tego żaden przebieg. ``tests/test_docs.py``
-czyta linki i anchory, a ``tests/test_wydruki.py`` bloki stojące pod komendą,
+czym tamten akapit mówi, i nie widzi tego żaden przebieg. ``tests/dokumenty/test_docs.py``
+czyta linki i anchory, a ``tests/dokumenty/test_wydruki.py`` bloki stojące pod komendą,
 czyli te, które komenda odtwarza; zdania w backtickach nie stoją pod żadną
 komendą i nie pilnuje ich nic.
 

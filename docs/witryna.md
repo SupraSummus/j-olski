@@ -31,7 +31,7 @@ Ten kierunek zależności jest właściwy.
 Blok checków nie rośnie od tego toru.
 Aplikacja jest zwykłą funkcją WSGI,
 więc suita woła ją wprost i nie potrzebuje serwera ani portu.
-`tests/test_witryna.py` podaje jej słownik środowiska i czyta odpowiedź.
+`tests/dokumenty/test_witryna.py` podaje jej słownik środowiska i czyta odpowiedź.
 Zależnością wykonawczą witryny jest gunicorn.
 Deklaruje go dodatek `witryna`, a suita go nie instaluje.
 
@@ -308,7 +308,7 @@ curl -s 'localhost:8000/makieta?ziarno=1871&akapity=1'
 }
 ```
 
-Bloki te odtwarza `tests/test_witryna.py`.
+Bloki te odtwarza `tests/dokumenty/test_witryna.py`.
 Puszcza on polecenie nad blokiem i porównuje odpowiedź z blokiem pod nim.
 Blok wklejony ręką rozjeżdża się po cichu z każdą zmianą w werdykcie.
 

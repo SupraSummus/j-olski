@@ -275,7 +275,7 @@ a wypadają te dzielone inaczej niż w drzewie.
 Co przestawia, widać na zdaniu prozy:
 `Wszystko jest podmiotem.` wychodziło pierwszym czytaniem z `Wszystko`
 w okoliczniku, bo przysłówek `wszystko` jest u Morfeusza regionalizmem.
-To jedno zdanie trzyma `tests/test_kolejność.py`,
+To jedno zdanie trzyma `tests/parser/test_kolejność.py`,
 bo suita banku drzew nie pobiera.
 
 **Koszt produkcji mierzy nad tą samą prozą osobna sonda, pozycja po pozycji**
@@ -317,7 +317,7 @@ więc ciało bez podmiotu i ciało z podmiotem rzadko biorą jeden napis.
 Kolejności dopisań nie widać w żadnej z tych trzech rzeczy i to jest cel.
 Przestawiona zmieniałaby pierwsze czytanie mniej więcej w połowie zdań
 wieloznacznych README, a werdyktu nie ruszała w żadnym;
-że dziś nie zmienia żadnego, pilnuje `tests/test_kolejność.py`.
+że dziś nie zmienia żadnego, pilnuje `tests/parser/test_kolejność.py`.
 Sama liczba trafień na tym nie zyskała, bo kolejność dopisań trafiała podobnie,
 i nie to było pytaniem: liczba z sekcji wyżej wisiała na czymś,
 czego nikt nie zadeklarował, więc ruszało ją każde przestawienie produkcji

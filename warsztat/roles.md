@@ -190,7 +190,7 @@ Wchodzi w [subset.md](../docs/subset.md), a stamtąd w `olski/subset/`,
 gdzie produkcje stoją w module swojego gospodarza.
 Testy tych produkcji dzielą się w `tests/` po gospodarzu,
 tak jak dzielą się po nim moduły w `olski/subset/`.
-Co olski przyjmuje i odrzuca w całości, pyta `tests/test_subset.py`.
+Co olski przyjmuje i odrzuca w całości, pyta `tests/gramatyka/test_subset.py`.
 Wymaganie idzie z tą rolą od początku i jest jedno:
 konstrukcja dopisana gramatyce dokłada czytania każdemu zdaniu, które ją ma.
 Zdanie z dwoma czytaniami olski odrzuca.

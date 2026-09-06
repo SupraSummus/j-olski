@@ -84,7 +84,7 @@ pod jedną morfologią i pod drugą, nad prozą tego repozytorium kilka,
 a jednoznaczności nie traci ani jedno zdanie w żadnym z tych trzech przebiegów.
 Sprawdzenie po stronie listy pyta o czytanie, a kryterium o wyprowadzenie,
 więc tego jednego lematu sprawdzenie nie obejmuje; pilnuje go zdanie
-(`tests/test_okolicznik.py`).
+(`tests/gramatyka/test_okolicznik.py`).
 
 ## Określenie przed zdaniem wchodzi pod to, które stoi za nim
 
@@ -254,14 +254,14 @@ niosą czytanie żeńskie nieodmienne obok męskiego — a w tym rejestrze ma to
 oraz [napis przytoczony](zdanie-złożone.md#interpunkcja-obejmująca-cudzysłów-wchodzi-w-grupę-a-nawias-staje-obok-zdania),
 bo czytanie, które przypadka nie rozstrzyga, spełnia każde jego żądanie i spełnia też to.
 `Zobacz docs/subset.md.` traci przez to jednoznaczność,
-a `tests/test_subset.py` trzyma tę cenę wypisaną zdaniami.
+a `tests/gramatyka/test_subset.py` trzyma tę cenę wypisaną zdaniami.
 Nad prozą tego repozytorium ubywa przez to kilku zdań przyjętych,
 a odrzuconych nie ubywa ani jedno.
 
 **Wysunięcia przed zdanie ta pozycja nie dostaje i jest to pomiar odmowny.**
 `Wieczorem wziął lustro.` zostaje przez to na zewnątrz,
 choć polszczyzna ten szyk pisze, a tor składu go wypisuje
-(`tests/test_rozbiór.py`).
+(`tests/skład/test_rozbiór.py`).
 
 Zderza się on z dwoma kształtami zdania, które gramatyka ma:
 z [szykiem od czasownika](orzeczenie.md#the-bare-verb-initial-order-keeps-the-predicative-one-honest)

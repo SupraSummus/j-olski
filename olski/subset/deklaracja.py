@@ -397,7 +397,7 @@ DEKLARACJA = Deklaracja(
 #: o symbolu dopisanym później; ile takie milczenie kosztuje, mówi komentarz
 #: przy `gospodarze` wyżej.
 #: Obie strony razem mają pokrywać to, co gramatyka niesie, i pilnuje tego check
-#: w ``tests/test_subset.py``, gdzie stoi powód, dla którego podział jest
+#: w ``tests/gramatyka/test_subset.py``, gdzie stoi powód, dla którego podział jest
 #: wypisany, a nie wyprowadzony.
 MIJANE = (
     # Sam ciąg ról przyłączanych oraz ciąg przysłówków w nim:
