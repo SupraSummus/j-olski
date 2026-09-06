@@ -131,8 +131,8 @@ Kolejność, którą mierzy sekcja wyżej, jest deklaracją.
 Czytania idą od najtańszego, a kosztem czytania jest suma cennika po całym drzewie
 (`czytania` w `olski/parse/las.py`).
 Remis rozstrzyga kolejność ciał jednej pozycji, a pod nią kolejność kombinacji córek.
-Ciała porządkuje las trzema rzeczami po kolei (`wyprowadzenia` w tym samym module):
-kosztem ciała, potem miejscem cięcia, a na końcu etykietą córki.
+Ciała porządkuje las miejscem cięcia, a pod nim etykietą córki
+(`wyprowadzenia` w tym samym module).
 
 Czytań to nie rusza — jest ich tyle samo i mówią to samo —
 więc kolejność rozstrzyga o tym, co czytelnik widzi u góry wydruku
@@ -141,8 +141,8 @@ Werdyktu rusza jedno: konstytuent nazywa się głową swojego pierwszego drzewa
 (`_przedstawiciel` w `olski/parse/las.py`),
 więc przyłączenie, którego dwaj gospodarze nosili jedną nazwę, dostaje po
 przestawieniu dwie i wychodzi na wierzch jako wybór.
-Nad prozą tego repozytorium pada tak jedno zdanie na blisko trzy tysiące,
-a nazwany w nim wybór czytania naprawdę zostawiają.
+Nad prozą tego repozytorium pada tak garść zdań na blisko trzy tysiące,
+a nazwany w nich wybór czytania naprawdę zostawiają.
 
 Koszt jest liczbą całkowitą i mówią o nim dwie rzeczy naraz:
 produkcja, którą ciało złożono, oraz morfologia, na której ono stoi.
@@ -192,12 +192,12 @@ wywód tego podziału wraz z ceną trzyma
 a tę samą listę czyta synteza, która formę odesłaną zdejmuje zamiast liczyć ją kosztem.
 
 Sumie obojętne jest, gdzie pod drzewem pozycja stoi,
-więc koszt morfologii i koszt produkcji różni tylko to, co robią w remisie:
-morfologia idzie w górę, aż trafi na ciała, które się nią różnią,
-a produkcja zostaje przy swoim ciele,
-bo ciała córki rozstrzygnęła już sama córka.
+więc obie rodziny kosztu płaci się tam, gdzie stoją:
+produkcję ciało, które ją nosi, a morfologię liść, na którym forma stoi.
+Wyżej żadna z nich nie idzie i nie ma po co,
+bo pozycję policzoną gdziekolwiek pod korzeniem suma i tak bierze.
 
-Cięcie rozstrzyga ciała jednego kosztu i idzie rozpiętością malejąco,
+Cięcie porządkuje ciała jednej pozycji i idzie rozpiętością malejąco,
 czyli przepuszcza przodem to czytanie, w którym wyrażenie dołączyło
 do konstytuentu stojącego tuż przed nim, a nie do tego wyżej.
 Nazywa się to domknięciem późnym, a kierunek wybrano pomiarem,
@@ -255,7 +255,7 @@ więc trafność brała z dopasowania do korpusu, a nie z deklaracji o polszczy�
 **Czytania porządkuje suma po całym drzewie, bo zmierzono ją wobec leksykografii,
 którą zastąpiła, i pod morfologią żywą wypada od niej lepiej.**
 Leksykograficzna była tamta kolejność dlatego, że drzewa wychodziły wyliczaniem
-w głąb, a ciała porządkuje koszt pozycji:
+w głąb, a ciała porządkował wtedy koszt pozycji:
 koszt przy korzeniu ważył więcej niż każdy koszt pod nim, choćby ich było kilka.
 Porządek po sumie wygrywa pod morfologią żywą kilkadziesiąt zdań
 na dwa i pół tysiąca, a pod złotą wygrywa tyle, ile traci.
@@ -276,6 +276,25 @@ a nie traci go ani jedno:
 a wychodzi z nią w podmiocie.
 Płaci za to garść zdań, w których podmiot autor naprawdę opuścił:
 tam suma wyjmuje formę z wyrażenia przyimkowego i stawia ją w podmiocie.
+
+**Ciała jednej pozycji porządkuje samo cięcie, bo koszt ciała powtarzał liczbę,
+którą suma zlicza sama.**
+Pod sumą został mu sam remis, bo drzewa scala kolejka po koszcie całego drzewa,
+a pozycję policzoną gdziekolwiek pod korzeniem suma i tak zlicza.
+Zdjęty nie rusza pod morfologią złotą ani jednego wiersza wydruku Składnicy,
+a pod żywą traci kilka złotych czytań pierwszych na dwa i pół tysiąca
+(`harness/skala.py`).
+Zdejmujemy go mimo tej straty, bo orzekał rzecz, której nikt nie zadeklarował:
+że przy równej sumie lepsze jest czytanie, w którym cena stoi niżej pod korzeniem.
+Cięcie na jego miejscu deklaruje domknięcie późne i ma za sobą pomiar.
+Nad prozą tego repozytorium przestawia to czytanie pierwsze w garści zdań
+na blisko trzy tysiące.
+
+Wraz z kosztem ciała odpadają dwa przejścia:
+wycena ciała schodziła po całym poddrzewie pozycji,
+a tablica wyceniała po drodze każde odczytanie każdej formy.
+Kupuje to dwudziestą część opkodów rozbioru README (`harness/opkody.py`),
+a na zegarze ledwie tę różnicę widać ponad rozrzutem przebiegów.
 
 Remis sumy rozstrzyga kolejność, w jakiej wychodzą kombinacje córek
 (`_iloczyn` w `olski/parse/las.py`), a nie kolejność dawna, i tak jest lepiej.

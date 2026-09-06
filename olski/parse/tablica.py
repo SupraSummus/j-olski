@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from olski import rejestr
 from olski.grammar import EMPTY, Grammar, Part, Production, Sym, Word, bierze
 from olski.morph import Segment
 from olski.parse.czytanie import Pozycja
@@ -83,10 +82,6 @@ class _Tablica:
         self._zaczynane = grammar.zaczynane()
         #: Pozycja grafu → terminal → krawędzie, które on w niej bierze.
         self._brane_memo: dict[int, dict[Word, tuple[Segment, ...]]] = {}
-        #: (terminal, rozpiętość) → koszt najtańszego czytania, którym ten terminal
-        #: tę formę bierze (:meth:`koszt_morfologii`). Liczy się razem z ``_brane``,
-        #: bo pyta o to samo: które czytania krawędzi ten terminal przepuszcza.
-        self._koszty_morfologii: dict[tuple[Word, tuple[int, int]], int] = {}
         #: Pozycja grafu → części ciała, którymi da się w niej zacząć córkę.
         self._możliwe_memo: dict[int, frozenset[Part]] = {}
         self._rozbierz()
@@ -224,39 +219,18 @@ class _Tablica:
         if gotowe is None:
             zebrane: dict[Word, dict[Segment, None]] = {}
             for segment in self.krawędzie.get(k, ()):
-                span = (segment.start, segment.end)
                 for reading in segment.readings:
                     pos, cechy = reading.tag.pos, reading.tag.cechy
-                    koszt = rejestr.koszt(reading.kwalifikatory)
                     for terminal in self.grammar.terminale_dla(pos):
                         if (
                             bierze(terminal, pos, reading.lemma, segment.lematy, cechy, EMPTY)
                             is not None
                         ):
                             zebrane.setdefault(terminal, {})[segment] = None
-                            klucz = (terminal, span)
-                            self._koszty_morfologii[klucz] = min(
-                                self._koszty_morfologii.get(klucz, koszt), koszt
-                            )
             gotowe = self._brane_memo[k] = {
                 terminal: tuple(krawędzie) for terminal, krawędzie in zebrane.items()
             }
         return gotowe
-
-    def koszt_morfologii(self, terminal: Word, span: tuple[int, int]) -> int:
-        """Ile kosztuje najtańsze czytanie, którym ten terminal bierze tę formę.
-
-        Najtańsze, a nie każde, bo forma wzięta dwoma czytaniami jest w drzewie
-        jednym liściem i wybór między nimi nie należy do gramatyki (:class:`Leaf`):
-        `Janek` w podmiocie jest i rzeczownikiem, i nazwiskiem nieodmiennym,
-        więc kosztować może tylko to, co niosą oba.
-
-        Pytanie pada z ``EMPTY`` tak samo jak w :meth:`_brane`:
-        unifikacja odsiewa potem czytania, których to pytanie nie odsiało,
-        więc koszt jest tu najwyżej za niski, a nigdy za wysoki.
-        """
-        self._brane(span[0])
-        return self._koszty_morfologii.get((terminal, span), 0)
 
     def możliwe(self, k: int) -> frozenset[Part]:
         """Części ciała, którymi w tej pozycji grafu da się zacząć córkę.

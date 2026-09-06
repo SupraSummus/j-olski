@@ -16,12 +16,11 @@ więc pozycja policzona przy korzeniu waży tyle samo, co pozycja spod niego.
 Zmierzony jest sam znak ceny, a wysokość nie,
 i zmierzono to porządkiem, który suma zastąpiła.
 
-Ciała jednej pozycji lasu rozstrzygają remis sumy i tam obie rodziny pozycji
-różni to, dokąd cena sięga.
-Pozycję produkcji płaci ciało i płaci ją na miejscu, bo ciała córki
-rozstrzygnęła sama córka.
-Pozycję morfologii płaci forma, a cena idzie w górę,
-aż trafi na ciała, które się nią różnią (``koszt_morfologii`` w ``olski/parse/las.py``).
+Obie rodziny pozycji płaci się na miejscu:
+pozycję produkcji ciało, które ją nosi,
+a pozycję morfologii liść, na którym forma stoi
+(:attr:`olski.parse.czytanie.Leaf.koszty`).
+Wyżej żadna z nich nie idzie, bo suma bierze je spod całego drzewa.
 """
 
 from __future__ import annotations

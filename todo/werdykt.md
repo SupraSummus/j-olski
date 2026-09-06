@@ -1,24 +1,24 @@
 # Werdykt i wydruk
 
-Gospodarz o dwóch kształtach ma dwie głowy, a werdykt nazywa jedną i nie mówi którą.
-`Organ gminy może wyznaczyć swojego przedstawiciela do udziału w zgromadzeniu.`
-daje wiersz `„do udziału” → „może”, „przedstawiciela”`,
-a grupa imienna nazwana tam `przedstawiciela` jest w innym czytaniu grupą,
-w której głową jest `swojego`:
-przymiotnik ma czytanie rzeczownikowe, a rzeczownik dopełniaczowe,
-czyli tę samą parę, o którą pyta wpis o rzeczownikowym czytaniu przymiotnika.
-Wybór między tymi dwiema nazwami robi porządek, w jakim las wydaje drzewa,
-bo `_przedstawiciel` w `olski/parse/las.py` bierze pierwsze z nich,
-a porządek ten idzie po rozpiętościach córek (`ciała` w tym samym pliku)
-i o tym, która głowa nazywa grupę imienną, nie mówi nic.
+Wiersz przyłączenia nazywa gospodarza jedną z jego dwóch głów, a czytanie pod nim drugą.
+`Drugi pomiar z tej serii mówi, gdzie leży masa decyzji, i jest gorszą wiadomością.`
+daje wiersz `„z tej serii” → „pomiar”, „mówi”`, a pod nim czytanie z `→ „Drugi”`.
+`Drugi pomiar` wychodzi dwoma kształtami, bo przymiotnik ma czytanie rzeczownikowe,
+a rzeczownik dopełniaczowe — tę samą parę, o którą pyta wpis
+o rzeczownikowym czytaniu przymiotnika.
+Wiersz mówi o gospodarzu, więc nazywa go raz, głową jego czytania pierwszego
+(`_przedstawiciel` w `olski/parse/las.py`),
+a czytanie mówi o sobie i nazywa go swoją własną głową
+(`gospodarz` w `olski/parse/streszczenie.py`).
+Obie odpowiedzi są u siebie dobre, a czytelnik widzi dwa wiersze, które się nie zgadzają.
 Formom to nie grozi, bo konstytuent ma je w każdym czytaniu te same.
-Ruchem jest albo obie głowy w tym wierszu, albo pierwsza z zadeklarowanym kryterium.
-Przeciw pierwszemu: wiersz przyłączenia mówi o jednym wyborze,
-a `swojego` bierze się z czytania słownikowego, nie z przyłączenia,
-więc wiersz zaczyna mówić o dwóch wieloznacznościach naraz;
-przeciw drugiemu: kryterium na kształt grupy imiennej to gramatyka pisana drugi raz.
+Ruchem są obie głowy w tym wierszu, a przeciw niemu jest to,
+że wiersz przyłączenia mówi o jednym wyborze,
+a druga głowa bierze się z czytania słownikowego, nie z przyłączenia.
+Wieloznaczność samej grupy werdykt wypisuje osobno — `„Drugi pomiar” ma 2 odczytania` —
+więc taniej nazwać ją tam, i tego samego żąda wpis niżej o grupie imiennej rozbieżnej.
 Do przeczytania jest, jak często rejestr ustaw taki wiersz wydaje,
-bo od tego zależy, czy ten wpis jest wart ceny któregokolwiek z dwóch ruchów.
+bo od tego zależy, czy ten wpis jest wart ceny tego ruchu.
 
 Grupa imienna rozbieżna zostaje bez listy czytań, bo streszczenie nie ma w niej czego nazwać.
 `Verdict.rozbieżne` w `olski/werdykt/zdanie.py` wypuszcza konstytuent,
