@@ -152,7 +152,7 @@ Trzecie jest formą, której czytania zdjęła morfologia:
 ([`docs/konstrukcje-gramatyczne/grupa-imienna.md`](../docs/konstrukcje-gramatyczne/grupa-imienna.md#forma-przyimkowa-zaimka-żąda-przyimka-przed-sobą)),
 czyli ani leksykon, ani produkcja.
 Ta trzecia waży najwięcej na torze pisania pod tę gramatykę
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md)),
+([`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md)),
 bo komunikat odsyła autora do gramatyki, a poprawka stoi w jego zdaniu.
 Rozdziela ją już przebieg nad korpusem: `bloker` w `olski/pokrycie.py`
 daje formie opróżnionej wykluczeniem wiersz osobny od zdania bez struktury,
@@ -207,7 +207,7 @@ Przeciw scaleniu jest to, że wzorzec przeżyje sondę: `próba/wybory.txt` stoi
 Kolejka blokerów grupuje zatrzymania po części mowy, a nad wierszami zamkniętymi
 zbiera pod jedną nazwą formy żądające różnych konstrukcji: wiersz `conj` prowadzą
 nad tą prozą `i` oraz `a`, a pod nimi stoją `czy`, `czyli` i `ani`
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
+([`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#kolejka-czytana-po-formie-mówi-to-czego-nie-mówi-po-części-mowy)).
 Ruchem jest `bloker` w `olski/pokrycie.py` nazywający formę tam, gdzie każde
 jej czytanie należy do klasy zamkniętej (`CLOSED_CLASS` stoi w `olski/segmentacja.py`),
 a część mowy tam, gdzie nie: dla `ustawienia` przydatna jest część mowy, dla `i` napis.
@@ -247,7 +247,7 @@ Ruchem jest `--odczytania` wraz z każdym wywołaniem w dokumentach;
 bloki nad wydrukami pilnuje `tests/test_wydruki.py`, bo puszcza to, co w nich stoi,
 a wystąpień w prozie nie pilnuje nic i te trzeba przejść grepem.
 Do przeczytania jest przy tym
-[`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej),
+[`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej),
 gdzie ta flaga stoi jako przykład tego, na co Morfeusz rozbiera nazwę z myślnikami.
 
 Dwa miejsca tną zdanie interpunkcją na człony, a zbiory znaków mają różne.

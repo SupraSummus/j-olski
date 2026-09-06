@@ -158,7 +158,7 @@ Wpis waży przy tym więcej, niż mówi liczba zdań, i mówi to drugie użycie 
 `Premier — większości nie może ruszyć.` nie miałoby czytania z grupą
 `premier większości`, bo grupa imienna myślnika nie przechodzi,
 czyli autor dostaje znak, którym rozstrzyga sam
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md)),
+([`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md)),
 a takich pozycji ten podzbiór ma niewiele.
 Ceną jest to, że znak ten ma dziś dwa ciała — rozdzielające i parę —
 więc ciało pojedyncze wewnątrz zdania konkuruje z obydwoma,

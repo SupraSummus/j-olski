@@ -241,9 +241,6 @@ class Verdict:
     def morfologia(self) -> list[tuple[OdczytaniaFormy, ...]]:
         """Czym formy stoją w każdym odczytaniu: wpis na streszczenie z :attr:`readings`.
 
-        Po co ta odpowiedź autorowi, mówi
-        docs/pisanie-po-olsku.md#skąd-bierze-się-odczytanie-którego-autor-nie-widzi.
-
         Wiersz dostaje forma czytana więcej niż jednym sposobem, a odczytania w
         nim licencjonują ją w tym kształcie (:attr:`olski.parse.Leaf.odczytania`);
         wiersze składa :func:`olski.werdykt.wykazy._pod_streszczeniem`,

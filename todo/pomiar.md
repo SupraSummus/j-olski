@@ -268,7 +268,7 @@ wariant zastępujący każde zdjęte ciało wyprowadzałby wszystko, co wyprowad
 i wtedy sonda dostałaby wariant najszerszy, którego dziś nie ma
 (`Sonda.najszerszy` w `harness/ruch.py`).
 
-Lista w [`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej)
+Lista w [`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej)
 jest ułożona częstością zawrócenia, a jednej pozycji ta częstość spadła
 i nikt listy nie przeliczył.
 Wpis o cząstce `się` obejmował dwie rzeczy — cząstkę przy bezokoliczniku

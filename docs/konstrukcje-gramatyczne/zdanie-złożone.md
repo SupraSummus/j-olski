@@ -382,8 +382,7 @@ a `Ustawa jest przepisem „Zasad techniki prawodawczej”.` dopełniacz.
 Napis niedomknięty wyprowadzenia nie ma.
 Cudzysłowa maszynowego — `"Zasady techniki prawodawczej"` — produkcja nie bierze,
 bo ten jeden znak nie jest żadnym z tych dwóch,
-a za napis, którego polszczyzna nie pisze, płaci autor
-([pisanie-po-olsku.md](../pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie));
+a za napis, którego polszczyzna nie pisze, płaci autor;
 werdykt nazywa mu wtedy parę, którą ten rejestr pisze
 ([subset.md](../subset.md#odrzucenie-mówi-dokąd-analiza-doszła-a-nie-gdzie-stoi-usterka)).
 Wnętrzem tej produkcji jest sama grupa imienna,
@@ -515,8 +514,7 @@ współrzędnym wyrażeń przyimkowych
 ([grupa-imienna.md](grupa-imienna.md#wyrażenie-przyimkowe-koordynuje-się-tak-jak-grupa-imienna)):
 bez tamtej pozycji `— w prozie czy w kodzie —` potyka się o spójnik w środku pary,
 a samo wypełnienie nie kupuje wtedy ani jednego zdania.
-Dwie pozycje wpuszczone razem bywają przez to warte więcej niż z osobna
-([pisanie-po-olsku.md](../pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
+Dwie pozycje wpuszczone razem bywają przez to warte więcej niż z osobna.
 Jednoznaczności nie traci przy żadnym z tych trzech ani jedno zdanie,
 a zdania nowo wyprowadzone wychodzą wieloznaczne:
 są długie i niosą wieloznaczność z innego powodu.

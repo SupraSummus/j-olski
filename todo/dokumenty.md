@@ -177,7 +177,7 @@ wykluczenie, które ktoś naprawdę by zaproponował, zostaje
 Do przeczytania jest cena po stronie gramatyki:
 zdanie zanegowane wychodzi jednoznaczne przez dopełniacz,
 więc taki przebieg kupuje czytelność kosztem jednoznaczności
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#cena-którą-olski-zostawia-w-prozie)).
+([`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#cena-którą-olski-zostawia-w-prozie)).
 Kto podnosi ten wpis, rozstrzyga też, czy klasa jest robotą ręczną,
 czy pierwszym wzorcem dla wykrywacza z [listy celów](../docs/roadmap.md#cele).
 
@@ -292,7 +292,7 @@ jest poprawnych. Polska interpunkcja stawia go tam tylko wtedy, gdy domyka zdani
 podrzędne albo wtrącenie, a w `docs/architecture.md` pięć zdań miało go bez żadnego
 z tych dwóch powodów; znalazł je werdykt `rejected`, bo o interpunkcji nie mówi tu
 ani jedna reguła prozy
-([`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#odrzucenie-bywa-poprawką)).
+([`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#odrzucenie-bywa-poprawką)).
 Ruchem jest przejść wystąpienia `, i` w prozie polskiej tego repozytorium i skasować
 te, które niczego nie domykają.
 Do przeczytania jest samo zdanie przy każdym z nich, bo tego nie policzy żaden
@@ -308,7 +308,7 @@ Strona nie przedstawia drugiego toru, a nazywa go dwa razy:
 w ostatniej pozycji listy zastosowań i w akapicie nad makietą
 (`witryna/strona.html`).
 Wprowadzenie mówi o samym parserze, więc czytelnik z zewnątrz
-([`docs/roles.md`](../docs/roles.md#ktoś-kto-trafia-tu-pierwszy-raz))
+([`warsztat/roles.md`](../warsztat/roles.md#ktoś-kto-trafia-tu-pierwszy-raz))
 dostaje nazwę, której nikt mu nie przedstawił
 ([`CLAUDE.md`](../CLAUDE.md#the-reader-goes-sentence-by-sentence)).
 Usterka ta dotyka też zdania nad listą: obiecuje ono jeden komponent,
@@ -329,7 +329,7 @@ kolejka zamykająca sekcję
 oraz akapit sekcji
 [o wolnym celowniku](../docs/walencja.md#wolny-celownik-nie-jest-pozycją-ramy-i-nie-wchodzi-leksykonem),
 a czwarty raz, ułożone częstością zawrócenia, wylicza je
-[`docs/pisanie-po-olsku.md`](../docs/pisanie-po-olsku.md#czego-brakuje-najbardziej).
+[`warsztat/pisanie-po-olsku.md`](../warsztat/pisanie-po-olsku.md#czego-brakuje-najbardziej).
 Sześć wpisów sekcji o konstrukcjach, których gramatyka nie ma,
 przepisuje tę parę słowo w słowo: pięć za tamtą kolejką, jeden za tamtym akapitem.
 Obydwa te miejsca kończą się przy tym zdaniem oddającym ruch do tego pliku,
@@ -339,7 +339,7 @@ a nie skrócenie sześciu wpisów po kolei:
 skrócić da się je równie dobrze z drugiej strony,
 czyli tam, gdzie lista ruch i tak oddaje.
 Do przeczytania są te cztery wyliczenia naraz, bo każde pisze tę samą parę
-dla innego czytelnika, oraz [`docs/roles.md`](../docs/roles.md),
+dla innego czytelnika, oraz [`warsztat/roles.md`](../warsztat/roles.md),
 bo od roli zależy, komu ta para jest w tym miejscu potrzebna.
 
 [`docs/linter.md`](../docs/linter.md) jest dwoma dokumentami w jednym.
@@ -377,10 +377,6 @@ otwierający blok tak samo jak wstawkę i nie schodzi do pozycji listy.
 Ruchem jest przepisanie tamtego czytnika na tokeny,
 bo `markdown_it` daje pod `map` zakres wierszy, którego to parowanie potrzebuje.
 Do przeczytania jest `_wydruki`, a nie sam `_ogrodzone`, bo to ono liczy na numery.
-Zbiór plików wypisują przy tym trzy miejsca i nie jest on w nich ten sam:
-`DOCUMENTS` w `tests/test_docs.py` oraz `domyślne` w `harness/cytaty.py`
-biorą korzeń wraz z `docs/` i `todo/`, a `_wydruki` pomija `CLAUDE.md` i `todo/`,
-więc bloku wydruku wklejonego do tych dwóch nie pilnuje nic.
 
 Dwa zdania [`docs/corpus.md`](../docs/corpus.md#where-the-analyses-stop) wskazują
 [listę braków](../docs/subset.md#what-it-does-not-cover-yet), a nazywają konstrukcje wpuszczone.
@@ -465,33 +461,33 @@ Wpisu ta nazwa nie identyfikuje, bo wpis nazywa się tym, o czym mówi,
 a rejestr jest dłuższy, niż ktokolwiek czyta,
 więc czytelnik dostaje kierunek zamiast miejsca.
 Pod adresem nie ma przy tym czego otworzyć, bo strona rejestru nie wydaje
-([`docs/publikacja.md`](../docs/publikacja.md#strona-nie-wydaje-instrukcji-sesji-ani-rejestru-otwartej-roboty)).
+([`docs/publikacja.md`](../docs/publikacja.md#strona-nie-wydaje-warstwy-roboczej)).
 Ruchem jest przebieg po jednym dokumencie na commit,
 w którym każde takie zdanie rozstrzyga się osobno:
 gdzie zdanie bez tej klauzuli mówi to samo, klauzula schodzi,
 a gdzie nazwa jest tematem zdania, zostaje.
 Do przeczytania jest przy każdym zdaniu jedno pytanie:
 co czytelnik z tą nazwą zrobi, jeżeli rejestru nie otworzy.
-Do rozstrzygnięcia jest przy tym, czy po takim przebiegu
-`LINK_INSTRUKCJI` w `tests/test_docs.py` ma pytać o samą nazwę, a nie o link:
-dokument orzekający o regułach prozy nazwę mieć musi,
-a wzorzec nie odróżni go od dokumentu, który się na tych regułach opiera.
+Po takim przebiegu `LINK_WARSTWY` w `tests/test_docs.py` może pytać
+o samą nazwę, a nie o link, i dopiero teraz może:
+dokument orzekający o regułach prozy stoi w warsztacie,
+o który ten wzorzec nie pyta, więc nazwa zostaje tam, gdzie jest usterką.
+Przebieg obejmuje przy tym samo `docs/`: te same klauzule w warsztacie
+naprawia się linkiem, bo tam adres jest dozwolony.
 
-`docs/roles.md` mówi o pracy w tym repozytorium, a nie o polszczyźnie,
-więc reguła kierunku zabrała mu kilka adresów, na których stały jego zdania:
-„Przegląd zmian pyta, jaki problem znika ze zmianą”
-nie mówi już, gdzie ten przegląd opisano, a „Granicę między nimi
-trzyma nagłówek rejestru” nie mówi, którego pliku ten nagłówek jest nagłówkiem.
-Tym samym kryterium, na którym reguła stoi — dokument ma sens bez instrukcji,
-a instrukcja bez dokumentu nie — ten jeden dokument wychodzi po drugiej stronie:
-bez instrukcji nie ma o czym mówić.
-Ruchem jest rozstrzygnięcie, gdzie on należy: zostaje w `docs/` bez adresów,
-wchodzi do wyjątków checku, albo staje obok instrukcji i wtedy wolno mu wskazywać.
-Do przeczytania są przy tym dwa miejsca:
-spis w `docs/README.md`, który żąda wiersza dla każdego pliku tego katalogu,
-oraz `docs/publikacja.md`, bo strona bierze prozę w układzie katalogów repozytorium.
-Ten sam kształt, tylko słabszy, mają `docs/linter.md` i `docs/pisanie-po-olsku.md`:
-oba orzekają o regułach prozy, a nazwy sekcji im zostały.
+Spis w `docs/README.md` dzieli dokumenty po torach, a nie po czytelniku,
+więc ten, kto olskiego używa, przebiega w torze gramatycznym kilkanaście pozycji
+i połowa z nich jest dla kogoś, kto gramatykę zmienia:
+pomiar nad bankiem drzew, przegląd korpusów, wybór parsera, adnotacje.
+Granicy między jednym a drugim spis nie stawia, a
+[`CLAUDE.md`](../CLAUDE.md#dokument-i-kod-nie-wskazują-na-warstwę-roboczą)
+mówi, czemu nie stawia jej katalog: wskazania między tymi dwiema klasami są nośne.
+Ruchem jest podział spisu po tym, kto po pozycję przychodzi,
+w miejsce podziału po torach albo obok niego,
+i nie rusza on ani jednego pliku, więc nie tyka też ani jednego wskazania.
+Do przeczytania są przedtem [role](../warsztat/roles.md),
+bo to one nazywają czytelników,
+a pozycja spisu ma trafić w jednego z nich, a nie w dwóch naraz.
 
 Dwa zdania wiodące
 [sekcji o pomiarze](../CLAUDE.md#pomiar-i-liczba-która-po-nim-zostaje) —

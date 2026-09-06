@@ -155,8 +155,6 @@ zdań: 2; wieloznaczne: 0; bez odczytania: 2
 ```
 
 Cięcie nie jest granicą konstrukcji.
-Po co ta flaga jest, mówi
-[docs/pisanie-po-olsku.md](docs/pisanie-po-olsku.md#odrzucenie-mówi-na-czym-stanęło-i-mówi-to-raz).
 
 Tryb ścisły tego milczenia nie przyjmuje.
 Zdanie bez odczytania jest w nim zgłoszeniem i autor je przepisuje.

@@ -8,12 +8,11 @@ Na końcu stoi to, co tę drogę psuje, oraz obsada tej roli.
 
 Potrzeba jest jedna i konkretna.
 Zmiana w dokumencie nie ma jak odpowiedzieć, na czyjej drodze leży.
-Lista dokumentów w [docs/README.md](README.md) mówi, co stoi w każdym pliku.
+Lista dokumentów w [docs/README.md](../docs/README.md) mówi, co stoi w każdym pliku.
 Nie mówi, kto po ten plik przychodzi.
 Dopisanie akapitu jest przez to tanie.
 Przecięcie cudzej drogi jest przy tym niewidoczne.
-Przegląd zmian
-pyta, jaki problem znika ze zmianą.
+[Przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku) pyta, jaki problem znika ze zmianą.
 Tu stoi druga połowa tego pytania, czyli to, kogo ta zmiana dotyczy.
 
 ## Rola jest postawą, nie osobą
@@ -50,12 +49,12 @@ Każda rola niżej mówi więc, kto ją obsadza.
 
 Pyta, co to jest i czy go to dotyczy.
 Wchodzi na początek [README](../README.md) i czyta w dół.
-Wskazanie na [listę dokumentów](README.md) na jego końcu
+Wskazanie na [listę dokumentów](../docs/README.md) na jego końcu
 jest wyjściem, a nie treścią.
 Cała droga tej roli mieści się w jednym pliku.
 Drugim wejściem jest witryna, o ile ktoś postawi ją pod adresem.
 Strona zaczyna od tego samego wprowadzenia i prowadzi do pola tekstowego
-([witryna.md](witryna.md#strona-zaczyna-od-tego-czym-olski-jest)).
+([witryna.md](../docs/witryna.md#strona-zaczyna-od-tego-czym-olski-jest)).
 
 **Psuje ją** mechanizm postawiony przed ramą.
 Psuje ją też nazwa użyta przed wprowadzeniem.
@@ -83,12 +82,12 @@ Dokument powtarzający zachowanie gramatyki cicho się z nią rozjeżdża,
 bo kod jest właścicielem tego, co zaimplementowane.
 Do dokumentów ta rola wchodzi po jedną rzecz, której z wyjścia nie widać.
 Jest nią to,
-[dlaczego wieloznaczność jest odpowiedzią, a odrzucenie milczeniem](subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
+[dlaczego wieloznaczność jest odpowiedzią, a odrzucenie milczeniem](../docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem).
 
 Drugie wejście tej roli jest w przeglądarce i prowadzi do tego samego werdyktu.
 Witryna woła tę samą gramatykę.
 Pokazuje przy tym frazę, którą drukuje wiersz poleceń
-([witryna.md](witryna.md#werdykt-idzie-w-tych-słowach-w-których-drukuje-go-olski-check)).
+([witryna.md](../docs/witryna.md#werdykt-idzie-w-tych-słowach-w-których-drukuje-go-olski-check)).
 Osobnego podręcznika strona też nie ma,
 bo pole tekstowe pyta o to samo, o co pyta `-c`.
 
@@ -98,7 +97,7 @@ Psuje ją też odrzucenie podane bez tego, dokąd analiza doszła.
 **Obsadza ją** autor, z klona repozytorium.
 Instalacji poza klonem nie ma.
 Witryna tego nie zmienia, dopóki nikt nie postawi jej pod adresem
-([witryna.md](witryna.md#nie-zapadło)).
+([witryna.md](../docs/witryna.md#nie-zapadło)).
 
 ## Autor, który sprawdza własny tekst
 
@@ -108,7 +107,7 @@ Wchodzi przez `olski-check` nad własnym plikiem i czyta znaleziska,
 a odpowiedź o odczytaniach czyta wtedy, gdy o nią pyta.
 Czego ta rola od narzędzia chce, wylicza korpus usterek (`próba/usterki.txt`),
 a ile z tego dziś dostaje, mówi `python3 -m harness.usterki`.
-Dla tej roli jest [to, co budowane](roadmap.md#co-jest-budowane).
+Dla tej roli jest [to, co budowane](../docs/roadmap.md#co-jest-budowane).
 
 **Psuje ją** zgłoszenie fałszywe, bo kosztuje zdanie przepisane bez powodu.
 Psuje ją też milczenie nad zdaniem, które czytelnik by poprawił,
@@ -125,17 +124,17 @@ i to jest rola, dla której wydanie by powstało.
 ## Planista
 
 Pyta, co jest na horyzoncie i co jest następne.
-Wchodzi w [roadmap.md](roadmap.md), gdzie stoją umowa z autorem, cele i kierunek.
+Wchodzi w [roadmap.md](../docs/roadmap.md), gdzie stoją umowa z autorem, cele i kierunek.
 Numerowanych etapów nie ma tam żaden tor gramatyczny,
 bo tor ten nie ma końca
-([tamże](roadmap.md#tor-gramatyczny-nie-ma-końca)),
+([tamże](../docs/roadmap.md#tor-gramatyczny-nie-ma-końca)),
 a odcinków z kryterium wyjścia dla czegoś, co się nie kończy, nikt nie podnosił.
 Kryterium wyjścia ma tam jeden tor i jest nim skład
-([tamże](roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)).
+([tamże](../docs/roadmap.md#kryterium-wyjścia-toru-składu-to-znów-readme)).
 Dalej rozchodzą się trzy listy.
-Granicę między nimi trzyma nagłówek rejestru.
+Granicę między nimi trzyma [nagłówek rejestru](../todo/README.md).
 Co zamyka commit w tym repozytorium, jest tam.
-Co zamyka świat zewnętrzny, siedzi w [open-questions.md](open-questions.md)
+Co zamyka świat zewnętrzny, siedzi w [open-questions.md](../docs/open-questions.md)
 albo w sekcji `Not yet decided` dokumentu, który jest właścicielem tematu.
 
 Partię wpisów rozdziela decyzja, którą sesja rozstrzyga,
@@ -187,7 +186,7 @@ bo nagłówek rejestru każe zaglądać tam przed zaczęciem czegokolwiek.
 ## Autor produkcji
 
 Pyta, jak dopisać gramatyce konstrukcję i co ona kosztuje.
-Wchodzi w [subset.md](subset.md), a stamtąd w `olski/subset/`,
+Wchodzi w [subset.md](../docs/subset.md), a stamtąd w `olski/subset/`,
 gdzie produkcje stoją w module swojego gospodarza.
 Testy tych produkcji dzielą się w `tests/` po gospodarzu,
 tak jak dzielą się po nim moduły w `olski/subset/`.
@@ -198,7 +197,7 @@ Zdanie z dwoma czytaniami olski odrzuca.
 Pokrycie kupione bez pomiaru bywa przez to pokryciem ujemnym.
 Straconym zdaniem jest to, które wychodziło już bez tej produkcji.
 Gdzie bez niej nie wychodzi żadne, liczba ruchu nie odwróci.
-Co pomiar mówi, trzyma [corpus.md](corpus.md).
+Co pomiar mówi, trzyma [corpus.md](../docs/corpus.md).
 
 Cena odpowiada przy tym na pytanie o wysokość, a nie na pytanie o zasadność.
 Kto płaci za odrzucone zdanie, rozstrzyga się z fotela użytkownika.
@@ -207,16 +206,16 @@ Kryterium trzyma
 
 Droga jest za każdym razem ta sama.
 Tyle o niej trzeba wiedzieć.
-Sekcja w [subset.md](subset.md#what-the-grammar-covers) mówi, co już stoi.
+Sekcja w [subset.md](../docs/subset.md#what-the-grammar-covers) mówi, co już stoi.
 Ciało dochodzi do modułu swojego gospodarza w `olski/subset/`,
 a nacechowane nazywa przy tym pozycję z `olski/cennik.py`,
 bo nienazwane orzeka, że jest zwyklejsze od ciała, które płaci
-([disambiguation.md](disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
+([disambiguation.md](../docs/disambiguation.md#kolejność-czytań-ustala-koszt-i-późne-domknięcie)).
 Cenę wydaje sonda różnicowa pisana na jeden przebieg nad `harness/ruch.py`.
-Korpusy ściąga się poleceniami z [corpus.md](corpus.md#fetching-it)
-oraz z [ustawy.md](ustawy.md#skąd-bierze-się-korpus).
+Korpusy ściąga się poleceniami z [corpus.md](../docs/corpus.md#fetching-it)
+oraz z [ustawy.md](../docs/ustawy.md#skąd-bierze-się-korpus).
 Wywód wraca do sekcji, która tę konstrukcję trzyma,
-oraz jednym zdaniem ze wskaźnikiem do [roadmap.md](roadmap.md)
+oraz jednym zdaniem ze wskaźnikiem do [roadmap.md](../docs/roadmap.md)
 i do dokumentów rejestrów.
 
 **Psuje ją** dokument powtarzający to, co produkcja robi,
@@ -230,7 +229,7 @@ Pyta, ile ta gramatyka dziś kosztuje i co ona kupuje.
 Odpowiadają mu narzędzia w `harness/`.
 Każde z nich drukuje swoje liczby i żadne nie zapisuje ich do repozytorium.
 Korpus, bez którego nie ma czego czytać, ściąga się raz na sesję
-([corpus.md](corpus.md#fetching-it)).
+([corpus.md](../docs/corpus.md#fetching-it)).
 Dwa programy tego pakietu do repozytorium jednak piszą i pomiarem nie są.
 Pliki, które gramatyka potem czyta, wypisują `harness/walenty.py`
 oraz `harness/skłonności.py`.
@@ -238,10 +237,10 @@ Dokument liczby dokładnej nie nosi, bo zwykły rozwój projektu ją unieważnia
 Zdanie w dokumencie mówi więc rząd wielkości, a przebieg mówi liczbę.
 Wyjątkiem są liczby policzone silnikiem, który wyszedł razem z pakietem reguł.
 Każdy dokument, który je nosi, mówi to o sobie sam.
-[firing-rates.md](firing-rates.md) nazywa wypisane w sobie polecenia zapisem,
+[firing-rates.md](../docs/firing-rates.md) nazywa wypisane w sobie polecenia zapisem,
 a nie robotą do powtórzenia.
-[corpora.md](corpora.md#how-the-counts-here-were-taken)
-oraz [audit-corpus.md](audit-corpus.md#the-list)
+[corpora.md](../docs/corpora.md#how-the-counts-here-were-taken)
+oraz [audit-corpus.md](../docs/audit-corpus.md#the-list)
 mówią, że ostatni krok ich liczenia pisze na nowo ten, kto je powtarza.
 
 **Psuje ją** liczba w dokumencie bez polecenia, które ją wyprodukowało.
@@ -254,17 +253,17 @@ Widać to po tabelach, które mają datowane pochodzenie.
 ## Czytelnik toru gramatycznego
 
 Pyta, co olski parsuje i dlaczego wieloznaczność jest odpowiedzią, a odrzucenie milczeniem.
-Wchodzi w [subset.md](subset.md), a dalej w [design-notes.md](design-notes.md)
+Wchodzi w [subset.md](../docs/subset.md), a dalej w [design-notes.md](../docs/design-notes.md)
 po drabinę kosztów i po urwisko nieciągłości.
-Sąsiedztwo tego toru opisują [swigra.md](swigra.md),
-[glr-in-practice.md](glr-in-practice.md) oraz [prior-art.md](prior-art.md).
+Sąsiedztwo tego toru opisują [swigra.md](../docs/swigra.md),
+[glr-in-practice.md](../docs/glr-in-practice.md) oraz [prior-art.md](../docs/prior-art.md).
 W kodzie są to `olski/grammar.py` i `olski/check.py`.
-Kto wchodzi stąd w `olski/parse/`, czyta [parsowanie.md](parsowanie.md),
+Kto wchodzi stąd w `olski/parse/`, czyta [parsowanie.md](../docs/parsowanie.md),
 bo ten dokument wywodzi las i to, co werdykt nad nim mówi.
 
 **Psuje ją** dokument tego toru otwierający się zastrzeżeniem,
 że tor jest opcjonalny i czyta się go drugi.
-Gramatyka jest [tym, co budowane](roadmap.md#co-jest-budowane),
+Gramatyka jest [tym, co budowane](../docs/roadmap.md#co-jest-budowane),
 więc takie zdanie odsyła czytelnika, który przyszedł po główną rzecz.
 
 **Obsadza ją** autor, z przerwami.
@@ -272,10 +271,10 @@ więc takie zdanie odsyła czytelnika, który przyszedł po główną rzecz.
 ## Czytelnik toru składu
 
 Pyta, co wchodzi do kompilatora i dlaczego drzewo mówi o rzeczach, a nie o przypadkach.
-Wchodzi w [sklad.md](sklad.md), a stamtąd w
-[etapy tego toru](roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
+Wchodzi w [sklad.md](../docs/sklad.md), a stamtąd w
+[etapy tego toru](../docs/roadmap.md#tor-składu-drzewo-wchodzi-polskie-zdanie-wychodzi).
 Gramatyki po drodze nie potrzebuje, bo parser stoi tu świadkiem, a nie zależnością
-([design-notes.md](design-notes.md#the-round-trip-invariant)).
+([design-notes.md](../docs/design-notes.md#the-round-trip-invariant)).
 W kodzie są to `olski/skład/grupa.py`, `olski/skład/składnia.py`
 i `olski/skład/morfologia.py`.
 Tekstem, na którym widać braki, jest `opowieści/bazyliszek.py`.
@@ -290,18 +289,18 @@ bo czytelnik dostaje najpierw las rozbiorów, a potem to, po co przyszedł.
 **Obsadza ją** autor.
 Widać to po tym, że kolejkę konstrukcji ustawił tekst,
 a nie lista spisana z góry
-([kategorie-zapisu.md](kategorie-zapisu.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
+([kategorie-zapisu.md](../docs/kategorie-zapisu.md#najpierw-tekst-potem-drzewo-na-końcu-biblioteka)).
 
 ## Ktoś, kto zestawia to z tym, co już istnieje
 
 Pyta, czy to samo nie zostało już zrobione i czy nie zostało zrobione lepiej.
-Wchodzi w [prose-linters.md](prose-linters.md) po silniki,
+Wchodzi w [prose-linters.md](../docs/prose-linters.md) po silniki,
 które angielski i japoński już mają.
-Wchodzi w [similar-work.md](similar-work.md) po sto języków kontrolowanych
+Wchodzi w [similar-work.md](../docs/similar-work.md) po sto języków kontrolowanych
 oraz po te ich obietnice, które ktoś zmierzył.
 Bierze stamtąd także
-[poziom, na którym stoją generatory](similar-work.md#generowanie-rozdziela-się-poziomem-wejścia).
-W [swigra.md](swigra.md) szuka tej samej rzeczy na torze gramatycznym.
+[poziom, na którym stoją generatory](../docs/similar-work.md#generowanie-rozdziela-się-poziomem-wejścia).
+W [swigra.md](../docs/swigra.md) szuka tej samej rzeczy na torze gramatycznym.
 
 **Psuje ją** ocena stopniująca bez podstawy.
 Ta rola przyszła sprawdzić właśnie takie zdania,
@@ -314,9 +313,9 @@ Trzy dokumenty pisane dla kogoś z zewnątrz czytał tylko ten, kto je napisał.
 ## Sesja agenta
 
 Pyta, jaka jest konwencja i którą decyzję ta sesja rozstrzyga.
-Wchodzi w `CLAUDE.md` i czyta całość,
+Wchodzi w [`CLAUDE.md`](../CLAUDE.md) i czyta całość,
 bo to jedyna kopia konwencji.
-Potem wchodzi w `todo/`.
+Potem wchodzi w [`todo/`](../todo/README.md).
 Ta rola różni się od pozostałych trzema rzeczami, które robią jej całą drogę.
 Przychodzi za każdym razem na zimno.
 [Nie widzi innych sesji](#planista).
@@ -338,11 +337,11 @@ Cały `CLAUDE.md` jest pisany pod tę rolę.
 
 Recenzent nie jest rolą, tylko fazą.
 Kończy ją każda postawa cokolwiek pisząca.
-Opisuje ją przegląd zmian.
+Opisuje ją [przegląd zmian](../CLAUDE.md#przegląd-sprawdza-zmianę-wobec-całego-tego-pliku).
 Nie ma autora reguły, bo wyszedł razem z pakietem reguł,
 a wykrywacz pisze [autor produkcji](#autor-produkcji):
 zaczyna od zdania w korpusie usterek, a nie od formatu, w którym reguła kiedyś stała
-([linter.md](linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
+([linter.md](../docs/linter.md#kolejna-reguła-zaczyna-się-od-zdania-z-usterką-a-kalibracja-przychodzi-przed-awansem)).
 Nie ma też roli osoby dokładającej się z zewnątrz.
 Rozdzielenie `CLAUDE.md` na wersję dla autora i wersję dla gości
 kosztowałoby dwie kopie tych samych reguł, żeby obsłużyć nikogo.

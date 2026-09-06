@@ -110,9 +110,8 @@ Zasięg ma rosnąć, aż obejmie polszczyznę.
 Umowa ma być warta podpisania, a to jest inny warunek:
 lista tego, [czego olski nie bierze](subset.md#what-it-does-not-cover-yet),
 nie ma być pusta — ma być tania.
-Ile autor traci, wchodząc w środek, wycenia
-[pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie).
-Rachunek ma tam trzy strony, bo autor jest zarazem tym, kto dopisuje produkcje.
+Rachunek za wejście w środek ma trzy strony,
+bo autor jest zarazem tym, kto dopisuje produkcje.
 Autor, który olskiego tylko używa, tego drugiego ruchu nie ma
 i zostaje mu jeden: przepisać zdanie albo odpowiadać za nie sam.
 
@@ -165,8 +164,7 @@ więc po tamtej stronie jednostką jest zdanie na swoim miejscu już dziś.
 **Jedna granica stoi ponad umową: czy polszczyzna ma dany napis.**
 Napisu, którego polszczyzna nie ma, gramatyka nie bierze za żadną cenę,
 bo obietnicą podzbioru jest, że każde zdanie olskiego jest zdaniem polskim,
-a produkcja wpuszczająca taki napis odbiera tę obietnicę wszystkim zdaniom naraz
-([pisanie-po-olsku.md](pisanie-po-olsku.md#ruchy-są-dwa-i-spotykają-się-w-punkcie-kompromisu)).
+a produkcja wpuszczająca taki napis odbiera tę obietnicę wszystkim zdaniom naraz.
 Odrzucenie jest przy tym uczciwe dopiero wtedy,
 gdy oba czytania mają gdzie się wyprowadzić.
 Zdanie odrzucone za wieloznaczność, której gramatyka nie umie pokazać,
@@ -178,8 +176,7 @@ weszły do gramatyki wszystkie pozycje okolicznika
 **Drobny druk umowy jest zmierzony i mówi, że w jednym miejscu olski jakość obniża.**
 Pisanie pod tę gramatykę popycha w pięć chwytów,
 a zdanie zanegowane wychodzi tańsze o jedno czytanie niż to samo twierdzenie,
-czyli gramatyka nagradza rejestr, który reguły prozy karzą
-([pisanie-po-olsku.md](pisanie-po-olsku.md#cena-którą-olski-zostawia-w-prozie)).
+czyli gramatyka nagradza rejestr, który reguły prozy karzą.
 Umowa musi ten druk nieść, bo obiecuje jakość,
 a w tym jednym miejscu wydaje jeden rytm na wszystko.
 
@@ -642,9 +639,7 @@ pokazują pozycje, których ona nie stawia.
 Kolejność dopisań ustala tekst, który ma się wyprowadzić,
 a rozstrzyga o niej to, komu wolno się ruszyć.
 Tekstu, który wolno przepisać bez straty, gramatyka brać nie musi:
-zatrzymanie zdejmuje wtedy autor i płaci zdaniem napisanym inaczej,
-a rachunki te rozdziela
-[pisanie-po-olsku.md](pisanie-po-olsku.md#kto-płaci-za-odrzucone-zdanie).
+zatrzymanie zdejmuje wtedy autor i płaci zdaniem napisanym inaczej.
 Tekst, którego przepisać nie wolno, bo przepisany powiedziałby mniej,
 zostawia zatrzymanie gramatyce, i dopiero to jest robota, a nie kandydat.
 Tak wyszła kolejka konstrukcji legendy,
@@ -703,8 +698,7 @@ Liczby wzięte nad tym plikiem przed przepisaniem są w gicie,
 a dzisiejsze drukuje przebieg.
 
 **Redakcja README ma pierwszeństwo przed pomiarem, który jego prozę cytuje.**
-Plik wprowadza kogoś, kto trafia tu pierwszy raz
-([roles.md](roles.md#ktoś-kto-trafia-tu-pierwszy-raz)),
+Plik wprowadza kogoś, kto trafia tu pierwszy raz,
 a zdanie skasowane albo przepisane zabiera przy okazji przykład dokumentowi,
 który to zdanie cytował jako pozycję przebiegu.
 Ustępuje wtedy dokument: zdanie służy w nim dalej za przykład,
@@ -724,8 +718,7 @@ Co je od zdania odróżnia i jak dużą częścią rejestru są, wycenia
 Kolejki form bez licencji ten plik już nie ustawia,
 bo odrzuceń została w nim garść i każde stoi na czymś pojedynczym:
 na formie żartu z nazwy, na cyfrze, na przytoczonej niezgodności,
-na angielskim tytule i na słowie, którym ten plik pyta poza `który`
-([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)).
+na angielskim tytule i na słowie, którym ten plik pyta poza `który`.
 
 ## Czego olski nie robi
 

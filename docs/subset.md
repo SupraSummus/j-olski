@@ -338,8 +338,7 @@ raz jako znalezisko i raz jako milczenie.
 
 Łącznika żadna poprawka nie obejmuje, choć myślnik ten rejestr pisze pauzą,
 i nie stoi za tym kryterium, tylko cena.
-Nazwa pliku i flaga, które też dają formę `-` bez licencji
-([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)),
+Nazwa pliku i flaga, które też dają formę `-` bez licencji,
 odsiewają się przy takim świadku same:
 podmiana, po której zdanie się nie wyprowadza, poprawki nie wydaje.
 Zostaje rachunek i ten jest zmierzony.
@@ -1201,8 +1200,7 @@ Every one of these is a sentence that gets rejected and should not be:
   a jednoznaczność odbiera kilkadziesiąt.
   Bilans jest ujemny w każdym z trzech przebiegów, i to jest cała odpowiedź:
   konstrukcję tę pisze ten rejestr zdanie po zdaniu,
-  a płaci za nią autor przepisaniem
-  ([pisanie-po-olsku.md](pisanie-po-olsku.md#czego-brakuje-najbardziej)).
+  a płaci za nią autor przepisaniem.
 - Forma przyimkowa zaimka w drugim członie ciągu pod jednym przyimkiem:
   `Program zapisuje ustawienia dla niego i niej.` jest odrzucone,
   gdzie `Program zapisuje ustawienia dla niego.` wyprowadza się,

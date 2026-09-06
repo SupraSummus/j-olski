@@ -63,8 +63,7 @@ od niej samej: zdjęta z gramatyki bez przydawki imiesłowowej ta sama pozycja
 kupowała pojedyncze zdania, bo zdanie, które jej potrzebuje, potykało się wtedy
 o imiesłów.
 Cena pozycji pojedynczej jest więc różnicą wobec gramatyki dzisiejszej,
-a nie stałą, którą raz się zapisuje
-([pisanie-po-olsku.md](../pisanie-po-olsku.md#zasłanianie-działa-w-obie-strony)).
+a nie stałą, którą raz się zapisuje.
 
 ## Zdanie z `że` jest pozycją ramy, a nie konstrukcją obok niej
 

@@ -18,8 +18,7 @@ więc adres zmieniony w konfiguracji wywraca suitę, dopóki nie wejdzie do nich
 
 Samą prozę GitHub renderuje już dziś, w tej konwencji kotwic,
 w której pisane są linki.
-Strona dokłada do tego adres dla czytelnika, który o projekcie nie słyszał
-([roles.md](roles.md#ktoś-kto-trafia-tu-pierwszy-raz)),
+Strona dokłada do tego adres dla czytelnika, który o projekcie nie słyszał,
 jedną wyszukiwarkę po prozie i po referencji naraz
 oraz samą referencję API, której GitHub nie pokaże w ogóle,
 bo docstring jest w pliku `.py`.
@@ -28,18 +27,18 @@ Dokument mówi, czego strona nie wydaje, czemu nie stoi na domyślnym Jekyllu,
 co sprawdza jej budowanie i ile kosztuje referencja API.
 Wylicza na koniec to, na czym decyzja nie zapadła.
 
-## Strona nie wydaje instrukcji sesji ani rejestru otwartej roboty
+## Strona nie wydaje warstwy roboczej
 
-Instrukcja mówi, jak się w tym repozytorium pracuje,
-a rejestr wylicza otwartą robotę.
-Pod adres nie idzie ani jedno, ani drugie.
+Warstwa robocza jest prozą dla tego, kto olskiego zmienia:
+mówi, jak się w tym repozytorium pracuje, i wylicza otwartą robotę.
+Pod adres nie idzie z niej nic.
 Co na stronę idzie, wypisuje lista w `dokumentacja.py`,
 więc plik dopisany do korzenia nie wchodzi tam sam.
 
-Ceną jest zakaz: prozie wydawanej pod adresem nie wolno linkować
-ani instrukcji, ani rejestru, bo martwy link wywraca budowanie strony.
+Ceną jest zakaz: prozie wydawanej pod adresem nie wolno linkować tej warstwy,
+bo martwy link wywraca budowanie strony.
 Zakaz ten obowiązuje i bez strony, więc pilnuje go także `tests/test_docs.py`:
-dokument ma sens bez instrukcji, a instrukcja bez dokumentu sensu nie ma.
+dokument ma sens bez warstwy roboczej, a ona bez dokumentu sensu nie ma.
 
 ## Domyślny Jekyll kasuje diakrytyki z kotwic
 
