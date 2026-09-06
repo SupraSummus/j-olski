@@ -24,6 +24,7 @@ from olski.subset import (
     ORZECZENIE_BEZOSOBOWE,
     ORZECZNIK_ŁĄCZNIKA,
     PREDYKATYWY,
+    PREDYKATYWY_PRZYSŁÓWKOWE,
     RAMA_BEZ_BIERNIKA,
     WALENCJA,
     WALENCJA_ZWROTNA,
@@ -611,6 +612,40 @@ def test_każdy_predykatyw_z_listy_ma_czytanie_którego_gramatyka_sięga(lemat):
     czytania = [(r.tag.pos, r.lemma, segment.lematy, r.tag.cechy) for r in segment.readings]
     brane = [c for c in czytania if c[0] == "pred" and GRAMMAR.licencjonuje(*c)]
     assert brane, (lemat, czytania)
+
+
+@pytest.mark.parametrize("lemat", sorted(PREDYKATYWY_PRZYSŁÓWKOWE))
+def test_każdy_predykatyw_przysłówkowy_ma_czytanie_którego_gramatyka_sięga(lemat):
+    #  Usterka, którą to łapie: lemat wpisany na listę, którego Morfeusz pod `adv`
+    #  nie ma. Wiersz jest wtedy martwy, a martwego wiersza nie widać po żadnym
+    #  zdaniu.
+    [segment] = analyse(lemat)
+    czytania = [(r.tag.pos, r.lemma, segment.lematy, r.tag.cechy) for r in segment.readings]
+    brane = [c for c in czytania if c[0] == "adv" and GRAMMAR.licencjonuje(*c)]
+    assert brane, (lemat, czytania)
+
+
+def test_predykatyw_przysłówkowy_nie_powtarza_lematu_predykatywu():
+    #  Lemat postawiony na obu listach ma dwie drogi do jednego ciała, bo ciała
+    #  biorą oba terminale, więc jedno zdanie wychodzi dwoma wyprowadzeniami
+    #  jednego kształtu, a po statusie tego nie widać. Ryzyko jest realne przy
+    #  lematach, którym Morfeusz daje oba znaczniki naraz: `szkoda` i `żal`.
+    assert not PREDYKATYWY & PREDYKATYWY_PRZYSŁÓWKOWE
+
+
+def test_predykatyw_przysłówkowy_orzeka_bez_podmiotu_a_przysłówek_spoza_listy_nie():
+    #  Usterka, którą to łapie: głowa wzięta całą częścią mowy zamiast listą.
+    #  `adv` niesie każdy przysłówek naraz, więc bez listy `Szybko jadać rzadko.`
+    #  wychodzi zdaniem, a `Szybko.` zdaniem samym
+    #  (docs/konstrukcje-gramatyczne/orzeczenie.md#predykatyw-przysłówkowy-orzeka-tym-samym-ciałem-co-predykatyw).
+    #
+    #  Zdaniem przyjętym jest tu stopień wyższy, bo lista ma lemat stopnia równego
+    #  i to on stoi w tym napisie: `Trudno jadać rzadko.` przechodzi tym samym
+    #  ciałem, a o lemacie nie mówi nic.
+    found = verdict("Lepiej jadać rzadko.")
+    assert role(found)[0][ORZECZENIE_BEZOSOBOWE] == "Lepiej", found.explain()
+    spoza = verdict("Szybko jadać rzadko.")
+    assert spoza.status == "rejected", spoza.explain()
 
 
 def test_czasownik_nieosobowy_orzeka_bez_podmiotu_i_nie_czyni_go_z_biernika():

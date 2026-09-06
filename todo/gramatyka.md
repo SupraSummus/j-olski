@@ -18,6 +18,20 @@ czego polszczyzna nie ma.
 Do przeczytania jest, czy bank drzew ma zdanie z `sposób` bez przeczenia,
 bo od tego zależy, czy sama lista tu wystarczy.
 
+`zbyt` i `nazbyt` stopniują przysłówek tak samo jak `za`,
+a olski czyta je płasko: `Testy trwają zbyt długo.` wychodzi przyjęte,
+z `zbyt` w roli okolicznika zdania obok `długo`,
+czyli czytaniem, o którym mówi
+[płaska lista okoliczników](../docs/konstrukcje-gramatyczne/okolicznik.md#płaska-lista-okoliczników-mówi-o-zdaniu-nieprawdę).
+`Testy trwają za długo.` wychodzi obok tego jednym okolicznikiem.
+Terminal stopnia ich nie bierze, bo Morfeusz daje obu `adv` bez stopnia,
+a cząstką nie jest ani jedno, ani drugie.
+Ruchem jest trzecie ciało `okolicznik_przysłówkowy` obok tych dwóch,
+z terminalem pytającym o listę lematów.
+Do rozstrzygnięcia jest, czy lista jest tu właściwym przyrządem:
+sąsiednie ciało rozdziela przysłówki cechą, a nie lematem,
+i pytanie brzmi, ilu przysłówkom Morfeusz odmawia stopnia mimo tego, że stopniują.
+
 `olski/subset/` grupuje po rodzaju, a nie po konstrukcji, więc jedna konstrukcja
 rozkłada się w nim na cztery miejsca, i po podziale na moduły są to cztery pliki:
 rolę bierze `olski/subset/deklaracja.py`, ramę `olski/subset/rama.py`,

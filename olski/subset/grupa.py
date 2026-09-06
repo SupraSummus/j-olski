@@ -25,6 +25,7 @@ from olski.subset.słowa import (
     CUDZYSŁÓW_ZAMYKAJĄCY,
     CZĄSTKA,
     CZĄSTKA_PRZY_LICZEBNIKU,
+    CZĄSTKA_STOPNIA,
     CZĄSTKA_ZWROTNA,
     FORMA_POPRZYIMKOWA,
     JEDNOSTKA,
@@ -516,6 +517,15 @@ def _okoliczniki_leksykalne(grammar: Grammar) -> None:
     # szybko` jest tą samą pozycją postawioną dwa razy, a nad Składnicą oba ciała
     # wypadły tą samą ceną: ciało rekurencyjne bierze łańcuch za darmo.
     grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [PRZYSŁÓWEK_STOPNIA, Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY))])
+    # Cząstka stopnia przed tym samym symbolem: `Testy trwają za długo.`
+    # Ciało jest osobne od tego wyżej, bo `za` jest u Morfeusza cząstką i terminal
+    # stopnia go nie bierze, a nie dlatego, że stopniuje inaczej. Córka prawa jest
+    # przez to ta sama, wraz z tym, czego ona nie żąda: `za tu` wyprowadza się tak
+    # samo jak `bardzo tu`.
+    #
+    # Granicę, za którą przymiotnik zostaje, oraz jej cenę trzyma
+    # docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-za-stopniuje-przysłówek-i-nie-stopniuje-przymiotnika.
+    grammar.rule(OKOLICZNIK_PRZYSŁÓWKOWY, [CZĄSTKA_STOPNIA, Głowa(nt(OKOLICZNIK_PRZYSŁÓWKOWY))])
     # `gdzie indziej`, czyli para, w której przysłówek względny nie otwiera zdania,
     # tylko określa drugi przysłówek. Ciało jest osobne, bo terminal okolicznika
     # ten lemat wyklucza (:data:`PRZYSŁÓWEK`), a bez tego ciała wykluczenie

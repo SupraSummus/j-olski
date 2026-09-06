@@ -608,7 +608,9 @@ a rzeczownik w mianowniku z dopełniaczem za sobą jest grupą imienną,
 którą ta gramatyka wyprowadza.
 `trudno` i `łatwo` nie stoją poza listą, tylko poza częścią mowy:
 Morfeusz czyta je jako przysłówki,
-choć bank drzew liczy `Trudno` właśnie w tym wierszu.
+choć bank drzew liczy `Trudno` właśnie w tym wierszu,
+więc biorą je te same ciała przez terminal drugi
+([niżej](#predykatyw-przysłówkowy-orzeka-tym-samym-ciałem-co-predykatyw)).
 
 Ciała są dwa, bo zakup każdego jest osobną liczbą:
 predykatyw z wypełnieniem i predykatyw sam, czyli `Nie wiadomo.` albo `Można.`
@@ -658,6 +660,44 @@ bo ten rejestr tej formy nie pisze.
 Wiersz `bedzie` w kolejce blokerów po tej konstrukcji nie pustoszeje:
 zostaje w nim garść zdań, a dlaczego, mówi
 [corpus.md](../corpus.md#where-the-analyses-stop).
+
+### Predykatyw przysłówkowy orzeka tym samym ciałem co predykatyw
+
+`Trudno jadać rzadko.`, `Lepiej omijać ulicę Sienkiewicza.`,
+`Przykro słuchać tych złorzeczeń.` —
+te słowa orzekają dokładnie tak, jak orzeka `trzeba` wyżej,
+a Morfeusz trzyma je pod `adv`.
+Ciała są przez to te same, wraz z ramą, z czasem przyszłym
+i z [wysunięciem dopełnienia](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu),
+a różni je sam terminal.
+
+Lista jest zamknięta, bo `adv` niesie każdy przysłówek naraz,
+a orzekać bez podmiotu umie garść:
+bez niej `Szybko jadać rzadko.` wychodziłoby zdaniem, a `Szybko.` zdaniem samym.
+Kryterium na wejście jest tu inne niż przy predykatywie wyżej.
+Tam odsiewa lematy czytanie konkurujące, czyli to rzeczownikowe wyliczone wyżej,
+a tutaj czytanie konkurujące ma każdy przysłówek i ma je jedno:
+okolicznikiem bywa i ten, który orzeka, i ten, który nie orzeka.
+Kryterium jest przez to świadek: lemat wchodzi ten,
+którym bank drzew orzeka o zdaniu bez czasownika osobowego.
+`dobrze` wchodzi tam za `lepiej`, bo stopień wyższy Morfeusz oddaje pod równym.
+
+Zakup wynosi nad Składnicą kilkanaście zdań, w większości przyjętych jednoznacznie,
+a ceną jest jedno zdanie schodzące z przyjętych na wieloznaczne
+(`Mówił, że tak będzie lepiej.`); liczby te wydaje sonda różnicowa
+(`harness/ruch.py`).
+Ról odwróconych nie ma ani jednej: zdania nowo przyjęte czytają się zgodnie
+z drzewem wzorcowym albo stoją poza jego zasięgiem.
+Nad prozą tego repozytorium nie rusza się ani jedno zdanie,
+bo ten rejestr tej konstrukcji nie pisze.
+
+Cenę tej listy widać na
+[wysunięciu dopełnienia](#dopełnienie-poprzedza-głowę-która-orzeka-bez-podmiotu):
+`Program działa dobrze.` wychodzi odtąd dwoma czytaniami,
+bo `Program działa` staje w drugim z nich dopełnieniem przed `dobrze`.
+Płaci ją każde zdanie, w którym lemat z tej listy pada,
+więc lemat częsty kosztuje więcej niż rzadki, choć ciała ma te same,
+i tym najdroższy jest lemat dopisany bez świadka.
 
 ## Czasownik nieosobowy rządzi ramą swojego lematu
 

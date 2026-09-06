@@ -16,7 +16,13 @@ import pytest
 pytest.importorskip("morfeusz2")
 
 from olski.morph import analyse
-from olski.subset import CZĄSTKA_ZDANIA, CZĄSTKI, GRAMMAR, OKOLICZNIK_PRZYSŁÓWKOWY
+from olski.subset import (
+    CZĄSTKA_ZDANIA,
+    CZĄSTKI,
+    CZĄSTKI_STOPNIA,
+    GRAMMAR,
+    OKOLICZNIK_PRZYSŁÓWKOWY,
+)
 from tests.werdykt.test_werdykt import role, verdict
 
 
@@ -291,6 +297,28 @@ def test_do_przymiotnika_dochodzi_przysłówek_stopniowany_a_do_zdania_każdy(zd
     grupie imiennej `tu` nie ma, a okolicznik zdania w tym miejscu nie stoi.
     """
     assert verdict(zdanie).status == status
+
+
+def test_cząstka_stopnia_stopniuje_przysłówek_a_przymiotnika_nie_stopniuje():
+    #  Usterka, którą to łapie: `za` dopisane do listy cząstek zdania zamiast do
+    #  własnej, po którym `za długo` wychodzi dwoma okolicznikami obok siebie,
+    #  a nie jednym stopniowanym.
+    found = verdict("Testy trwają za długo.")
+    assert found.status == "valid", found.explain()
+    assert role(found)[0]["okolicznik_przysłówkowy"] == "za długo → trwają"
+    #  Granica, którą ta pozycja bierze rozmyślnie: polszczyzna stawia tę cząstkę
+    #  i przed przymiotnikiem, a olski ma ją tylko przed przysłówkiem, bo tam nie
+    #  spiera się o zdanie z czytaniem przyimkowym
+    #  (docs/konstrukcje-gramatyczne/okolicznik.md#cząstka-za-stopniuje-przysłówek-i-nie-stopniuje-przymiotnika).
+    odrzucone = verdict("Plik jest za duży.")
+    assert odrzucone.status == "rejected", odrzucone.explain()
+
+
+def test_cząstka_stopnia_nie_powtarza_lematu_cząstki_przy_zdaniu():
+    #  Lemat postawiony na obu listach dochodzi do zdania dwiema drogami — raz
+    #  cząstką zdania, raz przez okolicznik przysłówkowy pod sobą — więc
+    #  `Testy trwają za długo.` wychodzi dwoma wyprowadzeniami jednego kształtu.
+    assert not CZĄSTKI & CZĄSTKI_STOPNIA
 
 
 def test_gospodarzem_przyłączenia_zostaje_przymiotnik_a_nie_przysłówek_przed_nim():
