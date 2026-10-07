@@ -1,31 +1,16 @@
-# Sądy o znaleziskach olskiego nad NKJP: trafne albo fałszywe
+# Sądy o zgłoszeniach olskiego nad zdaniami z NKJP: trafne albo fałszywe.
 #
-# Plik stoi poza `harness/`, bo program jest kasowalny, a sąd o zdaniu nie —
-# ten sam powód, który podaje nagłówek `próba/wybory.txt`
+# Plik powstał w poprzednim kierunku projektu, więc nazwy zgłoszeń i wiersze
+# werdyktu są tamtego olskiego. Program, który go czytał i dopisywał, został
+# w gicie (`git show d79da51:harness/sądy.py`); dziś żaden kod tego pliku nie czyta.
+# Sądy pisały głównie sesje agenta.
 #
-# Nowe wpisy wypisuje `python3 -m harness.sądy --nowe` nad prozą korpusu,
-# z pustym sądem; ocenione przenosi się tutaj ręką i przebieg ich już nie wypisuje.
-# Po co ta baza jest i co jest w niej sądem, mówi
-# docs/corpora.md#baza-sądów-ocenia-znaleziska-a-ocenione-nie-wracają
-#
-# `znalezisko` jest nazwą zgłoszenia, tą samą, którą wypisuje je olski;
-# `niejasne odniesienie w zdaniu` jest przy tym nazwą spod flagi, której
-# `olski-check` nie liczy, bo reguła za nią czeka na awans.
-# `werdykt` jest wierszem, który `olski-check` wypisał nad zdaniem w chwili oceny;
-# same czytania pokazuje `--readings` po podstawieniu zdania pod `-c`.
-# `sąd` to `trafne`, gdy czytelnik poprawiłby to, co znalezisko wskazuje,
-# `fałszywe`, gdy nie poprawiłby nic,
-# i `?`, gdy wpisu nikt jeszcze nie ocenił — taki czeka i do liczb nie wchodzi.
-# `powód` mówi, na czym sąd stanął, bo sąd bez powodu jest zdaniem,
-# którego nikt nie sprawdzi; przy `fałszywe` nazywa czytanie, które odpada
-#
-# Zdania są cudze, żeby rozkład był rejestru, a nie autora:
-# pochodzą z podkorpusu milionowego NKJP w wydaniu 1.2, wyjęte przez `harness/nkjp.py`,
-# a odcisk pobrania stoi w docs/corpora.md#the-national-corpus-of-polish.
-# `plik` nazywa warstwę i sekcję, a `kontekst` zdania tej sekcji stojące przed zdaniem.
-# Zdanie stoi tu w całości, więc wydanie następne wpisu nie unieważnia.
-# Pierwsze wpisy nie mają `kontekst`, bo wzięto je ze zdań zgłoszonych,
-# a nie z przebiegu, który akapit niesie
+# `plik`: warstwa i sekcja podkorpusu milionowego NKJP 1.2 (docs/zasoby.md).
+# `zdanie`: zdanie w całości; `kontekst`: zdania stojące przed nim w sekcji.
+# `znalezisko`: nazwa zgłoszenia; `werdykt`: wiersz, który olski wtedy wypisał.
+# `sąd`: `trafne`, gdy czytelnik poprawiłby to, co zgłoszenie wskazuje,
+# `fałszywe`, gdy nie poprawiłby nic, i `?`, gdy wpisu nikt nie ocenił.
+# `powód`: na czym stanął sąd; przy `fałszywe` nazywa czytanie, które odpada.
 
 plik: typ_nd/320-1-000036/txt_1-div.txt
 zdanie: Wprowadzenie dyszy i nadmuchu gazu zmienia kształt plazmy i podnosi maksymalną temperaturę.

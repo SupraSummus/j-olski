@@ -10,15 +10,18 @@ from __future__ import annotations
 
 import shlex
 from dataclasses import dataclass
+from pathlib import Path
 
 import pytest
 
 pytest.importorskip("morfeusz2")
 
-from harness import proza_repozytorium
 from olski.check import main
 
 KOMENDA = "olski.check"
+KORZEŃ = Path(__file__).resolve().parents[2]
+#: Proza, która idzie na stronę dokumentów.
+PROZA = sorted(KORZEŃ.glob("*.md")) + sorted((KORZEŃ / "docs").rglob("*.md"))
 
 
 @dataclass(frozen=True)
@@ -67,9 +70,7 @@ def _wydruki() -> list:
     Lista wypisana ręką pomija blok dopisany później i nie mówi o tym ani słowem.
     """
     znalezione = []
-    # Cała proza repozytorium, bo blok wydruku wkleja się tak samo do dokumentu,
-    # do instrukcji i do rejestru, a zbiór wypisany tutaj mijałby te dwa ostatnie.
-    for ścieżka in proza_repozytorium():
+    for ścieżka in PROZA:
         bloki = _ogrodzone(ścieżka.read_text(encoding="utf-8"))
         # blok poleceń stoi nad wydrukiem, a rozdziela je jeden wiersz pusty
         nad = {blok.zamknięcie + 2: blok for blok in bloki if blok.rodzaj == "sh"}

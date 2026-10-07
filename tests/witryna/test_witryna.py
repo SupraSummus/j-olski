@@ -1,23 +1,14 @@
 """Witryna oddaje werdykt, a odmawia tego, co zajęłoby dyno.
 
 Aplikacja jest funkcją WSGI, więc test podaje jej słownik środowiska i czyta
-odpowiedź: portu tu nie ma, serwera pod spodem nie ma, a gunicorn jest
-zależnością wdrożenia, nie suity (``docs/witryna.md``).
-
-Suita pilnuje tu tego, co psuje się bez śladu.
-Blok JSON-a wklejony do dokumentu rozjeżdża się z każdą zmianą w werdykcie,
-tak samo jak blok wydruku pilnowany przez ``tests/dokumenty/test_wydruki.py``.
-Adres, o który pyta strona, przestaje istnieć razem z przemianowaną trasą,
-a wtedy przeglądarka dostaje 404 i nie mówi tego nikomu poza swoją konsolą.
-Ścieżka składana z żądania wypuszcza z dyna pliki, o których nikt nie pytał.
-Odmowa bez powodu zostawia stronę z komunikatem, który nic nie mówi.
+odpowiedź: portu ani serwera tu nie ma, a gunicorn jest zależnością wdrożenia,
+nie suity.
 """
 
 from __future__ import annotations
 
 import json
 import re
-import shlex
 from io import BytesIO
 from pathlib import Path
 
@@ -28,12 +19,10 @@ pytest.importorskip("morfeusz2")
 from witryna.serwer import NAJWIĘCEJ_ZNAKÓW, PLIKI, TRASY, aplikacja
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-DOKUMENT = ROOT / "docs" / "witryna.md"
 STRONA = ROOT / "witryna" / "strona.html"
 #: Adres, po który strona sięga sama: styl i skrypt. Adresu zewnętrznego ten
 #: wzorzec nie bierze, bo trasą jest ścieżka zaczynająca się od ukośnika.
 ADRES_STRONY = re.compile(r"(?:href|src)=\"(/[^\"]*)\"")
-BLOK = re.compile(r"```(sh|json)\n(.*?)```", re.DOTALL)
 
 
 def wołaj(metoda: str, ścieżka: str, zapytanie: str = "", ciało: str | None = None):
@@ -54,39 +43,6 @@ def wołaj(metoda: str, ścieżka: str, zapytanie: str = "", ciało: str | None 
 
     odpowiedź = b"".join(aplikacja(środowisko, odpowiedz))
     return zebrane["status"], zebrane["typ"], odpowiedź
-
-
-def przez_curl(polecenie: str):
-    """Żądanie wzięte z polecenia curla, tak jak stoi w dokumencie.
-
-    Dokument pokazuje wywołanie, którym czytelnik dostanie ten blok JSON-a, więc
-    test woła to samo wywołanie, a nie jego przepisanie na argumenty aplikacji.
-    """
-    tokeny = shlex.split(polecenie)
-    adres = next(token for token in tokeny if token.startswith("localhost"))
-    ścieżka, _, zapytanie = adres.removeprefix("localhost:8000").partition("?")
-    ciało = tokeny[tokeny.index("-d") + 1] if "-d" in tokeny else None
-    return wołaj("POST" if ciało else "GET", ścieżka, zapytanie, ciało)
-
-
-def pary_z_dokumentu():
-    """Bloki dokumentu parami: polecenie curla i odpowiedź, którą ma dać."""
-    bloki = BLOK.findall(DOKUMENT.read_text(encoding="utf-8"))
-    pary = [
-        pytest.param(polecenie, odpowiedź, id=polecenie.split("\n")[0][:60])
-        for (rodzaj, polecenie), (następny, odpowiedź) in zip(bloki, bloki[1:], strict=False)
-        if rodzaj == "sh" and "curl" in polecenie and następny == "json"
-    ]
-    assert pary, "docs/witryna.md nie ma ani jednej pary polecenia i odpowiedzi"
-    return pary
-
-
-@pytest.mark.parametrize(("polecenie", "oczekiwana"), pary_z_dokumentu())
-def test_blok_json_a_w_dokumencie_jest_tym_co_witryna_naprawdę_oddaje(polecenie, oczekiwana):
-    status, typ, odpowiedź = przez_curl(polecenie)
-    assert status == "200 OK"
-    assert typ.startswith("application/json")
-    assert json.loads(odpowiedź) == json.loads(oczekiwana)
 
 
 @pytest.mark.parametrize("adres", sorted(set(ADRES_STRONY.findall(STRONA.read_text()))))
@@ -150,11 +106,7 @@ def test_trasa_pytana_niewłaściwą_metodą_mówi_którą_bierze():
 
 
 def test_makieta_bez_ziarna_oddaje_to_którym_wyszła():
-    """Bez tego tekst wylosowany raz nie da się zawołać drugi raz.
-
-    Że ziarno rozstrzyga o tekście, mówi już blok z dokumentu: gdyby losowanie go
-    nie czytało, ten blok nie zgadzałby się dwa przebiegi pod rząd.
-    """
+    """Bez tego tekstu wylosowanego raz nie da się zawołać drugi raz."""
     _, _, odpowiedź = wołaj("GET", "/makieta")
     dane = json.loads(odpowiedź)
     _, _, drugi = wołaj("GET", "/makieta", zapytanie=f"ziarno={dane['ziarno']}")

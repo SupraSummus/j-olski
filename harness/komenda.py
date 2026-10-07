@@ -52,7 +52,7 @@ from harness.corpus import BANK_DRZEW, PLIKI_PROZY, POMYŁKA, pliki, rozdaj
 class Komenda:
     """Co jedna sonda mówi o sobie wspólnemu wierszowi poleceń."""
 
-    #: Nazwa modułu, czyli ``harness.czytania``. Jedna na dwa użytki: pomoc
+    #: Nazwa modułu, np. ``harness.wieloznaczność``. Jedna na dwa użytki: pomoc
     #: przedstawia się przez ``python3 -m``, a komunikat o brakującej ścieżce samą
     #: nazwą. Dwa napisy na to rozjeżdżają się, bo nikt ich nie czyta obok siebie.
     nazwa: str

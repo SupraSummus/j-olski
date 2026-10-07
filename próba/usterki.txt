@@ -1,62 +1,20 @@
-# Korpus usterek: zdania z usterką, którą sprawdzacz ma zgłosić, wraz z poprawką.
+# Korpus usterek: zdania z usterką, którą czytelnik by poprawił, wraz z poprawką.
 #
-# Plik stoi poza `harness/`, bo program jest kasowalny, a sąd o zdaniu nie —
-# ten sam powód, który podaje nagłówek `próba/wybory.txt`.
+# Plik powstał w poprzednim kierunku projektu jako kolejka wykrywaczy do napisania,
+# więc nazwy zgłoszeń są tamtego olskiego. Program, który go czytał, został
+# w gicie (`git show d79da51:harness/usterki.py`); dziś żaden kod tego pliku nie czyta.
 #
-# Ten plik jest kolejką roboty toru gramatycznego: mówi, jakich zgłoszeń autor
-# potrzebuje, a `python3 -m harness.usterki` mówi, które z nich olski już wydaje.
-# Po co kolejka stoi tu, a nie w banku drzew, mówi
-# docs/roadmap.md#kolejkę-ustawia-korpus-usterek-a-nie-kolejka-blokerów
+# `zdanie`: zdanie z usterką; `usterka`: co jest nie tak, jednym zdaniem.
+# `zgłoszenie`: nazwa zgłoszenia, które ma paść; `żadne` przy zdaniu czystym.
+# `poprawka`: to samo zdanie bez usterki, nad którym zgłoszenie ma milczeć.
+# `kontekst`: zdania przed zdaniem, kiedy bez nich usterki nie widać.
 #
-# Wpis stoi tu wtedy, gdy jego zgłoszenie ma świadka: odczytanie zdania albo
-# odczytanie zdania naprawionego. Usterka, o której orzeka znaczenie słowa,
-# a nie kształt zdania, wpisem nie jest, bo takiego wpisu nie zamyka żadna robota.
-# Wpisem nie jest tak samo sam błąd gramatyczny — forma niezgodna z sąsiadem,
-# przypadek, którego czasownik nie żąda — bo świadek naprawionej formy nie mówi,
-# którą z dwóch form autor pomylił, a olski obiecuje usterkę głębszą:
-# docs/subset.md#wpis-korpusu-usterek-nazywa-kształt-zdania-a-nie-znaczenie-słowa
-#
-# `zdanie` niesie usterkę, którą czytelnik by poprawił.
-# `usterka` mówi jednym zdaniem, co jest nie tak.
-# `zgłoszenie` nazywa zgłoszenie, które ma paść: nazwą, którą je nazywa olski,
-# kiedy takie zgłoszenie już jest, a nową nazwą, kiedy go nie ma.
-# Chwyt rejestru stoi tu nazwą swojej reguły, a nie nazwą flagi, bo pod jedną
-# flagą stoi kilka reguł i nazwa wspólna nie mówi, która z nich padła.
-# Nowa nazwa jest wpisem kolejki, a nie deklaracją: zgłoszenie dopisane do
-# olskiego bierze tę nazwę albo wpis bierze jego.
-# `poprawka` niesie to samo zdanie bez usterki i zgłoszenie ma nad nim milczeć;
-# zgłoszenie padające nad obojgiem nie widzi usterki, tylko coś obok niej.
-# `kontekst` niesie zdania stojące przed zdaniem, kiedy usterki nie widać bez nich,
-# i stoi tak samo przed poprawką.
-# Wpis czysty ma `zgłoszenie: żadne` i poprawki nie ma: jest zdaniem bez usterki,
-# a szumem jest nad nim każde zgłoszenie poza wierszem o odczytaniach.
-# Wiersz ten szumem nie jest, bo wieloznaczność jest odpowiedzią, a nie
-# znaleziskiem, i poprawiać nad nią nie ma czego:
-# docs/subset.md#wieloznaczność-jest-odpowiedzią-a-nie-znaleziskiem
-#
-# Zdanie wymyślone pod ten plik mierzy autora, a nie usterkę, którą ktoś popełnia,
-# więc zdania bierzemy z cudzego tekstu,
-# a komentarz nad grupą wpisów nazywa źródło.
 # Źródła są dwa: dokumentacja Microsoft Learn przełożona na polski maszynowo
-# (`ms.translationtype: MT` w nagłówku strony), czyli proza pisana przez model,
-# oraz podkorpus milionowy NKJP w wydaniu 1.2,
-# ten sam, z którego bierze zdania `próba/nkjp-sądy.txt`;
-# komentarz nazywa tam warstwę i sekcję.
-# Zdanie stoi tu w całości i tak, jak stoi w źródle,
-# a ze składu Markdown zostaje sam tekst.
-# Cudze zdanie niesie czasem kilka usterek, a wpis nazywa jedną.
-# Zdanie bez komentarza nad grupą jest pisane ręką pod ten plik.
-#
-# Zdanie z NKJP bierze się z wycinka przeczytanego w całości,
-# a wycinki przeczytane wylicza `próba/przeczytane.txt`
-# wraz z poleceniem, które wyznacza następny.
-# Wycinek czyta się dwa razy i niezależnie, a wpisem zostaje zdanie,
-# które potwierdza czytanie drugie,
-# bo czytanie szukające usterek znajduje ich kilka razy więcej,
-# niż potwierdza czytelnik czytający raz.
-#
-# Wyboru zdań nikt nie losował, więc rozkładu rejestru ten plik nie mierzy;
-# mierzy go baza sądów.
+# oraz podkorpus milionowy NKJP 1.2. Komentarz nad grupą wpisów nazywa źródło,
+# a zdanie bez takiego komentarza jest pisane ręką pod ten plik.
+# Wycinki NKJP czytane w całości wylicza `próba/przeczytane.txt`;
+# wpisem z NKJP zostało zdanie, które potwierdziło drugie, niezależne czytanie.
+# Zdań nikt nie losował, więc plik nie mówi, jak często usterka występuje.
 
 kontekst: Pies gonił kota.
 zdanie: On uciekł.

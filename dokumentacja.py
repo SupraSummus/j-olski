@@ -2,8 +2,7 @@
 
 Jedno polecenie, ``python3 -m dokumentacja``, robi to samo, co robi
 ``.github/workflows/dokumentacja.yml``, więc workflow nie niesie drugiego przepisu.
-Czemu strona nie stoi na domyślnym Jekyllu, co sprawdza jej budowanie
-i czemu referencja idzie przez mkdocs, a nie obok niego, mówi docs/publikacja.md.
+Budowanie idzie z ``--strict``, więc martwy link wywraca przebieg.
 """
 
 from __future__ import annotations
@@ -29,8 +28,7 @@ KONFIGURACJA = KORZEŃ / "mkdocs.yml"
 SITE_URL = re.compile(r"(?m)^site_url:\s*https://([^/\s]+)")
 #: Proza w układzie katalogów z repozytorium. Układ jest tu treścią, a nie
 #: wygodą: `../README.md` z `docs/` rozwiązuje się tylko wtedy, gdy korzeniem
-#: strony jest korzeń repozytorium. Lista jest wyliczeniem, więc warstwa robocza
-#: nie wchodzi tam pod żadną nazwą (docs/publikacja.md).
+#: strony jest korzeń repozytorium.
 PROZA = ("README.md", "docs")
 #: Link względny bez kotwicy. Kotwica odpada tutaj, bo pytamy o plik do skopiowania.
 LINK = re.compile(r"\[[^\]]*\]\((?!\w+:)([^)\s#]+)")
@@ -43,9 +41,7 @@ WEJŚCIE = """# Referencja API
 
 Strony niżej wypisuje mkdocstrings z docstringów pakietu `olski`,
 więc mówią to, co mówi kod w chwili budowania.
-Dokumenty obok mówią to, czego kod nie pokaże:
-cenę, granicę podzbioru i alternatywę odrzuconą
-([docs/publikacja.md](../docs/publikacja.md)).
+Mapę pakietów podaje [docs/kod.md](../docs/kod.md).
 
 ::: olski
     options:
