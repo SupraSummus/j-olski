@@ -10,13 +10,13 @@ Oba są deterministyczne: to samo wejście daje tę samą odpowiedź.
 Kompilator ma cztery etapy:
 
 1. **Front-end**: Morfeusz i gramatyka dają wszystkie rozbiory zdania. Działa.
-2. **Reprezentacja pośrednia**: kto, co, komu; rozbiory o tym samym znaczeniu dają jedną.
-   Do zbudowania.
+2. **Reprezentacja pośrednia**: kto, co, komu; rozbiory o tej samej strukturze dają jedną.
+   Zalążek działa (`olski/reprezentacja.py`).
 3. **Przebieg semantyczny**: typy z Walentego i model uczony na strukturach, nigdy na napisie.
    Do zbudowania.
 4. **Back-end**: skład. Działa dla konstrukcji, które ma.
 
-Uzasadnienie, otwarte decyzje i pierwszy krok opisuje [docs/kierunek.md](docs/kierunek.md).
+Uzasadnienie, otwarte decyzje i następny krok opisuje [docs/kierunek.md](docs/kierunek.md).
 
 ## Co działa
 

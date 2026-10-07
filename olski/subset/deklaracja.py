@@ -196,6 +196,14 @@ ELIPSA = "elipsa"
 PARA_WYPEŁNIEŃ = "para_wypełnień"
 
 
+#: Symbole, które grupują pozycje zdania, a same żadnej nie zajmują.
+#: Głowa w ich ciałach jest umowna: `wypełnienia` biorą za nią dopełnienie,
+#: choć okolicznik obok określa czasownik, a nie dopełnienie.
+GRUPUJĄCE = frozenset(
+    {"zdanie_składowe", "grupa_orzeczenia", "wypełnienia", "okoliczniki", PARA_WYPEŁNIEŃ}
+)
+
+
 #: Człon ciągu współrzędnego fraz bezokolicznikowych: `opakować zasób` w `Możesz
 #: użyć uchwytu, aby opakować zasób lub zastąpić metodę.` Rolą ta nazwa nie jest
 #: i nie jest nią też ciąg nad nią: fraza bezokolicznikowa jest pozycją ramy
