@@ -5,7 +5,7 @@
 Olski jest kompilatorem polszczyzny:
 front-end (Morfeusz i gramatyka), reprezentacja pośrednia,
 przebieg semantyczny na tej reprezentacji i back-end (skład).
-Zasady, otwarte decyzje i pierwszy krok opisuje `docs/kierunek.md`.
+Zasady, otwarte decyzje i następny krok opisuje `docs/kierunek.md`.
 Kierunek ustala właściciel projektu.
 Kiedy pomiar mówi, że kierunek nie działa, powiedz to wprost,
 zamiast przeformułowywać cel albo dopisywać reguły.
@@ -53,6 +53,7 @@ Budowanie idzie z `--strict`, więc martwy link w README albo w `docs/` je wywra
   Oceny pisały głównie sesje agenta, więc wynik, na którym opiera się decyzja,
   potwierdza człowiek na próbce.
 - Liczbę z pomiaru zapisuj razem z poleceniem i commitem, na którym wyszła.
+- `parse` wylicza najwyżej 64 czytania; pomiar bierze wszystkie z `las(...).czytania()`.
 
 ## Proza
 

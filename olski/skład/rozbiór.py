@@ -77,10 +77,10 @@ from olski.subset import (
     CZŁON_BEZOKOLICZNIKOWY,
     CZŁON_PRZYIMKOWY,
     GRAMMAR,
+    GRUPUJĄCE,
     OKOLICZNIK_NARZĘDNIKOWY,
     OKOLICZNIK_PRZYSŁÓWKOWY,
     OKOLICZNIK_ZDANIOWY,
-    PARA_WYPEŁNIEŃ,
 )
 from olski.walencja import KOPULA
 
@@ -144,17 +144,6 @@ ZDANIOWE = (FRAZA_BEZOKOLICZNIKOWA, ZDANIE_PODRZĘDNE)
 #: ``Wyróżnialne`` w ``olski/skład/grupa.py`` obejmuje role, okoliczności
 #: i przysłówek, a ani ``Zdanie``, ani ``Treść`` z niego nie dziedziczy.
 NIERUCHOME = ("orzeczenie", *ZDANIOWE)
-
-#: Symbole, które pozycji nie są, bo grupują te, które są. Para wypełnień jest
-#: wśród nich, bo grupuje dwa dopełnienia, a które z nich zajmuje którą pozycję,
-#: rozstrzyga tu przydział (:func:`_przydziały`), a nie symbol nad nimi.
-GRUPUJĄCE = (
-    "grupa_orzeczenia",
-    "wypełnienia",
-    "okoliczniki",
-    "zdanie_składowe",
-    PARA_WYPEŁNIEŃ,
-)
 
 #: Etykieta liścia, bo liść stoi w ciele produkcji formą, a nie symbolem.
 #: Nazwana, żeby kształt ciała czytał się tam, gdzie się go dopasowuje.

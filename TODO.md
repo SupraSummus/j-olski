@@ -26,3 +26,11 @@ napisać na nowo te z nich, które pytają o samo `olski` (`git show d79da51:<ś
 `próba/usterki.txt` i `próba/przeczytane.txt` niosą zdania z NKJP i z Microsoft Learn,
 a `REUSE.toml` obejmuje je wpisem domyślnym, czyli MIT.
 Dać im wpisy z warunkami źródeł, tak jak mają `próba/nkjp-*.txt` i `próba/wybory*.txt`.
+
+## Werdykt na reprezentacjach
+
+Werdykt (`olski/werdykt/`) liczy wieloznaczność na czytaniach parsera,
+a `docs/kierunek.md` każe liczyć ją na reprezentacjach (`olski/reprezentacja.py`)
+po przebiegu semantycznym.
+Po przepięciu werdykt przestaje zgłaszać 4 z 56 zdań z `próba/nkjp-sądy.txt`.
+Lista czytań w wydruku powinna się wtedy sklejać tak samo.

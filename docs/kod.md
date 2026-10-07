@@ -17,6 +17,10 @@ Szczegóły mówi kod i referencja API, którą strona dokumentacji wypisuje z d
 - `olski/precedencja.py`: dozwolone szyki produkcji, każdy ze swoją ceną.
 - `olski/cennik.py`: ceny konstrukcji nacechowanych, które porządkują czytania.
 
+## Reprezentacja pośrednia
+
+- `olski/reprezentacja.py`: czytanie parsera obniżone do krawędzi (głowa, rola, zależnik).
+
 ## Leksykon
 
 - `olski/walencja.py` nad `olski/leksykon.txt`: co czasownik i rzeczownik bierze.
@@ -46,7 +50,8 @@ Szczegóły mówi kod i referencja API, którą strona dokumentacji wypisuje z d
 
 ## Poza pakietem
 
-- `harness/`: czytniki Składnicy, NKJP i ustaw, pomiar pokrycia (`harness/pomiar.py`)
-  i ocena przyłączeń wobec wzorca czytanego ręką (`harness/wybory.py`).
+- `harness/`: czytniki Składnicy, NKJP i ustaw, pomiar pokrycia (`harness/pomiar.py`),
+  ocena przyłączeń wobec wzorca czytanego ręką (`harness/wybory.py`)
+  i pomiar zgłoszeń wieloznaczności nad reprezentacją pośrednią (`harness/reprezentacja.py`).
 - `witryna/`: aplikacja WSGI ze standardowej biblioteki i strona, która woła jej API.
 - `dokumentacja.py`: buduje stronę dokumentacji z README, z `docs/` i z docstringów.
