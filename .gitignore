@@ -13,24 +13,22 @@ dist/
 _dokumentacja/
 _strona/
 
-# Proza wyjęta z Markdownu przez `harness.markdown`, którą czytają polecenia
-# z docs/corpus.md i z sond. Jest kopią tekstu, który stoi obok w repozytorium,
-# i po każdej zmianie w nim jest nieprawdziwa, więc bierze się ją przebiegiem.
+# Proza wyjęta z korpusów przez `harness`; bierze się ją przebiegiem.
 proza/
 
-# Korpusy, po które sesja sięga sama, każdy pod nazwą, którą tworzy polecenie
-# z dokumentu żądającego go: bank drzew i jego archiwum z docs/corpus.md,
-# akty i „Zasady techniki prawodawczej” z docs/ustawy.md, klony korpusu
-# audytowego z docs/audit-corpus.md. Żaden z nich nie jest tu wendorowany
-# i pierwszy z nich nie może być: stoi pod GPL, a to repozytorium rozprowadza
-# kod na MIT, o czym docs/corpus.md mówi w sekcji o pobieraniu. Dwa ostatnie są
-# repozytoriami git przypiętymi do commitu, więc katalog niewpisany tutaj
-# wchodzi do `git status` cudzą historią.
+# Korpusy pobierane do klonu (docs/zasoby.md). Repozytorium ich nie trzyma,
+# bo są duże i mają własne licencje (Składnica jest na GPL).
+# ustawy/ i ztp/ to akty prawne dla `harness.ustawy`, a ksef-docs/
+# i rit-dokumentacja/ to dokumentacje, z których pochodzą `próba/wybory*.txt`.
 Składnica-frazowa-180723/
 skladnica.tar.gz
+walenty_20160418-text/
+walenty.zip
+walenty_20160418-TEI/
+walenty-tei.zip
+nkjp/
+nkjp1m.tar.gz
 ustawy/
 ztp/
 ksef-docs/
 rit-dokumentacja/
-walenty_20160418-text/
-walenty.zip

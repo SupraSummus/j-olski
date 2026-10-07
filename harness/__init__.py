@@ -1,52 +1,14 @@
-"""Co służy temu, kto olskiego zmienia, a nie temu, kto go używa.
+"""Narzędzia dla tego, kto olskiego rozwija, a nie dla tego, kto go używa.
 
-Granicą między tym pakietem a ``olski`` jest fotel, z którego ktoś program uruchamia.
-W ``olski`` stoi to, czego potrzebuje ktoś sprawdzający własny tekst:
-komenda ``olski-check``, warstwy, przez które przechodzi jego zdanie,
-i dane, które te warstwy czytają.
-Tutaj stoi to, czego potrzebuje ktoś, kto tę gramatykę zmienia:
-ekstrakcja cudzego korpusu, pomiary nad nim
-oraz programy wypisujące pliki, które paczka potem niesie.
+Tu stoją potoki danych: czytniki korpusów (Składnica, NKJP, ustawy, Markdown),
+pomiar pokrycia oraz programy, które wypisują pliki niesione przez paczkę
+(leksykon walencyjny, żądania, skłonności). Import idzie w jedną stronę:
+żaden moduł ``olski`` nie czyta niczego stąd, a komendy woła się przez
+``python3 -m harness.<moduł>`` z klonu repozytorium.
 
-Kryterium nie pyta o to, czy program mówi coś o polszczyźnie,
-bo mówią o niej oba pakiety, ani o to, czy czyta format dokumentu,
-bo ten jest jednym przypadkiem tej granicy, a nie nią samą.
-Pyta o to, czy program przyda się komuś, kto olskiego nie rozwija.
-Pomiar zostaje więc tutaj także wtedy, gdy o polszczyźnie orzeka wprost
-i gdy liczy przez decyzje toru gramatycznego:
-``harness/wieloznaczność.py`` liczy przez ``admissible``
-i przez leksykon walencyjny, a stoi tutaj, bo liczbę stamtąd czyta ten,
-kto rozstrzyga, co gramatyka ma brać dalej.
-Odwrotnie ``olski/pokrycie.py``, który liczy to samo, co ``harness/pomiar.py``,
-a stoi po drugiej stronie, bo kolejkę blokerów nad własnym plikiem
-czyta autor.
-
-Trzeciej odpowiedzi to kryterium nie ma i potrzebują jej pliki deklaracji.
-``olski.toml`` nie służy ani jednemu, ani drugiemu, bo jest konfiguracją
-jednego projektu, więc nie leży w żadnym z tych pakietów, tylko w korzeniu
-tego, nad którym olskiego uruchomiono (``znajdź`` w ``olski/konfiguracja.py``).
-
-Wychodzą stąd trzy rzeczy.
-Import idzie w jedną stronę: ani jeden moduł ``olski`` nie czyta niczego stąd.
-Paczka niesie samo ``olski`` (``include = ["olski*"]`` w ``pyproject.toml``),
-więc kto chce tutejszego programu, ma klon, a nie instalację.
-Komendy stąd wołają się przez ``python3 -m harness.<moduł>``,
-bo ``[project.scripts]`` jest wykazem tego, co dostaje użytkownik.
-Skryptu pisanego na jeden pomiar to nie obejmuje:
-ten zostaje w sesji, która mierzyła.
-
-Korpus przychodzi w Markdownie albo ustawą podaną w HTML-u, a gramatyka bierze
-zdania, więc przed nią pracuje ekstrakcja. Kryterium wyżej dzieli ją na dwoje.
-Czytanie dokumentu należy do ``olski/markdown.py``, bo o prozę swojego pliku
-pyta ten, kto olskiego używa. Tutaj zostaje przygotowanie korpusu: obejście
-drzewa, wybór po języku i wyjście powtarzające kształt wejścia, a wraz z nimi
-format, którego własnym tekstem nie sprawdza nikt — rejestr ustaw podany stroną
-HTML. Co ekstrakcja po drodze zmyśla, mówi docs/extraction.md.
-
-Only the reading of one file differs between formats. The walk over a tree, the
-selection by language and the mirrored output are the same step every time, so
-they live here, and a format arrives as a declaration rather than as a second
-path through them.
+Ten moduł trzyma część wspólną ekstrakcji korpusu: obejście drzewa plików,
+wybór po języku i wyjście powtarzające kształt wejścia. Format przychodzi jako
+deklaracja czytnika, a nie jako druga ścieżka przez ten sam krok.
 """
 
 from __future__ import annotations
@@ -275,26 +237,3 @@ def bloki(tekst: str) -> list[tuple[int, list[str]]]:
         bloki.append((numer, blok))
     return bloki
 
-
-#: Korzeń repozytorium, czyli katalog nad tym pakietem.
-KORZEŃ = Path(__file__).resolve().parent.parent
-
-
-def proza_repozytorium() -> list[Path]:
-    """Cała proza repozytorium, czyli to, co obejmują reguły pisania.
-
-    Katalogami, a nie listą nazw, żeby dokument dopisany do korzenia, do
-    ``docs/``, do ``warsztat/`` albo do ``todo/`` wszedł tu sam.
-    Rejestr konstrukcji jest katalogiem w ``docs/``, więc zejście tam jest
-    rekurencyjne: bez tego odcisk minąłby cały ten rejestr.
-
-    Stoi tu obok :func:`pliki_prozy` i z tego samego powodu: dwie sondy mierzące
-    „całą prozę repozytorium” mają mierzyć ten sam zbiór, a wydruk każdej z nich
-    mówi, że ten sam.
-    """
-    return (
-        sorted(KORZEŃ.glob("*.md"))
-        + sorted((KORZEŃ / "docs").rglob("*.md"))
-        + sorted((KORZEŃ / "warsztat").glob("*.md"))
-        + sorted((KORZEŃ / "todo").glob("*.md"))
-    )
